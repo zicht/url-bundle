@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="zicht_url.aliasing.class">Zicht\Bundle\UrlBundle\Aliasing\Aliasing</parameter>
+        <parameter key="zicht_url.aliasing_listener.class">Zicht\Bundle\UrlBundle\Aliasing\Listener</parameter>
+    </parameters>
+    <services>
+        <service id="zicht_url.aliasing" class="%zicht_url.aliasing.class%">
+            <argument type="service" id="doctrine" />
+        </service>
+        <service id="zicht_url.aliasing_listener" class="%zicht_url.aliasing_listener.class%">
+            <argument type="service" id="zicht_url.aliasing" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="100"/>
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="100"/>
+            <argument type="service" id="router_listener" />
+        </service>
+    </services>
+</container>
