@@ -59,12 +59,9 @@ class StaticProvider implements Provider
     }
 
     /**
-     * Returns the URL for the object. Should throw a NotSupportedException if the passed object is not supported.
-     *
-     * @param $object
-     * @return mixed
+     * @{inheritDoc}
      */
-    function url($object)
+    function url($object, array $options = array())
     {
         return $this->router->getContext()->getBaseUrl() . '/' . ltrim($this->refs[$object], '/');
     }

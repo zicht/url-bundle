@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="zicht_url.url_provider.class">Zicht\Bundle\UrlBundle\Url\DelegatingProvider</parameter>
-        <parameter key="zicht_url.relative_provider.class">Zicht\Bundle\UrlBundle\Url\RelativeProvider</parameter>
+        <parameter key="zicht_url.request_aware_provider.class">Zicht\Bundle\UrlBundle\Url\RequestAwareProvider</parameter>
         <parameter key="zicht_url.static_refs.class">Zicht\Bundle\UrlBundle\Url\StaticProvider</parameter>
         <parameter key="zicht_url.twig_extension.class">Zicht\Bundle\UrlBundle\Twig\UrlExtension</parameter>
         <parameter key="zicht_url.type.class">Zicht\Bundle\UrlBundle\Type\UrlType</parameter>
@@ -14,7 +14,7 @@
 
     <services>
         <service id="zicht_url.provider" class="%zicht_url.url_provider.class%" />
-        <service id="zicht_url.relative_provider" class="%zicht_url.relative_provider.class%" scope="request">
+        <service id="zicht_url.request_aware_provider" class="%zicht_url.request_aware_provider.class%" scope="request">
             <argument type="service" id="request" />
             <call method="addProvider">
                 <argument type="service" id="zicht_url.provider"/>

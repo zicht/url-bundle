@@ -22,8 +22,9 @@ interface Provider
     /**
      * Returns the URL for the object. Should throw a NotSupportedException if the passed object is not supported.
      *
-     * @param $object
+     * @param mixed $object
+     * @param array $options
      * @return mixed
      */
-    function url($object);
+    function url($object, array $options = array());
 }

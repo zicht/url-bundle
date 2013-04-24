@@ -35,10 +35,10 @@ class DelegatingProvider implements Provider, SuggestableProvider
     /**
      * {@inheritDoc}
      */
-    function url($object) {
+    function url($object, array $options = array()) {
         foreach ($this->providers as $provider) {
             if ($provider->supports($object)) {
-                return $provider->url($object);
+                return $provider->url($object, $options);
             }
         }
         throw new UnsupportedException(

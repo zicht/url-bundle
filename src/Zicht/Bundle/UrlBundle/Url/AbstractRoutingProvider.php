@@ -10,19 +10,16 @@ use \Symfony\Component\Routing\RouterInterface;
 
 abstract class AbstractRoutingProvider implements Provider
 {
-    function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
 
     /**
-     * Returns the URL for the object. Should throw a NotSupportedException if the passed object is not supported.
-     *
-     * @param $object
-     * @return mixed
+     * @{inheritDoc}
      */
-    function url($object)
+    public function url($object, array $options = array())
     {
         list($name, $params) = $this->routing($object);
         return $this->router->generate(
