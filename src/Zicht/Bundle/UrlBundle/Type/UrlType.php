@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
@@ -19,6 +20,14 @@ class UrlType extends AbstractType
         return 'zicht_url';
     }
 
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(array(
+            'with_edit_button' => true
+        ));
+    }
+
 
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
@@ -29,6 +38,7 @@ class UrlType extends AbstractType
 
         // TODO lookup the title using a yet-to-be-built service
         $view->vars['current_url_title'] = $view->vars['value'];
+        $view->vars['with_edit_button'] = $options['with_edit_button'];
     }
 
 

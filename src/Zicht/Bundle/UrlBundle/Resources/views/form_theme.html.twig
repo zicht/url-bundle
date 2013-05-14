@@ -1,9 +1,14 @@
 {% block zicht_url_widget %}
-    <span id="{{ id }}_current" class="current">{{ current_url_title }}</span>
-    <a id="{{ id }}_search_btn" class="btn" href="#"><i class="icon-edit"></i></a>
-    <div id="{{ id }}_search_control" style="display: none; padding-top: 1em">
+    {% if with_edit_button %}
+        <span id="{{ id }}_current" class="current">{{ current_url_title }}</span>
+        <a id="{{ id }}_search_btn" class="btn" href="#"><i class="icon-edit"></i></a>
+        <div id="{{ id }}_search_control" style="display: none; padding-top: 1em">
+            {{ block('form_widget_simple') }}
+        </div>
+    {% else %}
         {{ block('form_widget_simple') }}
-    </div>
+    {% endif %}
+
     <script type="text/javascript">
         (function($) {
             var text_id = '{{ id }}';
@@ -15,10 +20,9 @@
                     e.preventDefault();
                     $('#' + control_id).slideToggle();
                 });
-                $('#' + text_id).focus(function() {
-                    $(this).select();
-                });
-                $('#' + text_id).autocomplete({
+                var $text = $('#' + text_id);
+                $text.focus(function() {$(this).select();});
+                $text.autocomplete({
                     minLength: 2,
                     source: function(req, response) {
                         $.get(
