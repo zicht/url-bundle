@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service
+                id="zicht_url.cache"
+                class="Doctrine\Common\Cache\Cache"
+                factory-service="zicht_cache.factory"
+                factory-method="create"
+        >
+            <argument>Apc</argument>
+            <argument>zicht_url</argument>
+        </service>
+
+        <service id="zicht_url.cache_wrapper" class="Zicht\Bundle\CacheBundle\Cache\Wrapper">
+            <argument type="service" id="zicht_url.cache" />
+            <argument type="service" id="zicht_url.provider.delegator" />
+        </service>
+    </services>
+</container>

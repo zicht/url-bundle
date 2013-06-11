@@ -16,7 +16,7 @@ class UrlExtension extends Twig_Extension
      *
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
      */
-    public function __construct(\Zicht\Bundle\UrlBundle\Url\Provider $provider)
+    public function __construct($provider)
     {
         $this->provider = $provider;
     }

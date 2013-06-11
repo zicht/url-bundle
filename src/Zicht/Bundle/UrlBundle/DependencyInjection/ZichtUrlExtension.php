@@ -40,5 +40,8 @@ class ZichtUrlExtension extends Extension
        if (!empty($config['admin'])) {
            $loader->load('admin.xml');
        }
+       if (!empty($config['caching'])) {
+           $loader->load('cache.xml');
+       }
    }
 }

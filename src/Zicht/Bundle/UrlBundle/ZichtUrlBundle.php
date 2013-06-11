@@ -16,5 +16,6 @@ class ZichtUrlBundle extends \Symfony\Component\HttpKernel\Bundle\Bundle
 
         $container->addCompilerPass(new DependencyInjection\Compiler\UrlProviderPass());
         $container->addCompilerPass(new DependencyInjection\Compiler\ReplaceUrlProviderServicePass());
+        $container->addCompilerPass(new DependencyInjection\Compiler\CachePass());
     }
 }

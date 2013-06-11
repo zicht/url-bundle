@@ -3,24 +3,22 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
-
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
-
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
- 
-class UrlProviderPass implements CompilerPassInterface
+
+class CachePass implements CompilerPassInterface
 {
     /**
      * @{inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->getDefinition('zicht_url.provider.delegator');
-        foreach ($container->findTaggedServiceIds('zicht_url.url_provider') as $id => $attributes) {
-            $definition->addMethodCall('addProvider', array(new Reference($id)));
+        if ($container->hasDefinition('zicht_url.cache')) {
+            $container->setAlias('zicht_url.provider', 'zicht_url.cache_wrapper');
+        } else {
+            $container->setAlias('zicht_url.provider', 'zicht_url.provider.delegator');
         }
     }
 }

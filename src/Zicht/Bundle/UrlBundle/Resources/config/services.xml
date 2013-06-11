@@ -13,7 +13,7 @@
     </parameters>
 
     <services>
-        <service id="zicht_url.provider" class="%zicht_url.url_provider.class%" />
+        <service id="zicht_url.provider.delegator" class="%zicht_url.url_provider.class%" />
         <service id="zicht_url.request_aware_provider" class="%zicht_url.request_aware_provider.class%" scope="request">
             <argument type="service" id="request" />
             <call method="addProvider">

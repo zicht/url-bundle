@@ -22,12 +22,12 @@ class ReplaceUrlProviderServicePass implements \Symfony\Component\DependencyInje
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition('zicht_url.aliasing')) {
-            $def = $container->getDefinition('zicht_url.provider');
+            $def = $container->getDefinition('zicht_url.provider.delegator');
             $container->setDefinition('zicht_url.provider.real', $def);
             $def = new Definition('Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator');
             $def->addArgument(new Reference('zicht_url.aliasing'));
             $def->addMethodCall('addProvider', array(new Reference('zicht_url.provider.real')));
-            $container->setDefinition('zicht_url.provider', $def);
+            $container->setDefinition('zicht_url.provider.delegator', $def);
         }
     }
 
