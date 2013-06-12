@@ -20,16 +20,14 @@ class Logging
 
     function createLog(Request $request, $message)
     {
-        $log = new ErrorLog();
-
-        $log->message   = $message;
-        $log->date_created = new \DateTime();
-        $log->referer   = $request->headers->get('referer', null);
-        $log->ua        = $request->headers->get('user-agent', null);
-        $log->ip        = $request->getClientIp();
-        $log->url       = $request->getRequestUri();
-
-        return $log;
+        return new ErrorLog(
+            $message,
+            new \DateTime(),
+            $request->headers->get('referer', null),
+            $request->headers->get('user-agent', null),
+            $request->getClientIp(),
+            $request->getRequestUri()
+        );
     }
 
 

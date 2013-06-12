@@ -66,7 +66,7 @@ class Listener
 
             /** @var UrlAlias $url */
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
-                switch ($url->mode) {
+                switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
                         $duplicate = $event->getRequest()->duplicate(
                             null,
@@ -74,7 +74,7 @@ class Listener
                             null,
                             null,
                             null,
-                            array('REQUEST_URI' => $url->internal_url)
+                            array('REQUEST_URI' => $url->getInternalUrl())
                         );
 
                         $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
@@ -84,12 +84,12 @@ class Listener
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
                         $event->setResponse(new \Symfony\Component\HttpFoundation\RedirectResponse(
-                            $url->internal_url,
-                            $url->mode
+                            $url->getInternalUrl(),
+                            $url->getMode()
                         ));
                         break;
                     default:
-                        throw new \UnexpectedValueException("Invalid mode {$url->mode} for UrlAlias ". json_encode($url));
+                        throw new \UnexpectedValueException("Invalid mode {$url->getMode()} for UrlAlias ". json_encode($url));
                 }
             }
         }

@@ -32,7 +32,7 @@ class Listener
     {
         if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST && ($status = $e->getResponse()->getStatusCode()) >= 400) {
             if (isset($this->log)) {
-                $this->log->status = $status;
+                $this->log->setStatus($status);
                 $this->logging->flush($this->log);
             }
         }

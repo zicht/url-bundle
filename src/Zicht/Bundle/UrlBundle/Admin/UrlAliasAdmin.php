@@ -37,9 +37,9 @@ class UrlAliasAdmin extends Admin
             ->add('internal_url')
             ->add('mode', 'choice', array(
                 'choices' => array(
-                    UrlAlias::ALIAS      => 'alias',
+                    UrlAlias::ALIAS      => 'alias (302 redirect)',
                     UrlAlias::MOVE       => 'move (301 redirect)',
-                    UrlAlias::REWRITE    => 'rewrite (302 redirect)',
+                    UrlAlias::REWRITE    => 'rewrite',
                 )
             ))
         ;

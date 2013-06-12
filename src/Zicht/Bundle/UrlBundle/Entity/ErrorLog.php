@@ -19,42 +19,56 @@ class ErrorLog
      * @ORM\Id
      * @ORM\Column(type="integer")
      */
-    public $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    public $status;
+    protected $status;
 
     /**
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
-    public $url;
+    protected $url;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    public $ip;
+    protected $ip;
 
     /**
      * @ORM\Column(type="string", length=1024)
      */
-    public $ua;
+    protected $ua;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $message;
+    protected $message;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    public $referer;
+    protected $referer;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    public $date_created;
+    protected $date_created;
+
+
+    public function __construct($message, $date_created, $referer, $ua, $ip, $url)
+    {
+        $this
+            ->setMessage($message)
+            ->setDateCreated($date_created)
+            ->setReferer($referer)
+            ->setUa($ua)
+            ->setIp($ip)
+            ->setUrl($url)
+        ;
+    }
+
 
 
     public function getId()
@@ -66,5 +80,82 @@ class ErrorLog
     function __toString()
     {
         return (string) $this->message . ' @ ' . (string) ($this->date_created ? $this->date_created->format('YmdHis') : '');
+    }
+
+    public function setDateCreated($date_created)
+    {
+        $this->date_created = $date_created;
+        return $this;
+    }
+
+    public function getDateCreated()
+    {
+        return $this->date_created;
+    }
+
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+        return $this;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    public function setMessage($message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function setReferer($referer)
+    {
+        $this->referer = $referer;
+        return $this;
+    }
+
+    public function getReferer()
+    {
+        return $this->referer;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setUa($ua)
+    {
+        $this->ua = $ua;
+        return $this;
+    }
+
+    public function getUa()
+    {
+        return $this->ua;
+    }
+
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 }

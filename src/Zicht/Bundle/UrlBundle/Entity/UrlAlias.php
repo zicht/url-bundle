@@ -40,22 +40,22 @@ class UrlAlias
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type = "integer")
      */
-    public $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    public $public_url;
+    protected $public_url;
 
     /**
      * @ORM\Column(type="string")
      */
-    public $internal_url;
+    protected $internal_url;
 
     /**
      * @ORM\Column(type="integer")
      */
-    public $mode = self::REWRITE;
+    protected $mode = self::REWRITE;
 
 
     function __construct($public_url = null, $internal_url = null, $mode = null)
@@ -65,6 +65,45 @@ class UrlAlias
         $this->mode = $mode;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setInternalUrl($internal_url)
+    {
+        $this->internal_url = $internal_url;
+    }
+
+    public function getInternalUrl()
+    {
+        return $this->internal_url;
+    }
+
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+    }
+
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    public function setPublicUrl($public_url)
+    {
+        $this->public_url = $public_url;
+    }
+
+    public function getPublicUrl()
+    {
+        return $this->public_url;
+    }
 
     function __toString()
     {

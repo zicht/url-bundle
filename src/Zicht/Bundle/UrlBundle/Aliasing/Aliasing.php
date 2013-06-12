@@ -21,9 +21,8 @@ class Aliasing
     {
         $ret = null;
 
-        // TODO implement caching for this
         if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
-            $ret = ($asObject ? $alias : $alias->internal_url);
+            $ret = ($asObject ? $alias : $alias->getInternalUrl());
         }
 
         return $ret;
@@ -33,9 +32,8 @@ class Aliasing
     {
         $ret = null;
 
-        // TODO implement caching for this
         if ($alias = $this->getRepository()->findOneBy(array('internal_url' => $url, 'mode' => UrlAlias::REWRITE))) {
-            $ret = ($asObject ? $alias : $alias->public_url);
+            $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
         return $ret;
@@ -60,7 +58,7 @@ class Aliasing
     {
         foreach ($this->getRepository()->findAll() as $urlAlias) {
             if ($cascadingAlias = $this->hasPublicAlias($urlAlias->internal_url)) {
-                $urlAlias->internal_url = $cascadingAlias->internal_url;
+                $urlAlias->setInternalUrl($cascadingAlias->getInternalUrl());
             }
         }
     }
