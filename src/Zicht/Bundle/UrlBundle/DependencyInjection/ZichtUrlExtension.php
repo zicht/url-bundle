@@ -31,8 +31,10 @@ class ZichtUrlExtension extends Extension
        if (isset($config['static_ref'])) {
            $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
        }
-       if (!empty($config['aliasing'])) {
+       if ($config['aliasing']['enabled'] === true) {
            $loader->load('aliasing.xml');
+           $aliasingDefinition = $container->getDefinition('zicht_url.aliasing');
+           $aliasingDefinition->replaceArgument(1, $config['aliasing']['exclude_patterns']);
        }
        if (!empty($config['logging'])) {
            $loader->load('logging.xml');
