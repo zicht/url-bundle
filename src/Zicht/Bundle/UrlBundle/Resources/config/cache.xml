@@ -11,13 +11,19 @@
                 factory-service="zicht_cache.factory"
                 factory-method="create"
         >
-            <argument>Apc</argument>
             <argument>zicht_url</argument>
+            <argument>Apc</argument>
         </service>
 
         <service id="zicht_url.cache_wrapper" class="Zicht\Bundle\CacheBundle\Cache\Wrapper">
             <argument type="service" id="zicht_url.cache" />
             <argument type="service" id="zicht_url.provider.delegator" />
+        </service>
+
+        <service id="zicht_url.cache_subscriber" class="Zicht\Bundle\CacheBundle\Cache\FlushCacheSubscriber">
+            <argument type="service" id="zicht_url.cache" />
+            <argument><!-- set by the extension --></argument>
+            <tag name="doctrine.event_subscriber" />
         </service>
     </services>
 </container>

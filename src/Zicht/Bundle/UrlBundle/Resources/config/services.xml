@@ -17,7 +17,7 @@
         <service id="zicht_url.request_aware_provider" class="%zicht_url.request_aware_provider.class%" scope="request">
             <argument type="service" id="request" />
             <call method="addProvider">
-                <argument type="service" id="zicht_url.provider"/>
+                <argument type="service" id="zicht_url.provider.delegator"/>
             </call>
         </service>
         <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">

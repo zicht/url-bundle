@@ -57,6 +57,12 @@ class ErrorLog
     public $date_created;
 
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
     function __toString()
     {
         return (string) $this->message . ' @ ' . (string) ($this->date_created ? $this->date_created->format('YmdHis') : '');

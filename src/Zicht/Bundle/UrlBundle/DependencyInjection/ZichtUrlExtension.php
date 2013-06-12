@@ -40,8 +40,10 @@ class ZichtUrlExtension extends Extension
        if (!empty($config['admin'])) {
            $loader->load('admin.xml');
        }
-       if (!empty($config['caching'])) {
+       if ($config['caching']['enabled'] === true) {
            $loader->load('cache.xml');
+           $subscriberDefinition = $container->getDefinition('zicht_url.cache_subscriber');
+           $subscriberDefinition->replaceArgument(1, $config['caching']['entities']);
        }
    }
 }

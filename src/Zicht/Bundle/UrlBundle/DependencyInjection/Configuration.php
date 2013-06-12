@@ -33,7 +33,12 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('aliasing')->end()
                 ->variableNode('logging')->end()
                 ->variableNode('admin')->end()
-                ->variableNode('caching')->end()
+                ->arrayNode('caching')
+                    ->children()
+                        ->booleanNode('enabled')->end()
+                        ->arrayNode('entities')->prototype('scalar')->end()->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
