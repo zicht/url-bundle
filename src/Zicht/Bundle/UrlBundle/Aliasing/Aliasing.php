@@ -11,22 +11,26 @@ use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  
 class Aliasing
 {
-    function __construct(Registry $doctrine)
+    function __construct(Registry $doctrine, $excludePatterns = array())
     {
         $this->doctrine = $doctrine;
-
+        $this->excludePatterns = $excludePatterns;
     }
+
 
     function hasInternalAlias($url, $asObject = false)
     {
         $ret = null;
 
-        if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
-            $ret = ($asObject ? $alias : $alias->getInternalUrl());
+        if (!$this->isExcluded($url)) {
+            if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
+                $ret = ($asObject ? $alias : $alias->getInternalUrl());
+            }
         }
 
         return $ret;
     }
+
 
     function hasPublicAlias($url, $asObject = false)
     {
@@ -36,6 +40,19 @@ class Aliasing
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
+        return $ret;
+    }
+
+
+    function isExcluded($url)
+    {
+        $ret = false;
+        foreach ($this->excludePatterns as $pattern) {
+            if (preg_match($pattern, $url)) {
+                $ret = true;
+                break;
+            }
+        }
         return $ret;
     }
 
