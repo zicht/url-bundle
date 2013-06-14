@@ -34,7 +34,7 @@ class UrlAliasAdmin extends Admin
     {
         $form
             ->add('public_url')
-            ->add('internal_url')
+            ->add('internal_url', 'zicht_url')
             ->add('mode', 'choice', array(
                 'choices' => array(
                     UrlAlias::ALIAS      => 'alias (302 redirect)',
