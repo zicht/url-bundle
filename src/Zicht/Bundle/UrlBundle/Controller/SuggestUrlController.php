@@ -8,20 +8,26 @@
 
 namespace Zicht\Bundle\UrlBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use \Symfony\Component\HttpFoundation\JsonResponse;
+use \Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Mounted on the admin path for security.
+ *
  * @Route("/admin")
  */
 class SuggestUrlController extends Controller
 {
     /**
+     * Controller used for url suggestions by the url provider.
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/url/suggest")
      */
-    function suggestUrlAction(Request $request)
+    public function suggestUrlAction(Request $request)
     {
         return new JsonResponse(
             array(

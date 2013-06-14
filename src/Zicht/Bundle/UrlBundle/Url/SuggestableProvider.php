@@ -7,12 +7,15 @@
  */
 namespace Zicht\Bundle\UrlBundle\Url;
 
+/**
+ * Suggestable providers are capable of providing input for the UrlType.
+ */
 interface SuggestableProvider
 {
     /**
      * Suggest url's based on the passed pattern. The return value must be an array containing "label" and "value" keys.
      *
-     * @param $pattern
+     * @param string $pattern
      * @return mixed
      */
     public function suggest($pattern);

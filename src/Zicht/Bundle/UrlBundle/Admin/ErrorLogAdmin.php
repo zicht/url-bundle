@@ -6,10 +6,13 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
+use \Sonata\AdminBundle\Datagrid\ListMapper;
+use \Sonata\AdminBundle\Show\ShowMapper;
+use \Sonata\AdminBundle\Admin\Admin;
 
+/**
+ * Admin for error logs.
+ */
 class ErrorLogAdmin extends Admin
 {
     protected $datagridValues = array(

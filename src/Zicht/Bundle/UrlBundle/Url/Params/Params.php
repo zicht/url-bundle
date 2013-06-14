@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params;
 
-use Zicht\Bundle\FrameworkExtraBundle\Util\SortedSetMap;
+use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedSetMap;
 
 /**
  * Abstracts faceted uri's into a Map construct, with each key in the map corresponding to the name of the
@@ -22,7 +22,8 @@ use Zicht\Bundle\FrameworkExtraBundle\Util\SortedSetMap;
  *      $uri->with('a', 2); // will return a new instance with "a=1,2/b=2/c=3,4"
  *      $uri->with('c', 3); // will return a new instance with "a=1/b=2/c=4"
  */
-class Params extends SortedSetMap {
+class Params extends SortedSetMap
+{
     /**
      * @var UriParser
      */
@@ -37,9 +38,10 @@ class Params extends SortedSetMap {
      * @param null|UriParser $parser
      * @return Params
      */
-    function __construct(UriParser $parser = null) {
+    public function __construct(UriParser $parser = null)
+    {
         parent::__construct();
-        if(is_null($parser)) {
+        if (is_null($parser)) {
             $parser = new UriParser();
         }
         $this->parser = $parser;
@@ -52,7 +54,8 @@ class Params extends SortedSetMap {
      * @param string $uri
      * @return void
      */
-    function setUri($uri) {
+    public function setUri($uri)
+    {
         $this->setValues($this->parser->parseUri($uri));
     }
 
@@ -60,26 +63,12 @@ class Params extends SortedSetMap {
     /**
      * Process the POST and merges the (translated) values.
      *
-     * @param string $uri
+     * @param array $post
      * @return void
      */
-    function mergePost($post) {
+    public function mergePost($post)
+    {
         $this->mergeAll($this->parser->parsePost($post));
-    }
-
-
-    /**
-     * public method for $this->_with
-     *
-     * @param string $key
-     * @param string $value
-     * @param bool $multiple
-     * @return Params
-     */
-    function with($key, $value, $multiple = true) {
-        $ret = clone $this;
-        $ret = $this->_with($ret, $key, $value, $multiple);
-        return $ret;
     }
 
 
@@ -98,10 +87,29 @@ class Params extends SortedSetMap {
      * @param bool $multiple
      * @return Params
      */
-    private function _with($ret, $key, $value, $multiple = true) {
+    public function with($key, $value, $multiple = true)
+    {
+        $ret = clone $this;
+        $ret = self::doWith($ret, $key, $value, $multiple);
+
+        return $ret;
+    }
+
+
+    /**
+     * Helper for with()
+     *
+     * @param self $ret
+     * @param string $key
+     * @param string $value
+     * @param bool $multiple
+     * @return Params
+     */
+    private static function doWith(self $ret, $key, $value, $multiple = true)
+    {
         if (!$multiple) {
             if (!is_scalar($value)) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Invalid argument \$value to with(), expected scalar, got " . gettype($value)
                 );
             }
@@ -113,6 +121,7 @@ class Params extends SortedSetMap {
                 $ret->add($key, $value);
             }
         }
+
         return $ret;
     }
 
@@ -124,12 +133,14 @@ class Params extends SortedSetMap {
      * @param mixed $default
      * @return mixed
      */
-    function getOne($key, $default = null) {
+    public function getOne($key, $default = null)
+    {
         $ret = $default;
         $all = $this->get($key);
         if (count($all) > 0) {
             $ret = array_shift($all);
         }
+
         return $ret;
     }
 
@@ -140,7 +151,8 @@ class Params extends SortedSetMap {
      * @param mixed $keys
      * @return Params
      */
-    function without($keys) {
+    public function without($keys)
+    {
         if (is_scalar($keys)) {
             $keys = array($keys);
         }
@@ -148,10 +160,18 @@ class Params extends SortedSetMap {
         foreach ($keys as $key) {
             $ret->removeKey($key);
         }
+
         return $ret;
     }
 
-    function getKeys() {
+
+    /**
+     * Returns all keys in the current set.
+     *
+     * @return array
+     */
+    public function getKeys()
+    {
         return array_keys($this->toArray());
     }
 
@@ -160,7 +180,8 @@ class Params extends SortedSetMap {
      *
      * @return string
      */
-    function __toString() {
+    public function __toString()
+    {
         return $this->parser->composeUri($this->toArray());
     }
 }

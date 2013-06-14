@@ -6,10 +6,17 @@
 
 namespace Zicht\Bundle\UrlBundle;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class ZichtUrlBundle extends \Symfony\Component\HttpKernel\Bundle\Bundle
+/**
+ * Bundle instance for zicht/url-bundle
+ */
+class ZichtUrlBundle extends Bundle
 {
+    /**
+     * @{inheritDoc}
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

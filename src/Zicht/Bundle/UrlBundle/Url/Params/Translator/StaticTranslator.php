@@ -6,53 +6,94 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
-use Zicht\Bundle\UrlBundle\Url\Params\Translator;
+use \Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
-class StaticTranslator implements Translator {
-    function __construct($keyName, $keyTranslation, $valueTranslations = array()) {
-        $this->keyName = $keyName;
-        $this->keyTranslation = $keyTranslation;
+/**
+ * Static translator which holds mappings for keys and values.
+ */
+class StaticTranslator implements Translator
+{
+    /**
+     * Constructor.
+     *
+     * @param string $keyName
+     * @param string $keyTranslation
+     * @param array $valueTranslations
+     */
+    public function __construct($keyName, $keyTranslation, $valueTranslations = array())
+    {
+        $this->keyName           = $keyName;
+        $this->keyTranslation    = $keyTranslation;
         $this->valueTranslations = $valueTranslations;
     }
 
 
-    function translateKeyInput($keyTranslation) {
-        if($keyTranslation == $this->keyTranslation) {
+    /**
+     * @{inheritDoc}
+     */
+    public function translateKeyInput($keyTranslation)
+    {
+        if ($keyTranslation == $this->keyTranslation) {
             return $this->keyName;
         }
+
         return false;
     }
 
 
-    function translateValueInput($keyTranslation, $valueTranslation) {
-        if($keyTranslation == $this->keyTranslation) {
-            if(false !== ($value = array_search($valueTranslation, $this->valueTranslations))) {
+    /**
+     * @{inheritDoc}
+     */
+    public function translateValueInput($keyTranslation, $valueTranslation)
+    {
+        if ($keyTranslation == $this->keyTranslation) {
+            if (false !== ($value = array_search($valueTranslation, $this->valueTranslations))) {
                 return $value;
             }
         }
+
         return false;
     }
 
 
-    function translateKeyOutput($keyName) {
-        if($keyName == $this->keyName) {
+    /**
+     * @{inheritDoc}
+     */
+    public function translateKeyOutput($keyName)
+    {
+        if ($keyName == $this->keyName) {
             return $this->keyTranslation;
         }
+
         return false;
     }
 
 
-    function translateValueOutput($keyName, $value) {
-        if($keyName == $this->keyName) {
-            if(isset($this->valueTranslations[$value])) {
+    /**
+     * @{inheritDoc}
+     */
+    public function translateValueOutput($keyName, $value)
+    {
+        if ($keyName == $this->keyName) {
+            if (isset($this->valueTranslations[$value])) {
                 return $this->valueTranslations[$value];
             }
         }
+
         return false;
     }
 
 
-    function addTranslation($in, $out) {
+    /**
+     * Adds a value translation
+     *
+     * @param string $in
+     * @param string $out
+     * @return self
+     */
+    public function addTranslation($in, $out)
+    {
         $this->valueTranslations[$in] = $out;
+        return $this;
     }
 }

@@ -6,8 +6,11 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\Routing\RouterInterface;
+use \Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Static provider holds a set of urls
+ */
 class StaticProvider implements Provider
 {
     /**
@@ -27,8 +30,9 @@ class StaticProvider implements Provider
      * Add the array as references
      *
      * @param array $refs
+     * @return void
      */
-    function addAll(array $refs)
+    public function addAll(array $refs)
     {
         $this->refs = $refs + $this->refs;
     }
@@ -39,29 +43,27 @@ class StaticProvider implements Provider
      *
      * @param string $name
      * @param string $value
+     * @return void
      */
-    function add($name, $value)
+    public function add($name, $value)
     {
         $this->refs[$name] = $value;
     }
 
 
     /**
-     * Must return true if the current provider matches the object, i.e. knows how to generate a URL for the passed
-     * object.
-     *
-     * @param $object
-     * @return mixed
+     * @{inheritDoc}
      */
-    function supports($object)
+    public function supports($object)
     {
         return is_string($object) && isset($this->refs[$object]);
     }
 
+
     /**
      * @{inheritDoc}
      */
-    function url($object, array $options = array())
+    public function url($object, array $options = array())
     {
         return $this->router->getContext()->getBaseUrl() . '/' . ltrim($this->refs[$object], '/');
     }

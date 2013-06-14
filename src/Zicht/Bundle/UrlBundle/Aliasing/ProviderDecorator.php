@@ -8,15 +8,26 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
+/**
+ * Decorator for translating an url into a public alias.
+ */
 class ProviderDecorator extends DelegatingProvider
 {
-    function __construct(Aliasing $aliasing)
+    /**
+     * Constructor
+     *
+     * @param Aliasing $aliasing
+     */
+    public function __construct(Aliasing $aliasing)
     {
         $this->aliasing = $aliasing;
     }
 
 
-    function url($object, array $options = array())
+    /**
+     * @{inheritDoc}
+     */
+    public function url($object, array $options = array())
     {
         $ret = parent::url($object, $options);
         if ($publicUrl = $this->aliasing->hasPublicAlias($ret)) {

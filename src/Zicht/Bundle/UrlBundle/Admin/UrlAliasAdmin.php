@@ -37,9 +37,9 @@ class UrlAliasAdmin extends Admin
             ->add('internal_url', 'zicht_url')
             ->add('mode', 'choice', array(
                 'choices' => array(
-                    UrlAlias::ALIAS      => 'alias (302 redirect)',
-                    UrlAlias::MOVE       => 'move (301 redirect)',
-                    UrlAlias::REWRITE    => 'rewrite',
+                    UrlAlias::ALIAS   => 'alias (302 redirect)',
+                    UrlAlias::MOVE    => 'move (301 redirect)',
+                    UrlAlias::REWRITE => 'rewrite',
                 )
             ))
         ;
