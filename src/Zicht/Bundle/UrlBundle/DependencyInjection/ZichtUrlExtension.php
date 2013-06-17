@@ -35,7 +35,7 @@ class ZichtUrlExtension extends Extension
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
         }
-        if ($config['aliasing']['enabled'] === true) {
+        if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $loader->load('aliasing.xml');
             $aliasingDefinition = $container->getDefinition('zicht_url.aliasing');
             $aliasingDefinition->replaceArgument(1, $config['aliasing']['exclude_patterns']);
@@ -46,7 +46,7 @@ class ZichtUrlExtension extends Extension
         if (!empty($config['admin'])) {
             $loader->load('admin.xml');
         }
-        if ($config['caching']['enabled'] === true) {
+        if (!empty($config['aliasing']) && $config['caching']['enabled'] === true) {
             $loader->load('cache.xml');
             $subscriberDefinition = $container->getDefinition('zicht_url.cache_subscriber');
             $subscriberDefinition->replaceArgument(1, $config['caching']['entities']);
