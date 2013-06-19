@@ -12,6 +12,7 @@ use \Sonata\AdminBundle\Admin\Admin;
 
 /**
  * Admin for error logs.
+ * @codeCoverageIgnore
  */
 class ErrorLogAdmin extends Admin
 {
