@@ -8,7 +8,7 @@
 namespace Zicht\Bundle\UrlBundle\Url;
 
 /**
- * Suggestable providers are capable of providing input for the UrlType.
+ * Interface for providers that handle autosuggest.
  */
 interface SuggestableProvider
 {
