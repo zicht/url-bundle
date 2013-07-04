@@ -30,8 +30,8 @@ class UrlExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'object_url' => new \Twig_Function_Method($this, 'object_url'),
-            'static_ref' => new \Twig_Function_Method($this, 'static_ref'),
+            'object_url'       => new \Twig_Function_Method($this, 'object_url'),
+            'static_ref'       => new \Twig_Function_Method($this, 'static_ref'),
             'static_reference' => new \Twig_Function_Method($this, 'static_ref')
         );
     }
