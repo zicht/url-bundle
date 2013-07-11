@@ -10,7 +10,15 @@
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\UrlAlias</argument>
             <argument>ZichtFrameworkExtraBundle:CRUD</argument>
+        </service> 
+        
+        <service id="zicht_url.admin.static_reference" class="Zicht\Bundle\UrlBundle\Admin\StaticReferenceAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Static References"/>
+            <argument/>
+            <argument>Zicht\Bundle\UrlBundle\Entity\StaticReference</argument>
+            <argument>ZichtFrameworkExtraBundle:CRUD</argument>
         </service>
+        
         <service id="zicht_url.admin.error_log" class="Zicht\Bundle\UrlBundle\Admin\ErrorLogAdmin">
             <tag name="sonata.admin" manager_type="orm" group="URL's" label="Logs"/>
             <argument/>

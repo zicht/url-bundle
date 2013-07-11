@@ -26,7 +26,9 @@
         </service>
         <service id="zicht_url.static_refs" class="%zicht_url.static_refs.class%">
             <argument type="service" id="router" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="zicht_url.url_provider"/>
+
         </service>
         <service id="zicht_url.type" class="%zicht_url.type.class%">
             <tag name="form.type" alias="zicht_url" />
