@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
+ * @author    Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -62,10 +62,12 @@ class DbStaticProvider implements Provider
     {
         $this->fallback_locale = $locale;
     }
-     /**
+
+    /**
      * Add the array as references
      *
      * @param array $refs
+     *
      * @return void
      */
     public function addAll(array $refs)
@@ -75,7 +77,9 @@ class DbStaticProvider implements Provider
 
         /** @var $static_reference StaticReference */
         foreach ($repos->findAll() as $static_reference) {
-            $this->refs[$static_reference->getLanguage()][$static_reference->getMachineName()] = $static_reference->getUrl();
+            foreach ($static_reference->getTranslations() as $translation) {
+                $this->refs[$static_reference->getMachineName()][$translation->getLocale()] = $translation->getUrl();
+            }
         }
     }
 
@@ -90,25 +94,23 @@ class DbStaticProvider implements Provider
      */
     public function add($language, $name, $value)
     {
-        $this->refs[$language][$name] = $value;
+        $this->refs[$name][$language] = $value;
     }
-
 
     /**
      * @{inheritDoc}
      */
     public function supports($object)
     {
-        return is_string($object) && isset($this->refs[$this->locale][$object]);
+        return is_string($object) && isset($this->refs[$object][$this->locale]);
     }
-
 
     /**
      * @{inheritDoc}
      */
     public function url($object, array $options = array())
     {
-        $url = ltrim($this->refs[$this->locale][$object], '/');
+        $url = ltrim($this->refs[$object][$this->locale], '/');
 
         if (!preg_match('/^(http|https)/', $url)) {
             $url = $this->router->getContext()->getBaseUrl() . '/' . $url;

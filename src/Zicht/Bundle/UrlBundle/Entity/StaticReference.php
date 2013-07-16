@@ -2,6 +2,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,23 +31,29 @@ class StaticReference
     private $machine_name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=255, nullable=true)
+     * @ORM\OneToMany(
+     *     targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReferenceTranslation",
+     *     mappedBy="static_reference",
+     *     cascade={"persist", "remove"},
+     *     orphanRemoval=true
+     * )
      */
-    private $url;
+    public $translations;
 
     /**
-     * @var string
+     * Default construction of entity
      *
-     * @ORM\Column(name="language", type="string", length=6, nullable=true)
+     * @return \Zicht\Bundle\UrlBundle\Entity\StaticReference
      */
-    private $language;
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,19 +64,20 @@ class StaticReference
      * Set machine_name
      *
      * @param string $machineName
+     *
      * @return StaticReference
      */
     public function setMachineName($machineName)
     {
         $this->machine_name = $machineName;
-    
+
         return $this;
     }
 
     /**
      * Get machine_name
      *
-     * @return string 
+     * @return string
      */
     public function getMachineName()
     {
@@ -77,50 +85,84 @@ class StaticReference
     }
 
     /**
-     * Set url
+     * @param string $locale
      *
-     * @param string $url
-     * @return StaticReference
+     * @return bool
      */
-    public function setUrl($url)
+    public function getTranslation($locale)
     {
-        $this->url = $url;
-    
-        return $this;
+        return $this->hasTranslation($locale);
     }
 
     /**
-     * Get url
+     * Setter for translations
      *
-     * @return string 
+     * @param $translations
+     *
+     * @return void
      */
-    public function getUrl()
+    public function setTranslations($translations)
     {
-        return $this->url;
-    }
-
-    /**
-     * @param string $language
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
+        $this->translations = $translations;
     }
 
     /**
      * @return string
      */
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    function __toString()
+    public function __toString()
     {
         if (!empty($this->machine_name)) {
             return $this->machine_name;
         } else {
-            return (string) $this->id;
+            return (string)$this->id;
         }
+    }
+
+    /**
+     * @param $locale
+     *
+     * @return bool
+     */
+    public function hasTranslation($locale)
+    {
+        foreach ($this->translations as $translation) {
+            if ($locale == $translation->locale) {
+                return $translation;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
+     * Set translations
+     *
+     * @return void
+     */
+    function addMissingTranslations()
+    {
+        foreach ($this->translations as $translation) {
+            $translation->setStaticReference($this);
+        }
+    }
+
+    /**
+     * @param StaticReferenceTranslation $translation
+     *
+     * @return void
+     */
+    public function addTranslations(StaticReferenceTranslation $translation)
+    {
+        $translation->setStaticReference($this);
+
+        $this->translations[] = $translation;
     }
 }

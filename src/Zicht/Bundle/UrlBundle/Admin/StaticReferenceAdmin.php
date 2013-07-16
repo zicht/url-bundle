@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
+ * @author    Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -18,40 +18,53 @@ class StaticReferenceAdmin extends Admin
     {
         $listMapper
             ->add('machine_name')
-            ->add('url')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'view' => array(),
-                    'edit' => array(),
-                    'delete' => array()
+            ->add(
+                '_action',
+                'actions',
+                array(
+                    'actions' => array(
+                        'view'   => array(),
+                        'edit'   => array(),
+                        'delete' => array()
+                    )
                 )
-            ))
-        ;
+            );
     }
-
 
     protected function configureFormFields(FormMapper $form)
     {
-        $form
-            ->add('machine_name')
-            ->add('url')
-            ->add('language', 'language', array(
-                'choices' => array(
-                    'nl' => 'nl',
-                    'en' => 'en',
-                )
-            ))
-        ;
+        if ($this->getSubject()->getId()) {
+            $form
+                ->add('machine_name')
+                ->add(
+                    'translations',
+                    'sonata_type_collection',
+                    array(),
+                    array(
+                        'edit'   => 'inline',
+                        'inline' => 'table',
+                    )
+                );
+        } else {
+            $form
+                ->add('machine_name');
+        }
     }
-
-
 
     protected function configureShowFields(ShowMapper $show)
     {
         $show
             ->add('machine_name')
-            ->add('url')
-            ->add('language')
-        ;
+            ->add('url');
+    }
+
+    public function prePersist($object)
+    {
+        $object->addMissingTranslations();
+    }
+
+    public function preUpdate($object)
+    {
+        $object->addMissingTranslations();
     }
 }
