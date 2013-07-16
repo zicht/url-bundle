@@ -34,10 +34,14 @@ class ZichtUrlExtension extends Extension
 
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
-            if (!empty($config['use_static_ref_database'])) {
-                $container->getDefinition('zicht_url.static_refs')->addMethodCall('addDbValues');
-            }
         }
+
+        if (isset($config['db_static_ref'])) {
+            $container->getDefinition('zicht_url.db_static_refs')
+                ->addMethodCall('addAll', array($config['static_ref']))
+                ->addMethodCall('setFallbackLocale', array($config['db_static_ref']['fallback_locale']));
+        }
+
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $loader->load('aliasing.xml');
             $aliasingDefinition = $container->getDefinition('zicht_url.aliasing');

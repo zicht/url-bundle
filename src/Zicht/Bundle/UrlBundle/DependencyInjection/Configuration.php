@@ -38,7 +38,10 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->variableNode('logging')->end()
                 ->variableNode('admin')->end()
-                ->variableNode('use_static_ref_database')->end()
+                ->arrayNode('db_static_ref')
+                    ->children()
+                        ->scalarNode('fallback_locale')->end()
+                    
                 ->arrayNode('caching')
                     ->children()
                         ->booleanNode('enabled')->end()
