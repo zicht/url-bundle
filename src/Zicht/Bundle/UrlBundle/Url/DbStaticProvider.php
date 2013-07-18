@@ -37,6 +37,13 @@ class DbStaticProvider implements Provider
     private $fallback_locale;
 
     /**
+     * Holds the static references
+     *
+     * @var array
+     */
+    private $refs = null;
+
+    /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
      * @param \Symfony\Component\Routing\RouterInterface $router
@@ -66,12 +73,13 @@ class DbStaticProvider implements Provider
     /**
      * Add the array as references
      *
-     * @param array $refs
-     *
      * @return void
      */
-    public function addAll(array $refs)
+    public function addAll()
     {
+        // Make sure refs are not null any more, else it keeps checking on every static ref
+        $this->refs = array();
+
         /** @var StaticReference $repos */
         $repos = $this->em->getRepository('ZichtUrlBundle:StaticReference');
 
@@ -102,6 +110,8 @@ class DbStaticProvider implements Provider
      */
     public function supports($object)
     {
+        $this->checkRefsAreLoaded();
+
         return is_string($object) && isset($this->refs[$object][$this->locale]);
     }
 
@@ -117,5 +127,17 @@ class DbStaticProvider implements Provider
         }
 
         return $url;
+    }
+
+    /**
+     * Load all static references from the database
+     *
+     * @return void
+     */
+    private function checkRefsAreLoaded()
+    {
+        if (is_null($this->refs)) {
+            $this->addAll();
+        }
     }
 }

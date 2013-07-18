@@ -38,7 +38,6 @@ class ZichtUrlExtension extends Extension
 
         if (isset($config['db_static_ref'])) {
             $container->getDefinition('zicht_url.db_static_refs')
-                ->addMethodCall('addAll', array($config['static_ref']))
                 ->addMethodCall('setFallbackLocale', array($config['db_static_ref']['fallback_locale']));
         }
 
