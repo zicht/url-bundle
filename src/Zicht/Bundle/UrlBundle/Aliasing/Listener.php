@@ -18,6 +18,10 @@ class Listener
 {
     protected $aliasing;
 
+    protected $excludePatterns = array();
+    protected $isParamsEnabled = false;
+    protected $isQueryStringIgnored = true;
+
     /**
      * Construct the aliasing listener.
      *
@@ -57,12 +61,64 @@ class Listener
         }
     }
 
+    public function setExcludePatterns($excludePatterns)
+    {
+        $this->excludePatterns = $excludePatterns;
+    }
+
+    public function setIsParamsEnabled($isParamsEnabled)
+    {
+        $this->isParamsEnabled = $isParamsEnabled;
+    }
+
+    public function setIsQueryStringIgnored($isQueryStringIgnored)
+    {
+        $this->isQueryStringIgnored = $isQueryStringIgnored;
+    }
+
+
+    protected function isExcluded($url)
+    {
+        $ret = false;
+        foreach ($this->excludePatterns as $pattern) {
+            if (preg_match($pattern, $url)) {
+                $ret = true;
+                break;
+            }
+        }
+        return $ret;
+    }
+
+
 
     public function onKernelRequest(Event\GetResponseEvent $event)
     {
         if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
-            $publicUrl = $event->getRequest()->getRequestUri();
+            $request = $event->getRequest();
+            $publicUrl = $request->getRequestUri();
 
+            if ($this->isExcluded($publicUrl)) {
+                // don't process urls which are marked as excluded.
+                return;
+            }
+
+            if ($this->isQueryStringIgnored) {
+                if (false !== ($qsStartOffset = strrpos($publicUrl, '?'))) {
+                    $publicUrl = substr($publicUrl, 0, $qsStartOffset);
+                }
+            }
+            if ($this->isParamsEnabled) {
+                $parts = explode('/', $publicUrl);
+                $params = array();
+                while (strpos(end($parts), '=') !== false) {
+                    array_push($params, array_pop($parts));
+                }
+                if ($params) {
+                    $parser = new \Zicht\Bundle\UrlBundle\Url\Params\UriParser();
+                    $request->query->add($parser->parseUri(join('/', array_reverse($params))));
+                }
+                $publicUrl = join('/', $parts);
+            }
 
             /** @var UrlAlias $url */
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {

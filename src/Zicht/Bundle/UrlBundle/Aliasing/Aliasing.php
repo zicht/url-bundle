@@ -15,10 +15,9 @@ class Aliasing
     const STRATEGY_KEEP         = 'keep';
     const STRATEGY_SUFFIX       = 'suffix';
 
-    function __construct(Registry $doctrine, $excludePatterns = array())
+    function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
-        $this->excludePatterns = $excludePatterns;
     }
 
 
@@ -26,10 +25,8 @@ class Aliasing
     {
         $ret = null;
 
-        if (!$this->isExcluded($url)) {
-            if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
-                $ret = ($asObject ? $alias : $alias->getInternalUrl());
-            }
+        if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
+            $ret = ($asObject ? $alias : $alias->getInternalUrl());
         }
 
         return $ret;
@@ -44,19 +41,6 @@ class Aliasing
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
-        return $ret;
-    }
-
-
-    function isExcluded($url)
-    {
-        $ret = false;
-        foreach ($this->excludePatterns as $pattern) {
-            if (preg_match($pattern, $url)) {
-                $ret = true;
-                break;
-            }
-        }
         return $ret;
     }
 

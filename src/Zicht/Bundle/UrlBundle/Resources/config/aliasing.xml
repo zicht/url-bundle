@@ -11,7 +11,6 @@
     <services>
         <service id="zicht_url.aliasing" class="%zicht_url.aliasing.class%">
             <argument type="service" id="doctrine" />
-            <argument><!-- will use zicht_url.aliasing.exclude_patterns --></argument>
         </service>
         <service id="zicht_url.aliasing_listener" class="%zicht_url.aliasing_listener.class%">
             <argument type="service" id="zicht_url.aliasing" />

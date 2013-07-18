@@ -35,16 +35,15 @@ class ZichtUrlExtension extends Extension
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
         }
-
-        if (isset($config['db_static_ref'])) {
-            $container->getDefinition('zicht_url.db_static_refs')
-                ->addMethodCall('setFallbackLocale', array($config['db_static_ref']['fallback_locale']));
-        }
-
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $loader->load('aliasing.xml');
-            $aliasingDefinition = $container->getDefinition('zicht_url.aliasing');
-            $aliasingDefinition->replaceArgument(1, $config['aliasing']['exclude_patterns']);
+
+            $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
+            if ($config['aliasing']['exclude_patterns']) {
+                $listenerDefinition->addMethodCall('setExcludePatterns', array($config['aliasing']['exclude_patterns']));
+            }
+            $listenerDefinition->addMethodCall('setIsQueryStringIgnored', array($config['aliasing']['ignore_query_string']));
+            $listenerDefinition->addMethodCall('setIsParamsEnabled', array($config['aliasing']['enable_params']));
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');
