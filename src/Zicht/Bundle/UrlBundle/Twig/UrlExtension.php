@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Twig;
 
 use \Twig_Extension;
+use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 
 class UrlExtension extends Twig_Extension
 {
@@ -61,16 +62,27 @@ class UrlExtension extends Twig_Extension
         return $ret;
     }
 
-
     /**
      * Returns a static reference, i.e. an url that is provided based on a simple string.
      *
      * @param string $name
+     * @param array  $params
+     *
      * @return string
      */
-    function static_ref($name)
+    function static_ref($name, $params = null)
     {
-        return $this->provider->url((string) $name);
+        try {
+            $url =  $this->provider->url((string) $name);
+        } catch (UnsupportedException $e) {
+            $url = '/[static_reference: '. $name . ']';
+        }
+
+        if ($params) {
+            $url .= '?' . http_build_query($params,0, '&');
+        }
+
+        return $url;
     }
 
 
