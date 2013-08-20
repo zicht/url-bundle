@@ -12,7 +12,7 @@
         <service id="zicht_url.db_static_refs" class="%zicht_url.db_static_refs.class%">
             <argument type="service" id="router" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <tag name="zicht_url.url_provider"/>
+            <tag name="zicht_url.url_provider" priority="10" />
         </service>
     </services>
 </container>

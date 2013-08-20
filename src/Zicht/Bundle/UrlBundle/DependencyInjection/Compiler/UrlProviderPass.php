@@ -20,7 +20,11 @@ class UrlProviderPass implements CompilerPassInterface
     {
         $definition = $container->getDefinition('zicht_url.provider.delegator');
         foreach ($container->findTaggedServiceIds('zicht_url.url_provider') as $id => $attributes) {
-            $definition->addMethodCall('addProvider', array(new Reference($id)));
+            $priority = 0;
+            if (isset($attributes[0]['priority'])) {
+                $priority = (int)$attributes[0]['priority'];
+            }
+            $definition->addMethodCall('addProvider', array(new Reference($id), $priority));
         }
     }
 }

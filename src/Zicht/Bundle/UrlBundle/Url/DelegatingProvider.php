@@ -15,9 +15,22 @@ class DelegatingProvider implements Provider, SuggestableProvider
      */
     protected $providers = array();
 
-    function addProvider(Provider $provider)
+
+    /**
+     * Initialize the provider
+     */
+    public function __construct()
     {
-        $this->providers[] = $provider;
+        $this->providers = new \SplPriorityQueue();
+    }
+
+
+    /**
+     * Add a provider with the specified priority. Higher priority means exactly that ;)
+     */
+    function addProvider(Provider $provider, $priority = 0)
+    {
+        $this->providers->insert($provider, $priority);
     }
 
     /**
