@@ -56,7 +56,7 @@ class ZichtUrlExtension extends Extension
             $subscriberDefinition = $container->getDefinition('zicht_url.cache_subscriber');
             $subscriberDefinition->replaceArgument(1, $config['caching']['entities']);
         }
-        if ($config['db_static_ref']['enabled']) {
+        if (!empty($config['db_static_ref']) && $config['db_static_ref']['enabled'] === true) {
             $loader->load('db.xml');
         }
     }
