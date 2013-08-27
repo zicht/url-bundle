@@ -20,6 +20,8 @@ class ProviderDecorator extends DelegatingProvider
      */
     public function __construct(Aliasing $aliasing)
     {
+        parent::__construct();
+
         $this->aliasing = $aliasing;
     }
 
