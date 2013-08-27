@@ -72,18 +72,22 @@ class UrlExtension extends Twig_Extension
      */
     function static_ref($name, $params = null)
     {
-        try {
-            $url =  $this->provider->url((string) $name);
-        } catch (UnsupportedException $e) {
-            $url = '/[static_reference: '. $name . ']';
+        if (!isset($this->static_refs[$name])) {
+            try {
+                $this->static_refs[$name] = $this->provider->url((string) $name);
+            } catch (UnsupportedException $e) {
+                $this->static_refs[$name] = '/[static_reference: '. $name . ']';
+            }
         }
 
+        $ret = $this->static_refs[$name];
         if ($params) {
-            $url .= '?' . http_build_query($params,0, '&');
+            $ret .= '?' . http_build_query($params, 0, '&');
         }
 
-        return $url;
+        return $ret;
     }
+    private $static_refs = array();
 
 
     /**
