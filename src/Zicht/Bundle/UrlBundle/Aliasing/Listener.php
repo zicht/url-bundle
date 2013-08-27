@@ -114,28 +114,24 @@ class Listener
                     array_push($params, array_pop($parts));
                 }
                 if ($params) {
+                    $publicUrl = join('/', $parts);
+
                     $parser = new \Zicht\Bundle\UrlBundle\Url\Params\UriParser();
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
+
+                    if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
+                        $this->routeRequest($event, $publicUrl);
+
+                        return;
+                    }
                 }
-                $publicUrl = join('/', $parts);
             }
 
             /** @var UrlAlias $url */
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
-                        $duplicate = $event->getRequest()->duplicate(
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            array('REQUEST_URI' => $url->getInternalUrl())
-                        );
-
-                        $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
-                        $this->router->onKernelRequest($subEvent);
-                        $event->getRequest()->attributes = $duplicate->attributes;
+                        $this->routeRequest($event, $url->getInternalUrl());
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
@@ -149,5 +145,22 @@ class Listener
                 }
             }
         }
+    }
+
+
+    public function routeRequest($event, $url)
+    {
+        $duplicate = $event->getRequest()->duplicate(
+            null,
+            null,
+            null,
+            null,
+            null,
+            array('REQUEST_URI' => $url)
+        );
+
+        $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
+        $this->router->onKernelRequest($subEvent);
+        $event->getRequest()->attributes = $duplicate->attributes;
     }
 }
