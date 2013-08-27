@@ -57,7 +57,7 @@ class Aliasing
         /** @var $alias UrlAlias */
         $mgr = $this->doctrine->getManager();
 
-        if ($alias = $this->hasPublicAlias($src, true)) {
+        if ($alias = $this->hasInternalAlias($src, true)) {
             switch ($strategy) {
                 case self::STRATEGY_OVERWRITE:
                     $alias->setInternalUrl($target);
@@ -73,7 +73,7 @@ class Aliasing
                     $i = 1;
                     do {
                         $src = $original . '-' . ($i ++);
-                    } while ($this->hasPublicAlias($src));
+                    } while ($this->hasInternalAlias($src));
 
                     $alias = new UrlAlias($src, $target, $type);
                     $mgr->persist($alias);
