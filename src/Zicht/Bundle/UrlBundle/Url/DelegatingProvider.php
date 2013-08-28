@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Url;
 
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
 class DelegatingProvider implements Provider, SuggestableProvider
 {
@@ -21,7 +22,7 @@ class DelegatingProvider implements Provider, SuggestableProvider
      */
     public function __construct()
     {
-        $this->providers = new \SplPriorityQueue();
+        $this->providers = new SortedList();
     }
 
 
