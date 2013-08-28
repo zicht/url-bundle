@@ -42,7 +42,6 @@ class ZichtUrlExtension extends Extension
             if ($config['aliasing']['exclude_patterns']) {
                 $listenerDefinition->addMethodCall('setExcludePatterns', array($config['aliasing']['exclude_patterns']));
             }
-            $listenerDefinition->addMethodCall('setIsQueryStringIgnored', array($config['aliasing']['ignore_query_string']));
             $listenerDefinition->addMethodCall('setIsParamsEnabled', array($config['aliasing']['enable_params']));
         }
         if (!empty($config['logging'])) {

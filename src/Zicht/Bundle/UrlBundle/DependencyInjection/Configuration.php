@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('aliasing')
                     ->children()
                         ->booleanNode('enabled')->defaultValue(false)->end()
-                        ->booleanNode('ignore_query_string')->defaultValue(true)->end()
                         ->booleanNode('enable_params')->defaultValue(false)->end()
                         ->arrayNode('exclude_patterns')->prototype('scalar')->end()->end()
                     ->end()

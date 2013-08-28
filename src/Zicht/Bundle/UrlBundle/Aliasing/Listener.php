@@ -20,7 +20,6 @@ class Listener
 
     protected $excludePatterns = array();
     protected $isParamsEnabled = false;
-    protected $isQueryStringIgnored = true;
 
     /**
      * Construct the aliasing listener.
@@ -71,11 +70,6 @@ class Listener
         $this->isParamsEnabled = $isParamsEnabled;
     }
 
-    public function setIsQueryStringIgnored($isQueryStringIgnored)
-    {
-        $this->isQueryStringIgnored = $isQueryStringIgnored;
-    }
-
 
     protected function isExcluded($url)
     {
@@ -102,12 +96,7 @@ class Listener
                 return;
             }
 
-            if ($this->isQueryStringIgnored) {
-                if (false !== ($qsStartOffset = strrpos($publicUrl, '?'))) {
-                    $publicUrl = substr($publicUrl, 0, $qsStartOffset);
-                }
-            }
-            if ($this->isParamsEnabled) {
+            if ($this->isParamsEnabled && strpos($publicUrl, '?') === false) {
                 $parts = explode('/', $publicUrl);
                 $params = array();
                 while (strpos(end($parts), '=') !== false) {
@@ -126,6 +115,7 @@ class Listener
                     }
                 }
             }
+
 
             /** @var UrlAlias $url */
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
