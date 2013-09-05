@@ -58,5 +58,9 @@ class ZichtUrlExtension extends Extension
         if (!empty($config['db_static_ref']) && $config['db_static_ref']['enabled'] === true) {
             $loader->load('db.xml');
         }
+
+        $formResources = $container->getParameter('twig.form.resources');
+        $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
+        $container->setParameter('twig.form.resources', $formResources);
     }
 }
