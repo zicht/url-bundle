@@ -21,7 +21,7 @@ abstract class AbstractRoutingProvider implements Provider
      */
     public function url($object, array $options = array())
     {
-        list($name, $params) = $this->routing($object);
+        list($name, $params) = $this->routing($object, $options);
         return $this->router->generate(
             $name,
             $params
@@ -36,5 +36,5 @@ abstract class AbstractRoutingProvider implements Provider
      * @param mixed $object
      * @return array
      */
-    abstract function routing($object);
+    abstract function routing($object, array $options = array());
 }
