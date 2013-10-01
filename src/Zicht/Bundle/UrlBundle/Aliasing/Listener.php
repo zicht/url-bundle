@@ -138,6 +138,8 @@ class Listener
                 $publicUrl = substr($publicUrl, 0, strpos($publicUrl, '?'));
                 if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, UrlAlias::REWRITE)) {
                     $this->routeRequest($event, $url->getInternalUrl());
+
+                    return;
                 }
             }
         }
@@ -162,5 +164,6 @@ class Listener
         $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
         $this->router->onKernelRequest($subEvent);
         $event->getRequest()->attributes = $duplicate->attributes;
+        $event->getRequest()->setRequestFormat($duplicate->get('_format'));
     }
 }
