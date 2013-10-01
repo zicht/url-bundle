@@ -21,11 +21,15 @@ class Aliasing
     }
 
 
-    function hasInternalAlias($url, $asObject = false)
+    function hasInternalAlias($url, $asObject = false, $mode = null)
     {
         $ret = null;
 
-        if ($alias = $this->getRepository()->findOneBy(array('public_url' => $url))) {
+        $where = array('public_url' => $url);
+        if (null !== $mode) {
+            $where['mode'] = $mode;
+        }
+        if ($alias = $this->getRepository()->findOneBy($where)) {
             $ret = ($asObject ? $alias : $alias->getInternalUrl());
         }
 

@@ -116,7 +116,6 @@ class Listener
                 }
             }
 
-
             /** @var UrlAlias $url */
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
                 switch ($url->getMode()) {
@@ -133,11 +132,23 @@ class Listener
                     default:
                         throw new \UnexpectedValueException("Invalid mode {$url->getMode()} for UrlAlias ". json_encode($url));
                 }
+            } elseif (strpos($publicUrl, '?') !== false) {
+                // allow aliases to receive the query string.
+
+                $publicUrl = substr($publicUrl, 0, strpos($publicUrl, '?'));
+                if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, UrlAlias::REWRITE)) {
+                    $this->routeRequest($event, $url->getInternalUrl());
+                }
             }
         }
     }
 
 
+    /**
+     *
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param $url
+     */
     public function routeRequest($event, $url)
     {
         $duplicate = $event->getRequest()->duplicate(
@@ -148,7 +159,6 @@ class Listener
             null,
             array('REQUEST_URI' => $url)
         );
-
         $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
         $this->router->onKernelRequest($subEvent);
         $event->getRequest()->attributes = $duplicate->attributes;
