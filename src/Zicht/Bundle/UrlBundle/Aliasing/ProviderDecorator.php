@@ -32,7 +32,9 @@ class ProviderDecorator extends DelegatingProvider
     public function url($object, array $options = array())
     {
         $ret = parent::url($object, $options);
-        if ($publicUrl = $this->aliasing->hasPublicAlias($ret)) {
+        if ((!isset($options['aliasing']) || $options['aliasing'] == false)
+            && $publicUrl = $this->aliasing->hasPublicAlias($ret)
+        ) {
             $ret = $publicUrl;
         }
         return $ret;
