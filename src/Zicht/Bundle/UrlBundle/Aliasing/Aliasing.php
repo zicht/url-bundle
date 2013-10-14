@@ -111,7 +111,7 @@ class Aliasing
         };
     }
 
-    protected function save($alias)
+    protected function save(UrlAlias $alias)
     {
         $this->doctrine->getManager()->persist($alias);
 
