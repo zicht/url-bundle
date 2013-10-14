@@ -8,7 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
- 
+
 class Aliasing
 {
     const STRATEGY_OVERWRITE    = 'overwrite';
@@ -20,18 +20,23 @@ class Aliasing
     function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
+        $this->batch = array();
     }
 
 
-    function hasInternalAlias($url, $asObject = false, $mode = null)
+    function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
     {
         $ret = null;
-
-        $where = array('public_url' => $url);
-        if (null !== $mode) {
-            $where['mode'] = $mode;
+        if (isset($this->batch[$publicUrl])) {
+            $alias = $this->batch[$publicUrl];
+        } else {
+            $where = array('public_url' => $publicUrl);
+            if (null !== $mode) {
+                $where['mode'] = $mode;
+            }
+            $alias = $this->getRepository()->findOneBy($where);
         }
-        if ($alias = $this->getRepository()->findOneBy($where)) {
+        if ($alias) {
             $ret = ($asObject ? $alias : $alias->getInternalUrl());
         }
 
@@ -39,11 +44,11 @@ class Aliasing
     }
 
 
-    function hasPublicAlias($url, $asObject = false)
+    function hasPublicAlias($internalUrl, $asObject = false)
     {
         $ret = null;
 
-        if ($alias = $this->getRepository()->findOneBy(array('internal_url' => $url, 'mode' => UrlAlias::REWRITE))) {
+        if ($alias = $this->getRepository()->findOneBy(array('internal_url' => $internalUrl, 'mode' => UrlAlias::REWRITE))) {
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
@@ -61,7 +66,6 @@ class Aliasing
     {
         $ret = false;
         /** @var $alias UrlAlias */
-        $mgr = $this->doctrine->getManager();
 
         if ($alias = $this->hasInternalAlias($src, true)) {
             switch ($strategy) {
@@ -97,10 +101,13 @@ class Aliasing
 
     public function setIsBatch($isBatch)
     {
+        $this->batch = array();
         $this->isBatch = $isBatch;
         $mgr = $this->doctrine->getManager();
-        return function() use($mgr) {
+        $self = $this;
+        return function() use($mgr, $self) {
             $mgr->flush();
+            $self->setIsBatch(true);
         };
     }
 
@@ -108,7 +115,9 @@ class Aliasing
     {
         $this->doctrine->getManager()->persist($alias);
 
-        if (!$this->isBatch) {
+        if ($this->isBatch) {
+            $this->batch[$alias->getPublicUrl()]= $alias;
+        } else {
             $this->doctrine->getManager()->flush($alias);
         }
     }
