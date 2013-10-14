@@ -18,6 +18,10 @@ use \Zicht\Util\Str;
  */
 class Aliaser
 {
+    protected $aliasing;
+    protected $provider;
+    protected $aliasingStrategy;
+
     /**
      * Constructor
      *
@@ -54,5 +58,10 @@ class Aliaser
             );
         }
         return false;
+    }
+
+    public function getAliasing()
+    {
+        return $this->aliasing;
     }
 }

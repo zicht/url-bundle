@@ -15,6 +15,8 @@ class Aliasing
     const STRATEGY_KEEP         = 'keep';
     const STRATEGY_SUFFIX       = 'suffix';
 
+    protected $isBatch = false;
+
     function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
@@ -65,8 +67,7 @@ class Aliasing
             switch ($strategy) {
                 case self::STRATEGY_OVERWRITE:
                     $alias->setInternalUrl($target);
-                    $mgr->persist($alias);
-                    $mgr->flush($alias);
+                    $this->save($alias);
                     $ret = true;
                     break;
                 case self::STRATEGY_KEEP:
@@ -80,8 +81,7 @@ class Aliasing
                     } while ($this->hasInternalAlias($src));
 
                     $alias = new UrlAlias($src, $target, $type);
-                    $mgr->persist($alias);
-                    $mgr->flush();
+                    $this->save($alias);
                     $ret = true;
                     break;
                 default:
@@ -89,13 +89,29 @@ class Aliasing
             }
         } else {
             $alias = new UrlAlias($src, $target, $type);
-            $mgr->persist($alias);
-            $mgr->flush($alias);
+            $this->save($alias);
             $ret = true;
         }
         return $ret;
     }
 
+    public function setIsBatch($isBatch)
+    {
+        $this->isBatch = $isBatch;
+        $mgr = $this->doctrine->getManager();
+        return function() use($mgr) {
+            $mgr->flush();
+        };
+    }
+
+    protected function save($alias)
+    {
+        $this->doctrine->getManager()->persist($alias);
+
+        if (!$this->isBatch) {
+            $this->doctrine->getManager()->flush($alias);
+        }
+    }
 
     public function compact()
     {
