@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "zicht/util": ">=1.0.2"
     },
     "require-dev": {
         "sonata-project/admin-bundle": "*",
