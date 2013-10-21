@@ -60,8 +60,8 @@ class Aliaser
         return false;
     }
 
-    public function getAliasing()
+    public function setIsBatch($batch)
     {
-        return $this->aliasing;
+        return $this->aliasing->setIsBatch($batch);
     }
 }
