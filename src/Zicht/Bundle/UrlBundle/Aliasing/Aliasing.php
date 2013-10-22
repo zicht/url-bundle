@@ -101,7 +101,7 @@ class Aliasing
      *
      * @return mixed
      */
-    public public function getRepository()
+    public function getRepository()
     {
         return $this->doctrine->getManager()->getRepository('ZichtUrlBundle:UrlAlias');
     }
