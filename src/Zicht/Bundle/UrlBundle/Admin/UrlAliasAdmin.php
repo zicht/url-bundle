@@ -14,6 +14,8 @@ use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Admin for URL aliases
+ *
+ * @codeCoverageIgnore
  */
 class UrlAliasAdmin extends Admin
 {
