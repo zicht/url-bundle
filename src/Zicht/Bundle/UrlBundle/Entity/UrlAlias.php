@@ -69,9 +69,9 @@ class UrlAlias
      */
     public function __construct($public_url = null, $internal_url = null, $mode = null)
     {
-        $this->public_url = $public_url;
-        $this->internal_url = $internal_url;
-        $this->mode = $mode;
+        $this->setPublicUrl($public_url);
+        $this->setInternalUrl($internal_url);
+        $this->setMode($mode);
     }
 
     /**
