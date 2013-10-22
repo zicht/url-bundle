@@ -8,8 +8,16 @@ namespace Zicht\Bundle\UrlBundle\Url;
 
 use \Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Base class that uses the router for providing urls.
+ */
 abstract class AbstractRoutingProvider implements Provider
 {
+    /**
+     * Construct the provider.s
+     *
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
@@ -34,7 +42,8 @@ abstract class AbstractRoutingProvider implements Provider
      * parameters
      *
      * @param mixed $object
+     * @param mixed $options
      * @return array
      */
-    abstract function routing($object, array $options = array());
+    abstract public function routing($object, array $options = array());
 }

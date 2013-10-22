@@ -7,8 +7,11 @@
 namespace Zicht\Bundle\UrlBundle\Twig;
 
 use \Twig_Extension;
-use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 
+/**
+ * Provides some twig utilities.
+ */
 class UrlExtension extends Twig_Extension
 {
     /**
@@ -31,9 +34,9 @@ class UrlExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'object_url'       => new \Twig_Function_Method($this, 'object_url'),
-            'static_ref'       => new \Twig_Function_Method($this, 'static_ref'),
-            'static_reference' => new \Twig_Function_Method($this, 'static_ref')
+            'object_url'       => new \Twig_Function_Method($this, 'objectUrl'),
+            'static_ref'       => new \Twig_Function_Method($this, 'staticRef'),
+            'static_reference' => new \Twig_Function_Method($this, 'staticRef')
         );
     }
 
@@ -42,13 +45,14 @@ class UrlExtension extends Twig_Extension
      * Returns an url based on the passed object.
      *
      * @param object $object
+     * @param mixed $defaultIfNotFound
      * @return string
      */
-    function object_url($object, $defaultIfNotFound = null)
+    public function objectUrl($object, $defaultIfNotFound = null)
     {
         try {
             $ret = $this->provider->url($object);
-        } catch (\Zicht\Bundle\UrlBundle\Exception\UnsupportedException $e) {
+        } catch (UnsupportedException $e) {
             if (null === $defaultIfNotFound) {
                 throw $e;
             } else {
@@ -70,9 +74,9 @@ class UrlExtension extends Twig_Extension
      *
      * @return string
      */
-    function static_ref($name, $params = null)
+    public function staticRef($name, $params = null)
     {
-        $name = (string) $name;
+        $name = (string)$name;
         if (!isset($this->static_refs[$name])) {
             try {
                 $this->static_refs[$name] = $this->provider->url($name);
@@ -96,7 +100,7 @@ class UrlExtension extends Twig_Extension
      *
      * @return string The extension name
      */
-    function getName()
+    public function getName()
     {
         return 'zicht_url';
     }

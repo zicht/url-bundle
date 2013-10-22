@@ -60,6 +60,12 @@ class Aliaser
         return false;
     }
 
+    /**
+     * Set batch processing on the aliasing service.
+     *
+     * @param bool $batch
+     * @return callable
+     */
     public function setIsBatch($batch)
     {
         return $this->aliasing->setIsBatch($batch);

@@ -5,9 +5,12 @@
  */
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use \Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Replaces the url provider with a cache wrapper, if enabled.
+ */
 class CachePass implements CompilerPassInterface
 {
     /**

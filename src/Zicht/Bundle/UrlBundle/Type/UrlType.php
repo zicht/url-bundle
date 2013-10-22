@@ -5,11 +5,14 @@
  */
 namespace Zicht\Bundle\UrlBundle\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use \Symfony\Component\Form\AbstractType;
+use \Symfony\Component\Form\FormInterface;
+use \Symfony\Component\Form\FormView;
+use \Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Type for choosing an URL
+ */
 class UrlType extends AbstractType
 {
     /**
@@ -20,6 +23,9 @@ class UrlType extends AbstractType
         return 'zicht_url';
     }
 
+    /**
+     * @{inheritDoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
@@ -28,7 +34,9 @@ class UrlType extends AbstractType
         ));
     }
 
-
+    /**
+     * @{inheritDoc}
+     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
@@ -41,7 +49,9 @@ class UrlType extends AbstractType
         $view->vars['with_edit_button'] = $options['with_edit_button'];
     }
 
-
+    /**
+     * @{inheritDoc}
+     */
     public function getParent()
     {
         return 'text';

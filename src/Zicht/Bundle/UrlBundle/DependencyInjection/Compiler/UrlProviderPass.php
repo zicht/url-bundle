@@ -6,11 +6,13 @@
 
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 
+use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\Reference;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
- 
+/**
+ * Registers all tagged services
+ */
 class UrlProviderPass implements CompilerPassInterface
 {
     /**

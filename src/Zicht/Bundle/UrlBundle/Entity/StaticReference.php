@@ -1,9 +1,13 @@
 <?php
+/**
+ * @author Rik van der Kemp <rik@zicht.nl>
+ * @copyright Zicht Online <http://zicht.nl>
+ */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\ORM\Mapping as ORM;
 
 /**
  * StaticReference
@@ -97,8 +101,7 @@ class StaticReference
     /**
      * Setter for translations
      *
-     * @param $translations
-     *
+     * @param mixed $translations
      * @return void
      */
     public function setTranslations($translations)
@@ -119,8 +122,9 @@ class StaticReference
     }
 
     /**
-     * @param $locale
+     * Checks if a translation is set for the given locale
      *
+     * @param string $locale
      * @return bool
      */
     public function hasTranslation($locale)
@@ -143,11 +147,11 @@ class StaticReference
     }
 
     /**
-     * Set translations
+     * Set translations that are not yet initialized
      *
      * @return void
      */
-    function addMissingTranslations()
+    public function addMissingTranslations()
     {
         foreach ($this->translations as $translation) {
             $translation->setStaticReference($this);
@@ -155,8 +159,9 @@ class StaticReference
     }
 
     /**
-     * @param StaticReferenceTranslation $translation
+     * Add a translation
      *
+     * @param StaticReferenceTranslation $translation
      * @return void
      */
     public function addTranslations(StaticReferenceTranslation $translation)

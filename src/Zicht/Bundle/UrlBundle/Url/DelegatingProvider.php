@@ -6,9 +6,12 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
-use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
+use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
+/**
+ * A provider that delegates to a number of registered providers, ordered by priority.
+ */
 class DelegatingProvider implements Provider, SuggestableProvider
 {
     /**
@@ -28,8 +31,12 @@ class DelegatingProvider implements Provider, SuggestableProvider
 
     /**
      * Add a provider with the specified priority. Higher priority means exactly that ;)
+     *
+     * @param Provider $provider
+     * @param int $priority
+     * @return void
      */
-    function addProvider(Provider $provider, $priority = 0)
+    public function addProvider(Provider $provider, $priority = 0)
     {
         $this->providers->insert($provider, $priority);
     }
@@ -37,7 +44,8 @@ class DelegatingProvider implements Provider, SuggestableProvider
     /**
      * {@inheritDoc}
      */
-    function supports($object) {
+    public function supports($object)
+    {
         foreach ($this->providers as $provider) {
             if ($provider->supports($object)) {
                 return true;
@@ -49,7 +57,8 @@ class DelegatingProvider implements Provider, SuggestableProvider
     /**
      * {@inheritDoc}
      */
-    function url($object, array $options = array()) {
+    public function url($object, array $options = array())
+    {
         foreach ($this->providers as $provider) {
             if ($provider->supports($object)) {
                 return $provider->url($object, $options);

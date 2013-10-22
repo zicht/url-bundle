@@ -6,14 +6,20 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Form\FormMapper;
-use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use \Sonata\AdminBundle\Datagrid\ListMapper;
+use \Sonata\AdminBundle\Show\ShowMapper;
+use \Sonata\AdminBundle\Admin\Admin;
+use \Sonata\AdminBundle\Form\FormMapper;
+use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
+/**
+ * Admin for URL aliases
+ */
 class UrlAliasAdmin extends Admin
 {
+    /**
+     * @{inheritDoc}
+     */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -30,6 +36,9 @@ class UrlAliasAdmin extends Admin
     }
 
 
+    /**
+     * @{inheritDoc}
+     */
     protected function configureFormFields(FormMapper $form)
     {
         $form
@@ -46,7 +55,9 @@ class UrlAliasAdmin extends Admin
     }
 
 
-
+    /**
+     * @{inheritDoc}
+     */
     protected function configureShowFields(ShowMapper $show)
     {
         $show

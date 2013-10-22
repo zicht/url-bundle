@@ -1,8 +1,12 @@
 <?php
+/**
+ * @author Rik van der Kemp <rik@zicht.nl>
+ * @copyright Zicht Online <http://zicht.nl>
+ */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\ORM\Mapping as ORM;
 
 /**
  * StaticReferenceTranslation
@@ -41,6 +45,12 @@ class StaticReferenceTranslation
      */
     private $locale;
 
+    /**
+     * Create a translation
+     *
+     * @param string $locale
+     * @param string $url
+     */
     public function __construct($locale = null, $url = null)
     {
         $this->locale = $locale;
@@ -59,6 +69,7 @@ class StaticReferenceTranslation
 
     /**
      * @param string $locale
+     * @return void
      */
     public function setLocale($locale)
     {
@@ -75,6 +86,7 @@ class StaticReferenceTranslation
 
     /**
      * @param mixed $static_reference
+     * @return void
      */
     public function setStaticReference($static_reference)
     {
@@ -83,6 +95,7 @@ class StaticReferenceTranslation
 
     /**
      * @param string $url
+     * @return void
      */
     public function setUrl($url)
     {

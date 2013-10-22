@@ -6,17 +6,19 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-
+/**
+ * Interface for services that can provide URL's for specific objects
+ */
 interface Provider
 {
     /**
      * Must return true if the current provider matches the object, i.e. knows how to generate a URL for the passed
      * object.
      *
-     * @param $object
+     * @param mixed $object
      * @return mixed
      */
-    function supports($object);
+    public function supports($object);
 
 
     /**
@@ -26,5 +28,5 @@ interface Provider
      * @param array $options
      * @return mixed
      */
-    function url($object, array $options = array());
+    public function url($object, array $options = array());
 }

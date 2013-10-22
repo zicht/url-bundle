@@ -5,7 +5,16 @@
  */
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+/**
+ * Interface for providing aliases for an arbitrary object
+ */
 interface AliasingStrategy
 {
+    /**
+     * Generate a public alias for the passed object
+     *
+     * @param mixed $subject
+     * @return string
+     */
     public function generatePublicAlias($subject);
 }

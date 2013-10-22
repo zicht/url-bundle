@@ -6,7 +6,11 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params;
 
-class UriParser implements Translator {
+/**
+ * Parser for key/value pairs in the url.
+ */
+class UriParser implements Translator
+{
     private $_separators = array();
 
     /**
@@ -14,14 +18,29 @@ class UriParser implements Translator {
      */
     private $translator = null;
 
-    function __construct($paramSeparator = '/', $keyValueSeparator = '=', $valueSeparator = ',') {
-        $this->_separators['param'] = $paramSeparator;
+    /**
+     * Constructor
+     *
+     * @param string $paramSeparator
+     * @param string $keyValueSeparator
+     * @param string $valueSeparator
+     */
+    public function __construct($paramSeparator = '/', $keyValueSeparator = '=', $valueSeparator = ',')
+    {
+        $this->_separators['param']     = $paramSeparator;
         $this->_separators['key_value'] = $keyValueSeparator;
-        $this->_separators['value'] = $valueSeparator;
+        $this->_separators['value']     = $valueSeparator;
     }
 
 
-    function setTranslator(Translator $translator) {
+    /**
+     * Translator
+     *
+     * @param Translator $translator
+     * @return void
+     */
+    public function setTranslator(Translator $translator)
+    {
         $this->translator = $translator;
     }
 
@@ -31,37 +50,45 @@ class UriParser implements Translator {
      * @param array $post
      * @return array
      */
-    function parsePost(array $post) {
+    public function parsePost(array $post)
+    {
         $ret = array();
         foreach ($post as $key => $value) {
             if ($key) {
-                $external = $this->translateKeyOutput($key);
+                $external  = $this->translateKeyOutput($key);
                 $ret[$key] = array();
                 if (strlen($value) > 0) {
-                    if($internal = $this->translateValueInput($external, $value)) {
+                    if ($internal = $this->translateValueInput($external, $value)) {
                         $value = $internal;
                     }
                     $ret[$key][] = $value;
                 }
             }
         }
+
         return $ret;
     }
 
-
-    function parseUri($uri) {
+    /**
+     * Parse the uri
+     *
+     * @param string $uri
+     * @return array
+     */
+    public function parseUri($uri)
+    {
         $ret = array();
         foreach (explode($this->_separators['param'], $uri) as $params) {
             if ($params) {
                 list($key, $values) = explode($this->_separators['key_value'], $params, 2);
                 $external = $key;
-                if($internal = $this->translateKeyInput($key)) {
+                if ($internal = $this->translateKeyInput($key)) {
                     $key = $internal;
                 }
                 $ret[$key] = array();
                 foreach (explode($this->_separators['value'], $values) as $value) {
                     if (strlen($value) > 0) {
-                        if($internal = $this->translateValueInput($external, $value)) {
+                        if ($internal = $this->translateValueInput($external, $value)) {
                             $value = $internal;
                         }
                         $ret[$key][] = urldecode($value);
@@ -69,30 +96,38 @@ class UriParser implements Translator {
                 }
             }
         }
+
         return $ret;
     }
 
 
-    function composeUri($params) {
-        $ret = '';
+    /**
+     * Compose an URI from the passed params with the local separators
+     *
+     * @param Params $params
+     * @return string
+     */
+    public function composeUri($params)
+    {
+        $ret   = '';
         $first = true;
 
         foreach ($params as $param => $values) {
             if (!$first) {
                 $ret .= $this->_separators['param'];
             }
-            $first = false;
+            $first    = false;
             $internal = $param;
-            if($external = $this->translateKeyOutput($param)) {
+            if ($external = $this->translateKeyOutput($param)) {
                 $param = $external;
             }
             $ret .= $param . $this->_separators['key_value'];
             $firstValue = true;
-            foreach($values as $value) {
-                if($external = $this->translateValueOutput($internal, $value)) {
+            foreach ($values as $value) {
+                if ($external = $this->translateValueOutput($internal, $value)) {
                     $value = $external;
                 }
-                if(!$firstValue) {
+                if (!$firstValue) {
                     $ret .= $this->_separators['value'];
                 } else {
                     $firstValue = false;
@@ -100,38 +135,72 @@ class UriParser implements Translator {
                 $ret .= urlencode($value);
             }
         }
+
         return $ret;
     }
 
 
-    final function translateKeyInput($keyName) {
-        if($this->translator) {
+    /**
+     * Proxy method for translateKeyInput() of the translator
+     *
+     * @param string $keyName
+     * @return bool
+     */
+    final public function translateKeyInput($keyName)
+    {
+        if ($this->translator) {
             return $this->translator->translateKeyInput($keyName);
         }
+
         return false;
     }
 
 
-    final function translateValueInput($keyName, $value) {
-        if($this->translator) {
+    /**
+     * Proxy method for translateValueInput() of the translator
+     *
+     * @param string $keyName
+     * @param mixed $value
+     * @return bool
+     */
+    final public function translateValueInput($keyName, $value)
+    {
+        if ($this->translator) {
             return $this->translator->translateValueInput($keyName, $value);
         }
+
         return false;
     }
 
 
-    final function translateKeyOutput($keyName) {
-        if($this->translator) {
+    /**
+     * Proxy method for translateKeyOutput() of the translator
+     *
+     * @param string $keyName
+     * @return bool
+     */
+    final public function translateKeyOutput($keyName)
+    {
+        if ($this->translator) {
             return $this->translator->translateKeyOutput($keyName);
         }
+
         return false;
     }
 
-
-    final function translateValueOutput($keyName, $value) {
-        if($this->translator) {
+    /**
+     * Proxy method for translateValueOutput() of the translator
+     *
+     * @param string $keyName
+     * @param string $value
+     * @return bool
+     */
+    final public function translateValueOutput($keyName, $value)
+    {
+        if ($this->translator) {
             return $this->translator->translateValueOutput($keyName, $value);
         }
+
         return false;
     }
 }

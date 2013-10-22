@@ -8,13 +8,14 @@ namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
 use \Symfony\Component\DependencyInjection\Definition;
 use \Symfony\Component\DependencyInjection\Reference;
+use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Replaces the URL provider with the aliasing version, if aliasing was enabled for the ZichtUrlBundle.
  *
  * @see ZichtUrlExtension::load
  */
-class ReplaceUrlProviderServicePass implements \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface
+class ReplaceUrlProviderServicePass implements CompilerPassInterface
 {
     /**
      * @{inheritDoc}
@@ -30,5 +31,4 @@ class ReplaceUrlProviderServicePass implements \Symfony\Component\DependencyInje
             $container->setDefinition('zicht_url.provider.delegator', $def);
         }
     }
-
 }

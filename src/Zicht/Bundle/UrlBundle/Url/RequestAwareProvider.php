@@ -6,11 +6,19 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Request;
 
+/**
+ * This provider is "request aware", so it can either render absolute URL's
+ */
 class RequestAwareProvider extends DelegatingProvider
 {
-    function __construct(Request $request)
+    /**
+     * Constructor
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function __construct(Request $request)
     {
         parent::__construct();
 
@@ -19,8 +27,10 @@ class RequestAwareProvider extends DelegatingProvider
         $this->baseUrlLen = strlen($this->baseUrl);
     }
 
-
-    function url($object, array $options = array())
+    /**
+     * @{inheritDoc}
+     */
+    public function url($object, array $options = array())
     {
         $ret = parent::url($object, $options);
 

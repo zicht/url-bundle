@@ -6,9 +6,11 @@
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Entity representing log url translations, mapping public (SEO-friendly) url's to internal url's (routes).
+ *
  * @ORM\Entity
  * @ORM\Table(
  *  name = "url_alias",
@@ -58,56 +60,84 @@ class UrlAlias
     protected $mode = self::REWRITE;
 
 
-    function __construct($public_url = null, $internal_url = null, $mode = null)
+    /**
+     * Create a new alias
+     *
+     * @param string $public_url
+     * @param string $internal_url
+     * @param int $mode
+     */
+    public function __construct($public_url = null, $internal_url = null, $mode = null)
     {
         $this->public_url = $public_url;
         $this->internal_url = $internal_url;
         $this->mode = $mode;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param string $internal_url
+     * @return void
+     */
     public function setInternalUrl($internal_url)
     {
         $this->internal_url = $internal_url;
     }
 
+    /**
+     * @return string
+     */
     public function getInternalUrl()
     {
         return $this->internal_url;
     }
 
+    /**
+     * @param int $mode
+     * @return void
+     */
     public function setMode($mode)
     {
         $this->mode = $mode;
     }
 
+    /**
+     * @return int
+     */
     public function getMode()
     {
         return $this->mode;
     }
 
+    /**
+     * @param string $public_url
+     * @return void
+     */
     public function setPublicUrl($public_url)
     {
         $this->public_url = $public_url;
     }
 
+    /**
+     * @return string
+     */
     public function getPublicUrl()
     {
         return $this->public_url;
     }
 
-    function __toString()
+    /**
+     * @return string
+     */
+    public function __toString()
     {
         return (string)$this->id;
     }
-
 }

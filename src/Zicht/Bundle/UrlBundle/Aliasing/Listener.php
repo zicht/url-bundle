@@ -7,6 +7,8 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Symfony\Component\HttpKernel\Event;
+use \Symfony\Component\HttpFoundation\RedirectResponse;
+use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use \Symfony\Component\HttpKernel\EventListener\RouterListener;
 use \Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -38,6 +40,7 @@ class Listener
      * Listens to redirect responses, to replace any internal url with a public one.
      *
      * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $e
+     * @return void
      */
     public function onKernelResponse(Event\FilterResponseEvent $e)
     {
@@ -60,17 +63,34 @@ class Listener
         }
     }
 
+    /**
+     * Exclude patterns from aliasing
+     *
+     * @param array $excludePatterns
+     * @return void
+     */
     public function setExcludePatterns($excludePatterns)
     {
         $this->excludePatterns = $excludePatterns;
     }
 
+    /**
+     * Whether or not to consider URL parameters (key/value pairs at the end of the URL)
+     *
+     * @param bool $isParamsEnabled
+     * @return void
+     */
     public function setIsParamsEnabled($isParamsEnabled)
     {
         $this->isParamsEnabled = $isParamsEnabled;
     }
 
-
+    /**
+     * Returns true if the URL matches any of the exclude patterns
+     *
+     * @param string $url
+     * @return bool
+     */
     protected function isExcluded($url)
     {
         $ret = false;
@@ -84,7 +104,13 @@ class Listener
     }
 
 
-
+    /**
+     * Listens to master requests and translates the URL to an internal url, if there is an alias available
+     *
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @return void
+     * @throws \UnexpectedValueException
+     */
     public function onKernelRequest(Event\GetResponseEvent $event)
     {
         if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
@@ -105,7 +131,7 @@ class Listener
                 if ($params) {
                     $publicUrl = join('/', $parts);
 
-                    $parser = new \Zicht\Bundle\UrlBundle\Url\Params\UriParser();
+                    $parser = new UriParser();
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
 
                     if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
@@ -124,13 +150,16 @@ class Listener
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
-                        $event->setResponse(new \Symfony\Component\HttpFoundation\RedirectResponse(
-                            $url->getInternalUrl(),
-                            $url->getMode()
-                        ));
+                        $event->setResponse(new RedirectResponse($url->getInternalUrl(), $url->getMode()));
                         break;
                     default:
-                        throw new \UnexpectedValueException("Invalid mode {$url->getMode()} for UrlAlias ". json_encode($url));
+                        throw new \UnexpectedValueException(
+                            sprintf(
+                                "Invalid mode %s for UrlAlias %s.",
+                                $url->getMode(),
+                                json_encode($url)
+                            )
+                        );
                 }
             } elseif (strpos($publicUrl, '?') !== false) {
                 // allow aliases to receive the query string.
@@ -147,9 +176,11 @@ class Listener
 
 
     /**
+     * Route the request to the specified URL.
      *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
-     * @param $url
+     * @param string $url
+     * @return void
      */
     public function routeRequest($event, $url)
     {

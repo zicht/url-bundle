@@ -12,6 +12,7 @@ use \Sonata\AdminBundle\Admin\Admin;
 
 /**
  * Admin for error logs.
+ *
  * @codeCoverageIgnore
  */
 class ErrorLogAdmin extends Admin
@@ -22,7 +23,9 @@ class ErrorLogAdmin extends Admin
         '_sort_by'      => 'date_created'
     );
 
-
+    /**
+     * @{inheritDoc}
+     */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
@@ -41,6 +44,9 @@ class ErrorLogAdmin extends Admin
     }
 
 
+    /**
+     * @{inheritDoc}
+     */
     protected function configureShowFields(ShowMapper $show)
     {
         $show

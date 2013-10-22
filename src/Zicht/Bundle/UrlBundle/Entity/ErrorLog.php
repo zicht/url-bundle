@@ -5,10 +5,12 @@
  */
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use \Doctrine\ORM\Mapping as ORM;
+use \Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * Log entries
+ *
  * @ORM\Entity
  * @ORM\Table(name="url_error_log")
  */
@@ -57,6 +59,16 @@ class ErrorLog
     protected $date_created;
 
 
+    /**
+     * Create the log entry
+     *
+     * @param string $message
+     * @param \DateTime $date_created
+     * @param string $referer
+     * @param string $ua
+     * @param string $ip
+     * @param string $url
+     */
     public function __construct($message, $date_created, $referer, $ua, $ip, $url)
     {
         $this
@@ -70,90 +82,145 @@ class ErrorLog
     }
 
 
-
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
     }
 
 
-    function __toString()
+    /**
+     * @return string
+     */
+    public function __toString()
     {
-        return (string) $this->message . ' @ ' . (string) ($this->date_created ? $this->date_created->format('YmdHis') : '');
+        return (string)$this->message
+            . ' @ ' . (string)($this->date_created ? $this->date_created->format('YmdHis') : '');
     }
 
+    /**
+     * @param \DateTime $date_created
+     * @return ErrorLog
+     */
     public function setDateCreated($date_created)
     {
         $this->date_created = $date_created;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDateCreated()
     {
         return $this->date_created;
     }
 
+    /**
+     * @param string $ip
+     * @return self
+     */
     public function setIp($ip)
     {
         $this->ip = $ip;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIp()
     {
         return $this->ip;
     }
 
+    /**
+     * @param string $message
+     * @return self
+     */
     public function setMessage($message)
     {
         $this->message = $message;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * @param string $referer
+     * @return self
+     */
     public function setReferer($referer)
     {
         $this->referer = $referer;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getReferer()
     {
         return $this->referer;
     }
 
+    /**
+     * @param int $status
+     * @return self
+     */
     public function setStatus($status)
     {
         $this->status = $status;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
+    /**
+     * @param string $ua
+     * @return self
+     */
     public function setUa($ua)
     {
         $this->ua = $ua;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUa()
     {
         return $this->ua;
     }
 
+    /**
+     * @param string $url
+     * @return self
+     */
     public function setUrl($url)
     {
         $this->url = $url;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrl()
     {
         return $this->url;

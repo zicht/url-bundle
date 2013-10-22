@@ -36,13 +36,14 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
+            $aliasingConfig = $config['aliasing'];
             $loader->load('aliasing.xml');
 
             $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
-            if ($config['aliasing']['exclude_patterns']) {
-                $listenerDefinition->addMethodCall('setExcludePatterns', array($config['aliasing']['exclude_patterns']));
+            if ($aliasingConfig['exclude_patterns']) {
+                $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
             }
-            $listenerDefinition->addMethodCall('setIsParamsEnabled', array($config['aliasing']['enable_params']));
+            $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');
@@ -50,7 +51,7 @@ class ZichtUrlExtension extends Extension
         if (!empty($config['admin'])) {
             $loader->load('admin.xml');
         }
-        if (!empty($config['aliasing']) && $config['caching']['enabled'] === true) {
+        if (!empty($aliasingConfig) && $config['caching']['enabled'] === true) {
             $loader->load('cache.xml');
             $subscriberDefinition = $container->getDefinition('zicht_url.cache_subscriber');
             $subscriberDefinition->replaceArgument(1, $config['caching']['entities']);

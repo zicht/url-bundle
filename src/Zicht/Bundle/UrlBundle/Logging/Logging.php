@@ -5,20 +5,35 @@
  */
 namespace Zicht\Bundle\UrlBundle\Logging;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Zicht\Bundle\UrlBundle\Entity\ErrorLog;
+use \Doctrine\Bundle\DoctrineBundle\Registry;
+use \Symfony\Component\HttpFoundation\Response;
+use \Symfony\Component\HttpFoundation\Request;
+use \Zicht\Bundle\UrlBundle\Entity\ErrorLog;
 
+/**
+ * Keeps a database log of URL issues, such as 404 and 500 errors
+ */
 class Logging
 {
-    function __construct(Registry $doctrine)
+    /**
+     * Constructor
+     *
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     */
+    public function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
 
 
-    function createLog(Request $request, $message)
+    /**
+     * Create a log entry for the passed request.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param string $message
+     * @return \Zicht\Bundle\UrlBundle\Entity\ErrorLog
+     */
+    public function createLog(Request $request, $message)
     {
         return new ErrorLog(
             $message,
@@ -31,7 +46,13 @@ class Logging
     }
 
 
-    function flush($entry)
+    /**
+     * Persist the log and flush the manager.
+     *
+     * @param ErrorLog $entry
+     * @return void
+     */
+    public function flush($entry)
     {
         $mgr = $this->doctrine->getManager();
         $mgr->persist($entry);

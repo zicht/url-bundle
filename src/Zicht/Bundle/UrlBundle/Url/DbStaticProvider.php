@@ -6,10 +6,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\Routing\RouterInterface;
-
-use Doctrine\ORM\EntityManager;
-use Zicht\Bundle\UrlBundle\Entity\StaticReference;
+use \Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
  * Static provider holds a set of urls
@@ -65,6 +64,10 @@ class DbStaticProvider implements Provider
         }
     }
 
+    /**
+     * @param string $locale
+     * @return void
+     */
     public function setFallbackLocale($locale)
     {
         $this->fallback_locale = $locale;
@@ -99,7 +102,7 @@ class DbStaticProvider implements Provider
     /**
      * Add a single reference
      *
-     * @param        $language
+     * @param string $language
      * @param string $name
      * @param string $value
      *
