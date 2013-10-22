@@ -48,7 +48,8 @@ class StaticReference
     /**
      * Default construction of entity
      *
-     * @return \Zicht\Bundle\UrlBundle\Entity\StaticReference
+     * @param string $machineName
+     * @param array $translations
      */
     public function __construct($machineName = null, $translations = null)
     {

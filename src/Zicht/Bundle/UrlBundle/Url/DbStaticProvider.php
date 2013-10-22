@@ -103,6 +103,12 @@ class DbStaticProvider implements Provider
         return $url;
     }
 
+
+    /**
+     * Returns the locale parameter for the current request, if any.
+     *
+     * @return mixed
+     */
     public function getLocale()
     {
         if ($this->request) {

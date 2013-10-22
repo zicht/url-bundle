@@ -19,7 +19,7 @@ class Logging
     /**
      * Constructor
      *
-     * @param EntityManager $doctrine
+     * @param \Doctrine\ORM\EntityManager $manager
      */
     public function __construct(EntityManager $manager)
     {
