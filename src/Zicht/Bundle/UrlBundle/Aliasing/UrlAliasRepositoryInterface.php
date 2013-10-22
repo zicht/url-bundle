@@ -13,7 +13,8 @@ interface UrlAliasRepositoryInterface
     /**
      * Required for all repositories that contain url aliases
      *
-     * @param array $params
+     * @param array $criteria
+     * @param array $orderBy
      * @return \Zicht\Bundle\UrlBundle\Entity\UrlAlias
      */
     public function findOneBy(array $criteria, array $orderBy = null);

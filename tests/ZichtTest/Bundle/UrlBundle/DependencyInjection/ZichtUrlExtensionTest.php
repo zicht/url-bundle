@@ -97,4 +97,9 @@ class ZichtUrlExtensionTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    public function testBuild()
+    {
+        $code = $this->cb->compile();
+    }
 }

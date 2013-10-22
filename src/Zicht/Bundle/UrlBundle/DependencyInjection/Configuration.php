@@ -22,6 +22,13 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('zicht_url');
 
+        $isBool = function ($v) {
+            return is_bool($v);
+        };
+        $convertToEnabledKey = function($v) {
+            return array('enabled' => $v);
+        };
+
         $rootNode
             ->children()
                 ->arrayNode('static_ref')
@@ -29,7 +36,10 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('aliasing')
-                    ->beforeNormalization()->ifTrue(function($v) { return is_bool($v); })->then(function($v) { return array('enabled' => $v); })->end()
+                    ->beforeNormalization()
+                        ->ifTrue($isBool)
+                        ->then($convertToEnabledKey)
+                    ->end()
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultValue(false)->end()
@@ -40,7 +50,10 @@ class Configuration implements ConfigurationInterface
                 ->variableNode('logging')->end()
                 ->booleanNode('admin')->defaultValue(false)->end()
                 ->arrayNode('db_static_ref')
-                    ->beforeNormalization()->ifTrue(function($v) { return is_bool($v); })->then(function($v) { return array('enabled' => $v); })->end()
+                    ->beforeNormalization()
+                        ->ifTrue($isBool)
+                        ->then($convertToEnabledKey)
+                    ->end()
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultValue(false)->end()
@@ -48,7 +61,10 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('caching')
-                    ->beforeNormalization()->ifTrue(function($v) { return is_bool($v); })->then(function($v) { return array('enabled' => $v); })->end()
+                    ->beforeNormalization()
+                        ->ifTrue($isBool)
+                        ->then($convertToEnabledKey)
+                    ->end()
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultValue(false)->end()
