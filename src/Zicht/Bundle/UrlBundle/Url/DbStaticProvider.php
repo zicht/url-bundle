@@ -21,19 +21,11 @@ class DbStaticProvider implements Provider
     private $em;
 
     /**
-     * Current locale based on router context
+     * Current master request (needed for locale and base url)
      *
-     * @var string
+     * @var \Symfony\Component\HttpFoundation\Request
      */
-    private $locale;
-
-    /**
-     * A fallback locale for when the static reference in the current
-     * language is not available
-     *
-     * @var string
-     */
-    private $fallback_locale;
+    private $request;
 
     /**
      * Holds the static references
@@ -45,32 +37,23 @@ class DbStaticProvider implements Provider
     /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
-     * @param \Symfony\Component\Routing\RouterInterface $router
-     * @param EntityManager                              $em
-     *
-     * @internal param array $refs
+     * @param EntityManager $em
      */
-    public function __construct(RouterInterface $router, EntityManager $em)
+    public function __construct(EntityManager $em)
     {
-        $this->router = $router;
-        $this->em     = $em;
-        $params       = $router->getContext()->getParameters();
-
-        // Switch to fallback locale when _locale is not available in current context
-        if (isset($params['_locale'])) {
-            $this->locale = $params['_locale'];
-        } else {
-            $this->locale = $this->fallback_locale;
-        }
+        $this->em = $em;
     }
 
+
     /**
-     * @param string $locale
+     * Stores the request
+     *
+     * @param Request $r
      * @return void
      */
-    public function setFallbackLocale($locale)
+    public function setRequest(Request $r)
     {
-        $this->fallback_locale = $locale;
+        $this->request = $r;
     }
 
     /**
@@ -88,29 +71,17 @@ class DbStaticProvider implements Provider
             ->createQueryBuilder('r')
             ->addSelect('t')
             ->innerJoin('r.translations', 't')
+            ->andWhere('t.locale=:locale')
             ->getQuery()
         ;
 
         /** @var $static_reference StaticReference */
-        foreach ($q->execute() as $static_reference) {
+        $localeCode = $this->request->get('_locale');
+        foreach ($q->execute(array(':locale' => $localeCode)) as $static_reference) {
             foreach ($static_reference->getTranslations() as $translation) {
                 $this->refs[$static_reference->getMachineName()][$translation->getLocale()] = $translation->getUrl();
             }
         }
-    }
-
-    /**
-     * Add a single reference
-     *
-     * @param string $language
-     * @param string $name
-     * @param string $value
-     *
-     * @return void
-     */
-    public function add($language, $name, $value)
-    {
-        $this->refs[$name][$language] = $value;
     }
 
     /**
@@ -128,10 +99,12 @@ class DbStaticProvider implements Provider
      */
     public function url($object, array $options = array())
     {
-        $url = ltrim($this->refs[$object][$this->locale], '/');
+        $this->checkRefsAreLoaded();
+
+        $url = $this->refs[$object][$this->request->get('_locale')];
 
         if (!preg_match('/^(http|https)/', $url)) {
-            $url = $this->router->getContext()->getBaseUrl() . '/' . $url;
+            $url = $this->request->getBaseUrl() . '/' . ltrim($url, '/');
         }
 
         return $url;
