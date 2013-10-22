@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "sonata-project/admin-bundle": "*",
-        "zicht/framework-extra-bundle": "*"
+        "zicht/framework-extra-bundle": "*",
+        "doctrine/orm": "~2.2"
     },
     "autoload": {
         "psr-0": { "": ["src/", "tests/"] }

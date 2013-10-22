@@ -9,7 +9,7 @@ namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
 
 
-class AliaserTest extends \PHPUnit_Framework_TEstCAse
+class AliaserTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -51,5 +51,14 @@ class AliaserTest extends \PHPUnit_Framework_TEstCAse
         $this->aliasing->expects($this->once())->method('hasPublicAlias')->with('/baz/bat')->will($this->returnValue(true));
         $this->aliasing->expects($this->never())->method('addAlias');
         $this->assertFalse($this->aliaser->createAlias($foo));
+    }
+
+
+
+    public function testSetIsBatchDelegatesToAliaser()
+    {
+        $ret = function() {};
+        $this->aliasing->expects($this->once())->method('setIsBatch')->with(true)->will($this->returnValue($ret));
+        $this->assertEquals($ret, $this->aliaser->setIsBatch(true));
     }
 }

@@ -7,6 +7,8 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Doctrine\Bundle\DoctrineBundle\Registry;
+use \Doctrine\ORM\EntityManager;
+use \Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -40,11 +42,12 @@ class Aliasing
     /**
      * Initialize with doctrine
      *
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     * @param EntityManager $manager
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(EntityManager $manager)
     {
-        $this->doctrine = $doctrine;
+        $this->manager = $manager;
+        $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
         $this->batch = array();
     }
 
@@ -103,7 +106,7 @@ class Aliasing
      */
     public function getRepository()
     {
-        return $this->doctrine->getManager()->getRepository('ZichtUrlBundle:UrlAlias');
+        return $this->repository;
     }
 
 
@@ -168,7 +171,7 @@ class Aliasing
     {
         $this->batch = array();
         $this->isBatch = $isBatch;
-        $mgr = $this->doctrine->getManager();
+        $mgr = $this->manager;
         $self = $this;
         return function() use($mgr, $self) {
             $mgr->flush();
@@ -185,12 +188,12 @@ class Aliasing
      */
     protected function save(UrlAlias $alias)
     {
-        $this->doctrine->getManager()->persist($alias);
+        $this->manager->persist($alias);
 
         if ($this->isBatch) {
             $this->batch[$alias->getPublicUrl()]= $alias;
         } else {
-            $this->doctrine->getManager()->flush($alias);
+            $this->manager->flush($alias);
         }
     }
 

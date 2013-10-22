@@ -11,7 +11,7 @@ use \Doctrine\ORM\Mapping as ORM;
 /**
  * Entity representing log url translations, mapping public (SEO-friendly) url's to internal url's (routes).
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository")
  * @ORM\Table(
  *  name = "url_alias",
  *  indexes={
