@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Logging;
 
 use \Doctrine\Bundle\DoctrineBundle\Registry;
+use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpFoundation\Request;
 use \Zicht\Bundle\UrlBundle\Entity\ErrorLog;
@@ -18,11 +19,11 @@ class Logging
     /**
      * Constructor
      *
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     * @param EntityManager $doctrine
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(EntityManager $manager)
     {
-        $this->doctrine = $doctrine;
+        $this->manager = $manager;
     }
 
 
@@ -54,8 +55,7 @@ class Logging
      */
     public function flush($entry)
     {
-        $mgr = $this->doctrine->getManager();
-        $mgr->persist($entry);
-        $mgr->flush($entry);
+        $this->manager->persist($entry);
+        $this->manager->flush($entry);
     }
 }

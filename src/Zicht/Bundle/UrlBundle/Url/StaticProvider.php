@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Url;
 
 use \Symfony\Component\Routing\RouterInterface;
 
+
 /**
  * Static provider holds a set of urls
  */

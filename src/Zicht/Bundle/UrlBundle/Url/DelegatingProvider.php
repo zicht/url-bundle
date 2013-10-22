@@ -64,13 +64,13 @@ class DelegatingProvider implements Provider, SuggestableProvider
                 return $provider->url($object, $options);
             }
         }
-        throw new UnsupportedException(
-            "Can not render url for " . (
-                is_object($object)
-                    ? get_class($object)
-                    : (gettype($object) . ' (' . var_export($object, true) . ')')
-            )
-        );
+
+
+        $objectType = is_object($object)
+            ? get_class($object)
+            : (gettype($object) . ' (' . var_export($object, true) . ')');
+
+        throw new UnsupportedException("Can not render url for {$objectType}");
     }
 
     /**

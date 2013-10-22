@@ -35,6 +35,7 @@ class StaticReference
     private $machine_name;
 
     /**
+     * @var StaticReferenceTranslation[]
      * @ORM\OneToMany(
      *     targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReferenceTranslation",
      *     mappedBy="static_reference",
@@ -130,7 +131,7 @@ class StaticReference
     public function hasTranslation($locale)
     {
         foreach ($this->translations as $translation) {
-            if ($locale == $translation->locale) {
+            if ($locale == $translation->getLocale()) {
                 return $translation;
             }
         }

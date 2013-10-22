@@ -12,7 +12,7 @@
         <service id="zicht_url.aliasing" class="%zicht_url.aliasing.class%">
             <argument type="service" id="zicht_url.aliasing.repository" />
         </service>
-        <service id="service" id="zicht_url.aliasing.repository" factory-service="doctrine" factory-method="getRepository">
+        <service id="zicht_url.aliasing.repository" factory-service="doctrine" factory-method="getRepository">
             <argument type="string">ZichtUrlBundle:UrlAlias</argument>
         </service>
         <service id="zicht_url.aliasing_listener" class="%zicht_url.aliasing_listener.class%">

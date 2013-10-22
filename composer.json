@@ -15,11 +15,12 @@
     },
     "require-dev": {
         "sonata-project/admin-bundle": "*",
-        "zicht/framework-extra-bundle": "*",
-        "doctrine/orm": "~2.2"
+        "zicht/framework-extra-bundle": "*@dev",
+        "doctrine/orm": "~2.2",
+        "symfony/routing": "*"
     },
     "autoload": {
         "psr-0": { "": ["src/", "tests/"] }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
