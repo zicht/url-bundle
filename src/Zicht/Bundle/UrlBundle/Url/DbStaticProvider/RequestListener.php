@@ -13,7 +13,7 @@ use \Zicht\Bundle\UrlBundle\Url\DbStaticProvider;
 /**
  * Sets the master request on the dbstatic provider
  */
-class RequestListener implements EventSubscriberInterface
+class RequestListener
 {
     /**
      * Constructor

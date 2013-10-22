@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Url;
 
 use \Doctrine\ORM\EntityManager;
+use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\Routing\RouterInterface;
 use \Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
@@ -76,7 +77,7 @@ class DbStaticProvider implements Provider
         ;
 
         /** @var $static_reference StaticReference */
-        $localeCode = $this->request->get('_locale');
+        $localeCode = $this->getLocale();
         foreach ($q->execute(array(':locale' => $localeCode)) as $static_reference) {
             foreach ($static_reference->getTranslations() as $translation) {
                 $this->refs[$static_reference->getMachineName()][$translation->getLocale()] = $translation->getUrl();
@@ -91,7 +92,7 @@ class DbStaticProvider implements Provider
     {
         $this->checkRefsAreLoaded();
 
-        return is_string($object) && isset($this->refs[$object][$this->locale]);
+        return is_string($object) && isset($this->refs[$object][$this->getLocale()]);
     }
 
     /**
@@ -101,13 +102,18 @@ class DbStaticProvider implements Provider
     {
         $this->checkRefsAreLoaded();
 
-        $url = $this->refs[$object][$this->request->get('_locale')];
+        $url = $this->refs[$object][$this->getLocale()];
 
         if (!preg_match('/^(http|https)/', $url)) {
             $url = $this->request->getBaseUrl() . '/' . ltrim($url, '/');
         }
 
         return $url;
+    }
+
+    public function getLocale()
+    {
+        return $this->request->get('_locale');
     }
 
     /**
