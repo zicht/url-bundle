@@ -50,9 +50,18 @@ class StaticReference
      *
      * @return \Zicht\Bundle\UrlBundle\Entity\StaticReference
      */
-    public function __construct()
+    public function __construct($machineName = null, $translations = null)
     {
         $this->translations = new ArrayCollection();
+        if (null !== $machineName) {
+            $this->setMachineName($machineName);
+        }
+
+        if (null !== $translations) {
+            foreach ($translations as $language => $url) {
+                $this->addTranslations(new StaticReferenceTranslation($language, $url));
+            }
+        }
     }
 
     /**

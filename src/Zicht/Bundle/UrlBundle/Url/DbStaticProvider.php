@@ -68,17 +68,9 @@ class DbStaticProvider implements Provider
         $this->refs = array();
 
         /** @var StaticReference $repos */
-        $q = $this->em->getRepository('ZichtUrlBundle:StaticReference')
-            ->createQueryBuilder('r')
-            ->addSelect('t')
-            ->innerJoin('r.translations', 't')
-            ->andWhere('t.locale=:locale')
-            ->getQuery()
-        ;
+        $references = $this->em->getRepository('ZichtUrlBundle:StaticReference')->getAll($this->getLocale());
 
-        /** @var $static_reference StaticReference */
-        $localeCode = $this->getLocale();
-        foreach ($q->execute(array(':locale' => $localeCode)) as $static_reference) {
+        foreach ($references as $static_reference) {
             foreach ($static_reference->getTranslations() as $translation) {
                 $this->refs[$static_reference->getMachineName()][$translation->getLocale()] = $translation->getUrl();
             }
@@ -113,7 +105,10 @@ class DbStaticProvider implements Provider
 
     public function getLocale()
     {
-        return $this->request->get('_locale');
+        if ($this->request) {
+            return $this->request->get('_locale');
+        }
+        return null;
     }
 
     /**
