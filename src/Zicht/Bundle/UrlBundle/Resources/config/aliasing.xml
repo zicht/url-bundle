@@ -7,13 +7,14 @@
     <parameters>
         <parameter key="zicht_url.aliasing.class">Zicht\Bundle\UrlBundle\Aliasing\Aliasing</parameter>
         <parameter key="zicht_url.aliasing_listener.class">Zicht\Bundle\UrlBundle\Aliasing\Listener</parameter>
+        <parameter key="zicht_url.aliasing.entity_manager.class">Doctrine\ORM\EntityManager</parameter>
     </parameters>
     <services>
         <service id="zicht_url.aliasing" class="%zicht_url.aliasing.class%">
-            <argument type="service" id="zicht_url.aliasing.repository" />
+            <argument type="service" id="zicht_url.aliasing.entity_manager" />
         </service>
-        <service id="zicht_url.aliasing.repository" factory-service="doctrine" factory-method="getRepository">
-            <argument type="string">ZichtUrlBundle:UrlAlias</argument>
+        <service id="zicht_url.aliasing.entity_manager" factory-service="doctrine" factory-method="getManager"
+                 class="%zicht_url.aliasing.entity_manager.class%">
         </service>
         <service id="zicht_url.aliasing_listener" class="%zicht_url.aliasing_listener.class%">
             <argument type="service" id="zicht_url.aliasing" />

@@ -7,12 +7,13 @@
     <parameters>
         <parameter key="zicht_url.logging.class">Zicht\Bundle\UrlBundle\Logging\Logging</parameter>
         <parameter key="zicht_url.logging_listener.class">Zicht\Bundle\UrlBundle\Logging\Listener</parameter>
+        <parameter key="zicht_url.logging.manager.class">Doctrine\ORM\EntityManager</parameter>
     </parameters>
     <services>
         <service id="zicht_url.logging" class="%zicht_url.logging.class%">
             <argument type="service" id="zicht_url.logging.manager" />
         </service>
-        <service id="zicht_url.logging.manager" factory-service="doctrine" factory-method="getManager">
+        <service id="zicht_url.logging.manager" factory-service="doctrine" factory-method="getManager" class="%zicht_url.logging.manager.class%">
         </service>
         <service id="zicht_url.logging_listener" class="%zicht_url.logging_listener.class%">
             <argument type="service" id="zicht_url.logging" />
