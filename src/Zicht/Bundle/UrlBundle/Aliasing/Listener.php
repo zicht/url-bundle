@@ -195,6 +195,7 @@ class Listener
         $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
         $this->router->onKernelRequest($subEvent);
         $event->getRequest()->attributes = $duplicate->attributes;
+        $event->getRequest()->attributes->set('_internal_url', $url);
         $event->getRequest()->setRequestFormat($duplicate->get('_format'));
     }
 }
