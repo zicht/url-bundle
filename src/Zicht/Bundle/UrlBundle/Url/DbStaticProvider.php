@@ -36,6 +36,13 @@ class DbStaticProvider implements Provider
     private $refs = null;
 
     /**
+     * The locale to use when all things fail
+     *
+     * @var null|string
+     */
+    private $fallback_locale = null;
+
+    /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
      * @param EntityManager $em
@@ -112,9 +119,14 @@ class DbStaticProvider implements Provider
     public function getLocale()
     {
         if ($this->request) {
-            return $this->request->get('_locale');
+            $locale = $this->request->get('_locale');
         }
-        return null;
+
+        if ($locale === null) {
+            $locale = $this->fallback_locale;
+        }
+
+        return $locale;
     }
 
     /**
@@ -127,5 +139,9 @@ class DbStaticProvider implements Provider
         if (is_null($this->refs)) {
             $this->addAll();
         }
+    }
+
+    public function setFallbackLocale($locale) {
+        $this->fallback_locale = $locale;
     }
 }

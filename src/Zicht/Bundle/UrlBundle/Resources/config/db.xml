@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="zicht_url.db_static_refs.class">Zicht\Bundle\UrlBundle\Url\DbStaticProvider</parameter>
+        <parameter key="zicht_url.db_static_refs.fallback_locale">nl</parameter>
         <parameter key="zicht_url.db_static_refs.request_listener.class">Zicht\Bundle\UrlBundle\Url\DbStaticProvider\RequestListener</parameter>
     </parameters>
 
@@ -17,6 +18,9 @@
         <service id="zicht_url.db_static_refs" class="%zicht_url.db_static_refs.class%">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <tag name="zicht_url.url_provider" priority="10" />
+            <call method="setFallbackLocale">
+                <argument type="string">%zicht_url.db_static_refs.fallback_locale%</argument>
+            </call>
         </service>
     </services>
 </container>
