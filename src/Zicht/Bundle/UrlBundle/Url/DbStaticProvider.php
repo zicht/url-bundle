@@ -122,7 +122,7 @@ class DbStaticProvider implements Provider
             $locale = $this->request->get('_locale');
         }
 
-        if ($locale === null) {
+        if (! isset($locale)) {
             $locale = $this->fallback_locale;
         }
 
