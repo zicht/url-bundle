@@ -17,7 +17,7 @@ interface UrlAliasRepositoryInterface
      * @param array $orderBy
      * @return \Zicht\Bundle\UrlBundle\Entity\UrlAlias
      */
-    public function findOneBy(array $criteria, array $orderBy = null);
+//    public function findOneBy(array $criteria, array $orderBy = null);
 
 
     /**
