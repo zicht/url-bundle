@@ -25,5 +25,5 @@ interface UrlAliasRepositoryInterface
      *
      * @return \Zicht\Bundle\UrlBundle\Entity\UrlAlias[]
      */
-    public function findAll();
+//    public function findAll();
 }
