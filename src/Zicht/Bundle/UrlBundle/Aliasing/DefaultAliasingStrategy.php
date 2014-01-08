@@ -33,7 +33,9 @@ class DefaultAliasingStrategy implements AliasingStrategy
     public function generatePublicAlias($subject)
     {
         if (is_object($subject)) {
-            if (method_exists($subject, 'getTitle')) {
+            if ($subject instanceof Aliasable) {
+                $subject = $subject->getAliasTitle();
+            } elseif (method_exists($subject, 'getTitle')) {
                 $subject = $subject->getTitle();
             } else {
                 $subject = (string)$subject;
