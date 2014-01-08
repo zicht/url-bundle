@@ -6,6 +6,7 @@
  
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use \Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
 /**
@@ -31,7 +32,16 @@ class ProviderDecorator extends DelegatingProvider
      */
     public function url($object, array $options = array())
     {
-        $ret = parent::url($object, $options);
+        try {
+            $ret = parent::url($object, $options);
+        } catch (UnsupportedException $e) {
+            if (is_string($object)) {
+                // allows for referencing strings to be aliased separately.
+                $ret = $object;
+            } else {
+                throw $e;
+            }
+        }
         if ((!isset($options['aliasing']) || $options['aliasing'] == false)
             && $publicUrl = $this->aliasing->hasPublicAlias($ret)
         ) {
