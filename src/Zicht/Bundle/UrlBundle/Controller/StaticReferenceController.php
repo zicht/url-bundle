@@ -26,7 +26,6 @@ class StaticReferenceController extends Controller
      */
     public function redirectAction($name, $code = 301)
     {
-
         return new RedirectResponse(
             $this->get('zicht_url.provider')->url($name),
             $code
