@@ -62,4 +62,19 @@ class ProviderDecoratorTest extends \PHPUnit_Framework_TEstCAse
         $providerDecorator->addProvider($providerMock);
         $providerDecorator->url(new \stdClass);
     }
+
+
+    public function testPassingStringToTheDecoratorWillAllowForAliasing()
+    {
+        $providerMock = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Url\Provider')->getMock();
+        $providerMock->expects($this->once())->method('supports')->will($this->returnValue(false));
+        $this->aliasing
+            ->expects($this->once())
+            ->method('hasPublicAlias')
+            ->with('some/url')
+            ->will($this->returnValue('some/decorated/url'));
+        $providerDecorator = new ProviderDecorator($this->aliasing);
+        $providerDecorator->addProvider($providerMock);
+        $this->assertEquals('some/decorated/url', $providerDecorator->url('some/url'));
+    }
 }
