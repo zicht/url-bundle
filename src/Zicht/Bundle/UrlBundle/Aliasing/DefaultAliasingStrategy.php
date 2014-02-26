@@ -45,7 +45,10 @@ class DefaultAliasingStrategy implements AliasingStrategy
             throw new \InvalidArgumentException("Expected a string or object as subject, got " . gettype($subject));
         }
 
-        return $this->basePath . $this->toAlias($subject);
+        if ($alias = $this->toAlias($subject)) {
+            return $this->basePath . $alias;
+        }
+        return null;
     }
 
 

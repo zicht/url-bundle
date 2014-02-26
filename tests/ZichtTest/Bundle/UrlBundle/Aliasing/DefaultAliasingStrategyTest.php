@@ -5,6 +5,7 @@
  */
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasable;
 use Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy;
 
 class Foo
@@ -20,6 +21,22 @@ class Foo2 extends Foo
     public function getTitle()
     {
         return '~~~b a z~~~';
+    }
+}
+
+class Foo3 extends Foo implements Aliasable
+{
+    public function getAliasTitle()
+    {
+        return strrev((string)$this);
+    }
+}
+
+class Unaliasable
+{
+    public function __toString()
+    {
+        return '';
     }
 }
 
@@ -39,7 +56,9 @@ class DefaultAliasingStrategyTest extends \PHPUnit_Framework_TestCase
         return array(
             array('/bar', new Foo),
             array('/b-a-z', new Foo2),
+            array('/rab', new Foo3),
             array('/foo', 'foo'),
+            array(null, new Unaliasable)
         );
     }
 
