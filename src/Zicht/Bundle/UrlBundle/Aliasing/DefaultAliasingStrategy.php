@@ -34,9 +34,9 @@ class DefaultAliasingStrategy implements AliasingStrategy
     {
         if (is_object($subject)) {
             if ($subject instanceof Aliasable) {
-                $subject = $subject->getAliasTitle();
+                $subject = (string)$subject->getAliasTitle();
             } elseif (method_exists($subject, 'getTitle')) {
-                $subject = $subject->getTitle();
+                $subject = (string)$subject->getTitle();
             } else {
                 $subject = (string)$subject;
             }
