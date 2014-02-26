@@ -14,13 +14,15 @@
         "zicht/util": ">=1.0.2"
     },
     "require-dev": {
-        "sonata-project/admin-bundle": "*",
+        "sonata-project/admin-bundle":      "2.2.1",
         "zicht/framework-extra-bundle": "*@dev",
+        "symfony/framework-bundle": "*",
+        "knplabs/knp-menu-bundle":          "1.*@stable",
         "doctrine/orm": "~2.2",
         "symfony/routing": "*"
     },
     "autoload": {
         "psr-0": { "": ["src/", "tests/"] }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
