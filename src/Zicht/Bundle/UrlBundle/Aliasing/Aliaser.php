@@ -48,16 +48,21 @@ class Aliaser
      */
     public function createAlias($record)
     {
+        $ret = false;
+
         $internalUrl = $this->provider->url($record);
         if (!$this->aliasing->hasPublicAlias($internalUrl)) {
-            return $this->aliasing->addAlias(
-                $this->aliasingStrategy->generatePublicAlias($record),
-                $internalUrl,
-                UrlAlias::REWRITE,
-                Aliasing::STRATEGY_SUFFIX
-            );
+            $alias = $this->aliasingStrategy->generatePublicAlias($record);
+            if ($alias) {
+                $ret = $this->aliasing->addAlias(
+                    $alias,
+                    $internalUrl,
+                    UrlAlias::REWRITE,
+                    Aliasing::STRATEGY_SUFFIX
+                );
+            }
         }
-        return false;
+        return $ret;
     }
 
     /**
