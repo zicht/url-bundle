@@ -19,12 +19,17 @@ use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class UrlAliasAdmin extends Admin
 {
+    protected $datagridValues = array(
+        '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
+    );
+
     /**
      * @{inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->add('public_url')
             ->add('internal_url')
             ->add('_action', 'actions', array(

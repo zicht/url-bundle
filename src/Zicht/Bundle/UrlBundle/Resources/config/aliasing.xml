@@ -22,5 +22,13 @@
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="100"/>
             <argument type="service" id="router_listener" />
         </service>
+        <service id="zicht_url.aliasing.doctrine.subscriber" class="Zicht\Bundle\UrlBundle\Doctrine\AliasSubscriber">
+            <argument type="service" id="service_container"/>
+            <tag name="doctrine.event_subscriber"/>
+        </service>
+        <service id="zicht_url.aliaser" class="Zicht\Bundle\UrlBundle\Aliasing\Aliaser">
+            <argument type="service" id="zicht_url.aliasing"/>
+            <argument type="service" id="zicht_url.provider.real"/> <!-- the original 'zicht_url.provider.delegating' service, since otherwise the aliases got retrieved as an existing url ^^ -->
+        </service>
     </services>
 </container>

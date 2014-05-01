@@ -44,6 +44,14 @@ class ZichtUrlExtension extends Extension
                 $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
             }
             $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
+
+            if ($aliasingConfig['automatic_entities']) {
+                $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');
+
+                foreach($aliasingConfig['automatic_entities'] as $entityClass) {
+                    $automaticAliasDoctrineDefinition->addMethodCall('addEntityClass', array($entityClass));
+                }
+            }
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');
