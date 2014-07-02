@@ -213,4 +213,19 @@ class Aliasing
             }
         }
     }
+
+
+    /**
+     * Remove alias
+     *
+     * @param string $internalUrl
+     * @return void
+     */
+    public function removeAlias($internalUrl)
+    {
+        if ($alias = $this->hasPublicAlias($internalUrl, true)) {
+            $this->manager->remove($alias);
+            $this->manager->flush();
+        }
+    }
 }

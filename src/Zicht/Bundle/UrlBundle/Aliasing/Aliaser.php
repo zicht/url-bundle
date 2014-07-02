@@ -65,6 +65,18 @@ class Aliaser
         return $ret;
     }
 
+
+    /**
+     * Removes an alias
+     *
+     * @param mixed $record
+     * @return void
+     */
+    public function removeAlias($record)
+    {
+        $this->aliasing->removeAlias($this->provider->url($record));
+    }
+
     /**
      * Set batch processing on the aliasing service.
      *

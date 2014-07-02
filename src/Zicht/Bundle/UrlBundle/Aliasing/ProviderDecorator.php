@@ -6,7 +6,7 @@
  
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use \Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
 /**
