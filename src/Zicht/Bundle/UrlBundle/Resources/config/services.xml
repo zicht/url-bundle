@@ -10,6 +10,8 @@
         <parameter key="zicht_url.static_refs.class">Zicht\Bundle\UrlBundle\Url\StaticProvider</parameter>
         <parameter key="zicht_url.twig_extension.class">Zicht\Bundle\UrlBundle\Twig\UrlExtension</parameter>
         <parameter key="zicht_url.type.class">Zicht\Bundle\UrlBundle\Type\UrlType</parameter>
+        <parameter key="zicht_url.robots.subscriber.class">Zicht\Bundle\UrlBundle\EventListener\RobotsUpdateSubscriber</parameter>
+        <parameter key="zicht_url.robots.list_builder.class">Zicht\Bundle\UrlBundle\Robots\ListBuilder</parameter>
     </parameters>
 
     <services>
@@ -30,6 +32,16 @@
         </service>
         <service id="zicht_url.type" class="%zicht_url.type.class%">
             <tag name="form.type" alias="zicht_url" />
+        </service>
+        <service id="zicht_url.robots.subscriber" class="%zicht_url.robots.subscriber.class%">
+            <argument type="service" id="service_container" />
+            <tag name="doctrine.event_subscriber" connection="default" />
+        </service>
+        <service id="zicht_url.robots.list_builder" class="%zicht_url.robots.list_builder.class%">
+            <argument type="service" id="router" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument strict="false">%zicht_url.robots.exclude_patterns%</argument>
+            <argument>%kernel.root_dir%/../web/robots.txt</argument>
         </service>
     </services>
 </container>
