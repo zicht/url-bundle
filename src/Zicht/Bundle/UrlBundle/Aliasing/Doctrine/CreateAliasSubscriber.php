@@ -62,6 +62,10 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postFlush()
     {
+        if (!$this->enabled) {
+            return;
+        }
+
         $aliaser = $this->container->get($this->aliaserServiceId);
         foreach ($this->records as $record) {
             $aliaser->createAlias($record);
