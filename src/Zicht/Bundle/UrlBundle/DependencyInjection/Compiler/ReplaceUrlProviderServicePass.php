@@ -29,6 +29,8 @@ class ReplaceUrlProviderServicePass implements CompilerPassInterface
             $def->addArgument(new Reference('zicht_url.aliasing'));
             $def->addMethodCall('addProvider', array(new Reference('zicht_url.provider.real')));
             $container->setDefinition('zicht_url.provider.delegator', $def);
+        } else {
+            $container->setAlias('zicht_url.provider.real', 'zicht_url.provider.delegator');
         }
     }
 }
