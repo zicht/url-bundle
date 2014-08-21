@@ -69,7 +69,7 @@ class ZichtUrlExtension extends Extension
         }
 
         if (!empty($config['robots'])) {
-            $container->setParameter('zicht_url.robots.listner_enabled',  $config['robots']['enabled_listner']);
+            $container->setParameter('zicht_url.robots.listener_enabled',  $config['robots']['enabled_listener']);
             $container->setParameter('zicht_url.robots.exclude_patterns', $config['robots']['exclude_patterns']);
         }
 

@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('robots')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('enabled_listner')
+                        ->booleanNode('enabled_listener')
                             ->defaultValue(false)
                          ->end()
                         ->arrayNode('exclude_patterns')
