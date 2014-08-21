@@ -68,11 +68,6 @@ class ZichtUrlExtension extends Extension
             $loader->load('db.xml');
         }
 
-        if (!empty($config['robots'])) {
-            $container->setParameter('zicht_url.robots.listener_enabled',  $config['robots']['enabled_listener']);
-            $container->setParameter('zicht_url.robots.exclude_patterns', $config['robots']['exclude_patterns']);
-        }
-
         $formResources = $container->getParameter('twig.form.resources');
         $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
