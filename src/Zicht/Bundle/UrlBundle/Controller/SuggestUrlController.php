@@ -35,4 +35,14 @@ class SuggestUrlController extends Controller
             )
         );
     }
+
+    /**
+     * @Route("/url/suggest/editor")
+     */
+    public function linkListAction(Request $request)
+    {
+        return new JsonResponse(
+            $this->get('zicht_url.provider')->all()
+        );
+    }
 }

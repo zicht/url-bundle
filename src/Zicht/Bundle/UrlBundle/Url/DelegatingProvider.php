@@ -12,7 +12,7 @@ use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 /**
  * A provider that delegates to a number of registered providers, ordered by priority.
  */
-class DelegatingProvider implements Provider, SuggestableProvider
+class DelegatingProvider implements Provider, SuggestableProvider, ListableProvider
 {
     /**
      * @var Provider[]
@@ -82,6 +82,18 @@ class DelegatingProvider implements Provider, SuggestableProvider
         foreach ($this->providers as $provider) {
             if ($provider instanceof SuggestableProvider) {
                 $ret = array_merge($ret, $provider->suggest($pattern));
+            }
+        }
+        return $ret;
+    }
+
+
+    public function all()
+    {
+        $ret = array();
+        foreach ($this->providers as $provider) {
+            if ($provider instanceof ListableProvider) {
+                $ret = array_merge($ret, $provider->all());
             }
         }
         return $ret;
