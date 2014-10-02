@@ -14,6 +14,8 @@ use \Symfony\Component\DependencyInjection\Container;
  */
 abstract class BaseSubscriber implements EventSubscriber
 {
+    protected $enabled;
+
     /**
      * Constructor
      *
@@ -29,5 +31,13 @@ abstract class BaseSubscriber implements EventSubscriber
         $this->className = $className;
 
         $this->records = array();
+
+        $this->enabled = true;
+    }
+
+
+    final public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
     }
 }
