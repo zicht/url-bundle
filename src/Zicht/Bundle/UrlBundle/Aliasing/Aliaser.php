@@ -48,20 +48,28 @@ class Aliaser
      */
     public function createAlias($record)
     {
+        static $recursionProtection = array();
         $ret = false;
 
         $internalUrl = $this->provider->url($record);
-        if (!$this->aliasing->hasPublicAlias($internalUrl)) {
-            $alias = $this->aliasingStrategy->generatePublicAlias($record);
-            if ($alias) {
-                $ret = $this->aliasing->addAlias(
-                    $alias,
-                    $internalUrl,
-                    UrlAlias::REWRITE,
-                    Aliasing::STRATEGY_SUFFIX
-                );
-            }
+        $currentAlias = $this->aliasing->hasPublicAlias($internalUrl);
+        $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
+
+        // if we 've already stored this $generatedAlias, we can safely ignore this call
+        if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
+            return $ret;
         }
+
+        if ($generatedAlias && $currentAlias != $generatedAlias) {
+            $recursionProtection[$internalUrl] = $generatedAlias;
+            $ret = $this->aliasing->addAlias(
+                $generatedAlias,
+                $internalUrl,
+                UrlAlias::REWRITE,
+                Aliasing::STRATEGY_SUFFIX
+            );
+        }
+
         return $ret;
     }
 

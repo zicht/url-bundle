@@ -27,10 +27,11 @@ class DefaultAliasingStrategy implements AliasingStrategy
      * Returns the calculated public alias for the specified object.
      *
      * @param string $subject
+     * @param string $currentAlias
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function generatePublicAlias($subject)
+    public function generatePublicAlias($subject, $currentAlias='')
     {
         if (is_object($subject)) {
             if ($subject instanceof Aliasable) {

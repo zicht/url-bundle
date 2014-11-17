@@ -14,7 +14,8 @@ interface AliasingStrategy
      * Generate a public alias for the passed object
      *
      * @param mixed $subject
+     * @param string $currentAlias
      * @return string
      */
-    public function generatePublicAlias($subject);
+    public function generatePublicAlias($subject, $currentAlias='');
 }
