@@ -48,6 +48,7 @@ class Aliaser
      */
     public function createAlias($record)
     {
+        static $recursionProtection = array();
         $ret = false;
 
         $internalUrl = $this->provider->url($record);
@@ -58,6 +59,12 @@ class Aliaser
             return $ret;
         }
 
+        // if we 've already stored this $generatedAlias, we can safely ignore this call
+        if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
+            return $ret;
+        }
+
+        $recursionProtection[$internalUrl] = $generatedAlias;
         $ret = $this->aliasing->addAlias(
             $generatedAlias,
             $internalUrl,
