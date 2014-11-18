@@ -92,7 +92,7 @@ class Aliasing
         $ret = null;
 
         $params = array('internal_url' => $internalUrl, 'mode' => UrlAlias::REWRITE);
-        if ($alias = $this->getRepository()->findOneBy($params)) {
+        if ($alias = $this->getRepository()->findOneBy($params, array('id' => 'DESC'))) {
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
