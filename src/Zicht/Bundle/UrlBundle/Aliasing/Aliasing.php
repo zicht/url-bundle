@@ -193,34 +193,30 @@ class Aliasing
     public function moveAlias($newPublicUrl, $publicUrl, $internalUrl, $type = UrlAlias::ALIAS)
     {
         $moved = false;
+        if ($newPublicUrl === $publicUrl) {
+            return $moved;
+        }
         /** @var UrlAlias $existingAlias */
         $existingAlias = $this->findAlias($publicUrl, $internalUrl);
         $newAliasExists = $this->hasInternalAlias($newPublicUrl, true);
-        $this->manager->getConnection()->beginTransaction();
-        // if the old alias exists, and the new doesn't
+        // if the old alias exists, and the new one doesn't
         if (!is_null($existingAlias) && is_null($newAliasExists)) {
-            try {
-                // change the old alias
-                $existingAlias->setPublicUrl($newPublicUrl);
-                // create a new one
-                $newAlias = new UrlAlias();
-                $newAlias->setPublicUrl($publicUrl);
-                $newAlias->setInternalUrl($newPublicUrl);
-                $newAlias->setMode($type);
 
-                $this->manager->persist($existingAlias);
-                $this->manager->persist($newAlias);
-                $this->manager->flush();
-                $this->manager->getConnection()->commit();
-                $moved = true;
-            } catch (\Exception $e) {
-                $moved = false;
-                $this->manager->getConnection()->rollback();
-                throw $e;
-            }
+            // change the old alias
+            $existingAlias->setPublicUrl($newPublicUrl);
+            // create a new one
+            $newAlias = new UrlAlias();
+            $newAlias->setPublicUrl($publicUrl);
+            $newAlias->setInternalUrl($newPublicUrl);
+            $newAlias->setMode($type);
+
+            $this->save($existingAlias);
+            $this->save($newAlias);
+            $moved = true;
         }
         return $moved;
     }
+
 
     /**
      * Set the batch to 'true' if aliases are being batch processed (optimization).
