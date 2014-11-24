@@ -196,6 +196,7 @@ class Aliasing
         /** @var UrlAlias $existingAlias */
         $existingAlias = $this->findAlias($publicUrl, $internalUrl);
         $newAliasExists = $this->hasInternalAlias($newPublicUrl, true);
+        $this->manager->getConnection()->beginTransaction();
         // if the old alias exists, and the new doesn't
         if (!is_null($existingAlias) && is_null($newAliasExists)) {
             try {
