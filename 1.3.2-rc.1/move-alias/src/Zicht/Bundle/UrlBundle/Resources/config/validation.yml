@@ -1,0 +1,7 @@
+Zicht\Bundle\UrlBundle\Entity\UrlAlias:
+    getters:
+        publicUrl:
+            -
+                Regex:
+                    pattern: '~^/~'
+                    message: 'The public url must start with a slash'
