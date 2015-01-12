@@ -23,7 +23,7 @@ abstract class BaseSubscriber implements EventSubscriber
      * @param string $aliaserServiceId
      * @param string $className
      */
-    public function __construct(Container $container, $aliaserServiceId, $className)
+    public function __construct(Container $container, $aliaserServiceId, $className, $enabled = true)
     {
         // this weird construct is needed because otherwise a circular reference would occur in the container.
         $this->container = $container;
@@ -32,7 +32,7 @@ abstract class BaseSubscriber implements EventSubscriber
 
         $this->records = array();
 
-        $this->enabled = true;
+        $this->enabled = $enabled;
     }
 
 

@@ -19,11 +19,15 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
-            Events::postPersist,
-            Events::postUpdate,
-            Events::postFlush,
-        );
+        if ($this->enabled) {
+            return array(
+                Events::postPersist,
+                Events::postUpdate,
+                Events::postFlush,
+            );
+        } else {
+            return array();
+        }
     }
 
 
@@ -62,10 +66,6 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postFlush()
     {
-        if (!$this->enabled) {
-            return;
-        }
-
         $aliaser = $this->container->get($this->aliaserServiceId);
         foreach ($this->records as $record) {
             $aliaser->createAlias($record);
