@@ -65,12 +65,15 @@ class Aliaser
         }
 
         $recursionProtection[$internalUrl] = $generatedAlias;
-        $ret = $this->aliasing->addAlias(
-            $generatedAlias,
-            $internalUrl,
-            UrlAlias::REWRITE,
-            Aliasing::STRATEGY_SUFFIX
-        );
+
+        if (null !== $generatedAlias) {
+            $ret = $this->aliasing->addAlias(
+                $generatedAlias,
+                $internalUrl,
+                UrlAlias::REWRITE,
+                Aliasing::STRATEGY_SUFFIX
+            );
+        }
 
         return $ret;
     }
