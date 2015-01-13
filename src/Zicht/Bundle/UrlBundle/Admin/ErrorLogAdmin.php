@@ -36,7 +36,7 @@ class ErrorLogAdmin extends Admin
             ->add('message')
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'view' => array(),
+                    'show' => array(),
                     'delete' => array()
                 )
             ))

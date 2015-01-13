@@ -35,7 +35,7 @@ class UrlAliasAdmin extends Admin
             ->add('internal_url')
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'view' => array(),
+                    'show' => array(),
                     'edit' => array(),
                     'delete' => array()
                 )

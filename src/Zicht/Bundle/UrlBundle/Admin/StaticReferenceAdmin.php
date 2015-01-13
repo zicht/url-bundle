@@ -32,7 +32,7 @@ class StaticReferenceAdmin extends Admin
                 'actions',
                 array(
                     'actions' => array(
-                        'view'   => array(),
+                        'show'   => array(),
                         'edit'   => array(),
                         'delete' => array()
                     )
