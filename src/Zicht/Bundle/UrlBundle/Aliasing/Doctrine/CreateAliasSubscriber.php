@@ -14,6 +14,8 @@ use \Doctrine\ORM\Events;
  */
 class CreateAliasSubscriber extends BaseSubscriber
 {
+    private $isHandling = false;
+
     /**
      * @return array
      */
@@ -65,10 +67,16 @@ class CreateAliasSubscriber extends BaseSubscriber
         if (!$this->enabled) {
             return;
         }
+        if ($this->isHandling) {
+            return;
+        }
 
+        $this->isHandling = true;
         $aliaser = $this->container->get($this->aliaserServiceId);
-        foreach ($this->records as $record) {
+
+        while ($record = array_shift($this->records)) {
             $aliaser->createAlias($record);
         }
+        $this->isHandling = false;
     }
 }
