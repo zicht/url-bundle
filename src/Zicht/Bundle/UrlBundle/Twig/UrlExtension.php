@@ -19,17 +19,37 @@ class UrlExtension extends Twig_Extension
      * that delegates to all registered url providers.
      *
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
+     * @param \Zicht\Bundle\UrlBundle\Aliasing\Aliasing $aliasing
      */
-    public function __construct($provider)
+    public function __construct($provider, $aliasing)
     {
         $this->provider = $provider;
+        $this->aliasing = $aliasing;
     }
 
+    /**
+     * {inheritDoc}
+     */
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('internal_to_public_aliasing', array($this, 'internalToPublicAliasing')),
+        );
+    }
 
     /**
-     * Registers the twig functions provided by this extension.
+     * Takes a HTML sting and replaces all internal urls with aliased public urls, i.e. /nl/page/42 -> /nl/bring-your-towel
      *
-     * @return array
+     * @param string $html
+     * @return string
+     */
+    public function internalToPublicAliasing($html)
+    {
+        return $this->aliasing->internalToPublicHtml($html);
+    }
+
+    /**
+     * {inheritDoc}
      */
     public function getFunctions()
     {
