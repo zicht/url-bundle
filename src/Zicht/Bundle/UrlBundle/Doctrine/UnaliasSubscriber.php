@@ -69,7 +69,13 @@ class UnaliasSubscriber implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        $this->publicToInternalHtmlListener($args);
+        if($this->publicToInternalHtmlListener($args) > 0) {
+            // we must recompute the entity change set, otherwise none of our changes will be applied
+            $entity = $args->getEntity();
+            $entityManager = $args->getEntityManager();
+            $metadata = $entityManager->getClassMetadata(get_class($entity));
+            $entityManager->getUnitOfWork()->recomputeSingleEntityChangeSet($metadata, $entity);
+        }
     }
 
     /**
@@ -83,7 +89,7 @@ class UnaliasSubscriber implements EventSubscriber
         $aliasing = $this->container->get('zicht_url.aliasing');
         $entities = $this->getEntities();
 
-        $mustRecompute = false;
+        $changes = 0;
         $entity = $args->getEntity();
         if ($fields = $entities[get_class($entity)] ?: null) {
             foreach ($fields as $field) {
@@ -92,18 +98,12 @@ class UnaliasSubscriber implements EventSubscriber
                     $unaliased = $aliasing->publicToInternalHtml($aliased);
                     if ($aliased !== $unaliased) {
                         $this->setIntoEntity($entity, $field, $unaliased);
-                        $mustRecompute = true;
+                        $changes += 1;
                     }
                 }
             }
         }
-
-        if ($mustRecompute) {
-            // we must recompute the entity change set, otherwise none of our changes will be applied
-            $entityManager = $args->getEntityManager();
-            $metadata = $entityManager->getClassMetadata(get_class($entity));
-            $entityManager->getUnitOfWork()->recomputeSingleEntityChangeSet($metadata, $entity);
-        }
+        return $changes;
     }
 
     /**
