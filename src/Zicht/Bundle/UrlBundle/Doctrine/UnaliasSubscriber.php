@@ -91,8 +91,9 @@ class UnaliasSubscriber implements EventSubscriber
 
         $changes = 0;
         $entity = $args->getEntity();
-        if ($fields = $entities[get_class($entity)] ?: null) {
-            foreach ($fields as $field) {
+        $class = get_class($entity);
+        if (array_key_exists($class, $entities)) {
+            foreach ($entities[$class] as $field) {
                 $aliased = $this->getFromEntity($entity, $field);
                 if (count($aliased)) {
                     $unaliased = $aliasing->publicToInternalHtml($aliased);
