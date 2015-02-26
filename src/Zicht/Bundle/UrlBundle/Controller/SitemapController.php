@@ -26,7 +26,7 @@ class SitemapController extends Controller
      */
     public function sitemapAction()
     {
-        $urls = $this->get('zicht_url.sitemap_provider')->all();
+        $urls = $this->get('zicht_url.sitemap_provider')->all($this->get('security.context'));
         return array('urls' => $urls);
     }
 }

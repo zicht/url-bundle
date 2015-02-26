@@ -5,6 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use \Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
@@ -52,9 +53,9 @@ class ProviderDecorator extends DelegatingProvider
     /**
      * @{inheritDoc}
      */
-    public function all()
+    public function all(SecurityContextInterface $security)
     {
-        $urlList = parent::all();
+        $urlList = parent::all($security);
 
         foreach ($urlList as &$info) {
             $info['value'] = $this->url($info['value']);
