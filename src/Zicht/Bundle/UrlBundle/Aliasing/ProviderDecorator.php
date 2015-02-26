@@ -3,6 +3,7 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+ 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
@@ -47,19 +48,5 @@ class ProviderDecorator extends DelegatingProvider
             $ret = $publicUrl;
         }
         return $ret;
-    }
-
-    /**
-     * @{inheritDoc}
-     */
-    public function all()
-    {
-        $urlList = parent::all();
-
-        foreach ($urlList as &$info) {
-            $info['value'] = $this->url($info['value']);
-        }
-
-        return $urlList;
     }
 }

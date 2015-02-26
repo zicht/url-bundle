@@ -74,7 +74,5 @@ class ZichtUrlExtension extends Extension
         $formResources = $container->getParameter('twig.form.resources');
         $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
-
-        $container->setAlias('zicht_url.sitemap_provider', 'zicht_url.provider');
     }
 }
