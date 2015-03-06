@@ -6,6 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use \Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use \Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use \Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy;
 use \Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
@@ -23,13 +25,18 @@ class Aliaser
     protected $aliasingStrategy;
 
     /**
+     * @var AccessDecisionManagerInterface
+     */
+    protected $decisionManager;
+
+    /**
      * Constructor
      *
      * @param Aliasing $aliasing
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
      * @param AliasingStrategy $naming
      */
-    public function __construct(Aliasing $aliasing, Provider $provider, AliasingStrategy $naming = null)
+    public function __construct(Aliasing $aliasing, Provider $provider, AliasingStrategy $naming = null, AccessDecisionManagerInterface $decisionManager = null)
     {
         $this->aliasing = $aliasing;
         $this->provider = $provider;
@@ -37,6 +44,7 @@ class Aliaser
             $naming = new DefaultAliasingStrategy();
         }
         $this->aliasingStrategy = $naming;
+        $this->decisionManager = $decisionManager;
     }
 
 
@@ -52,27 +60,32 @@ class Aliaser
         $ret = false;
 
         $internalUrl = $this->provider->url($record);
-        $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
-        if ($internalUrl == $this->aliasing->hasInternalAlias($generatedAlias)) {
-            // apparently there is already a publicUrl ($generatedAlias) that is associated with $record
-            // hence, no need to create a new alias.
-            return $ret;
-        }
 
-        // if we 've already stored this $generatedAlias, we can safely ignore this call
-        if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
-            return $ret;
-        }
+        if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
+            $this->aliasing->removeAlias($internalUrl);
+        } else {
+            $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
+            if ($internalUrl == $this->aliasing->hasInternalAlias($generatedAlias)) {
+                // apparently there is already a publicUrl ($generatedAlias) that is associated with $record
+                // hence, no need to create a new alias.
+                return $ret;
+            }
 
-        $recursionProtection[$internalUrl] = $generatedAlias;
+            // if we 've already stored this $generatedAlias, we can safely ignore this call
+            if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
+                return $ret;
+            }
 
-        if (null !== $generatedAlias) {
-            $ret = $this->aliasing->addAlias(
-                $generatedAlias,
-                $internalUrl,
-                UrlAlias::REWRITE,
-                Aliasing::STRATEGY_SUFFIX
-            );
+            $recursionProtection[$internalUrl] = $generatedAlias;
+
+            if (null !== $generatedAlias) {
+                $ret = $this->aliasing->addAlias(
+                    $generatedAlias,
+                    $internalUrl,
+                    UrlAlias::REWRITE,
+                    Aliasing::STRATEGY_SUFFIX
+                );
+            }
         }
 
         return $ret;
