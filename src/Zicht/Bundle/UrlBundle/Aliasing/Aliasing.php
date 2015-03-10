@@ -284,7 +284,7 @@ class Aliasing
     {
         if ($alias = $this->hasPublicAlias($internalUrl, true)) {
             $this->manager->remove($alias);
-            $this->manager->flush();
+            $this->manager->flush($alias);
         }
     }
 }
