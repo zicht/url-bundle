@@ -30,6 +30,11 @@ class Aliaser
     protected $decisionManager;
 
     /**
+     * @var array
+     */
+    protected $scheduledRemoveAlias;
+
+    /**
      * Constructor
      *
      * @param Aliasing $aliasing
@@ -45,6 +50,7 @@ class Aliaser
         }
         $this->aliasingStrategy = $naming;
         $this->decisionManager = $decisionManager;
+        $this->scheduledRemoveAlias = array();
     }
 
 
@@ -95,12 +101,40 @@ class Aliaser
     /**
      * Removes an alias
      *
+     * When $SCHEDULE is true the alias removal is delayed until removeScheduledAliases is called.
+     *
      * @param mixed $record
+     * @param boolean $schedule
      * @return void
      */
-    public function removeAlias($record)
+    public function removeAlias($record, $schedule = false)
     {
-        $this->aliasing->removeAlias($this->provider->url($record));
+        if ($schedule) {
+            // delay removal until flushed
+            $this->scheduledRemoveAlias [] = $this->provider->url($record);
+        } else {
+            $this->aliasing->removeAlias($this->provider->url($record));
+        }
+    }
+
+    /**
+     * Remove scheduled aliases
+     *
+     * Example:
+     * $aliaser->removeAlias($page, true);
+     * # alias for $page is scheduled for removal, i.e. not yet actually removed
+     * $aliaser->removeScheduledAliases()
+     * # now the alias for $page is removed
+     *
+     * @return void
+     */
+    public function removeScheduledAliases()
+    {
+        foreach ($this->scheduledRemoveAlias as $alias) {
+            $this->aliasing->removeAlias($alias);
+        }
+
+        $this->scheduledRemoveAlias = array();
     }
 
     /**

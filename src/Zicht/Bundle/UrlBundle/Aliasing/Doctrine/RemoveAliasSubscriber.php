@@ -40,8 +40,9 @@ class RemoveAliasSubscriber extends BaseSubscriber
         $entity = $e->getEntity();
 
         if ($entity instanceof $this->className) {
-            // we need a clone, because otherwise the ID will be reset by the entity manager
-            $this->records[spl_object_hash($entity)]= clone $entity;
+            // schedule alias removal (this needs to be done before the entity is removed and loses its id)
+            $aliaser = $this->container->get($this->aliaserServiceId);
+            $aliaser->removeAlias($entity, true);
         }
     }
 
@@ -55,9 +56,8 @@ class RemoveAliasSubscriber extends BaseSubscriber
     {
         if (count($this->records)) {
             $aliaser = $this->container->get($this->aliaserServiceId);
-            foreach ($this->records as $record) {
-                $aliaser->removeAlias($record);
-            }
+            $aliaser->removeScheduledAliases();
+            $aliaser->flush();
         }
     }
 }
