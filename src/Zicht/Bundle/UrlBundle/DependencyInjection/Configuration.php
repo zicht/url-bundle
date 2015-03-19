@@ -72,6 +72,16 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('entities')->prototype('scalar')->end()->end()
                     ->end()
                 ->end()
+                ->arrayNode('unalias_subscriber')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultValue(false)->end()
+                        ->arrayNode('entities')
+                            ->useAttributeAsKey('name')
+                            ->prototype('variable')->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

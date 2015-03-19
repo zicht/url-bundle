@@ -287,4 +287,63 @@ class Aliasing
             $this->manager->flush($alias);
         }
     }
+
+    /**
+     * Takes HTML text and replaces all <a href='INTERNAL'> into <a href='PUBLIC'>.
+     *
+     * @param string $html
+     * @return string
+     */
+    public function internalToPublicHtml($html)
+    {
+        return $this->processAliasingInHtml($html, 'internal-to-public');
+    }
+
+    /**
+     * Takes HTML text and replaces all <a href='PUBLIC'> into <a href='INTERNAL'>.
+     *
+     * @param string $html
+     * @return string
+     */
+    public function publicToInternalHtml($html)
+    {
+        return $this->processAliasingInHtml($html, 'public-to-internal');
+    }
+
+    /**
+     * Helper function doing the actual work behind internalToPublicHtml and publicToInternalHtml
+     *
+     * @param string $html
+     * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
+     * @return string
+     */
+    private function processAliasingInHtml($html, $mode)
+    {
+        $doc = new \DOMDocument();
+        $doc->loadHTML($html);
+        $replacementsFrom = array();
+        $replacementsTo = array();
+
+        foreach ($doc->getElementsByTagName('a') as $element) {
+            $link = $element->getAttribute('href');
+
+            switch ($mode) {
+                case 'internal-to-public':
+                    if ($publicAlias = $this->hasPublicAlias($link)) {
+                        $replacementsFrom [] = $link;
+                        $replacementsTo [] = $publicAlias;
+                    }
+                    break;
+
+                case 'public-to-internal':
+                    if ($internalAlias = $this->hasInternalAlias($link)) {
+                        $replacementsFrom [] = $link;
+                        $replacementsTo [] = $internalAlias;
+                    }
+                    break;
+            }
+        }
+
+        return str_replace($replacementsFrom, $replacementsTo, $html);
+    }
 }
