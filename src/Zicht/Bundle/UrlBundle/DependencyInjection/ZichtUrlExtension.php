@@ -39,22 +39,7 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
-            $aliasingConfig = $config['aliasing'];
-            $loader->load('aliasing.xml');
-
-            $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
-            if ($aliasingConfig['exclude_patterns']) {
-                $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
-            }
-            $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
-
-            if ($aliasingConfig['automatic_entities']) {
-                $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');
-
-                foreach($aliasingConfig['automatic_entities'] as $entityClass) {
-                    $automaticAliasDoctrineDefinition->addMethodCall('addEntityClass', array($entityClass));
-                }
-            }
+            $this->loadAliasingConfig($container, $config['aliasing'], $loader);
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');
@@ -74,5 +59,32 @@ class ZichtUrlExtension extends Extension
         $formResources = $container->getParameter('twig.form.resources');
         $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
+    }
+
+    /**
+     * Load the aliasing config.
+     *
+     * @param ContainerBuilder $container
+     * @param array $aliasingConfig
+     * @param XmlFileLoader $loader
+     * @return void
+     */
+    protected function loadAliasingConfig(ContainerBuilder $container, $aliasingConfig, $loader)
+    {
+        $loader->load('aliasing.xml');
+
+        $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
+        if ($aliasingConfig['exclude_patterns']) {
+            $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
+        }
+        $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
+
+        if ($aliasingConfig['automatic_entities']) {
+            $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');
+
+            foreach ($aliasingConfig['automatic_entities'] as $entityClass) {
+                $automaticAliasDoctrineDefinition->addMethodCall('addEntityClass', array($entityClass));
+            }
+        }
     }
 }

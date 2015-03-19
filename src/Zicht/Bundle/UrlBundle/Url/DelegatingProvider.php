@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
@@ -87,13 +88,15 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         return $ret;
     }
 
-
-    public function all()
+    /**
+     * @{inheritDoc}
+     */
+    public function all(SecurityContextInterface $securityContext)
     {
         $ret = array();
         foreach ($this->providers as $provider) {
             if ($provider instanceof ListableProvider) {
-                $ret = array_merge($ret, $provider->all());
+                $ret = array_merge($ret, $provider->all($securityContext));
             }
         }
         return $ret;

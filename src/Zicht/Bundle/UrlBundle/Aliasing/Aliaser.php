@@ -6,6 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use \Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use \Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use \Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy;
 use \Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
@@ -23,13 +25,23 @@ class Aliaser
     protected $aliasingStrategy;
 
     /**
+     * @var AccessDecisionManagerInterface
+     */
+    protected $decisionManager;
+
+    /**
+     * @var array
+     */
+    protected $scheduledRemoveAlias;
+
+    /**
      * Constructor
      *
      * @param Aliasing $aliasing
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
      * @param AliasingStrategy $naming
      */
-    public function __construct(Aliasing $aliasing, Provider $provider, AliasingStrategy $naming = null)
+    public function __construct(Aliasing $aliasing, Provider $provider, AliasingStrategy $naming = null, AccessDecisionManagerInterface $decisionManager = null)
     {
         $this->aliasing = $aliasing;
         $this->provider = $provider;
@@ -37,6 +49,8 @@ class Aliaser
             $naming = new DefaultAliasingStrategy();
         }
         $this->aliasingStrategy = $naming;
+        $this->decisionManager = $decisionManager;
+        $this->scheduledRemoveAlias = array();
     }
 
 
@@ -52,27 +66,32 @@ class Aliaser
         $ret = false;
 
         $internalUrl = $this->provider->url($record);
-        $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
-        if ($internalUrl == $this->aliasing->hasInternalAlias($generatedAlias)) {
-            // apparently there is already a publicUrl ($generatedAlias) that is associated with $record
-            // hence, no need to create a new alias.
-            return $ret;
-        }
 
-        // if we 've already stored this $generatedAlias, we can safely ignore this call
-        if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
-            return $ret;
-        }
+        if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
+            $this->aliasing->removeAlias($internalUrl);
+        } else {
+            $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
+            if ($internalUrl == $this->aliasing->hasInternalAlias($generatedAlias)) {
+                // apparently there is already a publicUrl ($generatedAlias) that is associated with $record
+                // hence, no need to create a new alias.
+                return $ret;
+            }
 
-        $recursionProtection[$internalUrl] = $generatedAlias;
+            // if we 've already stored this $generatedAlias, we can safely ignore this call
+            if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
+                return $ret;
+            }
 
-        if (null !== $generatedAlias) {
-            $ret = $this->aliasing->addAlias(
-                $generatedAlias,
-                $internalUrl,
-                UrlAlias::REWRITE,
-                Aliasing::STRATEGY_SUFFIX
-            );
+            $recursionProtection[$internalUrl] = $generatedAlias;
+
+            if (null !== $generatedAlias) {
+                $ret = $this->aliasing->addAlias(
+                    $generatedAlias,
+                    $internalUrl,
+                    UrlAlias::REWRITE,
+                    Aliasing::STRATEGY_SUFFIX
+                );
+            }
         }
 
         return $ret;
@@ -82,12 +101,40 @@ class Aliaser
     /**
      * Removes an alias
      *
+     * When $SCHEDULE is true the alias removal is delayed until removeScheduledAliases is called.
+     *
      * @param mixed $record
+     * @param boolean $schedule
      * @return void
      */
-    public function removeAlias($record)
+    public function removeAlias($record, $schedule = false)
     {
-        $this->aliasing->removeAlias($this->provider->url($record));
+        if ($schedule) {
+            // delay removal until flushed
+            $this->scheduledRemoveAlias [] = $this->provider->url($record);
+        } else {
+            $this->aliasing->removeAlias($this->provider->url($record));
+        }
+    }
+
+    /**
+     * Remove scheduled aliases
+     *
+     * Example:
+     * $aliaser->removeAlias($page, true);
+     * # alias for $page is scheduled for removal, i.e. not yet actually removed
+     * $aliaser->removeScheduledAliases()
+     * # now the alias for $page is removed
+     *
+     * @return void
+     */
+    public function removeScheduledAliases()
+    {
+        foreach ($this->scheduledRemoveAlias as $alias) {
+            $this->aliasing->removeAlias($alias);
+        }
+
+        $this->scheduledRemoveAlias = array();
     }
 
     /**
