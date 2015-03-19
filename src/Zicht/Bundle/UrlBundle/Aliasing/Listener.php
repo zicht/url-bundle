@@ -122,10 +122,18 @@ class Listener
                 return;
             }
 
-            if ($this->isParamsEnabled && strpos($publicUrl, '?') === false) {
+            if ($this->isParamsEnabled) {
+                if (false !== ($queryMark = strpos($publicUrl, '?'))) {
+                    $originalUrl = $publicUrl;
+                    $publicUrl = substr($originalUrl, 0, $queryMark);
+                    $queryString = substr($originalUrl, $queryMark);;
+                } else {
+                    $queryString = null;
+                }
+
                 $parts = explode('/', $publicUrl);
                 $params = array();
-                while (strpos(end($parts), '=') !== false) {
+                while (false !== strpos(end($parts), '=')) {
                     array_push($params, array_pop($parts));
                 }
                 if ($params) {
@@ -135,7 +143,7 @@ class Listener
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
 
                     if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
-                        $this->routeRequest($event, $publicUrl);
+                        $this->routeRequest($event, $publicUrl . $queryString);
 
                         return;
                     }
@@ -192,6 +200,7 @@ class Listener
             null,
             array('REQUEST_URI' => $url)
         );
+
         $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
         $this->router->onKernelRequest($subEvent);
         $event->getRequest()->attributes = $duplicate->attributes;
