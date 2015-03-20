@@ -37,6 +37,9 @@ class Aliasing
      */
     const STRATEGY_SUFFIX       = 'suffix';
 
+    /** @var Doctrine\ORM\EntityManager  */
+    protected $manager;
+
     protected $isBatch = false;
 
     /**
@@ -99,6 +102,18 @@ class Aliasing
         return $ret;
     }
 
+    public function findAlias($publicUrl, $internalUrl)
+    {
+        $ret = null;
+
+        $params = array('public_url' => $publicUrl, 'internal_url' => $internalUrl);
+        if ($alias = $this->getRepository()->findOneBy($params)) {
+            $ret = $alias;
+        }
+
+        return $ret;
+    }
+
     /**
      * Returns the repository used for storing the aliases
      *
@@ -156,6 +171,50 @@ class Aliasing
             $ret = true;
         }
         return $ret;
+    }
+
+    /**
+     * Changes the $publicUrl of an UrlAlias to $newPublicUrl
+     * Adds a new UrlAlias with $type and point it to $newPublicUrl
+     *
+     * Given an existing UrlAlias pointing:
+     *      A -> B
+     * After this method has been run
+     *      A -> C and C -> B
+     * Where A -> C is a new UrlAlias of the type $type
+     * Where C -> B is an existing UrlAlias with the publicUrl changed
+     *
+     * @param string $newPublicUrl The new public url to move to the alias to.
+     * @param string $publicUrl    The current public url of the UrlAlias we're moving.
+     * @param string $internalUrl  The current internal url of the UrlAlias we're moving
+     * @param integer $type        The type of move we want to make. a.k.a. "mode"
+     * @return boolean Wheter the move action was successful.
+     */
+    public function moveAlias($newPublicUrl, $publicUrl, $internalUrl, $type = UrlAlias::ALIAS)
+    {
+        $moved = false;
+        if ($newPublicUrl === $publicUrl) {
+            return $moved;
+        }
+        /** @var UrlAlias $existingAlias */
+        $existingAlias = $this->findAlias($publicUrl, $internalUrl);
+        $newAliasExists = $this->hasInternalAlias($newPublicUrl, true);
+        // if the old alias exists, and the new one doesn't
+        if (!is_null($existingAlias) && is_null($newAliasExists)) {
+
+            // change the old alias
+            $existingAlias->setPublicUrl($newPublicUrl);
+            // create a new one
+            $newAlias = new UrlAlias();
+            $newAlias->setPublicUrl($publicUrl);
+            $newAlias->setInternalUrl($newPublicUrl);
+            $newAlias->setMode($type);
+
+            $this->save($existingAlias);
+            $this->save($newAlias);
+            $moved = true;
+        }
+        return $moved;
     }
 
 
@@ -225,7 +284,7 @@ class Aliasing
     {
         if ($alias = $this->hasPublicAlias($internalUrl, true)) {
             $this->manager->remove($alias);
-            $this->manager->flush();
+            $this->manager->flush($alias);
         }
     }
 }
