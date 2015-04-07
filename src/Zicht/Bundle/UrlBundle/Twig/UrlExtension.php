@@ -21,7 +21,7 @@ class UrlExtension extends Twig_Extension
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
      * @param \Zicht\Bundle\UrlBundle\Aliasing\Aliasing $aliasing
      */
-    public function __construct($provider, $aliasing)
+    public function __construct($provider, $aliasing = null)
     {
         $this->provider = $provider;
         $this->aliasing = $aliasing;
@@ -46,6 +46,9 @@ class UrlExtension extends Twig_Extension
     public function internalToPublicAliasing($html)
     {
         if (!empty($html)) {
+            if (!isset($this->aliasing)) {
+                throw new \LogicException("The aliasing property is not set. Is the url bundle's aliasing set to 'false'?");
+            }
             return $this->aliasing->internalToPublicHtml($html);
         }
     }
