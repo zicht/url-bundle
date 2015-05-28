@@ -29,9 +29,24 @@ class SuggestUrlController extends Controller
      */
     public function suggestUrlAction(Request $request)
     {
+        $pattern = $request->get('pattern');
+
+        $suggestions = $this->get('zicht_url.provider')->suggest($pattern);
+
+        usort($suggestions, function($a, $b) use ($pattern) {
+            $percentA = 0;
+            $percentB = 0;
+            similar_text($a['label'], $pattern, $percentA);
+            similar_text($b['label'], $pattern, $percentB);
+
+            return $percentB - $percentA;
+        });
+
+        $suggestions = array_slice($suggestions, 0, 15);
+
         return new JsonResponse(
             array(
-                'suggestions' => $this->get('zicht_url.provider')->suggest($request->get('pattern'))
+                'suggestions' => $suggestions
             )
         );
     }
