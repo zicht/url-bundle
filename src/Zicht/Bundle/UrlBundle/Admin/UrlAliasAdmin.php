@@ -31,8 +31,8 @@ class UrlAliasAdmin extends Admin
     {
         $listMapper
             ->add('id')
-            ->add('public_url')
-            ->add('internal_url')
+            ->add('public_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
+            ->add('internal_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
