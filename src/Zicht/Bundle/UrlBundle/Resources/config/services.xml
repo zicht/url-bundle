@@ -24,7 +24,6 @@
         <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
             <tag name="twig.extension"/>
             <argument type="service" id="zicht_url.provider" />
-            <argument type="service" id="zicht_url.aliasing" />
         </service>
         <service id="zicht_url.static_refs" class="%zicht_url.static_refs.class%">
             <argument type="service" id="router" />

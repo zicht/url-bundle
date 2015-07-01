@@ -75,10 +75,8 @@ class CreateAliasSubscriber extends BaseSubscriber
             return;
         }
 
-        $aliaser = $this->container->get($this->aliaserServiceId);
         $this->isHandling = true;
         $aliaser = $this->container->get($this->aliaserServiceId);
-
         while ($record = array_shift($this->records)) {
             $aliaser->createAlias($record);
         }
