@@ -6,12 +6,15 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpKernel\Event;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
-use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use \Symfony\Component\HttpKernel\EventListener\RouterListener;
 use \Symfony\Component\HttpKernel\HttpKernelInterface;
+
+use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
+use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Listens to incoming and outgoing requests to handle url aliasing at the kernel master request level.
@@ -60,6 +63,8 @@ class Listener
                     }
                 }
             }
+
+            $this->rewriteAliases($e->getRequest(), $response);
         }
     }
 
@@ -206,5 +211,31 @@ class Listener
         $event->getRequest()->attributes = $duplicate->attributes;
         $event->getRequest()->attributes->set('_internal_url', $url);
         $event->getRequest()->setRequestFormat($duplicate->get('_format'));
+    }
+
+
+    protected function rewriteAliases(Request $request, Response $response)
+    {
+        // for debugging purposes. Might need to be configurable.
+        if ($request->query->get('__disable_aliasing')) {
+            return;
+        }
+        if (preg_match('!^/admin/!', $request->getRequestUri())) {
+            // don't bother here.
+            return;
+        }
+        if ($response->getContent()) {
+            // match only the 'aaa/bbb' part, ignore parameters such as "charset=utf-8"
+            $contentType = preg_replace('!^([a-z]+/[a-z]+).*!', '$1', $response->headers->get('content-type', 'text/html'));
+
+            // currently, we only do text/html. Maybe this needs to be configured
+            // somehow, someday, somewhere. https://youtu.be/-BQMgCy-n6U?t=119
+
+            if ('text/html' !== $contentType) {
+                return;
+            }
+
+            $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+        }
     }
 }
