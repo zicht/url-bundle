@@ -21,6 +21,8 @@ class SitemapController extends Controller
     /**
      * Render basic sitemap from all database urls
      *
+     * @return array
+     *
      * @Route("/sitemap.{_format}", defaults={"_format": "xml"})
      * @Template
      */

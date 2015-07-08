@@ -28,7 +28,7 @@ class UrlExtension extends Twig_Extension
     }
 
     /**
-     * {inheritDoc}
+     * @{inheritDoc}
      */
     public function getFilters()
     {
@@ -42,19 +42,16 @@ class UrlExtension extends Twig_Extension
      *
      * @param string $html
      * @return string
+     *
+     * @deprecated Should no longer be used, the aliasing is now handled by a response listener.
      */
     public function internalToPublicAliasing($html)
     {
-        if (!empty($html)) {
-            if (!isset($this->aliasing)) {
-                throw new \LogicException("The aliasing property is not set. Is the url bundle's aliasing set to 'false'?");
-            }
-            return $this->aliasing->internalToPublicHtml($html);
-        }
+        return $html;
     }
 
     /**
-     * {inheritDoc}
+     * @{inheritDoc}
      */
     public function getFunctions()
     {

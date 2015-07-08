@@ -8,9 +8,6 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use \Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
-use \Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use \Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy;
-use \Zicht\Bundle\UrlBundle\Aliasing\AliasingStrategy;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use \Zicht\Bundle\UrlBundle\Url\Provider;
 use \Zicht\Util\Str;
@@ -40,6 +37,7 @@ class Aliaser
      * @param Aliasing $aliasing
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
      * @param AliasingStrategy $naming
+     * @param AccessDecisionManagerInterface $decisionManager
      */
     public function __construct(Aliasing $aliasing, Provider $provider, AliasingStrategy $naming = null, AccessDecisionManagerInterface $decisionManager = null)
     {
@@ -111,7 +109,7 @@ class Aliaser
     {
         if ($schedule) {
             // delay removal until flushed
-            $this->scheduledRemoveAlias [] = $this->provider->url($record);
+            $this->scheduledRemoveAlias []= $this->provider->url($record);
         } else {
             $this->aliasing->removeAlias($this->provider->url($record));
         }

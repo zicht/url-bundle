@@ -6,9 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Doctrine\Bundle\DoctrineBundle\Registry;
+use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use \Doctrine\ORM\EntityManager;
-use \Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -102,6 +101,13 @@ class Aliasing
         return $ret;
     }
 
+    /**
+     * Find an alias matching both public and internal url
+     *
+     * @param string $publicUrl
+     * @param string $internalUrl
+     * @return null
+     */
     public function findAlias($publicUrl, $internalUrl)
     {
         $ret = null;
@@ -319,31 +325,88 @@ class Aliasing
      */
     private function processAliasingInHtml($html, $mode)
     {
-        $doc = new \DOMDocument();
-        $doc->loadHTML($html);
-        $replacementsFrom = array();
-        $replacementsTo = array();
+        // 'ref' in the regex is no typo here. A look-back assertion must be of fixed length, so this is a minor
+        // optimization.
+        if (!preg_match_all('/(?<=(?:ref|src)=")([^"]+)/', $html, $m)) {
+            // early return: if there are no matches, no need for the rest of the processing.
+            return $html;
+        }
 
-        foreach ($doc->getElementsByTagName('a') as $element) {
-            $link = $element->getAttribute('href');
+        // sorting the items first will make the 'in_array' further down more efficient.
+        sort($m[1]);
 
-            switch ($mode) {
-                case 'internal-to-public':
-                    if ($publicAlias = $this->hasPublicAlias($link)) {
-                        $replacementsFrom [] = $link;
-                        $replacementsTo [] = $publicAlias;
-                    }
-                    break;
+        $urls = array();
+        foreach ($m[1] as $url) {
+            // exclusion (may need to configure these in the future?)
+            if (
+                   0 === strpos($url, '/bundles/')
+                || 0 === strpos($url, '/media/')
+                || 0 === strpos($url, '/js/')
+                || 0 === strpos($url, '/style/')
+                || 0 === strpos($url, '/favicon.ico')
+                || 0 === strpos($url, '#')
+                || 0 === strpos($url, 'mailto:')
+                || 0 === strpos($url, 'tel:')
+                || 0 === strpos($url, 'http:')
+                || 0 === strpos($url, 'https:')
+            ) {
+                continue;
+            }
 
-                case 'public-to-internal':
-                    if ($internalAlias = $this->hasInternalAlias($link)) {
-                        $replacementsFrom [] = $link;
-                        $replacementsTo [] = $internalAlias;
-                    }
-                    break;
+            if (!in_array($url, $urls)) {
+                $urls[]= $url;
             }
         }
 
-        return str_replace($replacementsFrom, $replacementsTo, $html);
+        if (count($urls)) {
+            return strtr($html, $this->getAliasingMap($urls, $mode));
+        }
+        return $html;
+    }
+
+    /**
+     * Returns key/value pairs of a list of url's.
+     *
+     * @param string[] $urls
+     * @param string $mode
+     * @return array
+     */
+    public function getAliasingMap($urls, $mode)
+    {
+        switch ($mode) {
+            case 'internal-to-public':
+                $from = 'internal_url';
+                $to = 'public_url';
+                break;
+            case 'public-to-internal':
+                $from = 'public_url';
+                $to = 'internal_url';
+                break;
+            default:
+                throw new InvalidArgumentException("Invalid mode supplied: {$mode}");
+        }
+
+        $connection = $this->manager->getConnection()->getWrappedConnection();
+
+        $sql = sprintf(
+            'SELECT %1$s, %2$s FROM url_alias WHERE mode=%3$d AND %1$s IN(%4$s)',
+            $from,
+            $to,
+            UrlAlias::REWRITE,
+            join(
+                ', ',
+                array_map(
+                    function($v) use($connection) {
+                        return $connection->quote($v, \PDO::PARAM_STR);
+                    },
+                    $urls
+                )
+            )
+        );
+
+        if ($stmt = $connection->query($sql)) {
+            return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
+        }
+        return array();
     }
 }

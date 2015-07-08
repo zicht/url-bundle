@@ -6,14 +6,13 @@
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Definition;
-use \Symfony\Component\DependencyInjection\Reference;
 use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * Replaces the URL provider with the aliasing version, if aliasing was enabled for the ZichtUrlBundle.
+ * Originally replaced the regular provider with a decorating one.
  *
  * @see ZichtUrlExtension::load
+ * @deprecated Should no longer be used. Remains here for BC.
  */
 class ReplaceUrlProviderServicePass implements CompilerPassInterface
 {
@@ -22,15 +21,7 @@ class ReplaceUrlProviderServicePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if ($container->hasDefinition('zicht_url.aliasing')) {
-            $def = $container->getDefinition('zicht_url.provider.delegator');
-            $container->setDefinition('zicht_url.provider.real', $def);
-            $def = new Definition('Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator');
-            $def->addArgument(new Reference('zicht_url.aliasing'));
-            $def->addMethodCall('addProvider', array(new Reference('zicht_url.provider.real')));
-            $container->setDefinition('zicht_url.provider.delegator', $def);
-        } else {
-            $container->setAlias('zicht_url.provider.real', 'zicht_url.provider.delegator');
-        }
+        // TODO This is here for BC, to be removed whenever the BC for the ProviderDecorator for aliasing is removed.
+        $container->setAlias('zicht_url.provider.real', 'zicht_url.provider.delegator');
     }
 }

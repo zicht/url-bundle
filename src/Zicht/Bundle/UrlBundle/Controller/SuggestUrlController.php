@@ -12,6 +12,7 @@ use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Response;
 
 /**
  * Mounted on the admin path for security.
@@ -37,9 +38,12 @@ class SuggestUrlController extends Controller
     }
 
     /**
+     * Lists all links available in the url provider.
+     *
+     * @return Response
      * @Route("/url/suggest/editor")
      */
-    public function linkListAction(Request $request)
+    public function linkListAction()
     {
         return new JsonResponse(
             $this->get('zicht_url.provider')->all($this->get('security.context'))

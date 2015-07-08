@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Doctrine;
 
 use \Doctrine\Common\EventSubscriber;
 use \Doctrine\ORM\Event\LifecycleEventArgs;
+use \Symfony\Component\DependencyInjection\ContainerInterface;
 use \Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
@@ -39,10 +40,12 @@ class UnaliasSubscriber implements EventSubscriber
     protected $container;
 
     /**
-     * @param $container
+     * Constructor
+     *
+     * @param ContainerInterface $container
      * @param array $config
      */
-    function __construct($container, array $config)
+    public function __construct($container, array $config)
     {
         $this->container = $container;
         $this->config = $config;
@@ -69,7 +72,7 @@ class UnaliasSubscriber implements EventSubscriber
      */
     public function preUpdate(LifecycleEventArgs $args)
     {
-        if($this->publicToInternalHtmlListener($args) > 0) {
+        if ($this->publicToInternalHtmlListener($args) > 0) {
             // we must recompute the entity change set, otherwise none of our changes will be applied
             $entity = $args->getEntity();
             $entityManager = $args->getEntityManager();
@@ -82,6 +85,7 @@ class UnaliasSubscriber implements EventSubscriber
      * The configured fields for configured entities are passed through the publicToInternalHtml filter
      *
      * @param LifecycleEventArgs $args
+     * @return int
      */
     protected function publicToInternalHtmlListener(LifecycleEventArgs $args)
     {
@@ -91,15 +95,17 @@ class UnaliasSubscriber implements EventSubscriber
 
         $changes = 0;
         $entity = $args->getEntity();
-        $class = get_class($entity);
-        if (array_key_exists($class, $entities)) {
-            foreach ($entities[$class] as $field) {
-                $aliased = $this->getFromEntity($entity, $field);
-                if (count($aliased)) {
-                    $unaliased = $aliasing->publicToInternalHtml($aliased);
-                    if ($aliased !== $unaliased) {
-                        $this->setIntoEntity($entity, $field, $unaliased);
-                        $changes += 1;
+
+        foreach ($entities as $className => $fields) {
+            if ($entity instanceof $className) {
+                foreach ($fields as $field) {
+                    $aliased = $this->getFromEntity($entity, $field);
+                    if (count($aliased)) {
+                        $unaliased = $aliasing->publicToInternalHtml($aliased);
+                        if ($aliased !== $unaliased) {
+                            $this->setIntoEntity($entity, $field, $unaliased);
+                            $changes += 1;
+                        }
                     }
                 }
             }
@@ -110,9 +116,9 @@ class UnaliasSubscriber implements EventSubscriber
     /**
      * Tries to get the value of $field out of $entity
      *
-     * @param $entity
-     * @param $field
-     * @return mixed|null
+     * @param object $entity
+     * @param string $field
+     * @return mixed
      */
     protected function getFromEntity($entity, $field)
     {
@@ -130,9 +136,9 @@ class UnaliasSubscriber implements EventSubscriber
     /**
      * Tries to set $html to the $field out of $entity
      *
-     * @param $entity
-     * @param $field
-     * @param $html
+     * @param object $entity
+     * @param string $field
+     * @param string $html
      * @return mixed
      */
     private function setIntoEntity($entity, $field, $html)
@@ -141,7 +147,7 @@ class UnaliasSubscriber implements EventSubscriber
         $setters = array(sprintf('set%s', ucfirst($field)));
         foreach ($setters as $setter) {
             if (method_exists($entity, $setter)) {
-                return call_user_func(array($entity, $setter), $html);
+                call_user_func(array($entity, $setter), $html);
             }
         }
     }
