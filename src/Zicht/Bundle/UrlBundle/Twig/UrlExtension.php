@@ -28,7 +28,7 @@ class UrlExtension extends Twig_Extension
     }
 
     /**
-     * {inheritDoc}
+     * @{inheritDoc}
      */
     public function getFilters()
     {
@@ -51,7 +51,7 @@ class UrlExtension extends Twig_Extension
     }
 
     /**
-     * {inheritDoc}
+     * @{inheritDoc}
      */
     public function getFunctions()
     {

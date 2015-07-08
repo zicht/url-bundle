@@ -6,10 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Doctrine\Bundle\DoctrineBundle\Registry;
 use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use \Doctrine\ORM\EntityManager;
-use \Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -103,6 +101,13 @@ class Aliasing
         return $ret;
     }
 
+    /**
+     * Find an alias matching both public and internal url
+     *
+     * @param string $publicUrl
+     * @param string $internalUrl
+     * @return null
+     */
     public function findAlias($publicUrl, $internalUrl)
     {
         $ret = null;

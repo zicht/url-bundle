@@ -40,6 +40,8 @@ class UnaliasSubscriber implements EventSubscriber
     protected $container;
 
     /**
+     * Constructor
+     *
      * @param ContainerInterface $container
      * @param array $config
      */
@@ -83,6 +85,7 @@ class UnaliasSubscriber implements EventSubscriber
      * The configured fields for configured entities are passed through the publicToInternalHtml filter
      *
      * @param LifecycleEventArgs $args
+     * @return int
      */
     protected function publicToInternalHtmlListener(LifecycleEventArgs $args)
     {
@@ -113,9 +116,9 @@ class UnaliasSubscriber implements EventSubscriber
     /**
      * Tries to get the value of $field out of $entity
      *
-     * @param $entity
-     * @param $field
-     * @return mixed|null
+     * @param object $entity
+     * @param string $field
+     * @return mixed
      */
     protected function getFromEntity($entity, $field)
     {
@@ -133,9 +136,9 @@ class UnaliasSubscriber implements EventSubscriber
     /**
      * Tries to set $html to the $field out of $entity
      *
-     * @param $entity
-     * @param $field
-     * @param $html
+     * @param object $entity
+     * @param string $field
+     * @param string $html
      * @return mixed
      */
     private function setIntoEntity($entity, $field, $html)
@@ -144,7 +147,7 @@ class UnaliasSubscriber implements EventSubscriber
         $setters = array(sprintf('set%s', ucfirst($field)));
         foreach ($setters as $setter) {
             if (method_exists($entity, $setter)) {
-                return call_user_func(array($entity, $setter), $html);
+                call_user_func(array($entity, $setter), $html);
             }
         }
     }

@@ -22,6 +22,7 @@ abstract class BaseSubscriber implements EventSubscriber
      * @param Container $container
      * @param string $aliaserServiceId
      * @param string $className
+     * @param boolean $enabled
      */
     public function __construct(Container $container, $aliaserServiceId, $className, $enabled = true)
     {
@@ -36,6 +37,12 @@ abstract class BaseSubscriber implements EventSubscriber
     }
 
 
+    /**
+     * Enable or disable the subscriber
+     *
+     * @param boolean $enabled
+     * @return void
+     */
     final public function setEnabled($enabled)
     {
         $this->enabled = $enabled;

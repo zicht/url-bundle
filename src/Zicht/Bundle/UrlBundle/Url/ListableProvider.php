@@ -17,6 +17,9 @@ interface ListableProvider
      * List all URL's
      *
      * The securitycontext must be passed so it is available for the provider to check access rights.
+     *
+     * @param SecurityContextInterface $securityContextInterface
+     * @return array
      */
     public function all(SecurityContextInterface $securityContextInterface);
 }

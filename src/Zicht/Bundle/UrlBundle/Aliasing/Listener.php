@@ -221,6 +221,13 @@ class Listener
     }
 
 
+    /**
+     * Rewrite URL's from internal naming to public aliases in the response.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
     protected function rewriteResponse(Request $request, Response $response)
     {
         // for debugging purposes. Might need to be configurable.
