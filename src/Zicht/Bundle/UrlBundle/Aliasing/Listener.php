@@ -197,20 +197,26 @@ class Listener
      */
     public function routeRequest($event, $url)
     {
-        $duplicate = $event->getRequest()->duplicate(
-            null,
-            null,
-            null,
-            null,
-            null,
-            array('REQUEST_URI' => $url)
+        $event->getRequest()->initialize(
+            $event->getRequest()->query->all(),
+            $event->getRequest()->request->all(),
+            $event->getRequest()->attributes->all(),
+            $event->getRequest()->cookies->all(),
+            $event->getRequest()->files->all(),
+            // override the REQUEST_URI
+            array(
+                'REQUEST_URI' => $url,
+                'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI')
+            ) + $event->getRequest()->server->all(),
+            $event->getRequest()->getContent()
         );
 
-        $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
+        $subEvent = new Event\GetResponseEvent(
+            $event->getKernel(),
+            $event->getRequest(),
+            $event->getRequestType()
+        );
         $this->router->onKernelRequest($subEvent);
-        $event->getRequest()->attributes = $duplicate->attributes;
-        $event->getRequest()->attributes->set('_internal_url', $url);
-        $event->getRequest()->setRequestFormat($duplicate->get('_format'));
     }
 
 
@@ -218,6 +224,10 @@ class Listener
     {
         // for debugging purposes. Might need to be configurable.
         if ($request->query->get('__disable_aliasing')) {
+            return;
+        }
+        if (null !== $request->server->get('ORIGINAL_REQUEST_URI')) {
+            // seemingly already rewritten.
             return;
         }
         if (preg_match('!^/admin/!', $request->getRequestUri())) {
