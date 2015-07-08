@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use \Sonata\AdminBundle\Datagrid\DatagridMapper;
 use \Sonata\AdminBundle\Datagrid\ListMapper;
 use \Sonata\AdminBundle\Show\ShowMapper;
 use \Sonata\AdminBundle\Admin\Admin;
@@ -44,7 +44,7 @@ class UrlAliasAdmin extends Admin
     }
 
     /**
-     * @param DatagridMapper $filter
+     * @{inheritDoc}
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {

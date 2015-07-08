@@ -141,7 +141,14 @@ class DbStaticProvider implements Provider
         }
     }
 
-    public function setFallbackLocale($locale) {
+    /**
+     * Fallback locale to use whenever the reference for a specific locale is not set.
+     *
+     * @param string $locale
+     * @return void
+     */
+    public function setFallbackLocale($locale)
+    {
         $this->fallback_locale = $locale;
     }
 }

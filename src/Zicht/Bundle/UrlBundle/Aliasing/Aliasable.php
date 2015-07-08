@@ -5,8 +5,15 @@
  */
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-
+/**
+ * Interface Aliasable provides an interface for customized aliases.
+ */
 interface Aliasable
 {
+    /**
+     * Returns the title to be used for aliasing purposes
+     *
+     * @return mixed
+     */
     public function getAliasTitle();
 }
