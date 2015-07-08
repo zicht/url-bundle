@@ -7,7 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
+use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use \Doctrine\ORM\EntityManager;
 use \Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
@@ -359,7 +359,13 @@ class Aliasing
         return $html;
     }
 
-
+    /**
+     * Returns key/value pairs of a list of url's.
+     *
+     * @param string[] $urls
+     * @param string $mode
+     * @return array
+     */
     public function getAliasingMap($urls, $mode)
     {
         switch ($mode) {

@@ -64,7 +64,7 @@ class Listener
                 }
             }
 
-            $this->rewriteAliases($e->getRequest(), $response);
+            $this->rewriteResponse($e->getRequest(), $response);
         }
     }
 
@@ -148,7 +148,7 @@ class Listener
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
 
                     if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
-                        $this->routeRequest($event, $publicUrl . $queryString);
+                        $this->rewriteRequest($event, $publicUrl . $queryString);
 
                         return;
                     }
@@ -159,7 +159,7 @@ class Listener
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
-                        $this->routeRequest($event, $url->getInternalUrl());
+                        $this->rewriteRequest($event, $url->getInternalUrl());
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
@@ -179,7 +179,7 @@ class Listener
 
                 $publicUrl = substr($publicUrl, 0, strpos($publicUrl, '?'));
                 if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, UrlAlias::REWRITE)) {
-                    $this->routeRequest($event, $url->getInternalUrl());
+                    $this->rewriteRequest($event, $url->getInternalUrl());
 
                     return;
                 }
@@ -195,22 +195,23 @@ class Listener
      * @param string $url
      * @return void
      */
-    public function routeRequest($event, $url)
+    public function rewriteRequest($event, $url)
     {
+        // override the request's REQUEST_URI
         $event->getRequest()->initialize(
             $event->getRequest()->query->all(),
             $event->getRequest()->request->all(),
             $event->getRequest()->attributes->all(),
             $event->getRequest()->cookies->all(),
             $event->getRequest()->files->all(),
-            // override the REQUEST_URI
             array(
-                'REQUEST_URI' => $url,
-                'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI')
+                'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI'),
+                'REQUEST_URI' => $url
             ) + $event->getRequest()->server->all(),
             $event->getRequest()->getContent()
         );
 
+        // route the request
         $subEvent = new Event\GetResponseEvent(
             $event->getKernel(),
             $event->getRequest(),
@@ -220,7 +221,7 @@ class Listener
     }
 
 
-    protected function rewriteAliases(Request $request, Response $response)
+    protected function rewriteResponse(Request $request, Response $response)
     {
         // for debugging purposes. Might need to be configurable.
         if ($request->query->get('__disable_aliasing')) {
