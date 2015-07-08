@@ -234,10 +234,6 @@ class Listener
         if ($request->query->get('__disable_aliasing')) {
             return;
         }
-        if (null !== $request->server->get('ORIGINAL_REQUEST_URI')) {
-            // seemingly already rewritten.
-            return;
-        }
         if (preg_match('!^/admin/!', $request->getRequestUri())) {
             // don't bother here.
             return;
