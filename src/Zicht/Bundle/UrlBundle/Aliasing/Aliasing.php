@@ -327,16 +327,17 @@ class Aliasing
     {
         // 'ref' in the regex is no typo here. A look-back assertion must be of fixed length, so this is a minor
         // optimization.
-        if (!preg_match_all('/(?<=(?:ref|src)=")([^?"]+)/', $html, $m)) {
+        if (!preg_match_all('/(?<=(?:ref|src)=)(")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
             return $html;
         }
 
         // sorting the items first will make the 'in_array' further down more efficient.
-        sort($m[1]);
 
-        $urls = array();
-        foreach ($m[1] as $url) {
+        $replacements = array();
+        foreach ($m as $match) {
+            list($src, $open, $url, $close) = $match;
+
             // exclusion (may need to configure these in the future?)
             if (
                    0 === strpos($url, '/bundles/')
@@ -353,13 +354,18 @@ class Aliasing
                 continue;
             }
 
-            if (!in_array($url, $urls)) {
-                $urls[]= $url;
+            if (!isset($replacements[$url])) {
+                $replacements[$url]= array($src, "$open%s$close");
             }
         }
 
-        if (count($urls)) {
-            return strtr($html, $this->getAliasingMap($urls, $mode));
+        if (count($replacements)) {
+            $replacementMap = array();
+            foreach ($this->getAliasingMap(array_keys($replacements), $mode) as $url => $alias) {
+                $replacementMap[$replacements[$url][0]]= sprintf($replacements[$url][1], $alias);
+            }
+
+            return strtr($html, $replacementMap);
         }
         return $html;
     }
