@@ -327,7 +327,7 @@ class Aliasing
     {
         // 'ref' in the regex is no typo here. A look-back assertion must be of fixed length, so this is a minor
         // optimization.
-        if (!preg_match_all('/(?<=(?:ref|src)=")([^"]+)/', $html, $m)) {
+        if (!preg_match_all('/(?<=(?:ref|src)=")([^?"]+)/', $html, $m)) {
             // early return: if there are no matches, no need for the rest of the processing.
             return $html;
         }
