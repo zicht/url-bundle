@@ -80,7 +80,7 @@ class UriParser implements Translator
         $ret = array();
         foreach (explode($this->_separators['param'], $uri) as $params) {
             if ($params) {
-                list($key, $values) = explode($this->_separators['key_value'], $params, 2);
+                @list($key, $values) = explode($this->_separators['key_value'], $params, 2);
                 $external = $key;
                 if ($internal = $this->translateKeyInput($key)) {
                     $key = $internal;
