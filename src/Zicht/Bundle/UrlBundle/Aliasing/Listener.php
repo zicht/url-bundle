@@ -57,12 +57,14 @@ class Listener
                 if (parse_url($location, PHP_URL_SCHEME)) {
                     if (substr($location, 0, strlen($absolutePrefix)) === $absolutePrefix) {
                         $relative = substr($location, strlen($absolutePrefix));
+                    } else {
+                        $relative = null;
                     }
                 } else {
                     $relative = $location;
                 }
 
-                if ($url = $this->aliasing->hasPublicAlias($relative)) {
+                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
                     $rewrite = $absolutePrefix . $url;
                     $response->headers->set('location', $rewrite);
                 }
