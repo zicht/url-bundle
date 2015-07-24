@@ -63,18 +63,6 @@ class ZichtUrlExtensionTest extends \PHPUnit_Framework_TestCase
                 array('zicht_url.logging' => false)
             ),
             array(
-                array('caching' => true),
-                array('zicht_url.cache_wrapper' => false) // cache should not be loaded if url aliasing is not enabled
-            ),
-            array(
-                array('caching' => true, 'aliasing' => true),
-                array('zicht_url.cache_wrapper' => true)
-            ),
-            array(
-                array('caching' => false),
-                array('zicht_url.cache_wrapper' => false)
-            ),
-            array(
                 array('admin' => false),
                 array('zicht_url.admin.url_alias' => false)
             ),

@@ -52,15 +52,21 @@ class Listener
 
             // only do anything if the response has a Location header
             if (false !== ($location = $response->headers->get('location', false))) {
-                $req = $e->getRequest()->getSchemeAndHttpHost();
-                if (substr($location, 0, strlen($req)) === $req) {
-                    $relative = substr($location, strlen($req));
+                $absolutePrefix = $e->getRequest()->getSchemeAndHttpHost();
 
-                    if ($url = $this->aliasing->hasPublicAlias($relative)) {
-                        $rewrite = $req . $url;
-                        $response->headers->set('location', $rewrite);
-                        $response->setContent(str_replace($location, $rewrite, $response->getContent()));
+                if (parse_url($location, PHP_URL_SCHEME)) {
+                    if (substr($location, 0, strlen($absolutePrefix)) === $absolutePrefix) {
+                        $relative = substr($location, strlen($absolutePrefix));
+                    } else {
+                        $relative = null;
                     }
+                } else {
+                    $relative = $location;
+                }
+
+                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
+                    $rewrite = $absolutePrefix . $url;
+                    $response->headers->set('location', $rewrite);
                 }
             }
 
