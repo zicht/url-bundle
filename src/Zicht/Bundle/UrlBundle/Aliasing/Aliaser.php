@@ -61,13 +61,14 @@ class Aliaser
     public function createAlias($record)
     {
         static $recursionProtection = array();
-        $ret = false;
-
         $internalUrl = $this->provider->url($record);
         if (in_array($internalUrl, $recursionProtection)) {
-            return $ret;
+            return false;
         }
+        $recursionProtection[]= $internalUrl;
 
+
+        $ret = false;
         if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
