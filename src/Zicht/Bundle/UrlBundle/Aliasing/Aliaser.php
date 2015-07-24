@@ -66,31 +66,25 @@ class Aliaser
         $ret = false;
 
         $internalUrl = $this->provider->url($record);
+        if (in_array($internalUrl, $recursionProtection)) {
+            return $ret;
+        }
 
         if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
-            $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
-            if ($internalUrl == $this->aliasing->hasInternalAlias($generatedAlias)) {
-                // apparently there is already a publicUrl ($generatedAlias) that is associated with $record
-                // hence, no need to create a new alias.
-                return $ret;
-            }
+            // if the url already is aliased, no need to regenerate.
+            if (!$this->aliasing->hasPublicAlias($internalUrl)) {
+                $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
 
-            // if we 've already stored this $generatedAlias, we can safely ignore this call
-            if (isset($recursionProtection[$internalUrl]) && $recursionProtection[$internalUrl] == $generatedAlias) {
-                return $ret;
-            }
-
-            $recursionProtection[$internalUrl] = $generatedAlias;
-
-            if (null !== $generatedAlias) {
-                $ret = $this->aliasing->addAlias(
-                    $generatedAlias,
-                    $internalUrl,
-                    UrlAlias::REWRITE,
-                    Aliasing::STRATEGY_SUFFIX
-                );
+                if (null !== $generatedAlias) {
+                    $ret = $this->aliasing->addAlias(
+                        $generatedAlias,
+                        $internalUrl,
+                        UrlAlias::REWRITE,
+                        Aliasing::STRATEGY_SUFFIX
+                    );
+                }
             }
         }
 
