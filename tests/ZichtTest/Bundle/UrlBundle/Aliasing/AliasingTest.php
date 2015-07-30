@@ -10,6 +10,12 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 class AliasingTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Aliasing
+     */
+    public $aliasing;
+
+
     public function setUp()
     {
         $this->repos = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface')
