@@ -325,9 +325,7 @@ class Aliasing
      */
     private function processAliasingInHtml($html, $mode)
     {
-        // 'ref' in the regex is no typo here. A look-back assertion must be of fixed length, so this is a minor
-        // optimization.
-        if (!preg_match_all('/(?<=(?:ref|src)=)(")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
+        if (!preg_match_all('/(?:(?<=href=)|(?<=src=)|(?<=action=))(")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
             return $html;
         }
