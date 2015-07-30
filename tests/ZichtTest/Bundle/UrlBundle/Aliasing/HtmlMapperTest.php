@@ -36,6 +36,8 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
             ['<a href="/foo">', '<a href="/bar">', ['/foo' => '/bar']],
             ['<img src="/foo">', '<img src="/bar">', ['/foo' => '/bar']],
             ['<form action="/foo">', '<form action="/bar">', ['/foo' => '/bar']],
+
+            // this case is known to fail currently: Please fix it if you encounter it :P (<=== Gerard said this)
             ['<form action="/foo"><img alt="/foo">', '<form action="/bar"><img alt="/foo">', ['/foo' => '/bar']],
 
             // test cases that should not do any processing get the last 'false' parameter:
