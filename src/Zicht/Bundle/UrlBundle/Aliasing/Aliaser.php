@@ -60,12 +60,11 @@ class Aliaser
      */
     public function createAlias($record)
     {
-        static $recursionProtection = array();
         $internalUrl = $this->provider->url($record);
-        if (in_array($internalUrl, $recursionProtection)) {
+        if (in_array($internalUrl, $this->recursionProtection)) {
             return false;
         }
-        $recursionProtection[]= $internalUrl;
+        $this->recursionProtection[]= $internalUrl;
 
 
         $ret = false;
@@ -89,6 +88,7 @@ class Aliaser
 
         return $ret;
     }
+    private $recursionProtection = array();
 
 
     /**
