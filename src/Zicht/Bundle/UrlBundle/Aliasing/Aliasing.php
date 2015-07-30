@@ -302,7 +302,7 @@ class Aliasing
      */
     public function internalToPublicHtml($html)
     {
-        return $this->processAliasingInHtml($html, 'internal-to-public');
+        return HtmlMapper::processAliasingInHtml($html, 'internal-to-public', $this);
     }
 
     /**
@@ -313,60 +313,9 @@ class Aliasing
      */
     public function publicToInternalHtml($html)
     {
-        return $this->processAliasingInHtml($html, 'public-to-internal');
+        return HtmlMapper::processAliasingInHtml($html, 'public-to-internal', $this);
     }
 
-    /**
-     * Helper function doing the actual work behind internalToPublicHtml and publicToInternalHtml
-     *
-     * @param string $html
-     * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
-     * @return string
-     */
-    private function processAliasingInHtml($html, $mode)
-    {
-        if (!preg_match_all('/(?:(?<=href=)|(?<=src=)|(?<=action=))(")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
-            // early return: if there are no matches, no need for the rest of the processing.
-            return $html;
-        }
-
-        // sorting the items first will make the 'in_array' further down more efficient.
-
-        $replacements = array();
-        foreach ($m as $match) {
-            list($src, $open, $url, $close) = $match;
-
-            // exclusion (may need to configure these in the future?)
-            if (
-                   0 === strpos($url, '/bundles/')
-                || 0 === strpos($url, '/media/')
-                || 0 === strpos($url, '/js/')
-                || 0 === strpos($url, '/style/')
-                || 0 === strpos($url, '/favicon.ico')
-                || 0 === strpos($url, '#')
-                || 0 === strpos($url, 'mailto:')
-                || 0 === strpos($url, 'tel:')
-                || 0 === strpos($url, 'http:')
-                || 0 === strpos($url, 'https:')
-            ) {
-                continue;
-            }
-
-            if (!isset($replacements[$url])) {
-                $replacements[$url]= array($src, "$open%s$close");
-            }
-        }
-
-        if (count($replacements)) {
-            $replacementMap = array();
-            foreach ($this->getAliasingMap(array_keys($replacements), $mode) as $url => $alias) {
-                $replacementMap[$replacements[$url][0]]= sprintf($replacements[$url][1], $alias);
-            }
-
-            return strtr($html, $replacementMap);
-        }
-        return $html;
-    }
 
     /**
      * Returns key/value pairs of a list of url's.
