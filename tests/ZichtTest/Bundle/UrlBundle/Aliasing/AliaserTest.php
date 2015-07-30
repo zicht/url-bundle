@@ -6,11 +6,29 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
+use Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use \Zicht\Bundle\UrlBundle\Aliasing\ProviderDecorator;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
 
 class AliaserTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Aliasing
+     */
+    public $aliasing;
+
+    /**
+     * @var Aliaser
+     */
+    public $aliaser;
+
+    /**
+     * @var Provider
+     */
+    public $provider;
+
     public function setUp()
     {
         $this->aliasing = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')
