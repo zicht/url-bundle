@@ -342,7 +342,7 @@ class Aliasing
                 break;
 
             default: // i.e. html
-                $expression = '/(?:(?<=href=)|(?<=src=)|(?<=action=))(")([^?#"]+)([?"])/';
+                $expression = '/(?:(?<=href=)|(?<=src=)|(?<=action=))(?:")([^?#"]+)(?:[?"])/';
                 break;
         }
 
