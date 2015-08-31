@@ -295,6 +295,17 @@ class Aliasing
     }
 
     /**
+     * Takes XML text and replaces all <loc>INTERNAL</loc> into <loc>PUBLIC</loc>.
+     *
+     * @param string $html
+     * @return string
+     */
+    public function internalToPublicXml($html)
+    {
+        return $this->processAliasing($html, 'internal-to-public', 'xml');
+    }
+
+    /**
      * Takes HTML text and replaces all <a href='INTERNAL'> into <a href='PUBLIC'>.
      *
      * @param string $html
@@ -302,7 +313,7 @@ class Aliasing
      */
     public function internalToPublicHtml($html)
     {
-        return $this->processAliasingInHtml($html, 'internal-to-public');
+        return $this->processAliasing($html, 'internal-to-public', 'html');
     }
 
     /**
@@ -313,7 +324,7 @@ class Aliasing
      */
     public function publicToInternalHtml($html)
     {
-        return $this->processAliasingInHtml($html, 'public-to-internal');
+        return $this->processAliasing($html, 'public-to-internal', 'html');
     }
 
     /**
@@ -323,20 +334,30 @@ class Aliasing
      * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
      * @return string
      */
-    private function processAliasingInHtml($html, $mode)
+    private function processAliasing($html, $mode, $type)
     {
+        switch ($type) {
+            case 'xml':
+                $expression = '/<loc>(?:https?:\/\/[^\/]+)([^#?]+?)(?:[#?].*)?<\/loc>/';
+                break;
+
+            default: // i.e. html
+                $expression = '/(?:(?<=href=)|(?<=src=)|(?<=action=))(")([^?#"]+)([?"])/';
+                break;
+        }
+
         // 'ref' in the regex is no typo here. A look-back assertion must be of fixed length, so this is a minor
         // optimization.
-        if (!preg_match_all('/(?<=(?:ref|src)=")([^"]+)/', $html, $m)) {
+        if (!preg_match_all($expression, $html, $matches)) {
             // early return: if there are no matches, no need for the rest of the processing.
             return $html;
         }
 
         // sorting the items first will make the 'in_array' further down more efficient.
-        sort($m[1]);
+        sort($matches[1]);
 
         $urls = array();
-        foreach ($m[1] as $url) {
+        foreach ($matches[1] as $url) {
             // exclusion (may need to configure these in the future?)
             if (
                    0 === strpos($url, '/bundles/')

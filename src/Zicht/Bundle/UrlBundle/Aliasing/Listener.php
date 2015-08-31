@@ -251,11 +251,15 @@ class Listener
             // currently, we only do text/html. Maybe this needs to be configured
             // somehow, someday, somewhere. https://youtu.be/-BQMgCy-n6U?t=119
 
-            if ('text/html' !== $contentType) {
-                return;
-            }
+            switch ($contentType) {
+                case 'text/html':
+                    $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+                    break;
 
-            $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+                case 'text/xml':
+                    $response->setContent($this->aliasing->internalToPublicXml($response->getContent()));
+                    break;
+            }
         }
     }
 }

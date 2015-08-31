@@ -6,10 +6,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Controller;
 
-
-use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class SitemapController
@@ -24,11 +23,15 @@ class SitemapController extends Controller
      * @return array
      *
      * @Route("/sitemap.{_format}", defaults={"_format": "xml"})
-     * @Template
      */
     public function sitemapAction()
     {
         $urls = $this->get('zicht_url.sitemap_provider')->all($this->get('security.context'));
-        return array('urls' => $urls);
+        $content = $this->renderView('ZichtUrlBundle:Sitemap:sitemap.xml.twig', array('urls' => $urls));
+        return new Response(
+            $content,
+            200,
+            array('Content-Type' => 'text/xml')
+        );
     }
 }
