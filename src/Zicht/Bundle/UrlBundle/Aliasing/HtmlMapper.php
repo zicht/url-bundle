@@ -25,7 +25,7 @@ final class HtmlMapper
      */
     public static function processAliasingInHtml($html, $mode, Aliasing $aliaser)
     {
-        if (!preg_match_all('/(?:(?<=href=)|(?<=src=)|(?<=action=))(")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
+        if (!preg_match_all('/((?:href|src|action)=")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
             return $html;
         }
@@ -34,7 +34,7 @@ final class HtmlMapper
 
         $replacements = array();
         foreach ($m as $match) {
-            list($src, $open, $url, $close) = $match;
+            list(,$prefix, $url, $close) = $match;
 
             // exclusion (may need to configure these in the future?)
             if (
@@ -53,14 +53,17 @@ final class HtmlMapper
             }
 
             if (!isset($replacements[$url])) {
-                $replacements[$url]= array($src, "$open%s$close");
+                $replacements[$url]= [];
             }
+            $replacements[$url][]= array($match[0], "$prefix%s$close");
         }
 
         if (count($replacements)) {
             $replacementMap = array();
             foreach ($aliaser->getAliasingMap(array_keys($replacements), $mode) as $url => $alias) {
-                $replacementMap[$replacements[$url][0]]= sprintf($replacements[$url][1], $alias);
+                foreach ($replacements[$url] as $pair) {
+                    $replacementMap[$pair[0]]= sprintf($pair[1], $alias);
+                }
             }
 
             return strtr($html, $replacementMap);
