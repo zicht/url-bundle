@@ -52,10 +52,20 @@ final class HtmlMapper
                 continue;
             }
 
+            if (preg_match('!(.*?)((/[^=/]+=[^=/]+)+/?)$!', $url, $m)) {
+                $close = $m[2] . $close;
+                $url = $m[1];
+            }
+
             if (!isset($replacements[$url])) {
                 $replacements[$url]= [];
             }
-            $replacements[$url][]= array($match[0], "$prefix%s$close");
+            $replacements[$url][]= [
+                $match[0],
+                str_replace('%', '%%', $prefix)
+                . '%s'
+                . str_replace('%', '%%', $close)
+            ];
         }
 
         if (count($replacements)) {
