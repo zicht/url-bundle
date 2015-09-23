@@ -255,7 +255,7 @@ class Listener
                 return;
             }
 
-            $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+            $response->setContent($this->aliasing->internalToPublicHtml($response->getContent(), $request));
         }
     }
 }

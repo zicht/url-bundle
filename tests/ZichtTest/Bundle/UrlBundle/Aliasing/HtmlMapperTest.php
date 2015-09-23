@@ -6,7 +6,7 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-
+use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\HtmlMapper;
 
 class HtmlMapperTest extends \PHPUnit_Framework_TestCase
@@ -20,19 +20,22 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
     public function testInternalToPublicAliasing($input, $expectedOutput, $aliasingMap, $expectsProcessingToBeExecuted = true)
     {
         $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $request = Request::create('http://zicht.nl/foo');
 
         if ($expectsProcessingToBeExecuted) {
             $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
-            $this->assertEquals($expectedOutput, HtmlMapper::processAliasingInHtml($input, 'internal-to-public', $aliaser));
+            $this->assertEquals($expectedOutput, HtmlMapper::processAliasingInHtml($input, 'internal-to-public', $aliaser, $request));
         } else {
             $aliaser->expects($this->never())->method('getAliasingMap');
-            HtmlMapper::processAliasingInHtml($input, 'internal-to-public', $aliaser);
+            HtmlMapper::processAliasingInHtml($input, 'internal-to-public', $aliaser, $request);
         }
     }
 
     public function aliasingTestCases()
     {
         return [
+            ['<meta property="og:url" content="http://zicht.nl/foo">', '<meta property="og:url" content="http://zicht.nl/bar">', ['/foo' => '/bar']],
+            ['<meta property="og:url" content="https://zicht.nl/foo">', '<meta property="og:url" content="https://zicht.nl/bar">', ['/foo' => '/bar']],
             ['<a href="/foo">', '<a href="/bar">', ['/foo' => '/bar']],
             ['<img src="/foo">', '<img src="/bar">', ['/foo' => '/bar']],
             ['<form action="/foo">', '<form action="/bar">', ['/foo' => '/bar']],

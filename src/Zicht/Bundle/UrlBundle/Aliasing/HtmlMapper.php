@@ -5,6 +5,7 @@
  */
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class HtmlMapper
@@ -21,9 +22,10 @@ final class HtmlMapper
      * @param string $html
      * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
      * @param Aliasing $aliaser
+     * @param Request $request
      * @return string
      */
-    public static function processAliasingInHtml($html, $mode, Aliasing $aliaser)
+    public static function processAliasingInHtml($html, $mode, Aliasing $aliaser, Request $request)
     {
         if (!preg_match_all('/((?:href|src|action|content)=")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
@@ -35,6 +37,13 @@ final class HtmlMapper
         $replacements = array();
         foreach ($m as $match) {
             list(,$prefix, $url, $close) = $match;
+
+            $isAbsoluteAndSameDomain = false;
+            if (preg_match('!(^https?://' . $request->getHttpHost() . ')(.*)$!', $url, $mm)) {
+                $isAbsoluteAndSameDomain = true;
+                $prefix .= $mm[1];
+                $url = $mm[2];
+            }
 
             // exclusion (may need to configure these in the future?)
             if (
@@ -52,6 +61,7 @@ final class HtmlMapper
                 continue;
             }
 
+            // check for arguments and remove them
             if (preg_match('!(.*?)((/[^=/]+=[^=/]+)+/?)$!', $url, $m)) {
                 $close = $m[2] . $close;
                 $url = $m[1];
@@ -60,11 +70,12 @@ final class HtmlMapper
             if (!isset($replacements[$url])) {
                 $replacements[$url]= [];
             }
+
+            // Build a formatted string by replacing all instances of the found URL's
+            // with "%s" as a placeholder.
             $replacements[$url][]= [
                 $match[0],
-                str_replace('%', '%%', $prefix)
-                . '%s'
-                . str_replace('%', '%%', $close)
+                str_replace('%', '%%', $prefix) . '%s' . str_replace('%', '%%', $close)
             ];
         }
 

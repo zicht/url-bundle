@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use \Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -298,11 +299,12 @@ class Aliasing
      * Takes HTML text and replaces all <a href='INTERNAL'> into <a href='PUBLIC'>.
      *
      * @param string $html
+     * @param Request $request
      * @return string
      */
-    public function internalToPublicHtml($html)
+    public function internalToPublicHtml($html, $request)
     {
-        return HtmlMapper::processAliasingInHtml($html, 'internal-to-public', $this);
+        return HtmlMapper::processAliasingInHtml($html, 'internal-to-public', $this, $request);
     }
 
     /**
