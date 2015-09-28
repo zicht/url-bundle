@@ -6,10 +6,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Service that contains aliasing information
@@ -37,7 +36,12 @@ class Aliasing
      */
     const STRATEGY_SUFFIX       = 'suffix';
 
-    /** @var Doctrine\ORM\EntityManager  */
+    /**
+     * @see addAlias
+     */
+    const STRATEGY_MOVE_PREVIOUS_TO_NEW = 'redirect-previous-to-new';
+
+    /** @var EntityManager  */
     protected $manager;
 
     protected $isBatch = false;
@@ -53,7 +57,6 @@ class Aliasing
         $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
         $this->batch = array();
     }
-
 
     /**
      * Checks if the passed public url was available
@@ -135,42 +138,76 @@ class Aliasing
     /**
      * Add an alias
      *
+     * When the $publicUrl already exists we will use the $conflictingPublicUrlStrategy to resolve this conflict.
+     * - STRATEGY_OVERWRITE will remove the previous internalUrl and replace it with $internalUrl
+     * - STRATEGY_KEEP will not do anything, i.e. the $publicUrl will keep pointing to the previous internalUrl
+     * - STRATEGY_SUFFIX will modify $publicUrl by adding a '-NUMBER' suffix to make it unique
+     *
+     * When the $internalUrl already exists we will use the $conflictingInternalUrlStrategy to resolve this conflict.
+     * - STRATEGY_REDIRECT_PREVIOUS_TO_NEW
+     *
      * @param string $publicUrl
      * @param string $internalUrl
      * @param int $type
-     * @param string $strategy
+     * @param string $conflictingPublicUrlStrategy
+     * @param string $conflictingInternalUrlStrategy
      * @return bool
      *
      * @throws \InvalidArgumentException
      */
-    public function addAlias($publicUrl, $internalUrl, $type, $strategy = self::STRATEGY_OVERWRITE)
+    public function addAlias($publicUrl,
+                             $internalUrl,
+                             $type,
+                             $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
+                             $conflictingInternalUrlStrategy = self::STRATEGY_MOVE_PREVIOUS_TO_NEW)
     {
         $ret = false;
         /** @var $alias UrlAlias */
 
-        if ($alias = $this->hasInternalAlias($publicUrl, true)) {
-            switch ($strategy) {
-                case self::STRATEGY_OVERWRITE:
-                    $alias->setInternalUrl($internalUrl);
+        if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
+            switch ($conflictingInternalUrlStrategy) {
+                case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+                    // $alias will now become the old alias, and will act as a redirect
+                    $alias->setMode(UrlAlias::MOVE);
                     $this->save($alias);
-                    $ret = true;
-                    break;
-                case self::STRATEGY_KEEP:
-                    // do nothing intentionally
-                    break;
-                case self::STRATEGY_SUFFIX:
-                    $original = $publicUrl;
-                    $i = 1;
-                    do {
-                        $publicUrl = $original . '-' . ($i ++);
-                    } while ($this->hasInternalAlias($publicUrl));
-
-                    $alias = new UrlAlias($publicUrl, $internalUrl, $type);
-                    $this->save($alias);
-                    $ret = true;
                     break;
                 default:
-                    throw new \InvalidArgumentException("Invalid argument exception");
+                    throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
+            }
+        }
+
+        if ($alias = $this->hasInternalAlias($publicUrl, true)) {
+            // when this alias is already mapped to the same internalUrl, then there is no conflict,
+            // but we do need to make this alias active again
+            if (($internalUrl === $alias->getInternalUrl()) && (UrlAlias::REWRITE !== $alias->getMode())) {
+                $alias->setMode(UrlAlias::REWRITE);
+                $this->save($alias);
+                $ret = true;
+            } else {
+
+                switch ($conflictingPublicUrlStrategy) {
+                    case self::STRATEGY_OVERWRITE:
+                        $alias->setInternalUrl($internalUrl);
+                        $this->save($alias);
+                        $ret = true;
+                        break;
+                    case self::STRATEGY_KEEP:
+                        // do nothing intentionally
+                        break;
+                    case self::STRATEGY_SUFFIX:
+                        $original = $publicUrl;
+                        $i = 1;
+                        do {
+                            $publicUrl = $original . '-' . ($i++);
+                        } while ($this->hasInternalAlias($publicUrl));
+
+                        $alias = new UrlAlias($publicUrl, $internalUrl, $type);
+                        $this->save($alias);
+                        $ret = true;
+                        break;
+                    default:
+                        throw new \InvalidArgumentException('Invalid $conflictingPublicUrlStrategy');
+                }
             }
         } else {
             $alias = new UrlAlias($publicUrl, $internalUrl, $type);
@@ -338,7 +375,7 @@ class Aliasing
                 $to = 'internal_url';
                 break;
             default:
-                throw new InvalidArgumentException("Invalid mode supplied: {$mode}");
+                throw new \InvalidArgumentException("Invalid mode supplied: {$mode}");
         }
 
         $connection = $this->manager->getConnection()->getWrappedConnection();

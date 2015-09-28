@@ -72,17 +72,15 @@ class Aliaser
             $this->aliasing->removeAlias($internalUrl);
         } else {
             // if the url already is aliased, no need to regenerate.
-            if (!$this->aliasing->hasPublicAlias($internalUrl)) {
-                $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
-
-                if (null !== $generatedAlias) {
-                    $ret = $this->aliasing->addAlias(
-                        $generatedAlias,
-                        $internalUrl,
-                        UrlAlias::REWRITE,
-                        Aliasing::STRATEGY_SUFFIX
-                    );
-                }
+            $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
+            if (null !== $generatedAlias) {
+                $ret = $this->aliasing->addAlias(
+                    $generatedAlias,
+                    $internalUrl,
+                    UrlAlias::REWRITE,
+                    Aliasing::STRATEGY_SUFFIX,
+                    Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW
+                );
             }
         }
 
