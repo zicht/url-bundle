@@ -170,19 +170,19 @@ class Aliasing
         $ret = false;
         /** @var $alias UrlAlias */
 
-        if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
-            switch ($conflictingInternalUrlStrategy) {
-                case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+        switch ($conflictingInternalUrlStrategy) {
+            case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+                if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
                     // $alias will now become the old alias, and will act as a redirect
                     $alias->setMode(UrlAlias::MOVE);
                     $this->save($alias);
-                    break;
-                case self::STRATEGY_IGNORE:
-                    // do nothing intentionally
-                    break;
-                default:
-                    throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
-            }
+                }
+                break;
+            case self::STRATEGY_IGNORE:
+                // do nothing intentionally
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
         }
 
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
