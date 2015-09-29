@@ -172,7 +172,7 @@ class Aliasing
 
         switch ($conflictingInternalUrlStrategy) {
             case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
-                if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
+                if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl()) && (UrlAlias::MOVE !== $alias->getMode())) {
                     // $alias will now become the old alias, and will act as a redirect
                     $alias->setMode(UrlAlias::MOVE);
                     $this->save($alias);
@@ -188,10 +188,13 @@ class Aliasing
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
             // but we do need to make this alias active again
-            if (($internalUrl === $alias->getInternalUrl()) && (UrlAlias::REWRITE !== $alias->getMode())) {
-                $alias->setMode(UrlAlias::REWRITE);
-                $this->save($alias);
+            if ($internalUrl === $alias->getInternalUrl()) {
+                if (UrlAlias::REWRITE !== $alias->getMode()) {
+                    $alias->setMode(UrlAlias::REWRITE);
+                    $this->save($alias);
+                }
                 $ret = true;
+
             } else {
 
                 switch ($conflictingPublicUrlStrategy) {

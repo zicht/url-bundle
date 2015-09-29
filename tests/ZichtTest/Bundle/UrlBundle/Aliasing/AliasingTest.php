@@ -163,7 +163,27 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->manager->expects($this->exactly(2))->method('persist');
         $this->manager->expects($this->exactly(2))->method('flush');
 
-        $this->aliasing->addAlias('foo-new', 'bar', 0, Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
+        $this->aliasing->addAlias('foo-new', 'bar', UrlAlias::REWRITE, Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
+    }
+
+    /**
+     * When AddAlias is called but current alias is exactly the same as the alias that we are trying to add, then nothing should happen.
+     */
+    public function testAddAliasNoChangesNeeded()
+    {
+        $entity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('public-url', 'internal-url', UrlAlias::REWRITE);
+        $this->repos->expects($this->at(0))->method('findOneBy')->with(array(
+            'internal_url' => 'internal-url',
+            'mode' => UrlAlias::REWRITE,
+        ))->will($this->returnValue($entity));
+        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
+            'public_url' => 'public-url',
+        ))->will($this->returnValue($entity));
+
+        $this->manager->expects($this->never())->method('persist');
+        $this->manager->expects($this->never())->method('flush');
+
+        $this->aliasing->addAlias('public-url', 'internal-url', UrlAlias::REWRITE, Aliasing::STRATEGY_OVERWRITE, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
     }
 
     public function testBatchProcessingWithoutFlush()
