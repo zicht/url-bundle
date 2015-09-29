@@ -37,6 +37,11 @@ class Aliasing
     const STRATEGY_SUFFIX       = 'suffix';
 
     /**
+     * @see AddAlias
+     */
+    const STRATEGY_IGNORE = 'ignore';
+
+    /**
      * @see addAlias
      */
     const STRATEGY_MOVE_PREVIOUS_TO_NEW = 'redirect-previous-to-new';
@@ -139,12 +144,13 @@ class Aliasing
      * Add an alias
      *
      * When the $publicUrl already exists we will use the $conflictingPublicUrlStrategy to resolve this conflict.
-     * - STRATEGY_OVERWRITE will remove the previous internalUrl and replace it with $internalUrl
      * - STRATEGY_KEEP will not do anything, i.e. the $publicUrl will keep pointing to the previous internalUrl
+     * - STRATEGY_OVERWRITE will remove the previous internalUrl and replace it with $internalUrl
      * - STRATEGY_SUFFIX will modify $publicUrl by adding a '-NUMBER' suffix to make it unique
      *
      * When the $internalUrl already exists we will use the $conflictingInternalUrlStrategy to resolve this conflict.
-     * - STRATEGY_REDIRECT_PREVIOUS_TO_NEW
+     * - STRATEGY_IGNORE will not do anything
+     * - STRATEGY_REDIRECT_PREVIOUS_TO_NEW will make make the previous publicUrl 301 to the new $publicUrl
      *
      * @param string $publicUrl
      * @param string $internalUrl
@@ -159,21 +165,24 @@ class Aliasing
                              $internalUrl,
                              $type,
                              $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
-                             $conflictingInternalUrlStrategy = self::STRATEGY_MOVE_PREVIOUS_TO_NEW)
+                             $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE)
     {
         $ret = false;
         /** @var $alias UrlAlias */
 
-        if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
-            switch ($conflictingInternalUrlStrategy) {
-                case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+        switch ($conflictingInternalUrlStrategy) {
+            case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+                if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl())) {
                     // $alias will now become the old alias, and will act as a redirect
                     $alias->setMode(UrlAlias::MOVE);
                     $this->save($alias);
-                    break;
-                default:
-                    throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
-            }
+                }
+                break;
+            case self::STRATEGY_IGNORE:
+                // do nothing intentionally
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
         }
 
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
