@@ -19,7 +19,8 @@
         "symfony/framework-bundle": "*",
         "knplabs/knp-menu-bundle":          "1.*@stable",
         "doctrine/orm": "~2.2",
-        "symfony/routing": "*"
+        "symfony/routing": "*",
+        "symfony/expression-language": "^2.7"
     },
     "autoload": {
         "psr-0": { "": ["src/", "tests/"] }
