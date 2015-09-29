@@ -7,6 +7,7 @@
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 class AliasingTest extends \PHPUnit_Framework_TestCase
 {
@@ -117,8 +118,8 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
             'public_url' => 'foo-1'
         ))->will($this->returnValue(null));
 
-//        $this->manager->expects($this->never())->method('persist');
-//        $this->manager->expects($this->never())->method('flush');
+        $this->manager->expects($this->once())->method('persist');
+        $this->manager->expects($this->once())->method('flush');
 
         $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX);
     }
@@ -147,6 +148,23 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->aliasing->addAlias('foo', 'bat', 0, -1);
     }
 
+    public function testAddAliasMovePreviousToNew()
+    {
+        $prevEntity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('foo-previous', 'bar');
+        $entity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('foo-new', 'bar');
+        $this->repos->expects($this->at(0))->method('findOneBy')->with(array(
+            'internal_url' => 'bar',
+            'mode' => UrlAlias::REWRITE,
+        ))->will($this->returnValue($prevEntity));
+        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
+            'public_url' => 'foo-new',
+        ))->will($this->returnValue($entity));
+
+        $this->manager->expects($this->exactly(2))->method('persist');
+        $this->manager->expects($this->exactly(2))->method('flush');
+
+        $this->aliasing->addAlias('foo-new', 'bar', 0, Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
+    }
 
     public function testBatchProcessingWithoutFlush()
     {

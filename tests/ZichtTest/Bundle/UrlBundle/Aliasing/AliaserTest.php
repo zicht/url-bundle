@@ -50,12 +50,13 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
 
         $foo = 'wut';
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
-        $this->aliasing->expects($this->once())->method('hasPublicAlias')->with('/baz/bat')->will($this->returnValue(false));
+        $this->aliasing->expects($this->never())->method('hasPublicAlias');
         $this->aliasing->expects($this->once())->method('addAlias')->with(
             '/wut',
             '/baz/bat',
             \Zicht\Bundle\UrlBundle\Entity\UrlAlias::REWRITE,
-            \Zicht\Bundle\UrlBundle\Aliasing\Aliasing::STRATEGY_SUFFIX
+            \Zicht\Bundle\UrlBundle\Aliasing\Aliasing::STRATEGY_SUFFIX,
+            \Zicht\Bundle\UrlBundle\Aliasing\Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW
         )->will($this->returnValue(true));
         $this->assertTrue($this->aliaser->createAlias($foo));
     }
@@ -66,8 +67,14 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
 
         $foo = 'wut';
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
-        $this->aliasing->expects($this->once())->method('hasPublicAlias')->with('/baz/bat')->will($this->returnValue(true));
-        $this->aliasing->expects($this->never())->method('addAlias');
+        $this->aliasing->expects($this->never())->method('hasPublicAlias');
+        $this->aliasing->expects($this->once())->method('addAlias')->with(
+            '/wut',
+            '/baz/bat',
+            \Zicht\Bundle\UrlBundle\Entity\UrlAlias::REWRITE,
+            \Zicht\Bundle\UrlBundle\Aliasing\Aliasing::STRATEGY_SUFFIX,
+            \Zicht\Bundle\UrlBundle\Aliasing\Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW
+        )->will($this->returnValue(false));
         $this->assertFalse($this->aliaser->createAlias($foo));
     }
 
