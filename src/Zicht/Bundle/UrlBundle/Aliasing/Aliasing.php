@@ -206,9 +206,9 @@ class Aliasing
 
             // it is also possible to use one of the pre-existing aliases (that were created using the STRATEGY_SUFFIX)
             if (!$ret) {
-                foreach ($this->getRepository()->findBy(array('internal_url' => $internalUrl)) as $alternate) {
+                foreach ($this->getRepository()->findBy(array('internal_url' => $internalUrl), array('id' => 'ASC')) as $alternate) {
                     if (UrlAlias::REWRITE !== $alternate->getMode()) {
-                        if (preg_match(sprintf('$%s(-[0-9]+)?$', preg_quote($publicUrl)), $alternate->getPublicUrl(), $match)) {
+                        if (preg_match(sprintf('#^%s-[0-9]+$#', preg_quote($publicUrl)), $alternate->getPublicUrl(), $match)) {
                             // we can reuse an existing alias.  The page will get a suffixed version of the url it wants
                             $alternate->setMode(UrlAlias::REWRITE);
                             $this->save($alternate);
