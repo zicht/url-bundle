@@ -20,7 +20,7 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->repos = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface')
-            ->setMethods(array('findOneBy', 'findAll'))
+            ->setMethods(array('findOneBy', 'findAll', 'findBy'))
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -87,6 +87,9 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->repos->expects($this->once())->method('findOneBy')->with(array(
             'public_url' => 'foo'
         ))->will($this->returnValue($entity));
+        $this->repos->expects($this->once())->method('findBy')->with(array(
+            'internal_url' => 'bat',
+        ))->will($this->returnValue(array()));
 
         $this->manager->expects($this->once())->method('persist');
         $this->manager->expects($this->once())->method('flush');
@@ -100,6 +103,9 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->repos->expects($this->once())->method('findOneBy')->with(array(
             'public_url' => 'foo'
         ))->will($this->returnValue($entity));
+        $this->repos->expects($this->once())->method('findBy')->with(array(
+            'internal_url' => 'bat',
+        ))->will($this->returnValue(array()));
 
         $this->manager->expects($this->never())->method('persist');
         $this->manager->expects($this->never())->method('flush');
@@ -113,10 +119,12 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->repos->expects($this->at(0))->method('findOneBy')->with(array(
             'public_url' => 'foo'
         ))->will($this->returnValue($entity));
-
-        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
-            'public_url' => 'foo-1'
-        ))->will($this->returnValue(null));
+//        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
+//            'public_url' => 'foo-1'
+//        ))->will($this->returnValue(null));
+        $this->repos->expects($this->once())->method('findBy')->with(array(
+            'internal_url' => 'bat',
+        ))->will($this->returnValue(array()));
 
         $this->manager->expects($this->once())->method('persist');
         $this->manager->expects($this->once())->method('flush');
@@ -145,6 +153,9 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->repos->expects($this->at(0))->method('findOneBy')->with(array(
             'public_url' => 'foo'
         ))->will($this->returnValue(new \Zicht\Bundle\UrlBundle\Entity\UrlAlias()));
+        $this->repos->expects($this->once())->method('findBy')->with(array(
+            'internal_url' => 'bat',
+        ))->will($this->returnValue(array()));
         $this->aliasing->addAlias('foo', 'bat', 0, -1);
     }
 
@@ -235,9 +246,13 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->repos->expects($this->at(0))->method('findOneBy')->with(array(
             'public_url' => 'foo'
         ))->will($this->returnValue(null));
-        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
-            'public_url' => 'foo-1'
-        ))->will($this->returnValue(null));
+//        $this->repos->expects($this->at(1))->method('findOneBy')->with(array(
+//            'public_url' => 'foo-1'
+//        ))->will($this->returnValue(null));
+        $this->repos->expects($this->once())->method('findBy')->with(array(
+            'internal_url' => 'bar',
+        ))->will($this->returnValue(array()));
+
         $list = array();
         $this->manager->expects($this->any())->method('persist')->will($this->returnCallback(function($a) use(&$list) {
             $list[]= $a->getPublicUrl();

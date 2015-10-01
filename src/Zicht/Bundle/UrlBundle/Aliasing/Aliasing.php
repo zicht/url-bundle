@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -48,6 +49,9 @@ class Aliasing
 
     /** @var EntityManager  */
     protected $manager;
+
+    /** @var UrlAliasRepository */
+    protected $repository;
 
     protected $isBatch = false;
 
@@ -132,7 +136,7 @@ class Aliasing
     /**
      * Returns the repository used for storing the aliases
      *
-     * @return mixed
+     * @return UrlAliasRepository
      */
     public function getRepository()
     {
@@ -189,14 +193,34 @@ class Aliasing
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
             // but we do need to make this alias active again
             if ($internalUrl === $alias->getInternalUrl()) {
-                if (UrlAlias::REWRITE !== $alias->getMode()) {
+                if (UrlAlias::REWRITE === $alias->getMode()) {
+                    // no need to do anything
+                    $ret = true;
+                } else {
+                    // we can reuse an existing alias.  The page will get exactly the url it wants
                     $alias->setMode(UrlAlias::REWRITE);
                     $this->save($alias);
+                    $ret = true;
                 }
-                $ret = true;
+            }
 
-            } else {
+            // it is also possible to use one of the pre-existing aliases (that were created using the STRATEGY_SUFFIX)
+            if (!$ret) {
+                foreach ($this->getRepository()->findBy(array('internal_url' => $internalUrl)) as $alternate) {
+                    if (UrlAlias::REWRITE !== $alternate->getMode()) {
+                        if (preg_match(sprintf('$%s(-[0-9]+)?$', preg_quote($publicUrl)), $alternate->getPublicUrl(), $match)) {
+                            // we can reuse an existing alias.  The page will get a suffixed version of the url it wants
+                            $alternate->setMode(UrlAlias::REWRITE);
+                            $this->save($alternate);
+                            $ret = true;
+                            break;
+                        }
+                    }
+                }
+            }
 
+            // otherwise we will need to solve the conflict using the supplied strategy
+            if (!$ret) {
                 switch ($conflictingPublicUrlStrategy) {
                     case self::STRATEGY_OVERWRITE:
                         $alias->setInternalUrl($internalUrl);
