@@ -68,7 +68,7 @@ class Aliasing
     }
 
     /**
-     * Checks if the passed public url was available
+     * Checks if the passed public url is currently mapped to an internal url
      *
      * @param string $publicUrl
      * @param bool $asObject
@@ -81,11 +81,7 @@ class Aliasing
         if (isset($this->batch[$publicUrl])) {
             $alias = $this->batch[$publicUrl];
         } else {
-            $where = array('public_url' => $publicUrl);
-            if (null !== $mode) {
-                $where['mode'] = $mode;
-            }
-            $alias = $this->getRepository()->findOneBy($where);
+            $alias = $this->repository->findOneByPublicUrl($publicUrl, $mode);
         }
         if ($alias) {
             $ret = ($asObject ? $alias : $alias->getInternalUrl());
@@ -106,8 +102,7 @@ class Aliasing
     {
         $ret = null;
 
-        $params = array('internal_url' => $internalUrl, 'mode' => UrlAlias::REWRITE);
-        if ($alias = $this->getRepository()->findOneBy($params, array('id' => 'DESC'))) {
+        if ($alias = $this->repository->findOneByInternalUrl($internalUrl)) {
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
@@ -174,20 +169,33 @@ class Aliasing
         $ret = false;
         /** @var $alias UrlAlias */
 
-        switch ($conflictingInternalUrlStrategy) {
-            case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
-                if (($alias = $this->hasPublicAlias($internalUrl, true)) && ($publicUrl !== $alias->getPublicUrl()) && (UrlAlias::MOVE !== $alias->getMode())) {
-                    // $alias will now become the old alias, and will act as a redirect
-                    $alias->setMode(UrlAlias::MOVE);
-                    $this->save($alias);
-                }
-                break;
-            case self::STRATEGY_IGNORE:
-                // do nothing intentionally
-                break;
-            default:
-                throw new \InvalidArgumentException('Invalid $conflictingInternalUrlStrategy');
+        if (!in_array($conflictingInternalUrlStrategy, [self::STRATEGY_IGNORE, self::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
         }
+        if (!in_array($conflictingPublicUrlStrategy, [self::STRATEGY_KEEP, self::STRATEGY_OVERWRITE, self::STRATEGY_SUFFIX])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
+        }
+
+        $alias = $this->hasPublicAlias($internalUrl, true);
+
+        if ($alias) {
+            switch ($conflictingInternalUrlStrategy) {
+                case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
+                    if ($alias && ($publicUrl !== $alias->getPublicUrl())) {
+                        // $alias will now become the old alias, and will act as a redirect
+                        $alias->setMode(UrlAlias::MOVE);
+                        $this->save($alias);
+                    }
+                    break;
+                case self::STRATEGY_IGNORE:
+                    // Alias already exist, but the strategy is to ignore changes
+                    return $ret;
+                    break;
+                default:
+                    // case is handled in the 'if' guard at top of the function
+            }
+        }
+
 
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
@@ -206,7 +214,7 @@ class Aliasing
 
             // it is also possible to use one of the pre-existing aliases (that were created using the STRATEGY_SUFFIX)
             if (!$ret) {
-                foreach ($this->getRepository()->findBy(array('internal_url' => $internalUrl), array('id' => 'ASC')) as $alternate) {
+                foreach ($this->getRepository()->findAllByInternalUrl($internalUrl) as $alternate) {
                     if (UrlAlias::REWRITE !== $alternate->getMode()) {
                         if (preg_match(sprintf('#^%s-[0-9]+$#', preg_quote($publicUrl)), $alternate->getPublicUrl(), $match)) {
                             // we can reuse an existing alias.  The page will get a suffixed version of the url it wants

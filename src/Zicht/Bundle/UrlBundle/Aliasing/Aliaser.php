@@ -21,6 +21,9 @@ class Aliaser
     protected $provider;
     protected $aliasingStrategy;
 
+    private $conflictingPublicUrlStrategy = Aliasing::STRATEGY_SUFFIX;
+    private $conflictingInternalUrlStrategy = Aliasing::STRATEGY_IGNORE;
+
     /**
      * @var AccessDecisionManagerInterface
      */
@@ -51,6 +54,37 @@ class Aliaser
         $this->scheduledRemoveAlias = array();
     }
 
+    /**
+     * @return string
+     */
+    public function getConflictingInternalUrlStrategy()
+    {
+        return $this->conflictingInternalUrlStrategy;
+    }
+
+    /**
+     * @param string $conflictingInternalUrlStrategy
+     */
+    public function setConflictingInternalUrlStrategy($conflictingInternalUrlStrategy)
+    {
+        $this->conflictingInternalUrlStrategy = $conflictingInternalUrlStrategy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConflictingPublicUrlStrategy()
+    {
+        return $this->conflictingPublicUrlStrategy;
+    }
+
+    /**
+     * @param string $conflictingPublicUrlStrategy
+     */
+    public function setConflictingPublicUrlStrategy($conflictingPublicUrlStrategy)
+    {
+        $this->conflictingPublicUrlStrategy = $conflictingPublicUrlStrategy;
+    }
 
     /**
      * Create an alias for the provided object.
@@ -71,15 +105,15 @@ class Aliaser
         if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
-            // if the url already is aliased, no need to regenerate.
+            // Don't save an alias if the generated public alias is empty.
             $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
             if (null !== $generatedAlias) {
                 $ret = $this->aliasing->addAlias(
                     $generatedAlias,
                     $internalUrl,
                     UrlAlias::REWRITE,
-                    Aliasing::STRATEGY_SUFFIX,
-                    Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW
+                    $this->conflictingPublicUrlStrategy,
+                    $this->conflictingInternalUrlStrategy
                 );
             }
         }
