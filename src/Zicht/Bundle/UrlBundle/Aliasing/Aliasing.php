@@ -176,6 +176,7 @@ class Aliasing
             throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
         }
 
+        // if the internal url is currently already aliased
         $alias = $this->hasPublicAlias($internalUrl, true);
 
         if ($alias) {
@@ -198,6 +199,7 @@ class Aliasing
 
 
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
+
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
             // but we do need to make this alias active again
             if ($internalUrl === $alias->getInternalUrl()) {
@@ -250,7 +252,7 @@ class Aliasing
                         $ret = true;
                         break;
                     default:
-                        throw new \InvalidArgumentException('Invalid $conflictingPublicUrlStrategy');
+                        // case is handled in the 'if' guard at top of the function
                 }
             }
         } else {

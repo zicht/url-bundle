@@ -109,12 +109,19 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
     {
         $this->aliasing->setIsBatch(true);
 
-        $entity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('foo', 'bar');
-        $this->repos->expects($this->at(1))->method('findOneByPublicUrl')->with('foo')->will($this->returnValue($entity));
+        $entity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('foo', 'something-else');
+        $this->repos->expects($this->any())->method('findOneByPublicUrl')->will($this->returnCallback(function($a) use($entity) {
+            if ($a === 'foo') {
+                return $entity;
+            }
+            return null;
+        }));
+        $this->repos->expects($this->any())->method('findOneByInternalUrl')->will($this->returnValue(null));
         $this->repos->expects($this->any())->method('findAllByInternalUrl')->will($this->returnValue(array()));
 
         $list = array();
         $this->manager->expects($this->any())->method('persist')->will($this->returnCallback(function($a) use(&$list) {
+            // keeps track of saved aliases in the process.
             $list[$a->getPublicUrl()]= $a->getInternalUrl();
         }));
         $this->manager->expects($this->never())->method('flush');
@@ -122,8 +129,8 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
         $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX);
         $this->aliasing->addAlias('foo', 'bar', 0, Aliasing::STRATEGY_SUFFIX);
 
-        $this->assertEquals('bat', $list['foo']);
-        $this->assertEquals('bar', $list['foo-1']);
+        $this->assertEquals('bat', $list['foo-1']);
+        $this->assertEquals('bar', $list['foo-2']);
     }
 
     public function testAddAliasNew()
