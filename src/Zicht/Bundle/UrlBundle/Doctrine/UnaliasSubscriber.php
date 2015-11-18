@@ -6,10 +6,10 @@
 
 namespace Zicht\Bundle\UrlBundle\Doctrine;
 
-use \Doctrine\Common\EventSubscriber;
-use \Doctrine\ORM\Event\LifecycleEventArgs;
-use \Symfony\Component\DependencyInjection\ContainerInterface;
-use \Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
  * Custom subscriber which looks for entity creation and update and ensures that all urls in specified html text

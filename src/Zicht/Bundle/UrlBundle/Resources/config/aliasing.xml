@@ -12,6 +12,7 @@
     <services>
         <service id="zicht_url.aliasing" class="%zicht_url.aliasing.class%">
             <argument type="service" id="zicht_url.aliasing.entity_manager" />
+            <argument type="service" id="zicht_url.mapper.xml" />
         </service>
         <service id="zicht_url.aliasing.entity_manager" factory-service="doctrine" factory-method="getManager"
                  class="%zicht_url.aliasing.entity_manager.class%">

@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
@@ -54,6 +55,14 @@ class Aliasing
     protected $repository;
 
     protected $isBatch = false;
+
+
+    /**
+     * Mappers that, based on the content type, can transform internal urls to public urls
+     *
+     * @var UrlMapperInterface[]
+     */
+    private $contentMappers = array();
 
     /**
      * Initialize with doctrine
@@ -379,26 +388,16 @@ class Aliasing
     }
 
     /**
-     * Takes HTML text and replaces all <a href='INTERNAL'> into <a href='PUBLIC'>.
-     *
-     * @param string $html
-     * @param Request $request
-     * @return string
-     */
-    public function internalToPublicHtml($html, $request)
-    {
-        return HtmlMapper::processAliasingInHtml($html, 'internal-to-public', $this, $request);
-    }
-
-    /**
      * Takes HTML text and replaces all <a href='PUBLIC'> into <a href='INTERNAL'>.
      *
      * @param string $html
+     * @deprecated in favour of mapContent
+     *
      * @return string
      */
     public function publicToInternalHtml($html)
     {
-        return HtmlMapper::processAliasingInHtml($html, 'public-to-internal', $this);
+        return $this->mapContent('html', UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL, $html);
     }
 
 
@@ -446,5 +445,37 @@ class Aliasing
             return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
         }
         return array();
+    }
+
+    /**
+     * Transform internal URLS to public URLS using our defined mappers
+     *
+     * @param string $contentType
+     * @param $mode
+     * @param string $content
+     * @param Request $request
+     * @return string
+     */
+    public function mapContent($contentType, $mode, $content)
+    {
+        foreach ($this->contentMappers as $mapper) {
+            if ($mapper->supports($contentType)) {
+                return $mapper->processAliasing($content, $mode, $this);
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Add a new content mapper to our aliasing class
+     *
+     * @param UrlMapperInterface $mapper
+     *
+     * @return void
+     */
+    public function addMapper(UrlMapperInterface $mapper)
+    {
+        $this->contentMappers[] = $mapper;
     }
 }

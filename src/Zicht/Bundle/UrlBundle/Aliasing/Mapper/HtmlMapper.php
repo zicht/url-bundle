@@ -1,11 +1,15 @@
 <?php
 /**
  * @author Oskar van Velden <oskar@zicht.nl>
+ * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
-namespace Zicht\Bundle\UrlBundle\Aliasing;
+namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
+
 use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 
 /**
  * Class HtmlMapper
@@ -14,18 +18,21 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @package Zicht\Bundle\UrlBundle\Aliasing
  */
-final class HtmlMapper
+class HtmlMapper implements UrlMapperInterface
 {
     /**
-     * Helper function doing the actual work behind internalToPublicHtml and publicToInternalHtml
-     *
-     * @param string $html
-     * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
-     * @param Aliasing $aliaser
-     * @param Request $request
-     * @return string
+     * @{inheritDoc}
      */
-    public static function processAliasingInHtml($html, $mode, Aliasing $aliaser, Request $request)
+    public function supports($contentType)
+    {
+        return $contentType === 'text/html';
+    }
+
+
+    /**
+     * @{inheritDoc}
+     */
+    public function processAliasing($html, $mode, Aliasing $aliaser)
     {
         if (!preg_match_all('/((?:href|src|action|content)=")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
@@ -36,18 +43,11 @@ final class HtmlMapper
 
         $replacements = array();
         foreach ($m as $match) {
-            list(,$prefix, $url, $close) = $match;
-
-            $isAbsoluteAndSameDomain = false;
-            if (preg_match('!(^https?://' . $request->getHttpHost() . ')(.*)$!', $url, $mm)) {
-                $isAbsoluteAndSameDomain = true;
-                $prefix .= $mm[1];
-                $url = $mm[2];
-            }
+            list(, $prefix, $url, $close) = $match;
 
             // exclusion (may need to configure these in the future?)
             if (
-                   0 === strpos($url, '/bundles/')
+                0 === strpos($url, '/bundles/')
                 || 0 === strpos($url, '/media/')
                 || 0 === strpos($url, '/js/')
                 || 0 === strpos($url, '/style/')
@@ -68,12 +68,12 @@ final class HtmlMapper
             }
 
             if (!isset($replacements[$url])) {
-                $replacements[$url]= [];
+                $replacements[$url] = [];
             }
 
             // Build a formatted string by replacing all instances of the found URL's
             // with "%s" as a placeholder.
-            $replacements[$url][]= [
+            $replacements[$url][] = [
                 $match[0],
                 str_replace('%', '%%', $prefix) . '%s' . str_replace('%', '%%', $close)
             ];
@@ -83,7 +83,7 @@ final class HtmlMapper
             $replacementMap = array();
             foreach ($aliaser->getAliasingMap(array_keys($replacements), $mode) as $url => $alias) {
                 foreach ($replacements[$url] as $pair) {
-                    $replacementMap[$pair[0]]= sprintf($pair[1], $alias);
+                    $replacementMap[$pair[0]] = sprintf($pair[1], $alias);
                 }
             }
 

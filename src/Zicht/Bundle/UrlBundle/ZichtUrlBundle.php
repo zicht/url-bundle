@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle;
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * Bundle instance for zicht/url-bundle
@@ -24,5 +24,6 @@ class ZichtUrlBundle extends Bundle
         $container->addCompilerPass(new DependencyInjection\Compiler\UrlProviderPass());
         $container->addCompilerPass(new DependencyInjection\Compiler\ReplaceUrlProviderServicePass());
         $container->addCompilerPass(new DependencyInjection\Compiler\CachePass());
+        $container->addCompilerPass(new DependencyInjection\Compiler\UrlMapperPass());
     }
 }

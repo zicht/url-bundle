@@ -6,15 +6,17 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\HttpFoundation\Response;
-use \Symfony\Component\HttpKernel\Event;
-use \Symfony\Component\HttpFoundation\RedirectResponse;
-use \Symfony\Component\HttpKernel\EventListener\RouterListener;
-use \Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\EventListener\RouterListener;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Symfony\Component\Locale\Exception\NotImplementedException;
+use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
+use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Listens to incoming and outgoing requests to handle url aliasing at the kernel master request level.
@@ -245,17 +247,8 @@ class Listener
             return;
         }
         if ($response->getContent()) {
-            // match only the 'aaa/bbb' part, ignore parameters such as "charset=utf-8"
-            $contentType = preg_replace('!^([a-z]+/[a-z]+).*!', '$1', $response->headers->get('content-type', 'text/html'));
-
-            // currently, we only do text/html. Maybe this needs to be configured
-            // somehow, someday, somewhere. https://youtu.be/-BQMgCy-n6U?t=119
-
-            if ('text/html' !== $contentType) {
-                return;
-            }
-
-            $response->setContent($this->aliasing->internalToPublicHtml($response->getContent(), $request));
+            $contentType = current(explode(';', $response->headers->get('content-type', 'text/html')));
+            $response->setContent($this->aliasing->mapContent($contentType, UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC, $response->getContent()));
         }
     }
 }
