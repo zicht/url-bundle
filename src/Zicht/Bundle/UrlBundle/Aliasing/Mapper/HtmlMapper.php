@@ -45,6 +45,9 @@ class HtmlMapper implements UrlMapperInterface
         foreach ($m as $match) {
             list(, $prefix, $url, $close) = $match;
 
+            // Preg match might result in unwanted spaces such as '/nl/page/33 '
+            $url = trim($url);
+
             // exclusion (may need to configure these in the future?)
             if (
                 0 === strpos($url, '/bundles/')
