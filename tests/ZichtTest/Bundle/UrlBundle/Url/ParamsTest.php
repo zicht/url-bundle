@@ -88,6 +88,50 @@ class ParamsTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals('a=x/c=d,e', (string)$uri->with('a', 'x', false));
     }
 
+    function testToggle() {
+        $uri = new Params();
+        $uri->setUri('c=d,e');
+        $this->assertEquals('a=b/c=d,e', (string)$uri->with('a', 'b'));
+
+        $uri = new Params();
+        $uri->setUri('a=b/c=d,e');
+        $this->assertEquals('c=d,e', (string)$uri->with('a', 'b'));
+    }
+
+    function testToggleNonMultiple() {
+        $uri = new Params();
+        $uri->setUri('');
+        $this->assertEquals('a=b', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setUri('a=b');
+        $this->assertEquals('', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setUri('c=d,e');
+        $this->assertEquals('a=b/c=d,e', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setUri('a=b/c=d,e');
+        $this->assertEquals('c=d,e', (string)$uri->with('a', 'b', false));
+
+        // the same tests but now using setValues instead of setUri
+        $uri = new Params();
+        $uri->setValues(array());
+        $this->assertEquals('a=b', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setValues(array('a' => array('b')));
+        $this->assertEquals('', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setValues(array('c' => array('d', 'e')));
+        $this->assertEquals('a=b/c=d,e', (string)$uri->with('a', 'b', false));
+
+        $uri = new Params();
+        $uri->setValues(array('a' => array('b'), 'c' => array('d', 'e')));
+        $this->assertEquals('c=d,e', (string)$uri->with('a', 'b', false));
+    }
 
     function testEmptyValues() {
         $uri = new Params();

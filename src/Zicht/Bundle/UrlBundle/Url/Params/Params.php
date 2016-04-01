@@ -113,7 +113,11 @@ class Params extends SortedSetMap
                     "Invalid argument \$value to with(), expected scalar, got " . gettype($value)
                 );
             }
-            $ret->replace($key, array($value));
+            if ($ret->contains($key, $value)) {
+                $ret->remove($key, $value);
+            } else {
+                $ret->replace($key, array($value));
+            }
         } else {
             if ($ret->contains($key, $value)) {
                 $ret->remove($key, $value);
