@@ -295,6 +295,17 @@ class Aliasing
     }
 
     /**
+     * Takes RSS text and replaces all url tags
+     *
+     * @param string $html
+     * @return string
+     */
+    public function internalToPublicRss($html)
+    {
+        return $this->processAliasing($this->processAliasing($html, 'internal-to-public', 'rss'), 'internal-to-public', 'html');
+    }
+
+    /**
      * Takes XML text and replaces all <loc>INTERNAL</loc> into <loc>PUBLIC</loc>.
      *
      * @param string $html
@@ -336,7 +347,11 @@ class Aliasing
      */
     private function processAliasing($html, $mode, $type)
     {
+
         switch ($type) {
+            case 'rss':
+                $expression = '/<link>(?:https?:\/\/[^\/]+)([^#?]+?)(?:[#?].*)?<\/link>/';
+                break;
             case 'xml':
                 $expression = '/<loc>(?:https?:\/\/[^\/]+)([^#?]+?)(?:[#?].*)?<\/loc>/';
                 break;
@@ -382,6 +397,7 @@ class Aliasing
         if (count($urls)) {
             return strtr($html, $this->getAliasingMap($urls, $mode));
         }
+        
         return $html;
     }
 
