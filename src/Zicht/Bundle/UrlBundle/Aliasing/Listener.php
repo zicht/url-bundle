@@ -246,12 +246,14 @@ class Listener
         }
         if ($response->getContent()) {
             // match only the 'aaa/bbb' part, ignore parameters such as "charset=utf-8"
-            $contentType = preg_replace('!^([a-z]+/[a-z]+).*!', '$1', $response->headers->get('content-type', 'text/html'));
+            $contentType = preg_replace('!^([a-z]+/[a-z|\+]+).*!', '$1', $response->headers->get('content-type', 'text/html'));
 
             // currently, we only do text/html. Maybe this needs to be configured
             // somehow, someday, somewhere. https://youtu.be/-BQMgCy-n6U?t=119
-
             switch ($contentType) {
+                case 'application/rss+xml':
+                    $response->setContent($this->aliasing->internalToPublicRss($response->getContent()));
+                    break;
                 case 'text/html':
                     $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
                     break;
