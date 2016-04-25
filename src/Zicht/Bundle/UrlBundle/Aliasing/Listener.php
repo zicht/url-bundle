@@ -6,12 +6,15 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use \Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Response;
 use \Symfony\Component\HttpKernel\Event;
 use \Symfony\Component\HttpFoundation\RedirectResponse;
-use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use \Symfony\Component\HttpKernel\EventListener\RouterListener;
 use \Symfony\Component\HttpKernel\HttpKernelInterface;
+
+use \Zicht\Bundle\UrlBundle\Url\Params\UriParser;
+use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Listens to incoming and outgoing requests to handle url aliasing at the kernel master request level.
@@ -49,17 +52,25 @@ class Listener
 
             // only do anything if the response has a Location header
             if (false !== ($location = $response->headers->get('location', false))) {
-                $req = $e->getRequest()->getSchemeAndHttpHost();
-                if (substr($location, 0, strlen($req)) === $req) {
-                    $relative = substr($location, strlen($req));
+                $absolutePrefix = $e->getRequest()->getSchemeAndHttpHost();
 
-                    if ($url = $this->aliasing->hasPublicAlias($relative)) {
-                        $rewrite = $req . $url;
-                        $response->headers->set('location', $rewrite);
-                        $response->setContent(str_replace($location, $rewrite, $response->getContent()));
+                if (parse_url($location, PHP_URL_SCHEME)) {
+                    if (substr($location, 0, strlen($absolutePrefix)) === $absolutePrefix) {
+                        $relative = substr($location, strlen($absolutePrefix));
+                    } else {
+                        $relative = null;
                     }
+                } else {
+                    $relative = $location;
+                }
+
+                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
+                    $rewrite = $absolutePrefix . $url;
+                    $response->headers->set('location', $rewrite);
                 }
             }
+
+            $this->rewriteResponse($e->getRequest(), $response);
         }
     }
 
@@ -143,7 +154,7 @@ class Listener
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
 
                     if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
-                        $this->routeRequest($event, $publicUrl . $queryString);
+                        $this->rewriteRequest($event, $publicUrl . $queryString);
 
                         return;
                     }
@@ -154,12 +165,7 @@ class Listener
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
-                        // if the match is not exact (i.e., case insensitive match), redirect it.
-                        if ($publicUrl != $url->getPublicUrl()) {
-                            $event->setResponse(new RedirectResponse($url->getPublicUrl(), 301));
-                        } else {
-                            $this->routeRequest($event, $url->getInternalUrl());
-                        }
+                        $this->rewriteRequest($event, $url->getInternalUrl());
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
@@ -179,7 +185,7 @@ class Listener
 
                 $publicUrl = substr($publicUrl, 0, strpos($publicUrl, '?'));
                 if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, UrlAlias::REWRITE)) {
-                    $this->routeRequest($event, $url->getInternalUrl());
+                    $this->rewriteRequest($event, $url->getInternalUrl());
 
                     return;
                 }
@@ -195,21 +201,65 @@ class Listener
      * @param string $url
      * @return void
      */
-    public function routeRequest($event, $url)
+    public function rewriteRequest($event, $url)
     {
-        $duplicate = $event->getRequest()->duplicate(
-            null,
-            null,
-            null,
-            null,
-            null,
-            array('REQUEST_URI' => $url)
+        // override the request's REQUEST_URI
+        $event->getRequest()->initialize(
+            $event->getRequest()->query->all(),
+            $event->getRequest()->request->all(),
+            $event->getRequest()->attributes->all(),
+            $event->getRequest()->cookies->all(),
+            $event->getRequest()->files->all(),
+            array(
+                'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI'),
+                'REQUEST_URI' => $url
+            ) + $event->getRequest()->server->all(),
+            $event->getRequest()->getContent()
         );
 
-        $subEvent = new Event\GetResponseEvent($event->getKernel(), $duplicate, $event->getRequestType());
+        // route the request
+        $subEvent = new Event\GetResponseEvent(
+            $event->getKernel(),
+            $event->getRequest(),
+            $event->getRequestType()
+        );
         $this->router->onKernelRequest($subEvent);
-        $event->getRequest()->attributes = $duplicate->attributes;
-        $event->getRequest()->attributes->set('_internal_url', $url);
-        $event->getRequest()->setRequestFormat($duplicate->get('_format'));
+    }
+
+
+    /**
+     * Rewrite URL's from internal naming to public aliases in the response.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return void
+     */
+    protected function rewriteResponse(Request $request, Response $response)
+    {
+        // for debugging purposes. Might need to be configurable.
+        if ($request->query->get('__disable_aliasing')) {
+            return;
+        }
+        if (preg_match('!^/admin/!', $request->getRequestUri())) {
+            // don't bother here.
+            return;
+        }
+        if ($response->getContent()) {
+            // match only the 'aaa/bbb' part, ignore parameters such as "charset=utf-8"
+            $contentType = preg_replace('!^([a-z]+/[a-z]+).*!', '$1', $response->headers->get('content-type', 'text/html'));
+
+            // currently, we only do text/html. Maybe this needs to be configured
+            // somehow, someday, somewhere. https://youtu.be/-BQMgCy-n6U?t=119
+
+            switch ($contentType) {
+                case 'text/html':
+                    $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+                    break;
+
+                case 'text/xml':
+                    $response->setContent($this->aliasing->internalToPublicXml($response->getContent()));
+                    break;
+            }
+        }
     }
 }

@@ -45,9 +45,8 @@ class UrlExtension extends Twig_Extension
      */
     public function internalToPublicAliasing($html)
     {
-        if (!empty($html)) {
-            return $this->aliasing->internalToPublicHtml($html);
-        }
+        // Backport of aliasing being done at master response level.
+        return $html;
     }
 
     /**
