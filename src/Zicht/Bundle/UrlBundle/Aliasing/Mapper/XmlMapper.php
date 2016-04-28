@@ -83,7 +83,9 @@ class XmlMapper implements UrlMapperInterface
         }
 
         if (count($urls)) {
-            return strtr($content, $aliaser->getAliasingMap($urls, $mode));
+            foreach ($aliaser->getAliasingMap($urls, $mode) as $k => $v) {
+                $content = preg_replace('/'. addcslashes($k, '/').'\b/', $v, $content);
+            }
         }
 
         return $content;
