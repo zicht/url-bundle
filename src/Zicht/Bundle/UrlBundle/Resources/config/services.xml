@@ -46,5 +46,10 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="zicht_url.url_mapper" />
         </service>
+
+        <service id="zicht_url.mapper.rss" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\RssMapper">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="zicht_url.url_mapper" />
+        </service>
     </services>
 </container>
