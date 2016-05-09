@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('enabled')->defaultValue(false)->end()
                         ->booleanNode('enable_params')->defaultValue(false)->end()
                         ->arrayNode('exclude_patterns')->prototype('scalar')->end()->end()
+                        ->arrayNode('whitelisted_domains')->prototype('scalar')->end()->end()
                         ->arrayNode('automatic_entities')->prototype('scalar')->end()->end()
                     ->end()
                 ->end()

@@ -32,7 +32,7 @@ class HtmlMapper implements UrlMapperInterface
     /**
      * @{inheritDoc}
      */
-    public function processAliasing($html, $mode, Aliasing $aliaser)
+    public function processAliasing($html, $mode, Aliasing $aliaser, $whiteListDomains)
     {
         if (!preg_match_all('/((?:href|src|action|content)=")([^?"]+)([?"])/', $html, $m, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
@@ -58,8 +58,7 @@ class HtmlMapper implements UrlMapperInterface
                 || 0 === strpos($url, '#')
                 || 0 === strpos($url, 'mailto:')
                 || 0 === strpos($url, 'tel:')
-                || 0 === strpos($url, 'http:')
-                || 0 === strpos($url, 'https:')
+                || $this->isExternalUrl($url, $whiteListDomains)
             ) {
                 continue;
             }
@@ -70,15 +69,32 @@ class HtmlMapper implements UrlMapperInterface
                 $url = $m[1];
             }
 
+            $domain = '';
+
+            if (0 === strpos($url, 'http://') || 0 === strpos($url, 'https://')) {
+
+                /**
+                 * If we get into this block, that means we are on the whitelist
+                 * Therefor we need to add the found domain-information and remove it from the url, so the url can be aliased
+                 */
+                if (preg_match('!(http(s)?:\/\/[a-zA-Z.]*)\/!', $url, $domainMatch)) {
+                    $domain = $domainMatch[1];
+
+                    //remove the domain from the url, so it can be aliased
+                    $url = str_replace($domain, '', $url);
+                }
+            }
+
             if (!isset($replacements[$url])) {
                 $replacements[$url] = [];
             }
+
 
             // Build a formatted string by replacing all instances of the found URL's
             // with "%s" as a placeholder.
             $replacements[$url][] = [
                 $match[0],
-                str_replace('%', '%%', $prefix) . '%s' . str_replace('%', '%%', $close)
+                str_replace('%', '%%', $prefix) . $domain . '%s' . str_replace('%', '%%', $close)
             ];
         }
 
@@ -93,5 +109,30 @@ class HtmlMapper implements UrlMapperInterface
             return strtr($html, $replacementMap);
         }
         return $html;
+    }
+
+    /**
+     * Check if the url is an external url (and not ignored)
+     *
+     * @param $url
+     * @param $whiteListDomains
+     * @return bool
+     */
+    private function isExternalUrl($url, $whiteListDomains)
+    {
+        $ret = false;
+
+        if (0 === strpos($url, 'http:') || 0 === strpos($url, 'https:')) {
+            $ret = true;
+        }
+
+        foreach ($whiteListDomains as $domain) {
+            if (strpos($url, $domain) > -1) {
+                $ret = false;
+                break;
+            }
+        }
+
+        return $ret;
     }
 }

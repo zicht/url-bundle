@@ -44,8 +44,8 @@ interface UrlMapperInterface
      * @param string $content
      * @param string $mode
      * @param Aliasing $aliaser
-     *
+     * @param array|null $whiteListDomains
      * @return mixed
      */
-    public function processAliasing($content, $mode, Aliasing $aliaser);
+    public function processAliasing($content, $mode, Aliasing $aliaser, $whiteListDomains);
 }

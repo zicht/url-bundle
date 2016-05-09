@@ -456,11 +456,11 @@ class Aliasing
      * @param Request $request
      * @return string
      */
-    public function mapContent($contentType, $mode, $content)
+    public function mapContent($contentType, $mode, $content, $whiteListDomains = [])
     {
         foreach ($this->contentMappers as $mapper) {
             if ($mapper->supports($contentType)) {
-                return $mapper->processAliasing($content, $mode, $this);
+                return $mapper->processAliasing($content, $mode, $this, $whiteListDomains);
             }
         }
 
