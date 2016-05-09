@@ -26,7 +26,6 @@ class Listener
     protected $aliasing;
 
     protected $excludePatterns = array();
-    protected $whitelistedDomains = [];
     protected $isParamsEnabled = false;
 
     /**
@@ -86,17 +85,6 @@ class Listener
     public function setExcludePatterns($excludePatterns)
     {
         $this->excludePatterns = $excludePatterns;
-    }
-
-    /**
-     * Domains that can be aliased, even when it starts with http(s)://
-     *
-     * @param array $whitelistedDomains
-     * @return void
-     */
-    public function setWhitelistDomains($whitelistedDomains)
-    {
-        $this->whitelistedDomains = $whitelistedDomains;
     }
 
     /**
@@ -260,7 +248,14 @@ class Listener
         }
         if ($response->getContent()) {
             $contentType = current(explode(';', $response->headers->get('content-type', 'text/html')));
-            $response->setContent($this->aliasing->mapContent($contentType, UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC, $response->getContent(), $this->whitelistedDomains));
+            $response->setContent(
+                $this->aliasing->mapContent(
+                    $contentType,
+                    UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC,
+                    $response->getContent(),
+                    [$request->getHttpHost()]
+                )
+            );
         }
     }
 }

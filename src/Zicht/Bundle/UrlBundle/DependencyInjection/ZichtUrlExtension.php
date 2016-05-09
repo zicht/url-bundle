@@ -82,10 +82,6 @@ class ZichtUrlExtension extends Extension
             $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
         }
 
-        if ($aliasingConfig['whitelisted_domains']) {
-            $listenerDefinition->addMethodCall('setWhitelistDomains', array($aliasingConfig['whitelisted_domains']));
-        }
-
         $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
 
         if ($aliasingConfig['automatic_entities']) {
