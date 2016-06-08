@@ -27,6 +27,55 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $this->listener = new Listener($this->aliasing, $this->router);
     }
 
+    /**
+     * @return array
+     */
+    public function urlProvider() {
+        return array(
+            array('/foo/a=b,c', 'http://www.diabetesfonds.nl'),
+            array('/foo?a=b,c', 'http://www.diabetesfonds.nl'),
+            array('/foo//?a=b,c', 'http://www.diabetesfonds.nl'),
+            array('/foo/a=b/c=a', 'http://www.diabetesfonds.nl'),
+            array('http://www.diabetesfonds.nl/bar/foo/a=b/c=a', 'http://www.diabetesfonds.nl'),
+            array('/foo/a=b,c', 'http://www.diabetesfonds.nl/'),
+            array('/foo?a=b,c', 'http://www.diabetesfonds.nl/'),
+            array('/foo//?a=b,c', 'http://www.diabetesfonds.nl/'),
+            array('/foo/a=b/c=a', 'http://www.diabetesfonds.nl/'),
+            array('http://www.diabetesfonds.nl/bar/foo/a=b/c=a', 'http://www.diabetesfonds.nl/'),
+        );
+    }
+
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testOnKernelRedirectResponse($url, $hostAndScheme)
+    {
+        $response = new \Symfony\Component\HttpFoundation\RedirectResponse($url, 301);
+
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request', array('getSchemeAndHttpHost'));
+        $request->expects($this->any())->method('getSchemeAndHttpHost')->will($this->returnValue($hostAndScheme));
+
+        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\FilterResponseEvent')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $event->expects($this->once())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
+        $event->expects($this->any())->method('getRequest')->will($this->returnValue($request));
+        $event->expects($this->any())->method('getResponse')->will($this->returnValue($response));
+
+        $this->listener->setIsParamsEnabled(true);
+
+
+        $this->aliasing->expects($this->any())->method('hasPublicAlias')->with('/foo')->will($this->returnValue(
+            new UrlAlias('/foo', '/bar', 0)
+        ));
+
+        try {
+            $this->listener->onKernelResponse($event);
+        } catch(\Exception $e) {
+        }
+    }
 
     public function testOnKernelRequestDoesNotHandleSubRequest()
     {
@@ -84,7 +133,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
         $req = $this->getMock('Symfony\Component\HttpFoundation\Request', array('getRequestUri'));
-        $publicUrl = '/foo/a=b,c';
+        $publicUrl = '/foo?a=b,c';
         $this->listener->setIsParamsEnabled(true);
         $req->expects($this->any())->method('getRequestUri')->will($this->returnValue($publicUrl));
         $event->expects($this->any())->method('getRequest')->will($this->returnValue($req));

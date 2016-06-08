@@ -49,6 +49,7 @@ class Listener
     {
         if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
             $response = $e->getResponse();
+            list($relative, $query, $params) = array(null, null, null);
 
             // only do anything if the response has a Location header
             if (false !== ($location = $response->headers->get('location', false))) {
@@ -57,15 +58,31 @@ class Listener
                 if (parse_url($location, PHP_URL_SCHEME)) {
                     if (substr($location, 0, strlen($absolutePrefix)) === $absolutePrefix) {
                         $relative = substr($location, strlen($absolutePrefix));
-                    } else {
-                        $relative = null;
                     }
                 } else {
                     $relative = $location;
                 }
 
+                if (false !== ($parts = $this->splitUrlParams($relative))) {
+                    list($relative, $query, $params) = $parts;
+                }
+
                 if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
+
                     $rewrite = $absolutePrefix . $url;
+
+                    if (!empty($params)) {
+                        if ($rewrite[strlen($rewrite) - 1] === "/") {
+                            $rewrite .= implode("/", $params);
+                        } else {
+                            $rewrite .= "/" . implode("/", $params);
+                        }
+                    }
+
+                    if (!empty($query)) {
+                        $rewrite .= $query;
+                    }
+
                     $response->headers->set('location', $rewrite);
                 }
             }
@@ -114,6 +131,46 @@ class Listener
         return $ret;
     }
 
+    /**
+     * @param   string      $publicUrl
+     * @return  array|bool
+     */
+    protected function splitUrlParams($publicUrl)
+    {
+        if ($this->isParamsEnabled) {
+            if (false !== ($queryMark = strpos($publicUrl, '?'))) {
+                $originalUrl = $publicUrl;
+                $publicUrl = substr($originalUrl, 0, $queryMark);
+                $queryString = substr($originalUrl, $queryMark);;
+            } else {
+                $queryString = null;
+            }
+
+            $parts = explode('/', $publicUrl);
+            $params = array();
+
+            while (false !== strpos(end($parts), '=')) {
+                array_push($params, array_pop($parts));
+            }
+
+            if (!empty($params)) {
+                return array(
+                    join('/', $parts),
+                    $queryString,
+                    $params,
+                );
+            } else {
+                return array(
+                    $publicUrl,
+                    $queryString,
+                    array(),
+                );
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Listens to master requests and translates the URL to an internal url, if there is an alias available
@@ -133,29 +190,13 @@ class Listener
                 return;
             }
 
-            if ($this->isParamsEnabled) {
-                if (false !== ($queryMark = strpos($publicUrl, '?'))) {
-                    $originalUrl = $publicUrl;
-                    $publicUrl = substr($originalUrl, 0, $queryMark);
-                    $queryString = substr($originalUrl, $queryMark);;
-                } else {
-                    $queryString = null;
-                }
-
-                $parts = explode('/', $publicUrl);
-                $params = array();
-                while (false !== strpos(end($parts), '=')) {
-                    array_push($params, array_pop($parts));
-                }
-                if ($params) {
-                    $publicUrl = join('/', $parts);
-
+            if (false !== ($parts = $this->splitUrlParams($publicUrl))) {
+                list($publicUrl, $query, $params) = $parts;
+                if (!empty($params)) {
                     $parser = new UriParser();
                     $request->query->add($parser->parseUri(join('/', array_reverse($params))));
-
                     if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
-                        $this->rewriteRequest($event, $publicUrl . $queryString);
-
+                        $this->rewriteRequest($event, $publicUrl . $query);
                         return;
                     }
                 }
