@@ -62,30 +62,37 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testAliaserConflictResolutionWillForwardToAliaser()
+    /**
+     * @dataProvider strategyTypes
+     */
+    public function testAliaserConflictResolutionWillForwardToAliaser($type)
     {
-        foreach ([Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW, Aliasing::STRATEGY_IGNORE] as $type) {
-            $foo = 'wut';
-            $this->aliaser->setConflictingInternalUrlStrategy($type);
-            $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
-            $this->aliasing->expects($this->never())->method('hasPublicAlias');
-            $this->aliasing->expects($this->once())->method('addAlias')->with(
-                '/wut',
-                '/baz/bat',
-                UrlAlias::REWRITE,
-                Aliasing::STRATEGY_SUFFIX,
-                $type
-            )->will($this->returnValue(false));
-            $this->assertFalse($this->aliaser->createAlias($foo));
-        }
+        $foo = 'wut';
+        $this->aliaser->setConflictingInternalUrlStrategy($type);
+        $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
+        $this->aliasing->expects($this->never())->method('hasPublicAlias');
+        $this->aliasing->expects($this->once())->method('addAlias')->with(
+            '/wut',
+            '/baz/bat',
+            UrlAlias::REWRITE,
+            Aliasing::STRATEGY_SUFFIX,
+            $type
+        )->will($this->returnValue(false));
+        $this->assertFalse($this->aliaser->createAlias($foo));
     }
 
-   public function testReturningNullWillNotCallAliaser()
+
+    public function strategyTypes()
+    {
+        return [[Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW], [Aliasing::STRATEGY_IGNORE]];
+    }
+
+    public function testReturningNullWillNotCallAliaser()
     {
         $foo = 'wut';
         $this->aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_IGNORE);
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
-        $this->aliasing->expects($this->once())->method('hasPublicAlias');
+        $this->aliasing->expects($this->never())->method('hasPublicAlias');
         $this->aliasing->expects($this->once())->method('addAlias')->with(
             '/wut',
             '/baz/bat',
