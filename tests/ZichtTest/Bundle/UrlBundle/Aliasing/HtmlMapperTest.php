@@ -37,16 +37,17 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
             ['<meta property="og:url" content="http://zicht.nl/foo">', '<meta property="og:url" content="http://zicht.nl/bar">', ['/foo' => '/bar']],
             ['<meta property="og:url" content="https://zicht.nl/foo">', '<meta property="og:url" content="https://zicht.nl/bar">', ['/foo' => '/bar']],
             ['<a href="/foo">', '<a href="/bar">', ['/foo' => '/bar']],
+            ['<a href="/foo?param=value">', '<a href="/bar?param=value">', ['/foo' => '/bar']],
             ['<img src="/foo">', '<img src="/bar">', ['/foo' => '/bar']],
             ['<form action="/foo">', '<form action="/bar">', ['/foo' => '/bar']],
 
-            // this case is known to fail currently: Please fix it if you encounter it :P (<=== Gerard said this)
             ['<form action="/foo"><img alt="/foo">', '<form action="/bar"><img alt="/foo">', ['/foo' => '/bar']],
+            ['<form action="/foo?key=value"><img alt="/foo">', '<form action="/bar?key=value"><img alt="/foo">', ['/foo' => '/bar']],
 
             ['<a href="/a/b/c/x=1/y=1">', '<a href="/x/y/z/x=1/y=1">', ['/a/b/c' => '/x/y/z']],
             ['<a href="/a/b/c/x=some%20space/y=1">', '<a href="/x/y/z/x=some%20space/y=1">', ['/a/b/c' => '/x/y/z']],
 
-            // test cases that should not do any processing get the last 'false' parameter:
+            // test cases that should not do any processing are identified by the last 'false' parameter:
             ['<img alt="/foo">', '<img alt="/foo">', ['/foo' => '/bar'], false],
 
         ];
