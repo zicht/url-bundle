@@ -36,6 +36,7 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
         return [
             ['<meta property="og:url" content="http://zicht.nl/foo">', '<meta property="og:url" content="http://zicht.nl/bar">', ['/foo' => '/bar']],
             ['<meta property="og:url" content="https://zicht.nl/foo">', '<meta property="og:url" content="https://zicht.nl/bar">', ['/foo' => '/bar']],
+            ['<link rel="canonical" href="https://zicht.nl/foo">', '<link rel="canonical" href="https://zicht.nl/bar">', ['/foo' => '/bar']],
             ['<a href="/foo">', '<a href="/bar">', ['/foo' => '/bar']],
             ['<a href="/foo?param=value">', '<a href="/bar?param=value">', ['/foo' => '/bar']],
             ['<img src="/foo">', '<img src="/bar">', ['/foo' => '/bar']],
