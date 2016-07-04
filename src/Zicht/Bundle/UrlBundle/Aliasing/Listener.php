@@ -85,6 +85,9 @@ class Listener
                  */
                 if (preg_match('/^(\/[a-z]{2,2}\/page\/\d+)(.*)$/', $relative, $matches)) {
                     list(, $relative, $suffix) = $matches;
+                } else if(preg_match('/^(\/page\/\d+)(.*)$/', $relative, $matches)) {
+                    /* For old sites that don't have the locale in the URI */
+                    list(, $relative, $suffix) = $matches;
                 }
 
                 if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
