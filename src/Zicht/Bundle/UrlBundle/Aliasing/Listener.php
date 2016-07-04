@@ -66,8 +66,27 @@ class Listener
                     $relative = $location;
                 }
 
+                /**
+                 * Catches the following situation:
+                 *
+                 * Some redirect URLs might contain extra URL parameters in the form of:
+                 *
+                 *      /nl/page/666/terms=FOO/tag=BAR
+                 *
+                 * (E.g. some SOLR implementations use this URL scheme)
+                 *
+                 * The relative URL above is then incorrect and the public alias can not be found.
+                 *
+                 * Remove /terms=FOO/tag=BAR from the relative path and attach to clean URL if found.
+                 *
+                 */
+                if (preg_match('/^(\/[a-z]{2,2}\/page\/\d+)(.*)$/', $relative, $matches)) {
+                    $relative = $matches[1];
+                }
+
                 if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
-                    $rewrite = $absolutePrefix . $url;
+                    $rewrite = $absolutePrefix . $url . (isset($matches) && isset($matches[2]) ? $matches[2] : '');
+
                     $response->headers->set('location', $rewrite);
                 }
             }
