@@ -66,6 +66,9 @@ class Listener
                     $relative = $location;
                 }
 
+                // Possible suffix for the rewrite URL
+                $suffix = '';
+
                 /**
                  * Catches the following situation:
                  *
@@ -81,12 +84,11 @@ class Listener
                  *
                  */
                 if (preg_match('/^(\/[a-z]{2,2}\/page\/\d+)(.*)$/', $relative, $matches)) {
-                    $relative = $matches[1];
+                    list(, $relative, $suffix) = $matches;
                 }
 
                 if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
-                    $rewrite = $absolutePrefix . $url . (isset($matches) && isset($matches[2]) ? $matches[2] : '');
-
+                    $rewrite = $absolutePrefix . $url . $suffix;
                     $response->headers->set('location', $rewrite);
                 }
             }
