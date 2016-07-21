@@ -46,7 +46,7 @@ class SuggestUrlController extends Controller
     public function linkListAction()
     {
         return new JsonResponse(
-            $this->get('zicht_url.provider')->all($this->get('security.context'))
+            $this->get('zicht_url.provider')->all($this->get('security.authorization_checker'))
         );
     }
 }
