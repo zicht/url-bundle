@@ -56,9 +56,9 @@ class UrlExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'object_url'       => new \Twig_Function_Method($this, 'objectUrl'),
-            'static_ref'       => new \Twig_Function_Method($this, 'staticRef'),
-            'static_reference' => new \Twig_Function_Method($this, 'staticRef')
+            'object_url'       => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
+            'static_ref'       => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
+            'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
         );
     }
 
