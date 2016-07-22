@@ -6,11 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Doctrine;
 
-use \Doctrine\Common\EventSubscriber;
-use \Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use \Doctrine\ORM\Events;
-use \Symfony\Component\DependencyInjection\Container;
-use \Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 
 /**
  * Remove an alias from the aliases

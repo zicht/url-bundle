@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use \Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * StaticReferenceTranslation

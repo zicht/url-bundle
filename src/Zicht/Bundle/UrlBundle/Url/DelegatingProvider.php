@@ -6,9 +6,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Symfony\Component\Security\Core\SecurityContextInterface;
-use \Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
-use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
 /**
  * A provider that delegates to a number of registered providers, ordered by priority.

@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Base class that uses the router for providing urls.

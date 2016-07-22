@@ -5,11 +5,9 @@
  */
 namespace Zicht\Bundle\UrlBundle\Logging;
 
-use \Doctrine\Bundle\DoctrineBundle\Registry;
-use \Doctrine\ORM\EntityManager;
-use \Symfony\Component\HttpFoundation\Response;
-use \Symfony\Component\HttpFoundation\Request;
-use \Zicht\Bundle\UrlBundle\Entity\ErrorLog;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Entity\ErrorLog;
 
 /**
  * Keeps a database log of URL issues, such as 404 and 500 errors

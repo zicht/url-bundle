@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use \Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity representing log url translations, mapping public (SEO-friendly) url's to internal url's (routes).

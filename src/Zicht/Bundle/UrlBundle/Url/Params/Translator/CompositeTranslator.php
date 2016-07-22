@@ -7,7 +7,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
-use \Zicht\Bundle\UrlBundle\Url\Params\Translator;
+use Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
 /**
  * Composite translator which delegates to the translator that translates a key.

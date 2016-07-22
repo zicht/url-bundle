@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params;
 
-use \Zicht\Bundle\FrameworkExtraBundle\Util\SortedSetMap;
+use Zicht\Bundle\FrameworkExtraBundle\Util\SortedSetMap;
 
 /**
  * Abstracts faceted uri's into a Map construct, with each key in the map corresponding to the name of the

@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Doctrine;
 
-use \Doctrine\ORM\Event\LifecycleEventArgs;
-use \Doctrine\ORM\Events;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 
 /**
  * This subscriber handles the creation of aliases

@@ -7,9 +7,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
-use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 
 /**
  * Class JsonMapper

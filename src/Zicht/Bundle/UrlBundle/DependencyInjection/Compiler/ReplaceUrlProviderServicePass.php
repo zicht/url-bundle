@@ -5,8 +5,8 @@
  */
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
  * Originally replaced the regular provider with a decorating one.

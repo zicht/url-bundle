@@ -5,7 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Implementing a listable provider will make the url's available on the

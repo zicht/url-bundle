@@ -5,10 +5,9 @@
  */
 namespace Zicht\Bundle\UrlBundle\Logging;
 
-use \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use \Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use \Symfony\Component\HttpKernel\HttpKernelInterface;
-use \Zicht\Bundle\UrlBundle\Logging\Logging;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * Listener used for logging

@@ -5,7 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Aliasing;
  
-use \Zicht\Util\Str;
+use Zicht\Util\Str;
 
 /**
  * An aliasing strategy which simply puts the systemized title at the specified base path (default is root)

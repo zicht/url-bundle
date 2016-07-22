@@ -6,8 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Doctrine;
 
-use \Doctrine\Common\EventSubscriber;
-use \Symfony\Component\DependencyInjection\Container;
+use Doctrine\Common\EventSubscriber;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Base class for the subscriber implementations

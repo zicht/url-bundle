@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
-use \Zicht\Bundle\UrlBundle\Url\Params\Translator;
+use Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
 /**
  * Static translator which holds mappings for keys and values.
