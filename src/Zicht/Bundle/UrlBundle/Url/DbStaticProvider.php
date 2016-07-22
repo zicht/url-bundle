@@ -6,10 +6,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Doctrine\ORM\EntityManager;
-use \Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\Routing\RouterInterface;
-use \Zicht\Bundle\UrlBundle\Entity\StaticReference;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
  * Static provider holds a set of urls

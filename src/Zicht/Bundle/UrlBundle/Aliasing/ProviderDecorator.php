@@ -6,7 +6,7 @@
  
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
+use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
 /**
  * Decorator for aliasing. No longer used, may be removed in next major release.

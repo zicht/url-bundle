@@ -7,11 +7,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
-use Doctrine\ORM\EntityManager;
-use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Class RssMapper

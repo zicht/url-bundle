@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * This provider is "request aware", so it can either render absolute URL's

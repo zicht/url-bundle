@@ -5,7 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Entity\Repository;
 
-use \Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Repository for the static references

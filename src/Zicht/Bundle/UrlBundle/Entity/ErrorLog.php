@@ -5,8 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Entity;
 
-use \Doctrine\ORM\Mapping as ORM;
-use \Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Log entries

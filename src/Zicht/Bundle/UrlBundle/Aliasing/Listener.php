@@ -12,8 +12,6 @@ use Symfony\Component\HttpKernel\Event;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-use Symfony\Component\Locale\Exception\NotImplementedException;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;

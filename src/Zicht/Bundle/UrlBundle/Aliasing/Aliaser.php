@@ -6,11 +6,10 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use \Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
-use \Zicht\Bundle\UrlBundle\Url\Provider;
-use \Zicht\Util\Str;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
  * Creates aliases

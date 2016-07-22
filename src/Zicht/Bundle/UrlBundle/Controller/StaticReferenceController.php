@@ -8,7 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Controller;
 
 use \Symfony\Component\HttpFoundation\RedirectResponse;
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Utility controller to reference a static ref from outside the system.
