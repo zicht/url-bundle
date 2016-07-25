@@ -19,14 +19,21 @@ class UrlMapperPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if ($container->hasDefinition('zicht_url.aliasing') === false) {
+            return;
+        }
+
         $mappers = $container->findTaggedServiceIds('zicht_url.url_mapper');
+
+        if (sizeof($mappers) === 0) {
+            return;
+        }
+
         $aliasing = $container->getDefinition('zicht_url.aliasing');
 
-        if (sizeof($mappers)) {
-            foreach ($mappers as $serviceId => $info) {
-                $contentMapper = $container->getDefinition($serviceId);
-                $aliasing->addMethodCall('addMapper', array($contentMapper));
-            }
+        foreach ($mappers as $serviceId => $info) {
+            $contentMapper = $container->getDefinition($serviceId);
+            $aliasing->addMethodCall('addMapper', array($contentMapper));
         }
     }
 }
