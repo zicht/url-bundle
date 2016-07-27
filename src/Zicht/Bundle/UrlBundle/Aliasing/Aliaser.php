@@ -100,9 +100,8 @@ class Aliaser
         }
         $this->recursionProtection[]= $internalUrl;
 
-
         $ret = false;
-        if (null !== $this->decisionManager && !$this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), array('VIEW'), $record)) {
+        if (!$this->shouldGenerateAlias($record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
             // Don't save an alias if the generated public alias is empty.
@@ -120,6 +119,22 @@ class Aliaser
 
         return $ret;
     }
+
+
+    /**
+     * Determines whether an alias should be generated for the given record.
+     *
+     * @param mixed $record
+     *
+     * @return bool
+     */
+    public function shouldGenerateAlias($record)
+    {
+        return null !== $this->decisionManager
+        && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
+    }
+
+
     private $recursionProtection = array();
 
 
