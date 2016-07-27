@@ -130,7 +130,7 @@ class Aliaser
     public function shouldGenerateAlias($record)
     {
         return null !== $this->decisionManager
-        && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
+            && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
     }
 
 
