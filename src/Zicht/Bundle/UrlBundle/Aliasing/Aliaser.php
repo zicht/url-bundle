@@ -46,6 +46,7 @@ class Aliaser
         $this->aliasing = $aliasing;
         $this->provider = $provider;
         if (null === $naming) {
+            // TODO: remove this. It should break when not given any. This obstructs tests
             $naming = new DefaultAliasingStrategy();
         }
         $this->aliasingStrategy = $naming;

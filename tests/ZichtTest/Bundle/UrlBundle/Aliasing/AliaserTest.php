@@ -28,25 +28,46 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
      */
     public $provider;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    public $decisionManager;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    public $aliasingStrategy;
+
     public function setUp()
     {
         $this->aliasing = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->decisionManager = $this
+            ->getMockBuilder('Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->aliasingStrategy = $this
+            ->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->provider = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Url\StaticProvider')
             ->disableOriginalConstructor()
             ->setMethods(array('url'))
-            ->getMock()
-        ;
+            ->getMock();
 
-        $this->aliaser = new \Zicht\Bundle\UrlBundle\Aliasing\Aliaser($this->aliasing, $this->provider);
+        $this->aliaser = new Aliaser($this->aliasing, $this->provider, $this->aliasingStrategy, $this->decisionManager);
     }
-
 
     public function testAliasing()
     {
         $foo = 'wut';
+        $this->decisionManager->expects($this->once())->method('decide')->will($this->returnValue(true));
+        $this->aliasingStrategy->expects($this->once())->method('generatePublicAlias')->will($this->returnValue('/wut'));
+
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
         $this->aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW);
 
@@ -58,6 +79,7 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
             Aliasing::STRATEGY_SUFFIX,
             Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW
         )->will($this->returnValue(true));
+
         $this->assertTrue($this->aliaser->createAlias($foo));
     }
 
@@ -69,6 +91,8 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
     {
         $foo = 'wut';
         $this->aliaser->setConflictingInternalUrlStrategy($type);
+        $this->decisionManager->expects($this->once())->method('decide')->will($this->returnValue(true));
+        $this->aliasingStrategy->expects($this->once())->method('generatePublicAlias')->will($this->returnValue('/wut'));
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
         $this->aliasing->expects($this->never())->method('hasPublicAlias');
         $this->aliasing->expects($this->once())->method('addAlias')->with(
@@ -90,6 +114,10 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
     public function testReturningNullWillNotCallAliaser()
     {
         $foo = 'wut';
+
+        $this->decisionManager->method('decide')->will($this->returnValue(true));
+        $this->aliasingStrategy->method('generatePublicAlias')->willReturn('/wut');
+
         $this->aliaser->setConflictingInternalUrlStrategy(Aliasing::STRATEGY_IGNORE);
         $this->provider->expects($this->once())->method('url')->with($foo)->will($this->returnValue('/baz/bat'));
         $this->aliasing->expects($this->never())->method('hasPublicAlias');
@@ -100,6 +128,7 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
             Aliasing::STRATEGY_SUFFIX,
             Aliasing::STRATEGY_IGNORE
         )->will($this->returnValue(false));
+
         $this->assertFalse($this->aliaser->createAlias($foo));
     }
 
