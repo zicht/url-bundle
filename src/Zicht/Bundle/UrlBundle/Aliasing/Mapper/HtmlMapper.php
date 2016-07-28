@@ -47,8 +47,7 @@ class HtmlMapper implements UrlMapperInterface
             $url = trim($url);
 
             // exclusion (may need to configure these in the future?)
-            if (
-                0 === strpos($url, '/bundles/')
+            if (0 === strpos($url, '/bundles/')
                 || 0 === strpos($url, '/media/')
                 || 0 === strpos($url, '/js/')
                 || 0 === strpos($url, '/style/')
@@ -112,8 +111,8 @@ class HtmlMapper implements UrlMapperInterface
     /**
      * Check if the url is an external url (and not ignored)
      *
-     * @param $url
-     * @param $whiteListDomains
+     * @param string $url
+     * @param array $whiteListDomains
      * @return bool
      */
     private function isExternalUrl($url, $whiteListDomains)

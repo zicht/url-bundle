@@ -20,14 +20,13 @@ class StaticReferenceRepository extends EntityRepository
      */
     public function getAll($locale)
     {
-        return $this
-            ->createQueryBuilder('r')
-            ->addSelect('t')
-            ->innerJoin('r.translations', 't')
-            ->andWhere('t.locale=:locale')
-            ->setParameter(':locale', $locale)
-            ->getQuery()
-            ->execute()
-        ;
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->addSelect('t');
+        $qb->innerJoin('r.translations', 't');
+        $qb->andWhere('t.locale=:locale');
+        $qb->setParameter(':locale', $locale);
+
+        return $qb->getQuery()->execute();
     }
 }

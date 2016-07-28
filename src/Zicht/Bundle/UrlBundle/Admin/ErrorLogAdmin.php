@@ -6,14 +6,13 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use \Sonata\AdminBundle\Datagrid\ListMapper;
-use \Sonata\AdminBundle\Show\ShowMapper;
-use \Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\Admin;
 
 /**
  * Admin for error logs.
  *
- * @codeCoverageIgnore
  */
 class ErrorLogAdmin extends Admin
 {
@@ -34,15 +33,17 @@ class ErrorLogAdmin extends Admin
             ->add('url')
             ->add('ip')
             ->add('message')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'delete' => array()
+            ->add(
+                '_action',
+                'actions',
+                array(
+                    'actions' => array(
+                        'show' => array(),
+                        'delete' => array()
+                    )
                 )
-            ))
-        ;
+            );
     }
-
 
     /**
      * @{inheritDoc}
@@ -56,7 +57,6 @@ class ErrorLogAdmin extends Admin
             ->add('ip')
             ->add('referer')
             ->add('ua')
-            ->add('message')
-        ;
+            ->add('message');
     }
 }

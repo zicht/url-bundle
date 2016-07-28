@@ -20,7 +20,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     protected $providers = array();
 
-
     /**
      * Initialize the provider
      */
@@ -28,7 +27,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     {
         $this->providers = new SortedList();
     }
-
 
     /**
      * Add a provider with the specified priority. Higher priority means exactly that ;)

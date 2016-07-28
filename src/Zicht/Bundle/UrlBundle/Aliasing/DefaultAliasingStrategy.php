@@ -31,7 +31,7 @@ class DefaultAliasingStrategy implements AliasingStrategy
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function generatePublicAlias($subject, $currentAlias='')
+    public function generatePublicAlias($subject, $currentAlias = '')
     {
         if (is_object($subject)) {
             if ($subject instanceof Aliasable) {

@@ -26,7 +26,6 @@ class JsonMapper implements UrlMapperInterface
         return $contentType === 'application/json';
     }
 
-
     /**
      * @{inheritDoc}
      */
@@ -47,8 +46,7 @@ class JsonMapper implements UrlMapperInterface
             $url = str_replace('\/', '/', $url);
 
             // exclusion (may need to configure these in the future?)
-            if (
-                0 === strpos($url, '/bundles/')
+            if (0 === strpos($url, '/bundles/')
                 || 0 === strpos($url, '/media/')
                 || 0 === strpos($url, '/js/')
                 || 0 === strpos($url, '/style/')
@@ -112,8 +110,8 @@ class JsonMapper implements UrlMapperInterface
     /**
      * Check if the url is an external url (and not ignored)
      *
-     * @param $url
-     * @param $whiteListDomains
+     * @param string $url
+     * @param array $whiteListDomains
      * @return bool
      */
     private function isExternalUrl($url, $whiteListDomains)

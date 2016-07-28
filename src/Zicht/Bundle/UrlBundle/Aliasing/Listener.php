@@ -38,7 +38,6 @@ class Listener
         $this->router = $router;
     }
 
-
     /**
      * Listens to redirect responses, to replace any internal url with a public one.
      *
@@ -83,7 +82,7 @@ class Listener
                  */
                 if (preg_match('/^(\/[a-z]{2,2}\/page\/\d+)(.*)$/', $relative, $matches)) {
                     list(, $relative, $suffix) = $matches;
-                } else if(preg_match('/^(\/page\/\d+)(.*)$/', $relative, $matches)) {
+                } elseif (preg_match('/^(\/page\/\d+)(.*)$/', $relative, $matches)) {
                     /* For old sites that don't have the locale in the URI */
                     list(, $relative, $suffix) = $matches;
                 }
@@ -161,7 +160,7 @@ class Listener
                 if (false !== ($queryMark = strpos($publicUrl, '?'))) {
                     $originalUrl = $publicUrl;
                     $publicUrl = substr($originalUrl, 0, $queryMark);
-                    $queryString = substr($originalUrl, $queryMark);;
+                    $queryString = substr($originalUrl, $queryMark);
                 } else {
                     $queryString = null;
                 }

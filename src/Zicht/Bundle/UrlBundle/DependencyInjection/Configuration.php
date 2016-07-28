@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
         $isBool = function ($v) {
             return is_bool($v);
         };
-        $convertToEnabledKey = function($v) {
+        $convertToEnabledKey = function ($v) {
             return array('enabled' => $v);
         };
 
@@ -82,8 +82,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

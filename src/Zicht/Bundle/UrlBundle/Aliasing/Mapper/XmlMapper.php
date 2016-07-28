@@ -59,8 +59,7 @@ class XmlMapper implements UrlMapperInterface
 
         foreach ($matches[1] as $url) {
             // exclusion (may need to configure these in the future?)
-            if (
-                0 === strpos($url, '/bundles/')
+            if (0 === strpos($url, '/bundles/')
                 || 0 === strpos($url, '/media/')
                 || 0 === strpos($url, '/js/')
                 || 0 === strpos($url, '/style/')

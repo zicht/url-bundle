@@ -13,6 +13,10 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class StaticTranslator implements Translator
 {
+    protected $keyName;
+    protected $keyTranslation;
+    protected $valueTranslations;
+
     /**
      * Constructor.
      *

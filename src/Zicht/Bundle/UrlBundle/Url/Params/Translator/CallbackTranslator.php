@@ -11,6 +11,9 @@ namespace Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class CallbackTranslator extends StaticTranslator
 {
+    protected $valueInputTranslator;
+    protected $valueOutputTranslator;
+
     /**
      * Constructor.
      *

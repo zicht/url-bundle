@@ -99,13 +99,13 @@ class Params extends SortedSetMap
     /**
      * Helper for with()
      *
-     * @param self $ret
+     * @param Params $ret
      * @param string $key
      * @param string $value
      * @param bool $multiple
      * @return Params
      */
-    private static function doWith(self $ret, $key, $value, $multiple = true)
+    private static function doWith(Params $ret, $key, $value, $multiple = true)
     {
         if (!$multiple) {
             if (!is_scalar($value)) {

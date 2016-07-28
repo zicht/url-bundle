@@ -50,8 +50,7 @@ class Listener
     public function onKernelResponse(FilterResponseEvent $e)
     {
         if (isset($this->log)) {
-            if (
-                $e->getRequestType() === HttpKernelInterface::MASTER_REQUEST
+            if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST
                 && ($status = $e->getResponse()->getStatusCode()) >= 400
             ) {
                 $this->log->setStatus($status);

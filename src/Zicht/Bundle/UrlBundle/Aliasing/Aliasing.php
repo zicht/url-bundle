@@ -169,12 +169,13 @@ class Aliasing
      *
      * @throws \InvalidArgumentException
      */
-    public function addAlias($publicUrl,
-                             $internalUrl,
-                             $type,
-                             $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
-                             $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE)
-    {
+    public function addAlias(
+        $publicUrl,
+        $internalUrl,
+        $type,
+        $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
+        $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE
+    ) {
         $ret = false;
         /** @var $alias UrlAlias */
 
@@ -331,7 +332,7 @@ class Aliasing
         $this->isBatch = $isBatch;
         $mgr = $this->manager;
         $self = $this;
-        return function() use($mgr, $self) {
+        return function () use ($mgr, $self) {
             $mgr->flush();
             $self->setIsBatch(true);
         };
@@ -433,7 +434,7 @@ class Aliasing
             join(
                 ', ',
                 array_map(
-                    function($v) use($connection) {
+                    function ($v) use ($connection) {
                         return $connection->quote($v, \PDO::PARAM_STR);
                     },
                     $urls
@@ -451,9 +452,9 @@ class Aliasing
      * Transform internal URLS to public URLS using our defined mappers
      *
      * @param string $contentType
-     * @param $mode
+     * @param string $mode
      * @param string $content
-     * @param Request $request
+     * @param array $whiteListDomains
      * @return string
      */
     public function mapContent($contentType, $mode, $content, $whiteListDomains = [])

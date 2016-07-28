@@ -16,6 +16,9 @@ use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
  */
 class UrlExtension extends Twig_Extension
 {
+    protected $provider;
+    protected $aliasing;
+
     /**
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
      * that delegates to all registered url providers.

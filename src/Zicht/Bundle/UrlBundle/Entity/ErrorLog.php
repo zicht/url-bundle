@@ -76,8 +76,7 @@ class ErrorLog
             ->setReferer($referer)
             ->setUa($ua)
             ->setIp($ip)
-            ->setUrl($url)
-        ;
+            ->setUrl($url);
     }
 
 

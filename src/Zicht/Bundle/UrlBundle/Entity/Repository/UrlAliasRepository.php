@@ -11,11 +11,12 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Default repository implementation for url aliases
- *
- * @codeCoverageIgnore
  */
 class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryInterface
 {
+    /**
+     * @{inheritDoc}
+     */
     public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['public_url' => $publicUrl];
@@ -25,7 +26,9 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         return $this->findOneBy($where);
     }
 
-
+    /**
+     * @{inheritDoc}
+     */
     public function findOneByInternalUrl($internalUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['internal_url' => $internalUrl];
@@ -35,11 +38,8 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         return $this->findOneBy($where);
     }
 
-
     /**
-     *
-     * @param $internalUrl
-     * @return UrlAlias[]
+     * @{inheritDoc}
      */
     public function findAllByInternalUrl($internalUrl)
     {

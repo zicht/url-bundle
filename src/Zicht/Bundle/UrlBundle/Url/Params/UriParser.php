@@ -11,7 +11,7 @@ namespace Zicht\Bundle\UrlBundle\Url\Params;
  */
 class UriParser implements Translator
 {
-    private $_separators = array();
+    private $seperators = array();
 
     /**
      * @var Translator
@@ -27,9 +27,9 @@ class UriParser implements Translator
      */
     public function __construct($paramSeparator = '/', $keyValueSeparator = '=', $valueSeparator = ',')
     {
-        $this->_separators['param']     = $paramSeparator;
-        $this->_separators['key_value'] = $keyValueSeparator;
-        $this->_separators['value']     = $valueSeparator;
+        $this->seperators['param']     = $paramSeparator;
+        $this->seperators['key_value'] = $keyValueSeparator;
+        $this->seperators['value']     = $valueSeparator;
     }
 
 
@@ -78,15 +78,15 @@ class UriParser implements Translator
     public function parseUri($uri)
     {
         $ret = array();
-        foreach (explode($this->_separators['param'], $uri) as $params) {
+        foreach (explode($this->seperators['param'], $uri) as $params) {
             if ($params) {
-                @list($key, $values) = explode($this->_separators['key_value'], $params, 2);
+                @list($key, $values) = explode($this->seperators['key_value'], $params, 2);
                 $external = $key;
                 if ($internal = $this->translateKeyInput($key)) {
                     $key = $internal;
                 }
                 $ret[$key] = array();
-                foreach (explode($this->_separators['value'], $values) as $value) {
+                foreach (explode($this->seperators['value'], $values) as $value) {
                     if (strlen($value) > 0) {
                         if ($internal = $this->translateValueInput($external, $value)) {
                             $value = $internal;
@@ -114,21 +114,21 @@ class UriParser implements Translator
 
         foreach ($params as $param => $values) {
             if (!$first) {
-                $ret .= $this->_separators['param'];
+                $ret .= $this->seperators['param'];
             }
             $first    = false;
             $internal = $param;
             if ($external = $this->translateKeyOutput($param)) {
                 $param = $external;
             }
-            $ret .= $param . $this->_separators['key_value'];
+            $ret .= $param . $this->seperators['key_value'];
             $firstValue = true;
             foreach ($values as $value) {
                 if ($external = $this->translateValueOutput($internal, $value)) {
                     $value = $external;
                 }
                 if (!$firstValue) {
-                    $ret .= $this->_separators['value'];
+                    $ret .= $this->seperators['value'];
                 } else {
                     $firstValue = false;
                 }

@@ -29,9 +29,11 @@ class UrlType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            array(
             'with_edit_button' => true
-        ));
+            )
+        );
     }
 
     /**

@@ -6,17 +6,16 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use \Sonata\AdminBundle\Datagrid\DatagridMapper;
-use \Sonata\AdminBundle\Datagrid\ListMapper;
-use \Sonata\AdminBundle\Show\ShowMapper;
-use \Sonata\AdminBundle\Admin\Admin;
-use \Sonata\AdminBundle\Form\FormMapper;
-use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Form\FormMapper;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
  * Admin for URL aliases
  *
- * @codeCoverageIgnore
  */
 class UrlAliasAdmin extends Admin
 {
@@ -33,14 +32,17 @@ class UrlAliasAdmin extends Admin
             ->add('id')
             ->add('public_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
             ->add('internal_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array()
+            ->add(
+                '_action',
+                'actions',
+                array(
+                    'actions' => array(
+                        'show' => array(),
+                        'edit' => array(),
+                        'delete' => array()
+                    )
                 )
-            ))
-        ;
+            );
     }
 
     /**
@@ -50,8 +52,7 @@ class UrlAliasAdmin extends Admin
     {
         $filter
             ->add('public_url')
-            ->add('internal_url')
-        ;
+            ->add('internal_url');
     }
 
     /**
@@ -59,19 +60,20 @@ class UrlAliasAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $form)
     {
-        $form
-            ->add('public_url')
+        $form->add('public_url')
             ->add('internal_url', 'zicht_url')
-            ->add('mode', 'choice', array(
-                'choices' => array(
-                    UrlAlias::ALIAS   => 'alias (302 redirect)',
-                    UrlAlias::MOVE    => 'move (301 redirect)',
-                    UrlAlias::REWRITE => 'rewrite',
+            ->add(
+                'mode',
+                'choice',
+                array(
+                    'choices' => array(
+                        UrlAlias::ALIAS   => 'alias (302 redirect)',
+                        UrlAlias::MOVE    => 'move (301 redirect)',
+                        UrlAlias::REWRITE => 'rewrite',
+                    )
                 )
-            ))
-        ;
+            );
     }
-
 
     /**
      * @{inheritDoc}
@@ -81,7 +83,6 @@ class UrlAliasAdmin extends Admin
         $show
             ->add('public_url')
             ->add('internal_url')
-            ->add('mode')
-        ;
+            ->add('mode');
     }
 }

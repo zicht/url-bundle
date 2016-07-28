@@ -51,7 +51,6 @@ class DbStaticProvider implements Provider
         $this->em = $em;
     }
 
-
     /**
      * Stores the request
      *

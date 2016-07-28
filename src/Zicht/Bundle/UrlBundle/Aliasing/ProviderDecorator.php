@@ -6,6 +6,7 @@
  
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
 /**

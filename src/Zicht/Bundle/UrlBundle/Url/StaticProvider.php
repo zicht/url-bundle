@@ -25,7 +25,6 @@ class StaticProvider implements Provider
         $this->router = $router;
     }
 
-
     /**
      * Add the array as references
      *
@@ -36,7 +35,6 @@ class StaticProvider implements Provider
     {
         $this->refs = $refs + $this->refs;
     }
-
 
     /**
      * Add a single reference
@@ -50,7 +48,6 @@ class StaticProvider implements Provider
         $this->refs[$name] = $value;
     }
 
-
     /**
      * @{inheritDoc}
      */
@@ -58,7 +55,6 @@ class StaticProvider implements Provider
     {
         return is_string($object) && isset($this->refs[$object]);
     }
-
 
     /**
      * @{inheritDoc}
