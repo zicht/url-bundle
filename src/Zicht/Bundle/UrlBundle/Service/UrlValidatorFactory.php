@@ -20,7 +20,7 @@ class UrlValidatorFactory
      *
      * @return UrlValidator
      */
-    public static function createUrlValidatorFactory()
+    public static function createUrlValidator()
     {
         $client = new Client();
 
