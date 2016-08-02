@@ -56,5 +56,17 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="zicht_url.url_mapper" />
         </service>
+
+        <service id="zicht_url.service.url_validator" class="Zicht\Bundle\UrlBundle\Service\UrlValidator">
+            <factory class="Zicht\Bundle\UrlBundle\Service\UrlValidatorFactory"
+                     method="create" />
+            <tag name="zicht_url.url_validator" />
+        </service>
+
+        <service id="zicht_url.validator.contains_valid_urls"
+                 class="Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator">
+            <argument type="service" id="zicht_url.service.url_validator" />
+            <tag name="validator.contains_valid_urls" />
+        </service>
     </services>
 </container>
