@@ -66,7 +66,7 @@
         <service id="zicht_url.validator.contains_valid_urls"
                  class="Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator">
             <argument type="service" id="zicht_url.service.url_validator" />
-            <tag name="validator.contains_valid_urls" />
+            <tag name="validator.constraint_validator" />
         </service>
     </services>
 </container>

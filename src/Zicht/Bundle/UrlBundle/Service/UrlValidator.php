@@ -7,6 +7,8 @@
 namespace Zicht\Bundle\UrlBundle\Service;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 
 /**
  * Class UrlValidator
@@ -53,7 +55,13 @@ class UrlValidator
      */
     public function validate($url)
     {
-        $response = $this->client->request('GET', $url);
+        try {
+            $response = $this->client->get($url);
+        } catch (ConnectException $e) {
+            return false;
+        } catch (RequestException $e) {
+            return false;
+        }
 
         if (in_array($response->getStatusCode(), $this->invalidStatusCodes)) {
             return false;

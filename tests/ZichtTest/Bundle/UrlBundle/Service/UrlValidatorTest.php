@@ -30,7 +30,7 @@ class UrlValidatorTest extends PHPUnit_Framework_TestCase
         $response = $this->getMockBuilder(Response::class)->getMock();
 
         $response->expects($this->once())->method('getStatusCode')->willReturn(500);
-        $client->expects($this->once())->method('request')->with('GET', $url)->willReturn($response);
+        $client->expects($this->once())->method('get')->with($url)->willReturn($response);
 
         $urlValidator = new UrlValidator($client);
 
@@ -53,7 +53,7 @@ class UrlValidatorTest extends PHPUnit_Framework_TestCase
         $response = $this->getMockBuilder(Response::class)->getMock();
 
         $response->expects($this->once())->method('getStatusCode')->willReturn(200);
-        $client->expects($this->once())->method('request')->with('GET', $url)->willReturn($response);
+        $client->expects($this->once())->method('get')->with($url)->willReturn($response);
 
         $urlValidator = new UrlValidator($client);
 
