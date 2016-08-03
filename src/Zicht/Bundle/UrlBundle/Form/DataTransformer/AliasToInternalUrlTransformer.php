@@ -4,7 +4,7 @@
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
-namespace Zicht\Bundle\AdminBundle\Form\DataTransformer;
+namespace Zicht\Bundle\UrlBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
@@ -44,7 +44,7 @@ class AliasToInternalUrlTransformer implements DataTransformerInterface
             return null;
         }
         
-        return $this->aliasing->mapContent('html', UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL, $html);
+        return $this->aliasing->mapContent('text/html', UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL, $html);
     }
 
     /**
@@ -59,6 +59,6 @@ class AliasToInternalUrlTransformer implements DataTransformerInterface
             return null;
         }
 
-        return $this->aliasing->mapContent('html', UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC, $html);
+        return $this->aliasing->mapContent('text/html', UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC, $html);
     }
 }

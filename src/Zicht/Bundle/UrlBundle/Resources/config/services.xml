@@ -37,11 +37,6 @@
             <tag name="doctrine.event_subscriber" connection="default" />
         </service>
 
-        <service id="zicht_url.aliasing.aliasing" class="Zicht\Bundle\UrlBundle\Aliasing\Aliasing">
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <tag name="zicht_url.aliasing" />
-        </service>
-
         <service id="zicht_url.mapper.xml" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="zicht_url.url_mapper" />
@@ -76,9 +71,10 @@
         
         <service id="zicht_url.tinymce_type_extension"
                     class="Zicht\Bundle\UrlBundle\Form\Extension\TinymceTypeExtension">
-            <argument type="service" id="zicht_url.aliasing.aliasing" />
+            <argument type="service" id="zicht_url.aliasing" />
             <tag name="form.type_extension"
-                 extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType" />
+                 extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType"
+                 alias="tinymce" />
         </service>
     </services>
 </container>
