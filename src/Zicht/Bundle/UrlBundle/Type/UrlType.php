@@ -64,8 +64,6 @@ class UrlType extends AbstractType
         // TODO make the route name an option:
         $view->vars['url_suggest'] = '/admin/url/suggest';
 
-        // TODO lookup the title using a yet-to-be-built service
-        $view->vars['current_url_title'] = $view->vars['value'];
         $view->vars['with_edit_button'] = $options['with_edit_button'];
     }
 
