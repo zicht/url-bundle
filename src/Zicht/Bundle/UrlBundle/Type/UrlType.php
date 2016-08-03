@@ -6,15 +6,33 @@
 namespace Zicht\Bundle\UrlBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Form\DataTransformer\ExternalUrlToInternalUrlTransformer;
 
 /**
  * Type for choosing an URL
  */
 class UrlType extends AbstractType
 {
+    /**
+     * @var Aliasing
+     */
+    private $aliasing;
+
+    /**
+     * UrlType constructor.
+     *
+     * @param Aliasing $aliasing
+     */
+    public function __construct(Aliasing $aliasing)
+    {
+        $this->aliasing = $aliasing;
+    }
+
     /**
      * @{inheritDoc}
      */
@@ -57,5 +75,13 @@ class UrlType extends AbstractType
     public function getParent()
     {
         return 'text';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->addModelTransformer(new ExternalUrlToInternalUrlTransformer($this->aliasing));
     }
 }
