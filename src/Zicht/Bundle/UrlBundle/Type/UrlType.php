@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use Zicht\Bundle\UrlBundle\Form\DataTransformer\ExternalUrlToInternalUrlTransformer;
+use Zicht\Bundle\UrlBundle\Form\DataTransformer\TextTransformer;
 
 /**
  * Type for choosing an URL
@@ -80,6 +80,6 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new ExternalUrlToInternalUrlTransformer($this->aliasing));
+        $builder->addModelTransformer(new TextTransformer($this->aliasing));
     }
 }
