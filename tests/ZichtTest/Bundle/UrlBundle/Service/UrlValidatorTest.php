@@ -26,10 +26,10 @@ class UrlValidatorTest extends PHPUnit_Framework_TestCase
         //Arrange
         $url = 'http://www.google.nl';
 
-        $client = $this->getMockBuilder(Client::class)->getMock();
-        $response = $this->getMockBuilder(Response::class)->getMock();
-
+        $response = $this->getMockBuilder(Response::class)->setMethods(['getStatusCode'])->getMock();
         $response->expects($this->once())->method('getStatusCode')->willReturn(500);
+
+        $client = $this->getMockBuilder(Client::class)->setMethods(['get'])->getMock();
         $client->expects($this->once())->method('get')->with($url)->willReturn($response);
 
         $urlValidator = new UrlValidator($client);
@@ -49,10 +49,10 @@ class UrlValidatorTest extends PHPUnit_Framework_TestCase
         //Arrange
         $url = 'http://www.google.nl';
 
-        $client = $this->getMockBuilder(Client::class)->getMock();
-        $response = $this->getMockBuilder(Response::class)->getMock();
-
+        $response = $this->getMockBuilder(Response::class)->setMethods(['getStatusCode'])->getMock();
         $response->expects($this->once())->method('getStatusCode')->willReturn(200);
+
+        $client = $this->getMockBuilder(Client::class)->setMethods(['get'])->getMock();
         $client->expects($this->once())->method('get')->with($url)->willReturn($response);
 
         $urlValidator = new UrlValidator($client);
