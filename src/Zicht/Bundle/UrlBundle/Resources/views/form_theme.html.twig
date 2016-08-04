@@ -1,6 +1,6 @@
 {% block zicht_url_widget %}
     {% if with_edit_button %}
-        <span id="{{ id }}_current" class="current">{{ current_url_title }}</span>
+        <span id="{{ id }}_current" class="current">{{ value }}</span>
         <a id="{{ id }}_search_btn" class="btn" href="#"><i class="ion-edit"></i></a>
         <div id="{{ id }}_search_control" style="display: none; padding-top: 1em">
             {{ block('form_widget_simple') }}

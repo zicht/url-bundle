@@ -27,5 +27,12 @@
             <argument type="service" id="zicht_url.aliasing"/>
             <argument type="service" id="zicht_url.provider.real"/> <!-- the original 'zicht_url.provider.delegating' service, since otherwise the aliases got retrieved as an existing url ^^ -->
         </service>
+        <service id="zicht_url.tinymce_type_extension"
+                 class="Zicht\Bundle\UrlBundle\Form\Extension\TinymceTypeExtension">
+            <argument type="service" id="zicht_url.aliasing" />
+            <tag name="form.type_extension"
+                 extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType"
+                 alias="tinymce" />
+        </service>
     </services>
 </container>

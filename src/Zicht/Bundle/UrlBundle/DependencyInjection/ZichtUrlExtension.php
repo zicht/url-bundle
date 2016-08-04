@@ -31,8 +31,10 @@ class ZichtUrlExtension extends Extension
 
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        // add the config to the UnaliasSubscriber
-        $container->getDefinition('zicht_url.unalias_subscriber')->addArgument($config['unalias_subscriber']);
+        if (!empty($config['unalias_subscriber'])) {
+            // deprecation, remove in next major
+            trigger_error("unalias_subscriber is no longer used. This has moved to form transformers.", E_USER_DEPRECATED);
+        }
 
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
