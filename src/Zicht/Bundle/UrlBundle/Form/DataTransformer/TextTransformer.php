@@ -20,8 +20,8 @@ class TextTransformer extends AbstractAliasingTransformer
     /**
      * Delegates the text mapping to the aliasing service.
      *
-     * @param $text
-     * @param $mode
+     * @param string $text
+     * @param string $mode
      * @return mixed|null
      */
     protected function doMap($text, $mode)

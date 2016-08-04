@@ -13,7 +13,6 @@ use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 /**
  * Provides a Template Method pattern for implementing different mapping types
  *
- * Class AbstractAliasingTransformer
  * @package Zicht\Bundle\UrlBundle\Form\DataTransformer
  */
 abstract class AbstractAliasingTransformer implements DataTransformerInterface
@@ -56,13 +55,13 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
     }
 
     /**
-     * Implement the actual mapping with the specified mode.
+     * Wraps the doMap to defend for the 'null'-value case
      *
      * @param string $data
      * @param string $mode
      * @return string
      */
-    public final function map($data, $mode)
+    final public function map($data, $mode)
     {
         if (null === $data) {
             return $data;
@@ -71,5 +70,12 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
         return $this->doMap($data, $mode);
     }
 
+    /**
+     * Implement the actual mapping with the specified mode.
+     *
+     * @param string $data
+     * @param string $mode
+     * @return string
+     */
     abstract protected function doMap($data, $mode);
 }
