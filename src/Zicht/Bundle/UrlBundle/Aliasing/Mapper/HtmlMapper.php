@@ -10,7 +10,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
- * Backported from master, 2.8.1; commit:
+ * Backported from master, 2.8.1; commit: 1e2a54336a7831f6df2bf50e2dc917eeab91a769
  *
  * Class HtmlMapper
  *
