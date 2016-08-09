@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use \Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use \Doctrine\ORM\EntityManager;
+use Zicht\Bundle\UrlBundle\Aliasing\Mapper\HtmlMapper;
 use \Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -311,9 +312,9 @@ class Aliasing
      * @param string $html
      * @return string
      */
-    public function internalToPublicHtml($html)
+    public function internalToPublicHtml($html, $whitelistDomains = [])
     {
-        return $this->processAliasing($html, 'internal-to-public', 'html');
+        return $this->processAliasing($html, 'internal-to-public', 'html', $whitelistDomains);
     }
 
     /**
@@ -334,15 +335,17 @@ class Aliasing
      * @param string $mode Can be either 'internal-to-public' or 'public-to-internal'
      * @return string
      */
-    private function processAliasing($html, $mode, $type)
+    private function processAliasing($html, $mode, $type, $whitelistDomains = [])
     {
         switch ($type) {
             case 'xml':
                 $expression = '/<loc>(?:https?:\/\/[^\/]+)([^#?]+?)(?:[#?].*)?<\/loc>/';
                 break;
 
-            default: // i.e. html
-                $expression = '/(?:(?<=href=)|(?<=src=)|(?<=action=))(?:")([^?#"]+)(?:[?"])/';
+            default:
+                // The HtmlMapper is backported from master (2.8.1 at time of writing)
+                // the rest of the code is left in tact as not to impose BC breaks
+                return (new HtmlMapper())->processAliasing($html, $mode, $this, $whitelistDomains);
                 break;
         }
 

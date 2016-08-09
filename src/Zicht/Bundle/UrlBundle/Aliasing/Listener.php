@@ -294,7 +294,7 @@ class Listener
 
             switch ($contentType) {
                 case 'text/html':
-                    $response->setContent($this->aliasing->internalToPublicHtml($response->getContent()));
+                    $response->setContent($this->aliasing->internalToPublicHtml($response->getContent(), [$request->getHttpHost()]));
                     break;
 
                 case 'text/xml':
