@@ -206,7 +206,12 @@ class Listener
             if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
-                        $this->rewriteRequest($event, $url->getInternalUrl());
+                        // if the match is not exact (i.e., case insensitive match), redirect it.
+                        if ($publicUrl != $url->getPublicUrl()) {
+                            $event->setResponse(new RedirectResponse($url->getPublicUrl(), 301));
+                        } else {
+                            $this->routeRequest($event, $url->getInternalUrl());
+                        }
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
