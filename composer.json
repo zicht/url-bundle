@@ -16,7 +16,7 @@
         "symfony/symfony": "^2.7",
         "zicht/framework-extra-bundle": "^4.1",
         "guzzlehttp/guzzle": "^6.2",
-        "zicht/admin-bundle": "^1.1"
+        "zicht/admin-bundle": "*,>=1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^4",
