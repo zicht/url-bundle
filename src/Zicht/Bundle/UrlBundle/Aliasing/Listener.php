@@ -210,7 +210,7 @@ class Listener
                         if ($publicUrl != $url->getPublicUrl()) {
                             $event->setResponse(new RedirectResponse($url->getPublicUrl(), 301));
                         } else {
-                            $this->routeRequest($event, $url->getInternalUrl());
+                            $this->rewriteRequest($event, $url->getInternalUrl());
                         }
                         break;
                     case UrlAlias::MOVE:
