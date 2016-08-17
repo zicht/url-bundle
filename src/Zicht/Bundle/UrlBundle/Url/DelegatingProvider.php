@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
@@ -89,7 +89,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     /**
      * @{inheritDoc}
      */
-    public function all(SecurityContextInterface $securityContext)
+    public function all(AuthorizationCheckerInterface $securityContext)
     {
         $ret = array();
         foreach ($this->providers as $provider) {

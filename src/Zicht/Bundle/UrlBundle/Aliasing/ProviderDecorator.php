@@ -6,7 +6,8 @@
  
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 
 /**
@@ -56,7 +57,7 @@ class ProviderDecorator extends DelegatingProvider
     /**
      * @{inheritDoc}
      */
-    public function all(SecurityContextInterface $security)
+    public function all(AuthorizationCheckerInterface $security)
     {
         $urlList = parent::all($security);
 
