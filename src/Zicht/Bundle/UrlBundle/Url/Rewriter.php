@@ -7,21 +7,51 @@
 namespace Zicht\Bundle\UrlBundle\Url;
 
 
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+
 class Rewriter
 {
-    public function __construct()
+    private $localDomains = [];
+
+    public function __construct(Aliasing $aliasing)
     {
+        $this->aliasing = $aliasing;
     }
 
 
+    public function setLocalDomains($localDomains)
+    {
+        $this->localDomains = $localDomains;
+    }
+
     /**
+     * Rewrite all $urls, given the $mappings map of mappings (from => to), within the context of
+     * host names $localDomains.
+     *
+     * Example:
+     *
+     *     rewrite(['http://example.org/foo?x=y'], ['/foo' => '/bar'], ['example.org']);
+     *
+     *
+     * Would return the following mapping:
+     *
+     * ['http://example.org/foo?x=y' => 'http://example.org/bar?x=y']
+     *
      * @param string[] $urls
      * @param array $mappings
      * @param string[] $localDomains
      * @return array
      */
-    public function rewrite(array $urls, array $mappings, array $localDomains)
+    public function rewrite(array $urls, $mode)
     {
+        $mappings = $this->aliasing->getAliasingMap(
+            array_map(
+                [$this, 'extractPath'],
+                $urls
+            ),
+            $mode
+        );
+
         $ret = [];
         foreach ($urls as $url) {
             if (isset($mappings[$url])) {
@@ -39,7 +69,7 @@ class Rewriter
             }
 
             if (isset($parts['host'])) {
-                if (!in_array($parts['host'], $localDomains)) {
+                if (!in_array($parts['host'], $this->localDomains)) {
                     // external url, don't do mapping.
                     $ret[$url] = $url;
                     continue;
@@ -90,6 +120,7 @@ class Rewriter
     public function extractPath($url)
     {
         $parts = $this->parseUrl($url);
+
         if (!isset($parts['path'])) {
             return null;
         }
@@ -97,6 +128,7 @@ class Rewriter
         if (isset($parts['scheme']) && !in_array($parts['scheme'], ['http', 'https'])) {
             return null;
         }
+
         return $parts['path'];
     }
 
@@ -118,5 +150,36 @@ class Rewriter
         }
 
         return $ret;
+    }
+
+
+    /**
+     * This convenenience method processes the urls in the content with a structure matching the following:
+     *
+     * ['the url' => ['total string that should be replaced', 'the prefix', 'the url', 'the suffix']]
+     *
+     * e.g.:
+     * 'http://example.org/' => ['<a href="http://example.org/"', '<a href="', 'http://example.org/', '"']
+     *
+     * It replaces contents by replacing all occurrences of the 0 index with the 1 index, concatenated with the
+     * rewritten url, and the suffix.
+     *
+     * @param $content
+     * @param $mode
+     * @param Aliasing $aliaser
+     * @param $matchedGroups
+     * @return string
+     */
+    public function rewriteMatches($content, $mode, $matchedGroups)
+    {
+        $replacements = [];
+        foreach ($this->rewrite(array_keys($matchedGroups), $mode) as $from => $to) {
+            if (isset($matchedGroups[$from]) && $from !== $to) {
+                list($source, $prefix, $oldUrl, $suffix) = $matchedGroups[$from];
+                $replacements[$source] = $prefix . $to . $suffix;
+            }
+        }
+
+        return strtr($content, $replacements);
     }
 }

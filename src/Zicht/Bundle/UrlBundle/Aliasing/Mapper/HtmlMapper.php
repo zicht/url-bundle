@@ -8,6 +8,7 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 /**
  * Class HtmlMapper
@@ -24,6 +25,7 @@ class HtmlMapper implements UrlMapperInterface
     {
         $this->htmlAttributes = [
             'a' => ['href', 'data-href'],
+            'area' => ['href', 'data-href'],
             'iframe' => ['src'],
             'form' => ['action'],
             'meta' => ['content'],
@@ -44,9 +46,10 @@ class HtmlMapper implements UrlMapperInterface
     /**
      * @{inheritDoc}
      */
-    public function processAliasing($html, $mode, Aliasing $aliaser)
+    public function processAliasing($html, $mode, Rewriter $rewriter)
     {
         $map = [];
+
         foreach ($this->htmlAttributes as $tagName => $attributes) {
             $pattern = sprintf('!(<%s\b[^>]+\b(?:%s)=")([^"]+)(")!', $tagName, join('|', $attributes));
             if (preg_match_all($pattern, $html, $matches, PREG_SET_ORDER)) {
@@ -56,6 +59,6 @@ class HtmlMapper implements UrlMapperInterface
             }
         }
 
-        return $this->replace($html, $mode, $aliaser, $map);
+        return $rewriter->rewriteMatches($html, $mode, $map);
     }
 }

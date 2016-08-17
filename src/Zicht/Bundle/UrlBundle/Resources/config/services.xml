@@ -33,26 +33,6 @@
             <tag name="form.type" alias="zicht_url" />
         </service>
 
-        <service id="zicht_url.mapper.xml" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper">
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <tag name="zicht_url.url_mapper" />
-        </service>
-
-        <service id="zicht_url.mapper.html" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\HtmlMapper">
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <tag name="zicht_url.url_mapper" />
-        </service>
-
-        <service id="zicht_url.mapper.rss" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\RssMapper">
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <tag name="zicht_url.url_mapper" />
-        </service>
-
-        <service id="zicht_url.mapper.json" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\JsonMapper">
-            <argument type="service" id="doctrine.orm.default_entity_manager"/>
-            <tag name="zicht_url.url_mapper" />
-        </service>
-
         <service id="zicht_url.service.url_validator" class="Zicht\Bundle\UrlBundle\Service\UrlValidator">
             <factory class="Zicht\Bundle\UrlBundle\Service\UrlValidatorFactory"
                      method="createUrlValidator" />

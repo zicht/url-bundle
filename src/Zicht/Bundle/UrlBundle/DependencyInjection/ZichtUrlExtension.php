@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -36,11 +37,15 @@ class ZichtUrlExtension extends Extension
             trigger_error("unalias_subscriber is no longer used. This has moved to form transformers.", E_USER_DEPRECATED);
         }
 
+
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $this->loadAliasingConfig($container, $config['aliasing'], $loader);
+            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.alias_sitemap_provider'));
+        } else {
+            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.provider'));
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');

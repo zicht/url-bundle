@@ -9,6 +9,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 abstract class AbstractMapper implements UrlMapperInterface
 {
@@ -41,7 +42,7 @@ abstract class AbstractMapper implements UrlMapperInterface
     /**
      * @{inheritDoc}
      */
-    public function processAliasing($content, $mode, Aliasing $aliaser)
+    public function processAliasing($content, $mode, Rewriter $rewriter)
     {
         if (!preg_match_all($this->pattern, $content, $matches, PREG_SET_ORDER)) {
             // early return: if there are no matches, no need for the rest of the processing.
@@ -52,6 +53,6 @@ abstract class AbstractMapper implements UrlMapperInterface
             $groups[$match[2]]= $match;
         }
 
-        return $this->replace($content, $mode, $aliaser, $groups);
+        return $rewriter->rewriteMatches($content, $mode, $groups);
     }
 }

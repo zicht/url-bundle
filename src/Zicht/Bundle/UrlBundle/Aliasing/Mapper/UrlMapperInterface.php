@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 /**
  * Interface UrlMapperInterface
@@ -39,8 +40,8 @@ interface UrlMapperInterface
      *
      * @param string $content
      * @param string $mode
-     * @param Aliasing $aliaser
+     * @param Aliasing $rewriter
      * @return mixed
      */
-    public function processAliasing($content, $mode, Aliasing $aliaser);
+    public function processAliasing($content, $mode, Rewriter $rewriter);
 }

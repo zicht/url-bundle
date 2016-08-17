@@ -267,13 +267,15 @@ class Listener
             // don't bother here.
             return;
         }
+
         if ($response->getContent()) {
             $contentType = current(explode(';', $response->headers->get('content-type', 'text/html')));
             $response->setContent(
                 $this->aliasing->mapContent(
                     $contentType,
                     UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC,
-                    $response->getContent()
+                    $response->getContent(),
+                    [$request->getHttpHost()]
                 )
             );
         }

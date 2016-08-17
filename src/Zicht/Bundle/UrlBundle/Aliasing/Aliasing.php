@@ -412,8 +412,6 @@ class Aliasing
                 throw new \InvalidArgumentException("Invalid mode supplied: {$mode}");
         }
 
-        $rewriter = new Rewriter();
-
         $connection = $this->manager->getConnection()->getWrappedConnection();
 
         $sql = sprintf(
@@ -427,17 +425,13 @@ class Aliasing
                     function ($v) use ($connection) {
                         return $connection->quote($v, \PDO::PARAM_STR);
                     },
-                    array_filter(array_map([$rewriter, 'extractPath'], $urls))
+                    $urls
                 )
             )
         );
 
         if ($stmt = $connection->query($sql)) {
-            return $rewriter->rewrite(
-                $urls,
-                $stmt->fetchAll(\PDO::FETCH_KEY_PAIR),
-                []
-            );
+            return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
         }
         return array();
     }
@@ -451,11 +445,14 @@ class Aliasing
      * @param array $whiteListDomains
      * @return string
      */
-    public function mapContent($contentType, $mode, $content)
+    public function mapContent($contentType, $mode, $content, $hosts)
     {
+        $rewriter = new Rewriter($this);
+        $rewriter->setLocalDomains($hosts);
+
         foreach ($this->contentMappers as $mapper) {
             if ($mapper->supports($contentType)) {
-                return $mapper->processAliasing($content, $mode, $this);
+                return $mapper->processAliasing($content, $mode, $rewriter);
             }
         }
 
