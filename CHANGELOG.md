@@ -5,3 +5,5 @@
 # 2.8.0 #
 - Added TinyMCE type extension for Zicht Admin Bundle TinyMCE type. Which transforms the public urls to internal urls.
 - Extended the UrlType so the submitted public urls are saved as internal urls.
+# 2.9.0 #
+- Reworked the rewriting internals for alias processing by eliminating a lot of duplicated code.
