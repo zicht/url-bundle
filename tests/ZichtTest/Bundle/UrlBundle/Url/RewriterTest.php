@@ -6,19 +6,24 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Url;
 
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 class RewriterTest extends \PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        $this->rewriter = new Rewriter($this->getMockBuilder(Aliasing::class)->disableOriginalConstructor()->getMock());
+    }
+
     /**
      * @dataProvider extractPathTestCases
      */
     public function testExtractPath($expected, $input)
     {
-        $rewriter = new Rewriter();
         $this->assertEquals(
             $expected,
-            $rewriter->extractPath($input)
+            $this->rewriter->extractPath($input)
         );
     }
 
@@ -38,14 +43,13 @@ class RewriterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRewrite($expected, $input, $mappings, $localDomains = [])
     {
-        $rewriter = new Rewriter();
+        $aliasing = $this->getMockBuilder(Aliasing::class)->disableOriginalConstructor()->getMock();
+        $aliasing->expects($this->any())->method('getAliasingMap')->will($this->returnValue($mappings));
+        $rewriter = new Rewriter($aliasing);
+        $rewriter->setLocalDomains($localDomains);
         $this->assertEquals(
             $expected,
-            $rewriter->rewrite(
-                $input,
-                $mappings,
-                $localDomains
-            )
+            $rewriter->rewrite($input, 'internal-to-public')
         );
     }
 

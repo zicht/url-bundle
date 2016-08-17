@@ -7,9 +7,8 @@
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
 use Symfony\Component\HttpFoundation\Request;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\HtmlMapper;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\RssMapper;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper;
+use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 class XmlMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +24,7 @@ class XmlMapperTest extends \PHPUnit_Framework_TestCase
         $mapper = new XmlMapper();
 
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
-        $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', $aliaser, ['zicht.nl']));
+        $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', new Rewriter($aliaser), ['zicht.nl']));
     }
 
     public function aliasingTestCases()
