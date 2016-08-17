@@ -5,7 +5,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Implementing a listable provider will make the url's available on the
@@ -18,8 +18,8 @@ interface ListableProvider
      *
      * The securitycontext must be passed so it is available for the provider to check access rights.
      *
-     * @param SecurityContextInterface $securityContextInterface
+     * @param AuthorizationCheckerInterface $securityContextInterface
      * @return array
      */
-    public function all(SecurityContextInterface $securityContextInterface);
+    public function all(AuthorizationCheckerInterface $securityContextInterface);
 }
