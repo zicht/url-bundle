@@ -175,8 +175,9 @@ class Rewriter
         $replacements = [];
         foreach ($this->rewrite(array_keys($matchedGroups), $mode) as $from => $to) {
             if (isset($matchedGroups[$from]) && $from !== $to) {
-                list($source, $prefix, $oldUrl, $suffix) = $matchedGroups[$from];
-                $replacements[$source] = $prefix . $to . $suffix;
+                foreach ($matchedGroups[$from] as list($source, $prefix, $oldUrl, $suffix)) {
+                    $replacements[$source] = $prefix . $to . $suffix;
+                }
             }
         }
 

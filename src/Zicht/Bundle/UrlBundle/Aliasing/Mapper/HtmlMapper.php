@@ -19,8 +19,6 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
  */
 class HtmlMapper implements UrlMapperInterface
 {
-    use Traits\MatchingGroupReplaceTrait;
-
     public function __construct()
     {
         $this->htmlAttributes = [
@@ -54,7 +52,7 @@ class HtmlMapper implements UrlMapperInterface
             $pattern = sprintf('!(<%s\b[^>]+\b(?:%s)=")([^"]+)(")!', $tagName, join('|', $attributes));
             if (preg_match_all($pattern, $html, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $map[$match[2]]= $match;
+                    $map[$match[2]][]= $match;
                 }
             }
         }

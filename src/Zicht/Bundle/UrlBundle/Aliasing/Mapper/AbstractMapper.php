@@ -7,14 +7,10 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
-
-use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 abstract class AbstractMapper implements UrlMapperInterface
 {
-    use Traits\MatchingGroupReplaceTrait;
-
     /**
      * Constructor
      *
@@ -50,7 +46,7 @@ abstract class AbstractMapper implements UrlMapperInterface
         }
         $groups = [];
         foreach ($matches as $match) {
-            $groups[$match[2]]= $match;
+            $groups[$match[2]][]= $match;
         }
 
         return $rewriter->rewriteMatches($content, $mode, $groups);
