@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 /**
  * Service that contains aliasing information
@@ -409,7 +410,7 @@ class Aliasing
      * @param string $mode
      * @return array
      */
-    public function getAliasingMap($urls, $mode)
+    public function getAliasingMap($urls, $mode, $localDomains = [])
     {
         switch ($mode) {
             case 'internal-to-public':
@@ -424,6 +425,8 @@ class Aliasing
                 throw new \InvalidArgumentException("Invalid mode supplied: {$mode}");
         }
 
+        $rewriter = new Rewriter();
+
         $connection = $this->manager->getConnection()->getWrappedConnection();
 
         $sql = sprintf(
@@ -437,13 +440,13 @@ class Aliasing
                     function ($v) use ($connection) {
                         return $connection->quote($v, \PDO::PARAM_STR);
                     },
-                    $urls
+                    array_filter(array_map([$rewriter, 'extractPath'], $urls))
                 )
             )
         );
 
         if ($stmt = $connection->query($sql)) {
-            return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
+            return $rewriter->rewrite($urls, $stmt->fetchAll(\PDO::FETCH_KEY_PAIR), $localDomains);
         }
         return array();
     }
