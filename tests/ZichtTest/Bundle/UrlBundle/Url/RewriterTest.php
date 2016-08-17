@@ -83,6 +83,16 @@ class RewriterTest extends \PHPUnit_Framework_TestCase
                 ['zicht.nl']
             ],
 
+            // path rewrite, while retaining query string, local domain and hash
+            [
+                [
+                    'http://zicht.nl/foo?a=b#somehash' => 'http://zicht.nl/bar?a=b#somehash',
+                ],
+                ['http://zicht.nl/foo?a=b#somehash'],
+                ['/foo' => '/bar'],
+                ['zicht.nl']
+            ],
+
             // path rewrite, while retaining slash-separated parameters
             [
                 [

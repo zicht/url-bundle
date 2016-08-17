@@ -273,8 +273,7 @@ class Listener
                 $this->aliasing->mapContent(
                     $contentType,
                     UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC,
-                    $response->getContent(),
-                    [$request->getHttpHost()]
+                    $response->getContent()
                 )
             );
         }

@@ -18,6 +18,8 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
  */
 class HtmlMapper implements UrlMapperInterface
 {
+    use Traits\MatchingGroupReplaceTrait;
+
     public function __construct()
     {
         $this->htmlAttributes = [
@@ -35,14 +37,14 @@ class HtmlMapper implements UrlMapperInterface
      */
     public function supports($contentType)
     {
-        return $contentType === 'text/html';
+        return $contentType == 'text/html';
     }
 
 
     /**
      * @{inheritDoc}
      */
-    public function processAliasing($html, $mode, Aliasing $aliaser, $whiteListDomains)
+    public function processAliasing($html, $mode, Aliasing $aliaser)
     {
         $map = [];
         foreach ($this->htmlAttributes as $tagName => $attributes) {
@@ -54,14 +56,6 @@ class HtmlMapper implements UrlMapperInterface
             }
         }
 
-        $replacements = [];
-        foreach ($aliaser->getAliasingMap(array_keys($map), $mode) as $from => $to) {
-            if ($from !== $to) {
-                list($source, $prefix, $url, $suffix) = $map[$from];
-                $replacements[$source] = $prefix . $to . $suffix;
-            }
-        }
-
-        return strtr($html, $replacements);
+        return $this->replace($html, $mode, $aliaser, $map);
     }
 }

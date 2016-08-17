@@ -46,12 +46,21 @@ class Rewriter
                 }
             }
 
+            // don't rewrite this.
+            if (isset($parts['user']) || isset($parts['password'])) {
+                $ret[$url]=  $url;
+                continue;
+            }
+
             $rewritten = '';
             if (isset($parts['scheme'])) {
                 $rewritten .= $parts['scheme'] . ':';
             }
             if (isset($parts['host'])) {
                 $rewritten .= '//' . $parts['host'];
+            }
+            if (isset($parts['port'])) {
+                $rewritten .= ':' . $parts['port'];
             }
             if (isset($parts['path'])) {
                 if (isset($mappings[$parts['path']])) {
@@ -67,6 +76,9 @@ class Rewriter
             }
             if (isset($parts['query'])) {
                 $rewritten .= '?' . $parts['query'];
+            }
+            if (isset($parts['fragment'])) {
+                $rewritten .= '#' . $parts['fragment'];
             }
 
             $ret[$url] = $rewritten;

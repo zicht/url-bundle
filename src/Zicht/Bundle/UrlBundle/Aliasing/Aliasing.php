@@ -389,19 +389,6 @@ class Aliasing
         }
     }
 
-    /**
-     * Takes HTML text and replaces all <a href='PUBLIC'> into <a href='INTERNAL'>.
-     *
-     * @param string $html
-     * @deprecated in favour of mapContent
-     *
-     * @return string
-     */
-    public function publicToInternalHtml($html)
-    {
-        return $this->mapContent('html', UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL, $html);
-    }
-
 
     /**
      * Returns key/value pairs of a list of url's.
@@ -410,7 +397,7 @@ class Aliasing
      * @param string $mode
      * @return array
      */
-    public function getAliasingMap($urls, $mode, $localDomains = [])
+    public function getAliasingMap($urls, $mode)
     {
         switch ($mode) {
             case 'internal-to-public':
@@ -446,7 +433,11 @@ class Aliasing
         );
 
         if ($stmt = $connection->query($sql)) {
-            return $rewriter->rewrite($urls, $stmt->fetchAll(\PDO::FETCH_KEY_PAIR), $localDomains);
+            return $rewriter->rewrite(
+                $urls,
+                $stmt->fetchAll(\PDO::FETCH_KEY_PAIR),
+                []
+            );
         }
         return array();
     }
@@ -460,11 +451,11 @@ class Aliasing
      * @param array $whiteListDomains
      * @return string
      */
-    public function mapContent($contentType, $mode, $content, $whiteListDomains = [])
+    public function mapContent($contentType, $mode, $content)
     {
         foreach ($this->contentMappers as $mapper) {
             if ($mapper->supports($contentType)) {
-                return $mapper->processAliasing($content, $mode, $this, $whiteListDomains);
+                return $mapper->processAliasing($content, $mode, $this);
             }
         }
 
