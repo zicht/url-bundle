@@ -6,19 +6,30 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
+/**
+ * Class Rewriter
+ */
 class Rewriter
 {
     private $localDomains = [];
 
+    /**
+     * Constructor
+     *
+     * @param Aliasing $aliasing
+     */
     public function __construct(Aliasing $aliasing)
     {
         $this->aliasing = $aliasing;
     }
 
-
+    /**
+     * Set a list of domains in urls to consider 'local', i.e. process the 'path' while keeping the domain in tact.
+     *
+     * @param string[] $localDomains
+     */
     public function setLocalDomains($localDomains)
     {
         $this->localDomains = $localDomains;
@@ -38,8 +49,7 @@ class Rewriter
      * ['http://example.org/foo?x=y' => 'http://example.org/bar?x=y']
      *
      * @param string[] $urls
-     * @param array $mappings
-     * @param string[] $localDomains
+     * @param string[] $mode
      * @return array
      */
     public function rewrite(array $urls, $mode)
@@ -117,6 +127,12 @@ class Rewriter
     }
 
 
+    /**
+     * Extract the path of the URL which is considered for aliasing.
+     *
+     * @param string $url
+     * @return string|null
+     */
     public function extractPath($url)
     {
         $parts = $this->parseUrl($url);
@@ -133,6 +149,19 @@ class Rewriter
     }
 
 
+    /**
+     * Parse the url, and additionally add a 'parameters' part which is defined as follows:
+     *
+     * The parameters may occur after the path, separated by slashes, where each of the key value pairs are
+     * separated by '='.
+     *
+     * e.g.:
+     *      /this/is/the/path/while=these/are=paremeters
+     *      ^----- path ----^ ^------- params ---------^
+     *
+     * @param string $url
+     * @return mixed
+     */
     public function parseUrl($url)
     {
         $ret = parse_url($url);

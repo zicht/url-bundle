@@ -18,6 +18,8 @@ use Zicht\Bundle\UrlBundle\Url\ListableProvider;
 class AliasSitemapProvider implements ListableProvider
 {
     /**
+     * Constructor
+     *
      * @param Connection $connection
      */
     public function __construct(Connection $connection)
@@ -35,7 +37,7 @@ class AliasSitemapProvider implements ListableProvider
         $q->execute([UrlAlias::REWRITE]);
 
         return array_map(
-            function($url) {
+            function ($url) {
                 return ['value' => $url];
             },
             $q->fetchAll(\PDO::FETCH_COLUMN)

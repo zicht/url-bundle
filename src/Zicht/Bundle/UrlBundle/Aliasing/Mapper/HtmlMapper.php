@@ -7,7 +7,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
-use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 /**
@@ -19,6 +18,16 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
  */
 class HtmlMapper implements UrlMapperInterface
 {
+    /**
+     * Map of [elementName => [attr1, attr2]] where URL's may occur
+     *
+     * @var array
+     */
+    protected $htmlAttributes;
+
+    /**
+     * Setup
+     */
     public function __construct()
     {
         $this->htmlAttributes = [
