@@ -442,7 +442,7 @@ class Aliasing
      * @param string $contentType
      * @param string $mode
      * @param string $content
-     * @param array $whiteListDomains
+     * @param string[] $hosts
      * @return string
      */
     public function mapContent($contentType, $mode, $content, $hosts)

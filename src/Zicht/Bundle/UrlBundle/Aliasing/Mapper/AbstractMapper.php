@@ -9,13 +9,16 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
+/**
+ * Base class for simple match mapping
+ */
 abstract class AbstractMapper implements UrlMapperInterface
 {
     /**
      * Constructor
      *
      * @param string[] $contentTypes
-     * @param $pattern
+     * @param string $pattern
      */
     public function __construct(array $contentTypes, $pattern)
     {

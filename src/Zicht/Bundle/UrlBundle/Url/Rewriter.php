@@ -49,7 +49,7 @@ class Rewriter
      * ['http://example.org/foo?x=y' => 'http://example.org/bar?x=y']
      *
      * @param string[] $urls
-     * @param string[] $mode
+     * @param string $mode
      * @return array
      */
     public function rewrite(array $urls, $mode)
@@ -193,10 +193,9 @@ class Rewriter
      * It replaces contents by replacing all occurrences of the 0 index with the 1 index, concatenated with the
      * rewritten url, and the suffix.
      *
-     * @param $content
-     * @param $mode
-     * @param Aliasing $aliaser
-     * @param $matchedGroups
+     * @param string $content
+     * @param string $mode
+     * @param mixed $matchedGroups
      * @return string
      */
     public function rewriteMatches($content, $mode, $matchedGroups)
