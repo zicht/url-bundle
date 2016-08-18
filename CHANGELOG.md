@@ -7,3 +7,4 @@
 - Extended the UrlType so the submitted public urls are saved as internal urls.
 # 2.9.0 #
 - Reworked the rewriting internals for alias processing by eliminating a lot of duplicated code.
+- Add tests
