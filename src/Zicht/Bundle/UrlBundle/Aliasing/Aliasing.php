@@ -399,6 +399,10 @@ class Aliasing
      */
     public function getAliasingMap($urls, $mode)
     {
+        if (0 === count($urls)) {
+            return [];
+        }
+
         switch ($mode) {
             case 'internal-to-public':
                 $from = 'internal_url';

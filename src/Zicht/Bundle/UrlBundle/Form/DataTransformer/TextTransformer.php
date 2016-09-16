@@ -7,8 +7,6 @@
 namespace Zicht\Bundle\UrlBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 
 /**
  * Class TextTransformer
