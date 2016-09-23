@@ -15,7 +15,7 @@
         "doctrine/orm": "^2.5",
         "symfony/symfony": "^2.7",
         "zicht/framework-extra-bundle": "^4.1",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^5.3",
         "zicht/admin-bundle": "*,>=1.1"
     },
     "require-dev": {
