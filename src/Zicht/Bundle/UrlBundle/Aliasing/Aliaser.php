@@ -98,7 +98,7 @@ class Aliaser
         if (in_array($internalUrl, $this->recursionProtection)) {
             return false;
         }
-        $this->recursionProtection[]= $internalUrl;
+        $this->recursionProtection[] = $internalUrl;
 
         $ret = false;
         if (!$this->shouldGenerateAlias($record)) {
@@ -130,7 +130,8 @@ class Aliaser
      */
     public function shouldGenerateAlias($record)
     {
-        return null !== $this->decisionManager
+        return
+            null !== $this->decisionManager
             && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
     }
 
@@ -151,7 +152,7 @@ class Aliaser
     {
         if ($schedule) {
             // delay removal until flushed
-            $this->scheduledRemoveAlias []= $this->provider->url($record);
+            $this->scheduledRemoveAlias [] = $this->provider->url($record);
         } else {
             $this->aliasing->removeAlias($this->provider->url($record));
         }
