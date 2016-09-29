@@ -180,13 +180,6 @@ class Aliasing
         $ret = false;
         /** @var $alias UrlAlias */
 
-        if (!in_array($conflictingInternalUrlStrategy, [self::STRATEGY_IGNORE, self::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
-            throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
-        }
-        if (!in_array($conflictingPublicUrlStrategy, [self::STRATEGY_KEEP, self::STRATEGY_OVERWRITE, self::STRATEGY_SUFFIX])) {
-            throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
-        }
-
         // if the internal url is currently already aliased
         $alias = $this->hasPublicAlias($internalUrl, true);
 
