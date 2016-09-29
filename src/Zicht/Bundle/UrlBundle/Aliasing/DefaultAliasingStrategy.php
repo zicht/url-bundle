@@ -28,7 +28,7 @@ class DefaultAliasingStrategy implements AliasingStrategy
      *
      * @param string $subject
      * @param string $currentAlias
-     * @return string
+     * @return null|string
      * @throws \InvalidArgumentException
      */
     public function generatePublicAlias($subject, $currentAlias = '')

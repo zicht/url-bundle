@@ -104,7 +104,7 @@ class Aliaser
         if (!$this->shouldGenerateAlias($record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
-            // Don't save an alias if the generated public alias is empty.
+            // Don't save an alias if the generated public alias is null
             $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
             if (null !== $generatedAlias) {
                 $ret = $this->aliasing->addAlias(
