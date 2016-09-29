@@ -8,3 +8,5 @@
 # 2.9.0 #
 - Reworked the rewriting internals for alias processing by eliminating a lot of duplicated code.
 - Add tests
+# 2.10.0 #
+- Adds AliasOverviewType which shows all public urls of an object in the CMS.

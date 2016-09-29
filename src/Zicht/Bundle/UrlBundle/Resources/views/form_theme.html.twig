@@ -43,3 +43,16 @@
         })(jQuery);
     </script>
 {% endblock %}
+
+{% block alias_overview_type_widget %}
+    {% for key, url_alias_group in url_aliases|groupBy('getMode') %}
+        <h3>{{ ('admin.alias_overview.mode_' ~ key)|trans({}, 'admin') }}</h3>
+        {% for url_alias in url_alias_group %}
+            <div style="margin-bottom:5px;">
+                <a style="margin-right: 10px;" class="btn btn-info"
+                   href="{{ path('admin_zicht_url_urlalias_edit', {id: url_alias.id}) }}"><i class="fa fa-edit"></i>{{ 'admin.alias_overview.edit_button_title'|trans({}, 'admin') }}</a>
+                <a href="{{ url_alias.publicUrl }}">{{ url_alias.publicUrl }}</a>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

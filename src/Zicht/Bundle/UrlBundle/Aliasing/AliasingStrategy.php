@@ -16,7 +16,7 @@ interface AliasingStrategy
      *
      * @param mixed $subject
      * @param string $currentAlias
-     * @return string
+     * @return null|string
      */
     public function generatePublicAlias($subject, $currentAlias = '');
 }

@@ -67,6 +67,9 @@ class Aliaser
      */
     public function setConflictingInternalUrlStrategy($conflictingInternalUrlStrategy)
     {
+        if (!in_array($conflictingInternalUrlStrategy, [Aliasing::STRATEGY_IGNORE, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
+        }
         $this->conflictingInternalUrlStrategy = $conflictingInternalUrlStrategy;
     }
 
@@ -83,6 +86,9 @@ class Aliaser
      */
     public function setConflictingPublicUrlStrategy($conflictingPublicUrlStrategy)
     {
+        if (!in_array($conflictingPublicUrlStrategy, [Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_OVERWRITE, Aliasing::STRATEGY_SUFFIX])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
+        }
         $this->conflictingPublicUrlStrategy = $conflictingPublicUrlStrategy;
     }
 
@@ -98,13 +104,13 @@ class Aliaser
         if (in_array($internalUrl, $this->recursionProtection)) {
             return false;
         }
-        $this->recursionProtection[]= $internalUrl;
+        $this->recursionProtection[] = $internalUrl;
 
         $ret = false;
         if (!$this->shouldGenerateAlias($record)) {
             $this->aliasing->removeAlias($internalUrl);
         } else {
-            // Don't save an alias if the generated public alias is empty.
+            // Don't save an alias if the generated public alias is null
             $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
             if (null !== $generatedAlias) {
                 $ret = $this->aliasing->addAlias(
@@ -130,7 +136,8 @@ class Aliaser
      */
     public function shouldGenerateAlias($record)
     {
-        return null !== $this->decisionManager
+        return
+            null !== $this->decisionManager
             && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
     }
 
@@ -151,7 +158,7 @@ class Aliaser
     {
         if ($schedule) {
             // delay removal until flushed
-            $this->scheduledRemoveAlias []= $this->provider->url($record);
+            $this->scheduledRemoveAlias [] = $this->provider->url($record);
         } else {
             $this->aliasing->removeAlias($this->provider->url($record));
         }
