@@ -202,12 +202,11 @@ class Aliasing
                 case self::STRATEGY_IGNORE:
                     // Alias already exist, but the strategy is to ignore changes
                     return $ret;
-                    break;
                 default:
                     // case is handled in the 'if' guard at top of the function
+                    break;
             }
         }
-
 
         if ($alias = $this->hasInternalAlias($publicUrl, true)) {
 
