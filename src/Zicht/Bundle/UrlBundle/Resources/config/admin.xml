@@ -16,8 +16,9 @@
             <argument>%zicht_url.admin.crud_controller%</argument>
         </service>
 
-        <service id="zicht_url.admin.page_alias_overview_admin" class="Zicht\Bundle\UrlBundle\Admin\PageAliasOverviewAdmin">
-            <tag name="form.type" alias="page_alias_overview_admin" />
+        <service id="zicht_url.admin.alias_overview_type" class="Zicht\Bundle\UrlBundle\Admin\AliasOverviewType">
+            <tag name="form.type" alias="alias_overview_type" />
+            <argument type="service" id="zicht_url.provider.delegator"/>
             <argument type="service" id="doctrine"/>
         </service>
         

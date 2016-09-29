@@ -1,8 +1,8 @@
 admin:
     tab:
-        page_alias_overview_admin: Public URL
+        alias_overview: Public URL
 
-    page_alias_overview_admin:
+    alias_overview:
         label: ''
         mode_0: Public URL [rewrite]
         mode_301: Move [301]

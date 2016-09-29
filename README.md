@@ -24,9 +24,8 @@ public function configureFormFields(FormMapper $formMapper)
 {
     parent::configureFormFields($formMapper);
     $formMapper
-        ->tab('admin.tab.page_alias_overview_admin')
-            ->add('page_alias_overview_admin', 'page_alias_overview_admin', ['page' => $this->getSubject()])
-            ->end()
-        ->end();
+        ->tab('admin.tab.alias_overview')
+            ->add('alias_overview', 'alias_overview_type', ['record' => $this->getSubject()])
+        ->end()->end();
 }
 ```
