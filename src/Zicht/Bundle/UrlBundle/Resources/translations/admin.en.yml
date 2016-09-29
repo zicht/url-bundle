@@ -1,0 +1,10 @@
+admin:
+    tab:
+        page_alias_overview_admin: Public URL
+
+    page_alias_overview_admin:
+        label: ''
+        mode_0: Public URL [rewrite]
+        mode_301: Move [301]
+        mode_302: Alias [302]
+        edit_button_title: Edit

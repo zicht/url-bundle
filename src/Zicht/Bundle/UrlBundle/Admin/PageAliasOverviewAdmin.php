@@ -33,7 +33,12 @@ class PageAliasOverviewAdmin extends AbstractType
     {
         parent::configureOptions($resolver);
         $resolver->setRequired('page');
-        $resolver->setDefault('virtual', true);
+        $resolver->setDefaults([
+            'translation_domain' => 'admin',
+            'label' => 'admin.page_alias_overview_admin.label',
+            'required' => false,
+            'virtual' => true,
+        ]);
     }
 
     /**

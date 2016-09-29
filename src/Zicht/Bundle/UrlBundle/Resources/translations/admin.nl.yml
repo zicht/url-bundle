@@ -1,0 +1,10 @@
+admin:
+    tab:
+        page_alias_overview_admin: Publieke URL
+
+    page_alias_overview_admin:
+        label: ''
+        mode_0: Publieke URL [rewrite]
+        mode_301: Verplaats [move, 301]
+        mode_302: Alias [alias, 302]
+        edit_button_title: Aanpassen
