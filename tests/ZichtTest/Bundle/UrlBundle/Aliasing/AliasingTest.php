@@ -147,10 +147,18 @@ class AliasingTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testAddAliasInvalidStrategy()
+    public function testAddAliasInvalidStrategyInternal()
     {
         $this->aliasing->addAlias('foo', 'bat', 0, -1);
     }
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddAliasInvalidStrategyPublic()
+    {
+        $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX, -1);
+    }
+    
 
     public function testAddAliasMovePreviousToNew()
     {

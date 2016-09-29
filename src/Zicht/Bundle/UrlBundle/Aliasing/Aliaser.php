@@ -67,9 +67,8 @@ class Aliaser
      */
     public function setConflictingInternalUrlStrategy($conflictingInternalUrlStrategy)
     {
-        if (!in_array($conflictingInternalUrlStrategy, [Aliasing::STRATEGY_IGNORE, Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
-            throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
-        }
+        Aliasing::validateInternalConflictingStrategy($conflictingInternalUrlStrategy);
+
         $this->conflictingInternalUrlStrategy = $conflictingInternalUrlStrategy;
     }
 
@@ -86,9 +85,8 @@ class Aliaser
      */
     public function setConflictingPublicUrlStrategy($conflictingPublicUrlStrategy)
     {
-        if (!in_array($conflictingPublicUrlStrategy, [Aliasing::STRATEGY_KEEP, Aliasing::STRATEGY_OVERWRITE, Aliasing::STRATEGY_SUFFIX])) {
-            throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
-        }
+        Aliasing::validateInternalConflictingStrategy($conflictingPublicUrlStrategy);
+        
         $this->conflictingPublicUrlStrategy = $conflictingPublicUrlStrategy;
     }
 

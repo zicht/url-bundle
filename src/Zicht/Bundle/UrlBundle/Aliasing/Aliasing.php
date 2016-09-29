@@ -77,6 +77,33 @@ class Aliasing
         $this->batch = array();
     }
 
+
+    /**
+     * Assert if the strategy is ok when the public url already exists.
+     *
+     * @param string $conflictingPublicUrlStrategy
+     * @return void
+     */
+    public static function validatePublicConflictingStrategy($conflictingPublicUrlStrategy)
+    {
+        if (!in_array($conflictingPublicUrlStrategy, [self::STRATEGY_KEEP, self::STRATEGY_OVERWRITE, self::STRATEGY_SUFFIX])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingPublicUrlStrategy '$conflictingPublicUrlStrategy'");
+        }
+    }
+
+    /**
+     * Assert if the strategy is ok when the internal url already has a public url.
+     *
+     * @param string $conflictingInternalUrlStrategy
+     * @return void
+     */
+    public static function validateInternalConflictingStrategy($conflictingInternalUrlStrategy)
+    {
+        if (!in_array($conflictingInternalUrlStrategy, [self::STRATEGY_IGNORE, self::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
+            throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
+        }
+    }
+
     /**
      * Checks if the passed public url is currently mapped to an internal url
      *
@@ -177,6 +204,9 @@ class Aliasing
         $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
         $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE
     ) {
+        self::validateInternalConflictingStrategy($conflictingInternalUrlStrategy);
+        self::validatePublicConflictingStrategy($conflictingPublicUrlStrategy);
+
         $ret = false;
         /** @var $alias UrlAlias */
 
