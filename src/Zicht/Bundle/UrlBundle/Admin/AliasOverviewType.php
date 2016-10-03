@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use Zicht\Bundle\UrlBundle\Url\Provider;
 
 /**
@@ -70,8 +71,15 @@ class AliasOverviewType extends AbstractType
      */
     protected function getUrlAliases($object)
     {
+        try {
+            $internalUrl = $this->provider->url($object);
+        }
+        catch (UnsupportedException $exception) {
+            return [];
+        }
+
         return $this->doctrine->getRepository('ZichtUrlBundle:UrlAlias')
-            ->findAllByInternalUrl($this->provider->url($object));
+            ->findAllByInternalUrl($internalUrl);
     }
 
     /**
