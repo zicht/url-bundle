@@ -85,7 +85,7 @@ class Aliaser
      */
     public function setConflictingPublicUrlStrategy($conflictingPublicUrlStrategy)
     {
-        Aliasing::validateInternalConflictingStrategy($conflictingPublicUrlStrategy);
+        Aliasing::validatePublicConflictingStrategy($conflictingPublicUrlStrategy);
         
         $this->conflictingPublicUrlStrategy = $conflictingPublicUrlStrategy;
     }
