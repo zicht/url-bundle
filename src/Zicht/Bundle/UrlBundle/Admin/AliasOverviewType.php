@@ -73,8 +73,7 @@ class AliasOverviewType extends AbstractType
     {
         try {
             $internalUrl = $this->provider->url($object);
-        }
-        catch (UnsupportedException $exception) {
+        } catch (UnsupportedException $exception) {
             return [];
         }
 
