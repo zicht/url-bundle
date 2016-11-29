@@ -8,3 +8,10 @@ admin:
         mode_301: Verplaats [move, 301]
         mode_302: Alias [alias, 302]
         edit_button_title: Aanpassen
+
+list:
+    label_machine_name: Interne naam
+
+form:
+    label_machine_name: Interne naam
+    label_url: URL
