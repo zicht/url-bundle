@@ -8,3 +8,10 @@ admin:
         mode_301: Move [301]
         mode_302: Alias [302]
         edit_button_title: Edit
+
+list:
+    label_machine_name: Machine name
+
+form:
+    label_machine_name: Machine name
+    label_url: URL
