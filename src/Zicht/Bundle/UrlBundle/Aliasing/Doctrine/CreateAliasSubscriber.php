@@ -14,6 +14,9 @@ use Doctrine\ORM\Events;
  */
 class CreateAliasSubscriber extends BaseSubscriber
 {
+    /**
+     * @var bool
+     */
     private $isHandling = false;
 
     /**
@@ -42,7 +45,7 @@ class CreateAliasSubscriber extends BaseSubscriber
     public function postPersist($e)
     {
         if ($e->getEntity() instanceof $this->className) {
-            $this->records[spl_object_hash($e->getEntity())]=$e->getEntity();
+            $this->records[spl_object_hash($e->getEntity())] = $e->getEntity();
         }
     }
 
@@ -56,7 +59,7 @@ class CreateAliasSubscriber extends BaseSubscriber
     public function postUpdate($e)
     {
         if ($e->getEntity() instanceof $this->className) {
-            $this->records[spl_object_hash($e->getEntity())]=$e->getEntity();
+            $this->records[spl_object_hash($e->getEntity())] = $e->getEntity();
         }
     }
 

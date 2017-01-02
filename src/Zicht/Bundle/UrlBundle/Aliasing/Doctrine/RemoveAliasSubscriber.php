@@ -34,12 +34,11 @@ class RemoveAliasSubscriber extends BaseSubscriber
      */
     public function preRemove($e)
     {
-        $entity = $e->getEntity();
+        $entity = $e->getObject();
 
         if ($entity instanceof $this->className) {
             // schedule alias removal (this needs to be done before the entity is removed and loses its id)
-            $aliaser = $this->container->get($this->aliaserServiceId);
-            $aliaser->removeAlias($entity, true);
+            $this->container->get($this->aliaserServiceId)->removeAlias($entity, true);
         }
     }
 
@@ -51,10 +50,6 @@ class RemoveAliasSubscriber extends BaseSubscriber
      */
     public function postFlush()
     {
-        if (count($this->records)) {
-            $aliaser = $this->container->get($this->aliaserServiceId);
-            $aliaser->removeScheduledAliases();
-            $aliaser->flush();
-        }
+        $this->container->get($this->aliaserServiceId)->removeScheduledAliases();
     }
 }
