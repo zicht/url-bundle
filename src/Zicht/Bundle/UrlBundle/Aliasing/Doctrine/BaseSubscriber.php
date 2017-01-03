@@ -14,10 +14,33 @@ use Symfony\Component\DependencyInjection\Container;
  */
 abstract class BaseSubscriber implements EventSubscriber
 {
+    /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * @var string
+     */
+    protected $aliaserServiceId;
+
+    /**
+     * @var string
+     */
+    protected $className;
+
+    /**
+     * @var bool
+     */
     protected $enabled;
 
     /**
-     * Constructor
+     * @var array
+     */
+    protected $records;
+
+    /**
+     * Constructor.
      *
      * @param Container $container
      * @param string $aliaserServiceId
@@ -26,14 +49,12 @@ abstract class BaseSubscriber implements EventSubscriber
      */
     public function __construct(Container $container, $aliaserServiceId, $className, $enabled = true)
     {
-        // this weird construct is needed because otherwise a circular reference would occur in the container.
+        // we inject the container because otherwise a circular reference would occur.
         $this->container = $container;
         $this->aliaserServiceId = $aliaserServiceId;
         $this->className = $className;
-
-        $this->records = array();
-
         $this->enabled = $enabled;
+        $this->records = [];
     }
 
     /**
