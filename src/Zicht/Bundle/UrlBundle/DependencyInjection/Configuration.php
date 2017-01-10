@@ -72,6 +72,19 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('entities')->prototype('scalar')->end()->end()
                     ->end()
                 ->end()
+                ->variableNode('html_attributes')
+                    ->treatNullLike(array())
+                    ->defaultValue(
+                        [
+                            'a' => ['href', 'data-href'],
+                            'area' => ['href', 'data-href'],
+                            'iframe' => ['src'],
+                            'form' => ['action'],
+                            'meta' => ['content'],
+                            'link' => ['href']
+                        ]
+                    )
+                ->end()
                 // usage if this setting is deprecated and no longer has any effect.
                 ->variableNode('unalias_subscriber')->end()
             ->end();

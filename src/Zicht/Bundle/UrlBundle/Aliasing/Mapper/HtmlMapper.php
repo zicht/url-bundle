@@ -26,7 +26,7 @@ class HtmlMapper implements UrlMapperInterface
     protected $htmlAttributes;
 
     /**
-     * Setup
+     * HtmlMapper constructor.
      */
     public function __construct()
     {
@@ -67,5 +67,20 @@ class HtmlMapper implements UrlMapperInterface
         }
 
         return $rewriter->rewriteMatches($html, $mode, $map);
+    }
+
+    /**
+     * Merges given html attributes with the default attributes.
+     *
+     * See for a default defined set DependencyInjection/Configuration.php
+     *
+     * @param array $attributes
+     */
+    public function addAttributes($attributes)
+    {
+        $this->htmlAttributes = array_merge_recursive(
+            $this->htmlAttributes,
+            $attributes
+        );
     }
 }

@@ -1,3 +1,19 @@
+# 2.11.0 #
+Allow additional html attributes to be mapped by the HtmlMapper by configuring html_attributes in the config file.
+
+Default config:
+
+```    
+    html_attributes:
+        a : ['href', 'data-href']
+        area : ['href', 'data-href']
+        iframe : ['src']
+        form : ['action']
+        meta : ['content']
+        link : ['href']
+```
+
+
 # 2.6.0 #
 - The `shouldGenerateAlias` method was added to support different strategies for when to add and remove aliases
 
