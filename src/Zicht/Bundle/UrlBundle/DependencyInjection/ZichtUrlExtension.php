@@ -66,6 +66,10 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.twig_extension')->addArgument(new Reference('zicht_url.aliasing'));
         }
 
+        if ($container->hasDefinition('zicht_url.mapper.html')) {
+            $container->getDefinition('zicht_url.mapper.html')->addMethodCall('setAttributes', [$config['html_attributes']]);
+        }
+
         $formResources = $container->getParameter('twig.form.resources');
         $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
