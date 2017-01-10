@@ -22,17 +22,29 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
     {
         $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
         $mapper = new HtmlMapper();
-        $mapper->setAttributes(
+        $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
+        $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', new Rewriter($aliaser), ['zicht.nl']));
+    }
+
+    /**
+     * Test if addAttributes adds new/non-standard attributes are processed properly.
+     *
+     * @param string $input
+     * @param string $expectedOutput
+     * @param array $aliasingMap
+     *
+     * @dataProvider alternativeTagsAliasingTestCases
+     */
+    public function testAddAttributesAllowsExtraAttributesToBeProcessed($input, $expectedOutput, $aliasingMap)
+    {
+        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $mapper = new HtmlMapper();
+        $mapper->addAttributes(
             [
-                'a' => ['href', 'data-href'],
-                'area' => ['href', 'data-href'],
-                'iframe' => ['src'],
-                'form' => ['action'],
-                'meta' => ['content'],
-                'link' => ['href']
+                'option' => ['value'],
+                'select' => ['data-href']
             ]
         );
-
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
         $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', new Rewriter($aliaser), ['zicht.nl']));
     }
@@ -47,6 +59,19 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
             ['<a href="/foo?param=value">', '<a href="/bar?param=value">', ['/foo?param=value' => '/bar?param=value']],
             ['<a href="/foo?param=value&k=v">', '<a href="/foo?param=value&k=v">', ['/foo?param=value' => '/bar?param=value']],
             ['<img alt="/foo">', '<img alt="/foo">', ['/foo' => '/bar']],
+        ];
+    }
+
+    /**
+     * Some non-standard html tags / attributes.
+     *
+     * @return array
+     */
+    public function alternativeTagsAliasingTestCases()
+    {
+        return [
+            ['<option value="http://zicht.nl/foo">', '<option value="http://zicht.nl/bar">', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']],
+            ['<select data-href="http://zicht.nl/foo">', '<select data-href="http://zicht.nl/bar">', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']],
         ];
     }
 

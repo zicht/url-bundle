@@ -26,6 +26,22 @@ class HtmlMapper implements UrlMapperInterface
     protected $htmlAttributes;
 
     /**
+     * HtmlMapper constructor.
+     */
+    public function __construct()
+    {
+        $this->htmlAttributes = [
+            'a' => ['href', 'data-href'],
+            'area' => ['href', 'data-href'],
+            'iframe' => ['src'],
+            'form' => ['action'],
+            'meta' => ['content'],
+            'link' => ['href']
+        ];
+    }
+
+
+    /**
      * @{inheritDoc}
      */
     public function supports($contentType)
@@ -54,14 +70,17 @@ class HtmlMapper implements UrlMapperInterface
     }
 
     /**
-     * Set the attributes to be processed.
+     * Merges given html attributes with the default attributes.
      *
      * See for a default defined set DependencyInjection/Configuration.php
      *
      * @param array $attributes
      */
-    public function setAttributes($attributes)
+    public function addAttributes($attributes)
     {
-        $this->htmlAttributes = $attributes;
+        $this->htmlAttributes = array_merge_recursive(
+            $this->htmlAttributes,
+            $attributes
+        );
     }
 }

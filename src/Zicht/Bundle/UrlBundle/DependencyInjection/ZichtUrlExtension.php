@@ -67,7 +67,7 @@ class ZichtUrlExtension extends Extension
         }
 
         if ($container->hasDefinition('zicht_url.mapper.html')) {
-            $container->getDefinition('zicht_url.mapper.html')->addMethodCall('setAttributes', [$config['html_attributes']]);
+            $container->getDefinition('zicht_url.mapper.html')->addMethodCall('addAttributes', [$config['html_attributes']]);
         }
 
         $formResources = $container->getParameter('twig.form.resources');
