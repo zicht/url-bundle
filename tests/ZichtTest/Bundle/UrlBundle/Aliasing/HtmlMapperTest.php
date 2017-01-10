@@ -22,6 +22,16 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
     {
         $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
         $mapper = new HtmlMapper();
+        $mapper->setAttributes(
+            [
+                'a' => ['href', 'data-href'],
+                'area' => ['href', 'data-href'],
+                'iframe' => ['src'],
+                'form' => ['action'],
+                'meta' => ['content'],
+                'link' => ['href']
+            ]
+        );
 
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
         $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', new Rewriter($aliaser), ['zicht.nl']));
