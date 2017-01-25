@@ -47,4 +47,6 @@ public function configureFormFields(FormMapper $formMapper)
 ```
 
 # Maintainer(s) 
-* Gerard van Helden <gerard@zicht.nl>
+* Rik van der Kemp <rik@zicht.nl>
+* Muhammed Akbulut <muhammed@zicht.nl>
+
