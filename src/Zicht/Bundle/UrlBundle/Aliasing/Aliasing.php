@@ -111,8 +111,23 @@ class Aliasing
      * @param bool $asObject
      * @param null $mode
      * @return null
+     * @deprecated 3.0.0 Method name incorrectly suggests a boolean return value. Use getInternalAlias() instead.
      */
     public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
+    {
+        return $this->getInternalAlias($publicUrl, $asObject, $mode);
+    }
+
+    /**
+     * Retrieves the internal alias for the given public URL as a string or alias object, depending
+     * on the value of the `asObject` parameter.
+     *
+     * @param string $publicUrl
+     * @param bool $asObject
+     * @param int $mode
+     * @return null|string|UrlAlias
+     */
+    public function getInternalAlias($publicUrl, $asObject = false, $mode = null)
     {
         $ret = null;
         if (isset($this->batch[$publicUrl])) {
@@ -127,15 +142,29 @@ class Aliasing
         return $ret;
     }
 
-
     /**
      * Check if the passed internal URL has a public url alias.
      *
      * @param string $internalUrl
      * @param bool $asObject
      * @return null
+     * @deprecated 3.0.0 Method name incorrectly suggests a boolean return value. Use getPublicAlias() instead.
      */
     public function hasPublicAlias($internalUrl, $asObject = false)
+    {
+        return $this->getPublicAlias($internalUrl, $asObject);
+    }
+
+
+    /**
+     * Retrieves the public alias for the given internal URL as a string or alias object, depending
+     * on the value of the `asObject` parameter.
+     *
+     * @param string $internalUrl
+     * @param bool $asObject
+     * @return null|string|UrlAlias
+     */
+    public function getPublicAlias($internalUrl, $asObject = false)
     {
         $ret = null;
 
