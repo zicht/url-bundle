@@ -1,5 +1,6 @@
 # `zicht/url-bundle`
-> This bundle is part of the `[zicht/cms](https://github.com/zicht/cms)` suite.
+
+This bundle is part of the [`zicht/cms`](https://github.com/zicht/cms) suite.
 
 The ZichtUrlBundle provides the following features:
 
