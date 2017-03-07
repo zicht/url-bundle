@@ -134,9 +134,12 @@ class Aliaser
      */
     public function shouldGenerateAlias($record)
     {
-        return
-            null !== $this->decisionManager
-            && $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
+        // without security, everything is considered public
+        if (null === $this->decisionManager) {
+            return true;
+        }
+
+        return $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
     }
 
 
