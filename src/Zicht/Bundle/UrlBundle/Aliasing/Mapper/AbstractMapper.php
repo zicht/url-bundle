@@ -15,6 +15,16 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
 abstract class AbstractMapper implements UrlMapperInterface
 {
     /**
+     * @var array|\string[]
+     */
+    protected $contentTypes;
+
+    /**
+     * @var string
+     */
+    protected $pattern;
+
+    /**
      * Constructor
      *
      * @param string[] $contentTypes
