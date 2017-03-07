@@ -7,8 +7,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
-use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-
 /**
  * Class JsonMapper
  *
