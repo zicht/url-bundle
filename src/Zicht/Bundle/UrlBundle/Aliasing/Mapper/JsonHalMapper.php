@@ -31,7 +31,6 @@ class JsonHalMapper extends AbstractMapper
      */
     public function processAliasing($content, $mode, Rewriter $rewriter)
     {
-        //return $content;
         $options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;
 
         // Json is escaped by default we remove the escaping to replace the url. The escaping is added after
