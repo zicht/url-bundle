@@ -1,3 +1,6 @@
+# 2.12.1 #
+* Confirm to Symfony defaults for the signature of ControllerActions.
+
 # 2.12.0 #
 Includes a `QueryStringUriParser` which does not render URLS with `/`-separated
 values but with regular query string parameters.
