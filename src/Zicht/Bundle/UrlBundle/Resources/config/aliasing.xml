@@ -47,5 +47,9 @@
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
             <tag name="zicht_url.url_mapper" />
         </service>
+        <service id="zicht_url.mapper.json_hal" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\JsonHalMapper">
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+            <tag name="zicht_url.url_mapper" />
+        </service>
     </services>
 </container>

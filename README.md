@@ -1,5 +1,11 @@
 # `zicht/url-bundle`
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/zicht/url-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/zicht/url-bundle/?branch=master) 
+[![Code Coverage](https://scrutinizer-ci.com/g/zicht/url-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/zicht/url-bundle/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/zicht/url-bundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/zicht/url-bundle/build-status/master)
+
+This bundle is part of the [`zicht/cms`](https://github.com/zicht/cms) suite.
+
 The ZichtUrlBundle provides the following features:
 
 * URL "Aliasing" - use seo-friendly url's without routing. The principle is
@@ -47,4 +53,6 @@ public function configureFormFields(FormMapper $formMapper)
 ```
 
 # Maintainer(s) 
-* Gerard van Helden <gerard@zicht.nl>
+* Rik van der Kemp <rik@zicht.nl>
+* Muhammed Akbulut <muhammed@zicht.nl>
+
