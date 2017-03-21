@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,7 +25,7 @@ class StaticReferenceController extends Controller
      *
      * @Route("/_static-ref/{name}")
      */
-    public function redirectAction($name, $code = 301)
+    public function redirectAction(Request $request, $name, $code = 301)
     {
         return new RedirectResponse(
             $this->get('zicht_url.provider')->url($name),

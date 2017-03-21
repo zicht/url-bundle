@@ -8,6 +8,7 @@
 namespace Zicht\Bundle\UrlBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,7 +26,7 @@ class SitemapController extends Controller
      *
      * @Route("/sitemap.{_format}", defaults={"_format": "xml"})
      */
-    public function sitemapAction()
+    public function sitemapAction(Request $request)
     {
         $urls = $this->get('zicht_url.sitemap_provider')->all($this->get('security.authorization_checker'));
 

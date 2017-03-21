@@ -43,7 +43,7 @@ class SuggestUrlController extends Controller
      * @return Response
      * @Route("/url/suggest/editor")
      */
-    public function linkListAction()
+    public function linkListAction(Request $request)
     {
         return new JsonResponse(
             $this->get('zicht_url.provider')->all($this->get('security.authorization_checker'))
