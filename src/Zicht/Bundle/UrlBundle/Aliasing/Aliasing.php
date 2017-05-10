@@ -186,7 +186,7 @@ class Aliasing
      *
      * When the $internalUrl already exists we will use the $conflictingInternalUrlStrategy to resolve this conflict.
      * - STRATEGY_IGNORE will not do anything
-     * - STRATEGY_REDIRECT_PREVIOUS_TO_NEW will make make the previous publicUrl 301 to the new $publicUrl
+     * - STRATEGY_MOVE_PREVIOUS_TO_NEW will make make the previous publicUrl 301 to the new $publicUrl
      *
      * @param string $publicUrl
      * @param string $internalUrl

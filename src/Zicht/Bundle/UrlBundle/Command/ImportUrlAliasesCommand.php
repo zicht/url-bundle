@@ -1,0 +1,172 @@
+<?php
+/**
+ * @author Boudewijn Schoon <boudewijn@zicht.nl>
+ * @copyright Zicht Online <http://zicht.nl>
+ */
+
+namespace Zicht\Bundle\UrlBundle\Command;
+
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+
+/**
+ * Class ImportUrlAliasesCommand
+ *
+ * @package Zicht\Bundle\UrlBundle\Command
+ */
+class ImportUrlAliasesCommand extends ContainerAwareCommand
+{
+    private $redirectTypeMapping = [
+        '0' => UrlAlias::REWRITE,
+        '301' => UrlAlias::MOVE,
+        '302' => UrlAlias::ALIAS,
+        'rewrite' => UrlAlias::REWRITE,
+        'move' => UrlAlias::MOVE,
+        'alias' => UrlAlias::ALIAS,
+    ];
+
+    private $defaultConflictingPublicUrlStrategyMapping = [
+        'keep' => Aliasing::STRATEGY_KEEP,
+        'overwrite' => Aliasing::STRATEGY_OVERWRITE,
+        'suffix' => Aliasing::STRATEGY_SUFFIX,
+    ];
+
+    private $defaultConflictingInternalUrlStrategyMapping = [
+        'ignore' => Aliasing::STRATEGY_IGNORE,
+        'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function configure()
+    {
+        $this
+            ->setName('zicht:url:import-aliases')
+            ->setDescription("Import multiple url aliases from a source file")
+            ->setHelp(
+                'This command can parse csv files that follow the following syntax:
+
+    PUBLICURL, INTERNALURL, TYPE, CONFLICTINGPUBLICURLSTRATEGY, CONFLICTINGINTERNALURLSTRATEGY
+    /home, /nl/page/1
+    /also-home, /nl/page/1
+
+Note that the first line can be ignored using "--skip-header"
+TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optional.'
+            )
+            ->addArgument(
+                'file',
+                InputArgument::REQUIRED,
+                'Filepath of import CSV file'
+            )
+            ->addOption(
+                'skip-header',
+                null,
+                InputOption::VALUE_NONE,
+                'Skip the first line of the input file'
+            )
+            ->addOption(
+                'default-redirect-type',
+                null,
+                InputOption::VALUE_REQUIRED,
+                sprintf('Type of redirect, one of: %s', join(', ', array_keys($this->redirectTypeMapping))),
+                'alias'
+            )
+            ->addOption(
+                'default-conflicting-public-url-strategy',
+                null,
+                InputOption::VALUE_REQUIRED,
+                sprintf('How to handle conflicting public url, one of: %s', join(', ', array_keys($this->defaultConflictingPublicUrlStrategyMapping))),
+                'overwrite'
+            )
+            ->addOption(
+                'default-conflicting-internal-url-strategy',
+                null,
+                InputOption::VALUE_REQUIRED,
+                sprintf('How to handle conflicting internal url, one of: %s', join(', ', array_keys($this->defaultConflictingInternalUrlStrategyMapping))),
+                'move-previous-to-new'
+            );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $defaultRedirectType = $this->redirectTypeMapping[$input->getOption('default-redirect-type')];
+        $defaultConflictingPublicUrlStrategy = $this->defaultConflictingPublicUrlStrategyMapping[$input->getOption('default-conflicting-public-url-strategy')];
+        $defaultConflictingInternalUrlStrategy = $this->defaultConflictingInternalUrlStrategyMapping[$input->getOption('default-conflicting-internal-url-strategy')];
+        $aliasingService = $this->getContainer()->get('zicht_url.aliasing');
+        $flush = $aliasingService->setIsBatch(true);
+
+        $handle = fopen($input->getArgument('file'), 'r');
+        if (false === $handle) {
+            throw new \Exception('Can not open input file');
+        }
+
+        $lineNumber = 0;
+
+        if ($input->getOption('skip-header')) {
+            $lineNumber++;
+            $data = fgetcsv($handle, null, ',', '"');
+            if (false === $data) {
+                throw new \Exception(sprintf('Can not read line %s in input file', $lineNumber));
+            }
+        }
+
+        while ($data = fgetcsv($handle, null, ',', '"')) {
+            $lineNumber++;
+
+            if (false === $data) {
+                throw new \Exception(sprintf('Can not read line %s in input file', $lineNumber));
+            }
+
+            if (null === $data || [null] === $data) {
+                // skip empty line
+                continue;
+            }
+
+            if (sizeof($data) < 2) {
+                throw new \Exception('Every line in the file must have at least the publicUrl and internalUrl');
+            }
+
+            $publicUrl = trim($data[0]);
+            $internalUrl = trim($data[1]);
+            $type = $this->parseInputToMapping($this->redirectTypeMapping, $data, 2, $defaultRedirectType);
+            $conflictingPublicUrlStrategy = $this->parseInputToMapping($this->defaultConflictingPublicUrlStrategyMapping, $data, 3, $defaultConflictingPublicUrlStrategy);
+            $conflictingInternalUrlStrategy = $this->parseInputToMapping($this->defaultConflictingInternalUrlStrategyMapping, $data, 3, $defaultConflictingInternalUrlStrategy);
+
+            // perform aliasing
+            $aliasingService->addAlias($publicUrl, $internalUrl, $type, $conflictingPublicUrlStrategy, $conflictingInternalUrlStrategy);
+        }
+
+        $flush();
+    }
+
+    /**
+     * Return the parsed value from $data[$index]
+     *
+     * @param array $mapping
+     * @param array $data
+     * @param integer $index
+     * @param integer $default
+     * @return integer
+     */
+    private function parseInputToMapping($mapping, $data, $index, $default)
+    {
+        if (array_key_exists($index, $data)) {
+            $value = strtolower(trim($data[$index]));
+            if (array_key_exists($value, $mapping)) {
+                return $mapping[$value];
+            }
+            throw new \Exception('Could not parse');
+        }
+
+        return $default;
+    }
+}
