@@ -90,6 +90,20 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
                 InputOption::VALUE_REQUIRED,
                 sprintf('How to handle conflicting internal url, one of: %s', join(', ', array_keys($this->defaultConflictingInternalUrlStrategyMapping))),
                 'move-previous-to-new'
+            )
+            ->addOption(
+                'csv-delimiter',
+                null,
+                InputOption::VALUE_REQUIRED,
+                sprintf('Delimiter used when parsing a line of csv'),
+                ','
+            )
+            ->addOption(
+                'csv-enclosure',
+                null,
+                InputOption::VALUE_REQUIRED,
+                sprintf('Enclosure used when parsing a line of csv'),
+                '"'
             );
     }
 
@@ -101,6 +115,9 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
         $defaultRedirectType = $this->redirectTypeMapping[$input->getOption('default-redirect-type')];
         $defaultConflictingPublicUrlStrategy = $this->defaultConflictingPublicUrlStrategyMapping[$input->getOption('default-conflicting-public-url-strategy')];
         $defaultConflictingInternalUrlStrategy = $this->defaultConflictingInternalUrlStrategyMapping[$input->getOption('default-conflicting-internal-url-strategy')];
+        $csvDelimiter = $input->getOption('csv-delimiter');
+        $csvEnclosure = $input->getOption('csv-enclosure');
+
         $aliasingService = $this->getContainer()->get('zicht_url.aliasing');
         $flush = $aliasingService->setIsBatch(true);
 
@@ -113,13 +130,13 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 
         if ($input->getOption('skip-header')) {
             $lineNumber++;
-            $data = fgetcsv($handle, null, ',', '"');
+            $data = fgetcsv($handle, null, $csvDelimiter, $csvEnclosure);
             if (false === $data) {
                 throw new \Exception(sprintf('Can not read line %s in input file', $lineNumber));
             }
         }
 
-        while ($data = fgetcsv($handle, null, ',', '"')) {
+        while ($data = fgetcsv($handle, null, $csvDelimiter, $csvEnclosure)) {
             $lineNumber++;
 
             if (false === $data) {
@@ -143,6 +160,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 
             // perform aliasing
             $aliasingService->addAlias($publicUrl, $internalUrl, $type, $conflictingPublicUrlStrategy, $conflictingInternalUrlStrategy);
+            $output->writeln(sprintf('%s  %s -> %s', $lineNumber, $publicUrl, $internalUrl));
         }
 
         $flush();
