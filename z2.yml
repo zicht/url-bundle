@@ -1,6 +1,18 @@
 plugins: ['ci']
 
 tasks:
+    _composer.update:
+        composer update
+
+    ci.phpcs:
+        pre: @_composer.update
+        do: ./vendor/bin/phpcs -s src/Zicht/ --standard=vendor/zicht-standards/php/Zicht --extensions=php
+
     ci.phpunit:
-        pre: composer update
+        pre: @_composer.update
         do: ./vendor/bin/phpunit tests --verbose --coverage-text
+
+    ci.all:
+        do:
+            - @ci.phpunit
+            - @ci.phpcs
