@@ -1,4 +1,6 @@
-plugins: ['svn']
+plugins: ['ci']
 
-vcs:
-    url: svn://zon/projecten/zicht-libraries/ZichtUrlBundle
+tasks:
+    ci.phpunit:
+        pre: composer update
+        do: ./vendor/bin/phpunit tests --verbose --coverage-text
