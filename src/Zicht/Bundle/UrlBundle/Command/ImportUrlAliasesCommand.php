@@ -38,6 +38,7 @@ class ImportUrlAliasesCommand extends ContainerAwareCommand
 
     private $defaultConflictingInternalUrlStrategyMapping = [
         'ignore' => Aliasing::STRATEGY_IGNORE,
+        'move-new-to-previous' => Aliasing::STRATEGY_MOVE_NEW_TO_PREVIOUS,
         'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
     ];
 
@@ -82,14 +83,14 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
                 null,
                 InputOption::VALUE_REQUIRED,
                 sprintf('How to handle conflicting public url, one of: %s', join(', ', array_keys($this->defaultConflictingPublicUrlStrategyMapping))),
-                'overwrite'
+                'keep'
             )
             ->addOption(
                 'default-conflicting-internal-url-strategy',
                 null,
                 InputOption::VALUE_REQUIRED,
                 sprintf('How to handle conflicting internal url, one of: %s', join(', ', array_keys($this->defaultConflictingInternalUrlStrategyMapping))),
-                'move-previous-to-new'
+                'move-new-to-previous'
             )
             ->addOption(
                 'csv-delimiter',
@@ -158,9 +159,19 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
             $conflictingPublicUrlStrategy = $this->parseInputToMapping($this->defaultConflictingPublicUrlStrategyMapping, $data, 3, $defaultConflictingPublicUrlStrategy);
             $conflictingInternalUrlStrategy = $this->parseInputToMapping($this->defaultConflictingInternalUrlStrategyMapping, $data, 3, $defaultConflictingInternalUrlStrategy);
 
+            $realInternalUrl = $aliasingService->hasInternalAlias($internalUrl);
+            if (null !== $realInternalUrl && $internalUrl !== $realInternalUrl) {
+                // the $internalUrl given in the csv is actually known as a public url in our system.
+                // the $publicUrl given in the csv should redirect directly to this known public url.
+                $redirectDescription = sprintf('%s -> %s -> %s', $publicUrl, $internalUrl, $realInternalUrl);
+                $internalUrl = $realInternalUrl;
+            } else {
+                $redirectDescription = sprintf('%s -> %s', $publicUrl, $internalUrl);
+            }
+
             // perform aliasing
             $aliasingService->addAlias($publicUrl, $internalUrl, $type, $conflictingPublicUrlStrategy, $conflictingInternalUrlStrategy);
-            $output->writeln(sprintf('%s  %s -> %s', $lineNumber, $publicUrl, $internalUrl));
+            $output->writeln(sprintf('%s  %s  %s', $lineNumber, $type, $redirectDescription));
         }
 
         $flush();
