@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 - Nothing so far
 
-## 2.13.0 [Unreleased]
+## 2.13.0 - 2017-05-16
 ### Added
 - New strategy to resolve conflicts with the internal url:
   STRATEGY_MOVE_NEW_TO_PREVIOUS
