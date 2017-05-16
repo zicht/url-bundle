@@ -7,7 +7,6 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
@@ -116,7 +115,7 @@ class Aliasing
      * @param string $publicUrl
      * @param bool $asObject
      * @param null|integer $mode
-     * @return null
+     * @return null|string|UrlAlias
      */
     public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
     {
@@ -140,7 +139,7 @@ class Aliasing
      * @param string $internalUrl
      * @param bool $asObject
      * @param integer $mode
-     * @return null
+     * @return null|string|UrlAlias
      */
     public function hasPublicAlias($internalUrl, $asObject = false, $mode = UrlAlias::REWRITE)
     {
@@ -158,7 +157,7 @@ class Aliasing
      *
      * @param string $publicUrl
      * @param string $internalUrl
-     * @return null
+     * @return null|UrlAlias
      */
     public function findAlias($publicUrl, $internalUrl)
     {

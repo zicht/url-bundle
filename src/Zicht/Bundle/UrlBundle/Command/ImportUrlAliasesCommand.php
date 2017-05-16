@@ -21,7 +21,10 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class ImportUrlAliasesCommand extends ContainerAwareCommand
 {
-    private $redirectTypeMapping = [
+    /**
+     * Defines the possible input values for the command and their associated (i.e. mapped) behavior
+     */
+    const REDIRECT_TYPE_MAPPING = [
         '0' => UrlAlias::REWRITE,
         '301' => UrlAlias::MOVE,
         '302' => UrlAlias::ALIAS,
@@ -30,13 +33,19 @@ class ImportUrlAliasesCommand extends ContainerAwareCommand
         'alias' => UrlAlias::ALIAS,
     ];
 
-    private $defaultConflictingPublicUrlStrategyMapping = [
+    /**
+     * Defines the possible input values for the command and their associated (i.e. mapped) behavior
+     */
+    const DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING = [
         'keep' => Aliasing::STRATEGY_KEEP,
         'overwrite' => Aliasing::STRATEGY_OVERWRITE,
         'suffix' => Aliasing::STRATEGY_SUFFIX,
     ];
 
-    private $defaultConflictingInternalUrlStrategyMapping = [
+    /**
+     * Defines the possible input values for the command and their associated (i.e. mapped) behavior
+     */
+    const DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING = [
         'ignore' => Aliasing::STRATEGY_IGNORE,
         'move-new-to-previous' => Aliasing::STRATEGY_MOVE_NEW_TO_PREVIOUS,
         'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
@@ -75,21 +84,21 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
                 'default-redirect-type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                sprintf('Type of redirect, one of: %s', join(', ', array_keys($this->redirectTypeMapping))),
+                sprintf('Type of redirect, one of: %s', join(', ', array_keys(self::REDIRECT_TYPE_MAPPING))),
                 'alias'
             )
             ->addOption(
                 'default-conflicting-public-url-strategy',
                 null,
                 InputOption::VALUE_REQUIRED,
-                sprintf('How to handle conflicting public url, one of: %s', join(', ', array_keys($this->defaultConflictingPublicUrlStrategyMapping))),
+                sprintf('How to handle conflicting public url, one of: %s', join(', ', array_keys(self::DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING))),
                 'keep'
             )
             ->addOption(
                 'default-conflicting-internal-url-strategy',
                 null,
                 InputOption::VALUE_REQUIRED,
-                sprintf('How to handle conflicting internal url, one of: %s', join(', ', array_keys($this->defaultConflictingInternalUrlStrategyMapping))),
+                sprintf('How to handle conflicting internal url, one of: %s', join(', ', array_keys(self::DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING))),
                 'move-new-to-previous'
             )
             ->addOption(
@@ -113,9 +122,9 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $defaultRedirectType = $this->redirectTypeMapping[$input->getOption('default-redirect-type')];
-        $defaultConflictingPublicUrlStrategy = $this->defaultConflictingPublicUrlStrategyMapping[$input->getOption('default-conflicting-public-url-strategy')];
-        $defaultConflictingInternalUrlStrategy = $this->defaultConflictingInternalUrlStrategyMapping[$input->getOption('default-conflicting-internal-url-strategy')];
+        $defaultRedirectType = self::REDIRECT_TYPE_MAPPING[$input->getOption('default-redirect-type')];
+        $defaultConflictingPublicUrlStrategy = self::DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING[$input->getOption('default-conflicting-public-url-strategy')];
+        $defaultConflictingInternalUrlStrategy = self::DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING[$input->getOption('default-conflicting-internal-url-strategy')];
         $csvDelimiter = $input->getOption('csv-delimiter');
         $csvEnclosure = $input->getOption('csv-enclosure');
 
@@ -155,9 +164,9 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 
             $publicUrl = trim($data[0]);
             $internalUrl = trim($data[1]);
-            $type = $this->parseInputToMapping($this->redirectTypeMapping, $data, 2, $defaultRedirectType);
-            $conflictingPublicUrlStrategy = $this->parseInputToMapping($this->defaultConflictingPublicUrlStrategyMapping, $data, 3, $defaultConflictingPublicUrlStrategy);
-            $conflictingInternalUrlStrategy = $this->parseInputToMapping($this->defaultConflictingInternalUrlStrategyMapping, $data, 3, $defaultConflictingInternalUrlStrategy);
+            $type = $this->parseInputToMapping(self::REDIRECT_TYPE_MAPPING, $data, 2, $defaultRedirectType);
+            $conflictingPublicUrlStrategy = $this->parseInputToMapping(self::DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING, $data, 3, $defaultConflictingPublicUrlStrategy);
+            $conflictingInternalUrlStrategy = $this->parseInputToMapping(self::DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING, $data, 3, $defaultConflictingInternalUrlStrategy);
 
             $realInternalUrl = $aliasingService->hasInternalAlias($internalUrl);
             if (null !== $realInternalUrl && $internalUrl !== $realInternalUrl) {
@@ -185,6 +194,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
      * @param integer $index
      * @param integer $default
      * @return integer
+     * @throws \Exception
      */
     private function parseInputToMapping($mapping, $data, $index, $default)
     {
