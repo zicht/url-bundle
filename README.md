@@ -36,7 +36,7 @@ If the TinyMce form type is used from the admin bundle.
 The type is extended to transform external urls to internal urls.
 No additional configuration is required
 
-## Show public URLS of a page in the admin ###
+## Show public URLS of a page in the admin
 
 To enable this feature, add the following to a page admin, and make sure that
 form_theme.html.twig from the url-bundle is loaded.
@@ -52,7 +52,20 @@ public function configureFormFields(FormMapper $formMapper)
 }
 ```
 
-# Maintainer(s) 
-* Rik van der Kemp <rik@zicht.nl>
+## Importing a csv with aliases
+
+Use the command `php app/console zicht:url:import-aliases url_aliases_file.csv --skip-header --csv-delimiter ';'`
+
+This command can parse csv files that follow the following syntax:
+
+    PUBLICURL, INTERNALURL, TYPE, CONFLICTINGPUBLICURLSTRATEGY, CONFLICTINGINTERNALURLSTRATEGY
+    /home, /nl/page/1
+    /also-home, /nl/page/1
+
+Note that the first line can be ignored using "--skip-header"
+TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optional.'
+
+# Maintainers
+* Boudewijn Schoon <boudewijn@zicht.nl>
 * Muhammed Akbulut <muhammed@zicht.nl>
 

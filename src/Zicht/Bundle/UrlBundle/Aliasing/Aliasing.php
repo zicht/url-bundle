@@ -7,7 +7,6 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
@@ -49,12 +48,18 @@ class Aliasing
      */
     const STRATEGY_MOVE_PREVIOUS_TO_NEW = 'redirect-previous-to-new';
 
+    /**
+     * @see addAlias
+     */
+    const STRATEGY_MOVE_NEW_TO_PREVIOUS = 'redirect-new-to-previous';
+
     /** @var EntityManager  */
     protected $manager;
 
     /** @var UrlAliasRepository */
     protected $repository;
 
+    /** @var boolean */
     protected $isBatch = false;
 
 
@@ -99,7 +104,7 @@ class Aliasing
      */
     public static function validateInternalConflictingStrategy($conflictingInternalUrlStrategy)
     {
-        if (!in_array($conflictingInternalUrlStrategy, [self::STRATEGY_IGNORE, self::STRATEGY_MOVE_PREVIOUS_TO_NEW])) {
+        if (!in_array($conflictingInternalUrlStrategy, [self::STRATEGY_IGNORE, self::STRATEGY_MOVE_PREVIOUS_TO_NEW, self::STRATEGY_MOVE_NEW_TO_PREVIOUS])) {
             throw new \InvalidArgumentException("Invalid \$conflictingInternalUrlStrategy '$conflictingInternalUrlStrategy'");
         }
     }
@@ -109,8 +114,8 @@ class Aliasing
      *
      * @param string $publicUrl
      * @param bool $asObject
-     * @param null $mode
-     * @return null
+     * @param null|integer $mode
+     * @return null|string|UrlAlias
      */
     public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
     {
@@ -133,13 +138,14 @@ class Aliasing
      *
      * @param string $internalUrl
      * @param bool $asObject
-     * @return null
+     * @param integer $mode
+     * @return null|string|UrlAlias
      */
-    public function hasPublicAlias($internalUrl, $asObject = false)
+    public function hasPublicAlias($internalUrl, $asObject = false, $mode = UrlAlias::REWRITE)
     {
         $ret = null;
 
-        if ($alias = $this->repository->findOneByInternalUrl($internalUrl)) {
+        if ($alias = $this->repository->findOneByInternalUrl($internalUrl, $mode)) {
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
@@ -151,7 +157,7 @@ class Aliasing
      *
      * @param string $publicUrl
      * @param string $internalUrl
-     * @return null
+     * @return null|UrlAlias
      */
     public function findAlias($publicUrl, $internalUrl)
     {
@@ -186,7 +192,8 @@ class Aliasing
      *
      * When the $internalUrl already exists we will use the $conflictingInternalUrlStrategy to resolve this conflict.
      * - STRATEGY_IGNORE will not do anything
-     * - STRATEGY_REDIRECT_PREVIOUS_TO_NEW will make make the previous publicUrl 301 to the new $publicUrl
+     * - STRATEGY_MOVE_PREVIOUS_TO_NEW will make make the previous publicUrl 301 to the new $publicUrl
+     * - STRATEGY_MOVE_NEW_TO_PREVIOUS will make the new $%publicUrl 301 to the previous publicUrl, leaving the previous publicUrl alone
      *
      * @param string $publicUrl
      * @param string $internalUrl
@@ -210,9 +217,8 @@ class Aliasing
         $ret = false;
         /** @var $alias UrlAlias */
 
-        // if the internal url is currently already aliased
+        // check for INTERNAL alias conflict
         $alias = $this->hasPublicAlias($internalUrl, true);
-
         if ($alias) {
             switch ($conflictingInternalUrlStrategy) {
                 case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
@@ -222,17 +228,21 @@ class Aliasing
                         $this->save($alias);
                     }
                     break;
+                case self::STRATEGY_MOVE_NEW_TO_PREVIOUS:
+                    $type = UrlAlias::MOVE;
+                    break;
                 case self::STRATEGY_IGNORE:
                     // Alias already exist, but the strategy is to ignore changes
                     return $ret;
                 default:
-                    // case is handled in the 'if' guard at top of the function
+                    // case is handled in the `validateInternalConflictingStrategy` guard at top of the function
                     break;
             }
         }
 
-        if ($alias = $this->hasInternalAlias($publicUrl, true)) {
-
+        // check for PUBLIC alias conflict
+        $alias = $this->hasInternalAlias($publicUrl, true);
+        if ($alias) {
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
             // but we do need to make this alias active again
             if ($internalUrl === $alias->getInternalUrl()) {
@@ -240,9 +250,14 @@ class Aliasing
                     // no need to do anything
                     $ret = true;
                 } else {
-                    // we can reuse an existing alias.  The page will get exactly the url it wants
-                    $alias->setMode(UrlAlias::REWRITE);
-                    $this->save($alias);
+                    // it is possible that multiple aliases exist for this internalUrl, if none of them is
+                    // UrlAlias::REWRITE, then we must make this $alias rewrite.
+                    $rewriteAlias = $this->hasPublicAlias($internalUrl, true, UrlAlias::REWRITE);
+                    if (null === $rewriteAlias) {
+                        // we can reuse an existing alias.  The page will get exactly the url it wants
+                        $alias->setMode(UrlAlias::REWRITE);
+                        $this->save($alias);
+                    }
                     $ret = true;
                 }
             }
@@ -285,7 +300,7 @@ class Aliasing
                         $ret = true;
                         break;
                     default:
-                        // case is handled in the 'if' guard at top of the function
+                        // case is handled in the `validatePublicConflictingStrategy` guard at top of the function
                 }
             }
         } else {
