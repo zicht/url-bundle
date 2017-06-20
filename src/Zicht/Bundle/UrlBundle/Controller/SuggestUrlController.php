@@ -26,6 +26,7 @@ class SuggestUrlController extends Controller
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/url/suggest")
      */
     public function suggestUrlAction(Request $request)
@@ -40,7 +41,9 @@ class SuggestUrlController extends Controller
     /**
      * Lists all links available in the url provider.
      *
+     * @param Request $request
      * @return Response
+     *
      * @Route("/url/suggest/editor")
      */
     public function linkListAction(Request $request)

@@ -19,6 +19,7 @@ class StaticReferenceController extends Controller
     /**
      * Redirects to the url provided by the main url provider service.
      *
+     * @param Request $request
      * @param string $name
      * @param int $code
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
