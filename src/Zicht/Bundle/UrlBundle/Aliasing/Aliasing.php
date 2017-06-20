@@ -388,7 +388,7 @@ class Aliasing
         $this->manager->persist($alias);
 
         if ($this->isBatch) {
-            $this->batch[$alias->getPublicUrl()]= $alias;
+            $this->batch[sprintf('%s:%s', $alias->getPublicUrl(), $alias->getInternalUrl())]= $alias;
         } else {
             $this->manager->flush($alias);
         }
