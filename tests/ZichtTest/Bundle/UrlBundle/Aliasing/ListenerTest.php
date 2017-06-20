@@ -187,6 +187,41 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('/bar', $setResponseValue->headers->get('location'));
         }
     }
+
+    /**
+     * @dataProvider statusModes
+     */
+    public function testRedirectSupportsQueryString($statusCode, $expectsException = false)
+    {
+        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
+        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(\Symfony\Component\HttpFoundation\Request::create('/foo?is_there_more=yes')));
+        $setResponseValue = null;
+        $this->aliasing->expects($this->once())->method('hasInternalAlias')->will($this->returnValue(
+            new UrlAlias('/foo', '/bar', $statusCode)
+        ));
+        if ($expectsException) {
+            $e = null;
+            try {
+                $this->listener->onKernelRequest($event);
+            } catch(\Exception $e) {
+            }
+            $this->assertInstanceOf('UnexpectedValueException', $e);
+        } else {
+            $event->expects($this->once())->method('setResponse')->will($this->returnCallback(function($response) use(&$setResponseValue){
+                $setResponseValue = $response;
+            }));
+            $this->listener->onKernelRequest($event);
+
+            $this->assertInstanceOf('Symfony\Component\HttpFoundation\Response', $setResponseValue);
+            $this->assertEquals($statusCode, $setResponseValue->getStatusCode());
+            $this->assertEquals('/bar?is_there_more=yes', $setResponseValue->headers->get('location'));
+        }
+    }
+
     public function statusModes()
     {
         return array(
