@@ -16,28 +16,28 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
  */
 class Aliaser
 {
+    /** @var Aliasing  */
     protected $aliasing;
+    /** @var Provider  */
     protected $provider;
+    /** @var AliasingStrategy|DefaultAliasingStrategy  */
     protected $aliasingStrategy;
-
-    private $conflictingPublicUrlStrategy = Aliasing::STRATEGY_SUFFIX;
-    private $conflictingInternalUrlStrategy = Aliasing::STRATEGY_IGNORE;
-
-    /**
-     * @var AccessDecisionManagerInterface
-     */
+    /** @var string */
+    protected $conflictingPublicUrlStrategy = Aliasing::STRATEGY_SUFFIX;
+    /** @var string */
+    protected $conflictingInternalUrlStrategy = Aliasing::STRATEGY_IGNORE;
+    /** @var array  */
+    protected $recursionProtection = [];
+    /** @var AccessDecisionManagerInterface  */
     protected $decisionManager;
-
-    /**
-     * @var array
-     */
+    /** @var array  */
     protected $scheduledRemoveAlias;
 
     /**
      * Constructor
      *
      * @param Aliasing $aliasing
-     * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
+     * @param Provider $provider
      * @param AliasingStrategy $naming
      * @param AccessDecisionManagerInterface $decisionManager
      */
@@ -94,24 +94,23 @@ class Aliaser
      * Create an alias for the provided object.
      *
      * @param mixed $record
+     * @param array $action
      * @return bool Whether or not an alias was created.
      */
-    public function createAlias($record)
+    public function createAlias($record, $action = ['VIEW'])
     {
         $internalUrl = $this->provider->url($record);
+
         if (in_array($internalUrl, $this->recursionProtection)) {
             return false;
         }
+
         $this->recursionProtection[] = $internalUrl;
 
-        $ret = false;
-        if (!$this->shouldGenerateAlias($record)) {
-            $this->aliasing->removeAlias($internalUrl);
-        } else {
+        if ($this->shouldGenerateAlias($record, $action)) {
             // Don't save an alias if the generated public alias is null
-            $generatedAlias = $this->aliasingStrategy->generatePublicAlias($record);
-            if (null !== $generatedAlias) {
-                $ret = $this->aliasing->addAlias(
+            if (null !== ($generatedAlias = $this->aliasingStrategy->generatePublicAlias($record))) {
+                return $this->aliasing->addAlias(
                     $generatedAlias,
                     $internalUrl,
                     UrlAlias::REWRITE,
@@ -121,30 +120,26 @@ class Aliaser
             }
         }
 
-        return $ret;
+        return false;
     }
-
 
     /**
      * Determines whether an alias should be generated for the given record.
      *
      * @param mixed $record
+     * @param array $action
      *
      * @return bool
      */
-    public function shouldGenerateAlias($record)
+    public function shouldGenerateAlias($record, array $action = ['VIEW'])
     {
         // without security, everything is considered public
         if (null === $this->decisionManager) {
             return true;
         }
 
-        return $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), ['VIEW'], $record);
+        return $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), $action, $record);
     }
-
-
-    private $recursionProtection = array();
-
 
     /**
      * Removes an alias

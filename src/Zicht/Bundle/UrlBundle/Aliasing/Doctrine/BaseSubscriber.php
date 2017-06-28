@@ -35,11 +35,6 @@ abstract class BaseSubscriber implements EventSubscriber
     protected $enabled;
 
     /**
-     * @var array
-     */
-    protected $records;
-
-    /**
      * Constructor.
      *
      * @param Container $container
@@ -54,7 +49,6 @@ abstract class BaseSubscriber implements EventSubscriber
         $this->aliaserServiceId = $aliaserServiceId;
         $this->className = $className;
         $this->enabled = $enabled;
-        $this->records = [];
     }
 
     /**
