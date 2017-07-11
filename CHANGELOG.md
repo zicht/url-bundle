@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Nothing so far
+
+## 2.13.1 - 2017-07-11
+- Expand HTMLMappers' attributes with a new default entry: `option: ['data-href']`
 
 ## 2.13.0 - 2017-05-16
 ### Added

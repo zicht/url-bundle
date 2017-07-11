@@ -33,6 +33,7 @@ class HtmlMapper implements UrlMapperInterface
         $this->htmlAttributes = [
             'a' => ['href', 'data-href'],
             'area' => ['href', 'data-href'],
+            'option' => ['data-href'],
             'iframe' => ['src'],
             'form' => ['action'],
             'meta' => ['content'],
