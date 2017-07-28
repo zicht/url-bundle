@@ -3,13 +3,13 @@
  * @author    Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
-
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use \Doctrine\ORM\EntityManager;
-use \Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\Routing\RouterInterface;
-use \Zicht\Bundle\UrlBundle\Entity\StaticReference;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
+use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
  * Static provider holds a set of urls
@@ -21,12 +21,10 @@ class DbStaticProvider implements Provider
      */
     private $em;
 
-    /**
-     * Current master request (needed for locale and base url)
-     *
-     * @var \Symfony\Component\HttpFoundation\Request
+    /*
+     * @var null|RequestStack $requestStack
      */
-    private $request;
+    private $requestStack;
 
     /**
      * Holds the static references
@@ -46,22 +44,12 @@ class DbStaticProvider implements Provider
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
      * @param EntityManager $em
+     * @param RequestStack null|$requestStack
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, RequestStack $requestStack = null)
     {
         $this->em = $em;
-    }
-
-
-    /**
-     * Stores the request
-     *
-     * @param Request $r
-     * @return void
-     */
-    public function setRequest(Request $r)
-    {
-        $this->request = $r;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -103,8 +91,8 @@ class DbStaticProvider implements Provider
 
         $url = $this->refs[$object][$this->getLocale()];
 
-        if (!preg_match('/^(http|https)/', $url)) {
-            $url = $this->request->getBaseUrl() . '/' . ltrim($url, '/');
+        if (!preg_match('/^(http|https)/', $url) && (null !== ($request = $this->getMasterRequest()))) {
+            $url = $request->getBaseUrl() . '/' . ltrim($url, '/');
         }
 
         return $url;
@@ -118,11 +106,11 @@ class DbStaticProvider implements Provider
      */
     public function getLocale()
     {
-        if ($this->request) {
-            $locale = $this->request->get('_locale');
+        if (null !== ($request = $this->getMasterRequest())) {
+            $locale = $request->get('_locale');
         }
 
-        if (! isset($locale)) {
+        if (!isset($locale)) {
             $locale = $this->fallback_locale;
         }
 
@@ -139,6 +127,14 @@ class DbStaticProvider implements Provider
         if (is_null($this->refs)) {
             $this->addAll();
         }
+    }
+
+    /**
+     * @return null|Request
+     */
+    private function getMasterRequest()
+    {
+        return (!is_null($this->requestStack)) ? $this->requestStack->getMasterRequest() : null;
     }
 
     /**
