@@ -9,13 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 2.13.1 - 2017-07-11
 - Expand HTMLMappers' attributes with a new default entry: `option: ['data-href']`
 
-## 2.13.1 - 2017-06-20
-### Changed
-- When a move of redirect (301 or 302) is encountered the query string
-  is now properly passed to the redirect response.
-  Before: /old-public-url?foo=bar -> /new-public-url
-  After:  /old-public-url?foo=bar -> /new-public-url?foo=bar
-
 ## 2.13.0 - 2017-05-16
 ### Added
 - New strategy to resolve conflicts with the internal url:

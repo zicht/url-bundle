@@ -192,11 +192,7 @@ class Listener
                         break;
                     case UrlAlias::MOVE:
                     case UrlAlias::ALIAS:
-                        $redirectUrl = $url->getInternalUrl();
-                        if ($queryString = $request->getQueryString()) {
-                            $redirectUrl = sprintf('%s?%s', $redirectUrl, $queryString);
-                        }
-                        $event->setResponse(new RedirectResponse($redirectUrl, $url->getMode()));
+                        $event->setResponse(new RedirectResponse($url->getInternalUrl(), $url->getMode()));
                         break;
                     default:
                         throw new \UnexpectedValueException(
