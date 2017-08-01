@@ -20,21 +20,38 @@ class CreateAliasSubscriber extends BaseSubscriber
     private $isHandling = false;
 
     /**
+     * @var array
+     */
+    private $records = [];
+
+    /**
      * @return array
      */
     public function getSubscribedEvents()
     {
         if ($this->enabled) {
-            return array(
+            return [
                 Events::postPersist,
                 Events::postUpdate,
                 Events::postFlush,
-            );
+            ];
         } else {
-            return array();
+            return [];
         }
     }
 
+    protected function addRecord($entity, array $action = [])
+    {
+        if ($entity instanceof $this->className) {
+            if (false !== ($index = array_search($entity, array_column($this->records, 0), true))) {
+                if (!in_array($this->records[$index], $action)) {
+                    $this->records[$index][] = $action;
+                }
+            } else {
+                $this->records[] = [$entity, $action];
+            }
+        }
+    }
 
     /**
      * Registers a record to be scheduled for aliasing
@@ -44,9 +61,7 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postPersist($e)
     {
-        if ($e->getEntity() instanceof $this->className) {
-            $this->records[spl_object_hash($e->getEntity())] = $e->getEntity();
-        }
+        $this->addRecord($e->getEntity(), ['ACTION_POST_PERSIST']);
     }
 
 
@@ -58,9 +73,7 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postUpdate($e)
     {
-        if ($e->getEntity() instanceof $this->className) {
-            $this->records[spl_object_hash($e->getEntity())] = $e->getEntity();
-        }
+        $this->addRecord($e->getEntity(), ['ACTION_POST_UPDATE']);
     }
 
 
@@ -71,18 +84,18 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postFlush()
     {
-        if (!$this->enabled) {
-            return;
-        }
-        if ($this->isHandling) {
+        if (!$this->enabled || $this->isHandling) {
             return;
         }
 
         $this->isHandling = true;
+
         $aliaser = $this->container->get($this->aliaserServiceId);
-        while ($record = array_shift($this->records)) {
-            $aliaser->createAlias($record);
+
+        while (list($record, $action) = array_shift($this->records)) {
+            $aliaser->createAlias($record, $action);
         }
+
         $this->isHandling = false;
     }
 }
