@@ -66,6 +66,7 @@ Note that the first line can be ignored using "--skip-header"
 TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optional.'
 
 # Maintainers
+* Philip Bergman <philip@zicht.nl>
 * Boudewijn Schoon <boudewijn@zicht.nl>
 * Muhammed Akbulut <muhammed@zicht.nl>
 
