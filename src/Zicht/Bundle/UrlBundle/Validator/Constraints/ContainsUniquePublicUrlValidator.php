@@ -14,15 +14,17 @@ use Symfony\Component\Validator\ConstraintValidator;
  *
  * @package Zicht\Bundle\UrlBundle\Validator\Constraints
  */
-class ContainsUniquePublicUrlValidator  extends ConstraintValidator
+class ContainsUniquePublicUrlValidator extends ConstraintValidator
 {
     /** @var Registry  */
     protected $doctrine;
 
     /**
+     * Constructor
+     *
      * @param Registry $doctrine
      */
-    function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
     }
@@ -51,7 +53,9 @@ class ContainsUniquePublicUrlValidator  extends ConstraintValidator
     }
 
     /**
-     * @param $url
+     * Create a select (count) query with the given url.
+     *
+     * @param string $url
      * @return string
      */
     protected function fmtQuery($url)

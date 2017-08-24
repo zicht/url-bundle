@@ -17,14 +17,13 @@ use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
  */
 abstract class AbstractAliasingTransformer implements DataTransformerInterface
 {
-    /**
-     * @var Aliasing
-     */
+    /** @var Aliasing */
     protected $aliasing;
     /** @var int  */
     protected $mode;
-
+    /** Mode bit for transform method */
     const MODE_TO_PUBLIC = 1;
+    /** Mode bit for reverseTransform method */
     const MODE_TO_INTERNAL = 2;
 
     /**
