@@ -33,9 +33,7 @@
             <tag name="form.type" alias="zicht_url" />
         </service>
 
-        <service id="zicht_url.service.url_validator" class="Zicht\Bundle\UrlBundle\Service\UrlValidator">
-            <factory class="Zicht\Bundle\UrlBundle\Service\UrlValidatorFactory"
-                     method="createUrlValidator" />
+        <service id="zicht_url.service.url_validator" class="Zicht\Bundle\UrlBundle\Service\UrlValidator" >
             <tag name="zicht_url.url_validator" />
         </service>
 

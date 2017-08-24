@@ -9,7 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Form\DataTransformer\TextTransformer;
 
@@ -44,14 +44,19 @@ class UrlType extends AbstractType
     /**
      * @{inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        parent::setDefaultOptions($resolver);
-        $resolver->setDefaults(
-            array(
-            'with_edit_button' => true
-            )
-        );
+        parent::configureOptions($resolver);
+
+        $resolver
+            ->setDefaults(
+                array(
+                    'with_edit_button'      => true,
+                    'no_transform_public'   => false,
+                    'no_transform_internal' => false,
+                    'url_suggest'           => '/admin/url/suggest',
+                )
+            );
     }
 
     /**
@@ -60,10 +65,7 @@ class UrlType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
-
-        // TODO make the route name an option:
-        $view->vars['url_suggest'] = '/admin/url/suggest';
-
+        $view->vars['url_suggest'] = $options['url_suggest'];
         $view->vars['with_edit_button'] = $options['with_edit_button'];
     }
 
@@ -80,6 +82,18 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer(new TextTransformer($this->aliasing));
+        $mode = TextTransformer::MODE_TO_INTERNAL|TextTransformer::MODE_TO_PUBLIC;
+
+        if ($options['no_transform_public']) {
+            $mode ^= TextTransformer::MODE_TO_PUBLIC;
+        }
+
+        if ($options['no_transform_internal']) {
+            $mode ^= TextTransformer::MODE_TO_INTERNAL;
+        }
+
+        if ($mode > 0) {
+            $builder->addModelTransformer(new TextTransformer($this->aliasing, $mode));
+        }
     }
 }

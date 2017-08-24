@@ -21,15 +21,22 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      * @var Aliasing
      */
     protected $aliasing;
+    /** @var int  */
+    protected $mode;
+
+    const MODE_TO_PUBLIC = 1;
+    const MODE_TO_INTERNAL = 2;
 
     /**
      * AliasToInternalUrlTransformer constructor.
      *
      * @param Aliasing $aliasing
+     * @param int $mode
      */
-    public function __construct(Aliasing $aliasing)
+    public function __construct(Aliasing $aliasing, $mode = self::MODE_TO_PUBLIC|self::MODE_TO_INTERNAL)
     {
         $this->aliasing = $aliasing;
+        $this->mode = $mode;
     }
 
     /**
@@ -40,7 +47,11 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      */
     public function transform($data)
     {
-        return $this->map($data, UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC);
+        if (self::MODE_TO_PUBLIC === (self::MODE_TO_PUBLIC & $this->mode)) {
+            return $this->map($data, UrlMapperInterface::MODE_INTERNAL_TO_PUBLIC);
+        } else {
+            return $data;
+        }
     }
 
     /**
@@ -51,7 +62,11 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      */
     public function reverseTransform($data)
     {
-        return $this->map($data, UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL);
+        if (self::MODE_TO_INTERNAL === (self::MODE_TO_INTERNAL & $this->mode)) {
+            return $this->map($data, UrlMapperInterface::MODE_PUBLIC_TO_INTERNAL);
+        } else {
+            return $data;
+        }
     }
 
     /**
