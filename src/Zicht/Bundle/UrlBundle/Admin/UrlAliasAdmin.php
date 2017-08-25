@@ -61,7 +61,7 @@ class UrlAliasAdmin extends Admin
     protected function configureFormFields(FormMapper $form)
     {
         $form->add('public_url')
-            ->add('internal_url', 'zicht_url')
+            ->add('internal_url', 'zicht_url', ['no_transform_public' => true])
             ->add(
                 'mode',
                 'choice',

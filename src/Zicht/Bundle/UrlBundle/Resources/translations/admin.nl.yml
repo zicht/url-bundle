@@ -11,7 +11,14 @@ admin:
 
 list:
     label_machine_name: Interne naam
+    label_id: Id
+    label_public_url: Publieke URL
+    label_internal_url: Interne URL
 
 form:
     label_machine_name: Interne naam
     label_url: URL
+    label_public_url: Publieke URL
+    label_internal_url: Interne URL
+    label_mode: Type
+

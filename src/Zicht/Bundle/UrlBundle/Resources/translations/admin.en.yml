@@ -11,7 +11,12 @@ admin:
 
 list:
     label_machine_name: Machine name
-
+    label_id: Id
+    label_public_url: Public URL
+    label_internal_url: Internal URL
 form:
     label_machine_name: Machine name
     label_url: URL
+    label_public_url: Public URL
+    label_internal_url: Internal URL
+    label_mode: Type
