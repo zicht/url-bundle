@@ -37,7 +37,7 @@ class UrlValidator
      * Fetch a url with a HEAD request because we just want to check status code.
      *
      * @param string $url
-     * @return string|bool
+     * @return array|null
      */
     protected function getHeader($url)
     {
