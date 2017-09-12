@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 2.14.0 - 2017-09-12
+- The public_url column has to be unique. This because it was not supported by the 
+  application but the db schema allowed double entries with the same pulbic_url.
+  
+  There is now validation and a change in the column property. Becarefull with schema updates 
+  because it can lead to failures when there allready double entries for the public_url
 
 ## 2.13.1 - 2017-07-11
 - Expand HTMLMappers' attributes with a new default entry: `option: ['data-href']`
