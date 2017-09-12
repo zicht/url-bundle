@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 2.14.0 - 2017-09-12
+## 2.15.0 - 2017-09-12
 - The public_url column has to be unique. This because it was not supported by the 
   application but the db schema allowed double entries with the same pulbic_url.
   
