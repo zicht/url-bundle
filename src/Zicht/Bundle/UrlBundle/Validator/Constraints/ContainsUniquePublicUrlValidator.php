@@ -27,7 +27,7 @@ class ContainsUniquePublicUrlValidator extends ConstraintValidator
      * @param Registry $doctrine
      * @param bool $isStrict
      */
-    public function __construct(Registry $doctrine, $isStrict)
+    public function __construct(Registry $doctrine, $isStrict = false)
     {
         $this->doctrine = $doctrine;
         $this->isStrict = $isStrict;
