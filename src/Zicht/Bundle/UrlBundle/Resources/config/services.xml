@@ -13,7 +13,7 @@
         <parameter key="zicht_url.service.url_validator.class">Zicht\Bundle\UrlBundle\Service\UrlValidator</parameter>
         <parameter key="zicht_url.validator.contains_valid_urls.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator</parameter>
         <parameter key="zicht_url.validator.contains_unique_public_url.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsUniquePublicUrlValidator</parameter>
-        <parameter key="zicht_url.listener.strict_url_alias.class">Zicht\Bundle\UrlBundle\Listener\StrictListener</parameter>
+        <parameter key="zicht_url.listener.strict_public_url.class">Zicht\Bundle\UrlBundle\Listener\StrictPublicUrlListener</parameter>
     </parameters>
 
     <services>
@@ -52,7 +52,7 @@
             <tag name="validator.constraint_validator" />
         </service>
 
-        <service id="zicht_url.listener.strict_url_alias" class="zicht_url.listener.strict_url_alias.class">
+        <service id="zicht_url.listener.strict_public_url" class="zicht_url.listener.strict_public_url.class">
             <argument/> <!-- strict bool  added by config -->
             <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>

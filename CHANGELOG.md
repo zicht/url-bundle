@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   
   ```
     zicht_url:
-        strict: false
+        strict_public_url: false
         ....
   ```
   

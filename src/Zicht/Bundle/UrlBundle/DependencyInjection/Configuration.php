@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('strict')->defaultValue(true)->end()
+                ->booleanNode('strict_public_url')->defaultValue(true)->end()
                 ->arrayNode('static_ref')
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()

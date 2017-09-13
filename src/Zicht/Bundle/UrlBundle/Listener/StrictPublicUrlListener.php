@@ -17,7 +17,7 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  *
  * @package Zicht\Bundle\UrlBundle\Listener
  */
-class StrictListener
+class StrictPublicUrlListener
 {
     protected $isStrict = false;
 
