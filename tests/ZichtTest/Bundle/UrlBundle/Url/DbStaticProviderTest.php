@@ -6,13 +6,15 @@
 namespace ZichtTest\Bundle\UrlBundle\Url;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class DbStaticProviderTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
         $this->manager = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $this->provider = new \Zicht\Bundle\UrlBundle\Url\DbStaticProvider($this->manager);
+        $this->stack = new RequestStack();
+        $this->provider = new \Zicht\Bundle\UrlBundle\Url\DbStaticProvider($this->manager, $this->stack);
     }
 
 
@@ -43,7 +45,7 @@ class DbStaticProviderTest extends \PHPUnit_Framework_TestCase
         $this->manager->expects($this->once())->method('getRepository')->with('ZichtUrlBundle:StaticReference')
             ->will($this->returnValue($r));
 
-        $this->provider->setRequest($req = new Request);
+        $this->stack->push($req = new Request);
         $req->attributes->set('_locale', 'klingon');
 
         $r->expects($this->once())->method('getAll')->with('klingon')->will($this->returnValue(array(

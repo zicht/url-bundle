@@ -40,6 +40,12 @@ class CreateAliasSubscriber extends BaseSubscriber
         }
     }
 
+    /**
+     * Add a entity to record list for postFlush processing.
+     *
+     * @param object $entity
+     * @param array $action
+     */
     protected function addRecord($entity, array $action = [])
     {
         if ($entity instanceof $this->className) {

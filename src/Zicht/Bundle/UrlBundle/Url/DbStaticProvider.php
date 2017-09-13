@@ -44,7 +44,7 @@ class DbStaticProvider implements Provider
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
      * @param EntityManager $em
-     * @param RequestStack null|$requestStack
+     * @param RequestStack|null $requestStack
      */
     public function __construct(EntityManager $em, RequestStack $requestStack = null)
     {

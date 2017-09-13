@@ -31,7 +31,11 @@ class UrlTypeTest extends \PHPUnit_Framework_TestCase
     {
         $optionsResolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolver', array('setDefaults'));
         $optionsResolver->expects($this->once())->method('setDefaults')->with(array(
-            'with_edit_button' => true
+            'with_edit_button' => true,
+            'no_transform_public' => false,
+            'no_transform_internal' => false,
+            'url_suggest' => '/admin/url/suggest',
+
         ));
 
         $this->type->setDefaultOptions($optionsResolver);
@@ -45,7 +49,8 @@ class UrlTypeTest extends \PHPUnit_Framework_TestCase
             $view,
             $this->getMock('Symfony\Component\Form\Form', array(), array(), '', false),
             array(
-                'with_edit_button' => true
+                'with_edit_button' => true,
+                'url_suggest' =>  '/admin/url/suggest',
             )
         );
 

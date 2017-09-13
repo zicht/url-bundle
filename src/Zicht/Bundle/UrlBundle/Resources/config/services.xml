@@ -10,6 +10,10 @@
         <parameter key="zicht_url.static_refs.class">Zicht\Bundle\UrlBundle\Url\StaticProvider</parameter>
         <parameter key="zicht_url.twig_extension.class">Zicht\Bundle\UrlBundle\Twig\UrlExtension</parameter>
         <parameter key="zicht_url.type.class">Zicht\Bundle\UrlBundle\Type\UrlType</parameter>
+        <parameter key="zicht_url.service.url_validator.class">Zicht\Bundle\UrlBundle\Service\UrlValidator</parameter>
+        <parameter key="zicht_url.validator.contains_valid_urls.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator</parameter>
+        <parameter key="zicht_url.validator.contains_unique_public_url.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsUniquePublicUrlValidator</parameter>
+        <parameter key="zicht_url.listener.strict_public_url.class">Zicht\Bundle\UrlBundle\Listener\StrictPublicUrlListener</parameter>
     </parameters>
 
     <services>
@@ -33,16 +37,24 @@
             <tag name="form.type" alias="zicht_url" />
         </service>
 
-        <service id="zicht_url.service.url_validator" class="Zicht\Bundle\UrlBundle\Service\UrlValidator">
-            <factory class="Zicht\Bundle\UrlBundle\Service\UrlValidatorFactory"
-                     method="createUrlValidator" />
+        <service id="zicht_url.service.url_validator" class="%zicht_url.service.url_validator.class%" >
             <tag name="zicht_url.url_validator" />
         </service>
 
-        <service id="zicht_url.validator.contains_valid_urls"
-                 class="Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator">
+        <service id="zicht_url.validator.contains_valid_urls" class="%zicht_url.validator.contains_valid_urls.class%">
             <argument type="service" id="zicht_url.service.url_validator" />
             <tag name="validator.constraint_validator" />
+        </service>
+
+        <service id="zicht_url.validator.contains_unique_public_url" class="%zicht_url.validator.contains_unique_public_url.class%">
+            <argument type="service" id="doctrine" />
+            <argument/> <!-- strict bool added by config -->
+            <tag name="validator.constraint_validator" />
+        </service>
+
+        <service id="zicht_url.listener.strict_public_url" class="zicht_url.listener.strict_public_url.class">
+            <argument/> <!-- strict bool  added by config -->
+            <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>
     </services>
 </container>

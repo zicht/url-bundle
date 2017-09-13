@@ -18,36 +18,6 @@ use GuzzleHttp\Exception\RequestException;
 class UrlValidator
 {
     /**
-     * @var Client
-     */
-    private $client;
-
-    private $invalidStatusCodes;
-
-    /**
-     * UrlValidator constructor.
-     *
-     * @param Client $client
-     */
-    public function __construct(Client $client)
-    {
-        $this->client = $client;
-        $this->invalidStatusCodes = array(
-            400,
-            401,
-            403,
-            404,
-            405,
-            500,
-            501,
-            502,
-            503,
-            504,
-            511,
-        );
-    }
-
-    /**
      * Returns true when url does not return error codes or not found.
      *
      * @param string $url
@@ -55,18 +25,43 @@ class UrlValidator
      */
     public function validate($url)
     {
-        try {
-            $response = $this->client->get($url);
-        } catch (ConnectException $e) {
-            return false;
-        } catch (RequestException $e) {
-            return false;
+        if (null !== ($headers = $this->getHeader($url))) {
+            $statusCode = $this->getStatusCode($headers);
+            // see https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+            return ($statusCode >= 200 && $statusCode < 300);
         }
+        return false;
+    }
 
-        if (in_array($response->getStatusCode(), $this->invalidStatusCodes)) {
-            return false;
+    /**
+     * Fetch a url with a HEAD request because we just want to check status code.
+     *
+     * @param string $url
+     * @return array|null
+     */
+    protected function getHeader($url)
+    {
+        if (false !== @file_get_contents($url, false, stream_context_create(['http' => ['method' => 'HEAD']]))) {
+            return $http_response_header;
+        } else {
+            return null;
         }
+    }
 
-        return true;
+    /**
+     * Parse the headers array and search for the status pattern
+     *
+     * @param array $headers
+     * @return int
+     */
+    protected function getStatusCode(array $headers)
+    {
+        $status = 0;
+        foreach ($headers as $header) {
+            if (preg_match('#^HTTP/(?:[^\s]+)\s(?P<code>\d+)\s#', $header, $match)) {
+                $status = (int)$match['code'];
+            }
+        }
+        return $status;
     }
 }
