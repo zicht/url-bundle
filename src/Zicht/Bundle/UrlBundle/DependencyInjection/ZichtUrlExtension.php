@@ -70,6 +70,14 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.mapper.html')->addMethodCall('addAttributes', [$config['html_attributes']]);
         }
 
+        if ($container->hasDefinition('zicht_url.listener.strict_url_alias')) {
+            $container->getDefinition('zicht_url.listener.strict_url_alias')->replaceArgument(0, $config['strict']);
+        }
+
+        if ($container->hasDefinition('zicht_url.validator.contains_unique_public_url')) {
+            $container->getDefinition('zicht_url.validator.contains_unique_public_url')->replaceArgument(1, $config['strict']);
+        }
+
         $formResources = $container->getParameter('twig.form.resources');
         $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);

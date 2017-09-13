@@ -18,15 +18,19 @@ class ContainsUniquePublicUrlValidator extends ConstraintValidator
 {
     /** @var Registry  */
     protected $doctrine;
+    /** @var bool  */
+    protected $isStrict;
 
     /**
      * Constructor
      *
      * @param Registry $doctrine
+     * @param bool $isStrict
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $isStrict)
     {
         $this->doctrine = $doctrine;
+        $this->isStrict = $isStrict;
     }
 
 
@@ -38,6 +42,10 @@ class ContainsUniquePublicUrlValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        if (false === $this->isStrict) {
+            return;
+        }
+
         if (0 < $this->getPublicUrlCount($value)) {
             $this->context->addViolation($constraint->message, ['%url%' => $value]);
         }
