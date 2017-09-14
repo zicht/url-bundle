@@ -6,12 +6,10 @@
 namespace Zicht\Bundle\UrlBundle\Listener;
 
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
- * Class StrictListener
+ * Class StrictPublicUrlListener
  *
  * A class metadata listener that will set strict rulings on the UrlAlias entity.
  *
@@ -22,7 +20,7 @@ class StrictPublicUrlListener
     protected $isStrict = false;
 
     /**
-     * StrictListener constructor
+     * StrictPublicUrlListener constructor
      *
      * @param bool $strict
      */
