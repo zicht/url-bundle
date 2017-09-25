@@ -1,9 +1,10 @@
 Zicht\Bundle\UrlBundle\Entity\UrlAlias:
+    constraints:
+            -
+                Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsUrlAlias: ~
     getters:
         publicUrl:
             -
                 Regex:
                     pattern: '~^/~'
                     message: 'The public url must start with a slash'
-            -
-                Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsUniquePublicUrl: ~

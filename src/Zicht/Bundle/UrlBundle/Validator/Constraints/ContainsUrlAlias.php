@@ -8,11 +8,19 @@ namespace Zicht\Bundle\UrlBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class ContainsUniquePublicUrl
+ * Class ContainsUrlAlias
  *
  * @package Zicht\Bundle\UrlBundle\Validator\Constraints
  */
-class ContainsUniquePublicUrl extends Constraint
+class ContainsUrlAlias extends Constraint
 {
     public $message = "Public url '%url%' already exists.";
+
+    /**
+     * @{inheritDoc}
+     */
+    public function getTargets()
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }
