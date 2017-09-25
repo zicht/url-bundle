@@ -74,8 +74,8 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.listener.strict_public_url')->replaceArgument(0, $config['strict_public_url']);
         }
 
-        if ($container->hasDefinition('zicht_url.validator.contains_unique_public_url')) {
-            $container->getDefinition('zicht_url.validator.contains_unique_public_url')->replaceArgument(1, $config['strict_public_url']);
+        if ($container->hasDefinition('zicht_url.validator.contains_url_alias')) {
+            $container->getDefinition('zicht_url.validator.contains_url_alias')->replaceArgument(1, $config['strict_public_url']);
         }
 
         $formResources = $container->getParameter('twig.form.resources');
