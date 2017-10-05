@@ -61,6 +61,9 @@ class ErrorLogAdmin extends Admin
             ->add('message');
     }
 
+    /**
+     * @{inheritdoc}
+     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->remove('create');
