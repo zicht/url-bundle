@@ -7,6 +7,7 @@
 namespace Zicht\Bundle\UrlBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\Admin;
 
@@ -58,5 +59,13 @@ class ErrorLogAdmin extends Admin
             ->add('referer')
             ->add('ua')
             ->add('message');
+    }
+
+    /**
+     * @{inheritdoc}
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->remove('create');
     }
 }
