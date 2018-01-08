@@ -200,9 +200,15 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
     {
         if (array_key_exists($index, $data)) {
             $value = strtolower(trim($data[$index]));
+
+            if ('' === $value) {
+                return $default;
+            }
+
             if (array_key_exists($value, $mapping)) {
                 return $mapping[$value];
             }
+
             throw new \Exception('Could not parse');
         }
 
