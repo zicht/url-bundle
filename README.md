@@ -68,5 +68,3 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 # Maintainers
 * Philip Bergman <philip@zicht.nl>
 * Boudewijn Schoon <boudewijn@zicht.nl>
-* Muhammed Akbulut <muhammed@zicht.nl>
-
