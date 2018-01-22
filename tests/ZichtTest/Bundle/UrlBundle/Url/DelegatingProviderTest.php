@@ -64,7 +64,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $this->assertTrue($provider->supports('a'));
             $this->assertTrue($provider->supports('c'));
             $this->assertTrue($provider->supports('x'));
-            $this->assertFalse($provider->supports('not-supported'));
+            $this->assertFalse($provider->supports('not-supported-'));
 
             $this->assertEquals('b', $provider->url('a'));
             $this->assertEquals('d', $provider->url('c'));
