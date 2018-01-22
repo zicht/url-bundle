@@ -90,6 +90,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $event->expects($this->any())->method('getRequest')->will($this->returnValue($req));
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock();
+        $event->expects($this->any())->method('getKernel')->will($this->returnValue($kernel));
 
         $this->aliasing->expects($this->any())->method('hasInternalAlias')->with('/foo')->will($this->returnValue(
             new UrlAlias('/foo', '/bar', 0)
