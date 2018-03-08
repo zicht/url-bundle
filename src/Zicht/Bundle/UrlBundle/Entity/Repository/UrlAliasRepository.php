@@ -23,7 +23,7 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         if (null !== $mode) {
             $where['mode']= $mode;
         }
-        return $this->findOneBy($where);
+        return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
     /**
@@ -35,7 +35,7 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         if (null !== $mode) {
             $where['mode']= $mode;
         }
-        return $this->findOneBy($where);
+        return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
     /**
