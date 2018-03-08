@@ -12,6 +12,12 @@ Nothing so far
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
+## 2.18.1
+- Added sort to findOneByPublicUrl, findOneByInternalUrl so they return the first created id.
+
+## 2.18.0
+- Broken version
+
 ## 2.15.0 - 2017-09-12
 - The public_url column has to be unique by default. This because it was not supported by the 
   application but the db schema allowed double entries with the same pulbic_url.
