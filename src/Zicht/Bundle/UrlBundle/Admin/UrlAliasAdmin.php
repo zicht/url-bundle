@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Type\UrlType;
 
 /**
  * Admin for URL aliases
@@ -61,16 +62,16 @@ class UrlAliasAdmin extends Admin
     protected function configureFormFields(FormMapper $form)
     {
         $form->add('public_url')
-            ->add('internal_url', 'zicht_url', ['no_transform_public' => true])
+            ->add('internal_url', UrlType::class, ['no_transform_public' => true])
             ->add(
                 'mode',
                 'choice',
                 array(
-                    'choices' => array(
+                    'choices' => array_flip(array(
                         UrlAlias::ALIAS   => 'alias (302 redirect)',
                         UrlAlias::MOVE    => 'move (301 redirect)',
                         UrlAlias::REWRITE => 'rewrite',
-                    )
+                    ))
                 )
             );
     }

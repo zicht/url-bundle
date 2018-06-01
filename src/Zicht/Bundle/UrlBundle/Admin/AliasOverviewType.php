@@ -88,4 +88,12 @@ class AliasOverviewType extends AbstractType
     {
         return 'alias_overview_type';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'alias_overview_type';
+    }
 }
