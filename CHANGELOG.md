@@ -10,8 +10,8 @@ Nothing so far
 
 ## 3.1.0
 ### Changed
-- Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
-  or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
+- Added event dispatching within the sitemap generation, it is now possible to filter the resulting 
+  urls and modify the collection that will be given back to the sitemap controller.
 
 ## 3.0.0
 ### Changed
