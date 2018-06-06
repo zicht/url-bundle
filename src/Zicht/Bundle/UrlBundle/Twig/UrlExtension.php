@@ -6,15 +6,12 @@
 
 namespace Zicht\Bundle\UrlBundle\Twig;
 
-use Twig_Extension;
-use Twig_SimpleFilter;
-use Twig_SimpleFunction;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 
 /**
  * Provides some twig utilities.
  */
-class UrlExtension extends Twig_Extension
+class UrlExtension extends \Twig_Extension
 {
     protected $provider;
     protected $aliasing;
@@ -38,7 +35,7 @@ class UrlExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            new Twig_SimpleFilter('internal_to_public_aliasing', array($this, 'internalToPublicAliasing')),
+            new \Twig_SimpleFilter('internal_to_public_aliasing', array($this, 'internalToPublicAliasing')),
         );
     }
 
@@ -61,9 +58,9 @@ class UrlExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'object_url'       => new Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
-            'static_ref'       => new Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
-            'static_reference' => new Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
+            'object_url'       => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
+            'static_ref'       => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
+            'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
         );
     }
 
