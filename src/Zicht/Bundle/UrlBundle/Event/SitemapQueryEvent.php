@@ -11,22 +11,4 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  */
 class SitemapQueryEvent extends GenericEvent
 {
-    private $queryArguments;
-
-    /**
-     * @return mixed
-     */
-    public function getQueryArguments()
-    {
-        return $this->queryArguments;
-    }
-
-    /**
-     * @param mixed $queryArguments
-     * @return void
-     */
-    public function setQueryArguments($queryArguments)
-    {
-        $this->queryArguments = $queryArguments;
-    }
 }
