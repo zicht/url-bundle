@@ -68,9 +68,8 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 ## Events
 
 ### Sitemap 
-There are two events that make it possible to modify the resultset of the sitemap;
+There is an event that makes it possible to modify the resultset of the sitemap;
 
-- `zicht_url.sitemap.query`, which allows you to modify the actual query being built ( uses `QueryBuilder`).
 - `zicht_url.sitemap.filter`, which allows you to modify the result from the previous query and filter out items.
 
 # Maintainers
