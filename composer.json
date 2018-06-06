@@ -18,6 +18,7 @@
         "symfony/symfony": "^2.7",
         "zicht/framework-extra-bundle": "4 - 6",
         "guzzlehttp/guzzle": "^5 || ^6",
+        "zicht/itertools": ">=2.10",
         "zicht/admin-bundle": "^1.1 || ^2 || ^3 || ^4"
     },
     "require-dev": {
