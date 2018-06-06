@@ -65,6 +65,14 @@ This command can parse csv files that follow the following syntax:
 Note that the first line can be ignored using "--skip-header"
 TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optional.'
 
+## Events
+
+### Sitemap 
+There are two events that make it possible to modify the resultset of the sitemap;
+
+- `zicht_url.sitemap.query`, which allows you to modify the actual query being built ( uses `QueryBuilder`).
+- `zicht_url.sitemap.filter`, which allows you to modify the result from the previous query and filter out items.
+
 # Maintainers
 * Philip Bergman <philip@zicht.nl>
 * Boudewijn Schoon <boudewijn@zicht.nl>
