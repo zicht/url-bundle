@@ -35,15 +35,15 @@ class AliasSitemapProvider implements ListableProvider
     /**
      * @{inheritDoc}
      */
-    public function all(AuthorizationCheckerInterface $authorizationChecker)
+    public function all(AuthorizationCheckerInterface $authorizationChecker): array
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('*')
             ->from('url_alias')
-            ->where('mode = ?');
+            ->where('mode = :mode');
 
-        $queryArguments = [UrlAlias::REWRITE];
+        $queryBuilder->setParameter('mode', UrlAlias::REWRITE);
 
         /**
          * Hook to allow the query to be modified at run-time.
@@ -51,18 +51,16 @@ class AliasSitemapProvider implements ListableProvider
         if ($this->eventDispatcher->hasListeners(Events::EVENT_SITEMAP_QUERY)) {
             $event = $this->eventDispatcher->dispatch(
                 Events::EVENT_SITEMAP_QUERY,
-                (new SitemapQueryEvent(
+                new SitemapQueryEvent(
                     $queryBuilder, [
                         'authorization_checker' => $authorizationChecker,
                     ]
-                ))->setQueryArguments($queryArguments)
+                )
             );
 
             $queryBuilder = $event->getSubject();
-            $queryArguments = $event->getQueryArguments();
         }
 
-        $queryBuilder->setParameters($queryArguments);
         $urls = iterable($queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC));
 
         /**
