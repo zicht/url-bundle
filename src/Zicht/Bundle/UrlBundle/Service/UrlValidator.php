@@ -6,10 +6,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-
 /**
  * Class UrlValidator
  *

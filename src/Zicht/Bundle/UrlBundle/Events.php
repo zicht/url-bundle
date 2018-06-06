@@ -1,19 +1,11 @@
 <?php
-
 namespace Zicht\Bundle\UrlBundle;
 
-/**
- * Class Events
- */
-class Events
+final class Events
 {
-    /**
-     * Modify query in the the AliasSitemapProvider
-     */
-    const EVENT_SITEMAP_QUERY = 'zicht_url.sitemap.query';
+    /** no need for this class to initialize */
+    private function __construct() {}
 
-    /**
-     * Before the sitemap is passed back from the AliasSitemapProvider
-     */
+    /** Before the sitemap is passed back from the AliasSitemapProvider */
     const EVENT_SITEMAP_FILTER = 'zicht_url.sitemap.filter';
 }
