@@ -35,7 +35,7 @@ class AliasSitemapProvider implements ListableProvider
     /**
      * @{inheritDoc}
      */
-    public function all(AuthorizationCheckerInterface $authorizationChecker): array
+    public function all(AuthorizationCheckerInterface $authorizationChecker)
     {
         $query = $this->connection->prepare('SELECT * FROM url_alias WHERE mode=?');
         $query->execute([UrlAlias::REWRITE]);
