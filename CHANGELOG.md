@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 2.19.0 
+- Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
+  or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
+
 ## 2.15.0 - 2017-09-12
 - The public_url column has to be unique by default. This because it was not supported by the 
   application but the db schema allowed double entries with the same pulbic_url.
