@@ -4,26 +4,99 @@
  */
 namespace Zicht\Bundle\UrlBundle\Event;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Zicht\Itertools\lib\Interfaces\FiniteIterableInterface;
+use Symfony\Component\EventDispatcher\Event;
 
-/**
- * Class SitemapFilterEvent
- */
-class SitemapFilterEvent extends GenericEvent
+class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggregate, \Countable
 {
-    /**
-     * Expose filter functionality in a way so the result is automatically applied to the collection.
-     *
-     * @param callable $filter
-     * @return mixed|null|void|\Zicht\Itertools\lib\FilterIterator
-     */
-    public function filterSitemapUrls(callable $filter)
-    {
-        if (!$this->subject instanceof FiniteIterableInterface) {
-            return;
-        }
+    /** @var \ArrayObject */
+    protected $object;
 
-        return $this->subject = $this->subject->filter($filter);
+    /**
+     * SitemapFilterEvent constructor.
+     *
+     * @param \ArrayObject $object
+     */
+    public function __construct(\ArrayObject $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getArrayCopy()
+    {
+        return $this->object->getArrayCopy();
+    }
+
+    /**
+     * @param callable $filter
+     */
+    public function filter(callable $filter)
+    {
+        foreach ($this->object as $key => $value) {
+            if (false === $filter($key, $value)) {
+                $this->offsetUnset($key);
+            }
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function exchange(array $data)
+    {
+        return $this->object->exchangeArray($data);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetExists($offset)
+    {
+        return $this->object->offsetExists($offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetGet($offset)
+    {
+        return $this->object->offsetGet($offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->object->offsetSet($offset, $value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetUnset($offset)
+    {
+        $this->object->offsetUnset($offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        foreach ($this->object as $key => $value) {
+            yield $key => $value;
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count()
+    {
+        return $this->object->count();
     }
 }
