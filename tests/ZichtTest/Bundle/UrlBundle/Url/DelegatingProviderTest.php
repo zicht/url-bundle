@@ -12,10 +12,16 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
             $this->suggestions = $suggestions;
         }
 
-        public function supports($object) {}
-        public function url($object, array $options = array()) {}
+        public function supports($object)
+        {
+        }
 
-        public function suggest($pattern) {
+        public function url($object, array $options = array())
+        {
+        }
+
+        public function suggest($pattern)
+        {
             $this->pattern = $pattern;
             return $this->suggestions;
         }
@@ -40,16 +46,16 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             );
 
             foreach (array_keys($refs) as $index) {
+
                 $mock[$index] = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Url\Provider')->getMock();
                 $mock[$index]
                     ->expects($this->any())
-                    ->method('supports')->will($this->returnCallback(function($o) use($refs, $index) {
+                    ->method('supports')->will($this->returnCallback(function ($o) use ($refs, $index) {
                         return isset($refs[$index][$o]);
-                    }))
-                ;
+                    }));
                 $mock[$index]
                     ->expects($this->any())
-                    ->method('url')->will($this->returnCallback(function($o) use($refs, $index) {
+                    ->method('url')->will($this->returnCallback(function ($o) use ($refs, $index) {
                         return $refs[$index][$o];
                     }));
                 $provider->addProvider($mock[$index], 10 - $index);
@@ -58,7 +64,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $this->assertTrue($provider->supports('a'));
             $this->assertTrue($provider->supports('c'));
             $this->assertTrue($provider->supports('x'));
-            $this->assertFalse($provider->supports('foo'));
+            $this->assertFalse($provider->supports('not-supported-'));
 
             $this->assertEquals('b', $provider->url('a'));
             $this->assertEquals('d', $provider->url('c'));
