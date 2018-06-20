@@ -11,10 +11,10 @@
     <services>
         <service
                 id="zicht_url.cache"
-                class="Doctrine\Common\Cache\Cache"
-                factory-service="zicht_cache.factory"
-                factory-method="create"
-        >
+                class="Doctrine\Common\Cache\Cache">
+            <factory service="zicht_cache.factory"
+                     method="create"
+            />
             <argument>zicht_url</argument>
             <argument>%zicht_url.cache_impl%</argument>
         </service>

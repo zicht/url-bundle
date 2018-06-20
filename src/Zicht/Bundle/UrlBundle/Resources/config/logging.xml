@@ -13,7 +13,10 @@
         <service id="zicht_url.logging" class="%zicht_url.logging.class%">
             <argument type="service" id="zicht_url.logging.manager" />
         </service>
-        <service id="zicht_url.logging.manager" factory-service="doctrine" factory-method="getManager" class="%zicht_url.logging.manager.class%">
+        <service id="zicht_url.logging.manager" class="%zicht_url.logging.manager.class%">
+            <factory service="doctrine"
+                     method="getManager"
+            />
         </service>
         <service id="zicht_url.logging_listener" class="%zicht_url.logging_listener.class%">
             <argument type="service" id="zicht_url.logging" />
