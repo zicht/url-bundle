@@ -33,6 +33,7 @@
 
         <service id="zicht_url.alias_sitemap_provider" class="Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider">
             <argument type="service" id="doctrine.dbal.default_connection"/>
+            <argument type="service" id="event_dispatcher"/>
         </service>
         <service id="zicht_url.mapper.xml" class="Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper">
             <argument type="service" id="doctrine.orm.default_entity_manager"/>
