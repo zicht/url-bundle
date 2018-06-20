@@ -18,15 +18,20 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
 
 namespace ZichtTest\Bundle\UrlBundle\Url {
 
+    use Symfony\Component\HttpFoundation\Request;
+
     class RequestAwareProviderTest extends \PHPUnit_Framework_TestCase
     {
         public function testRequestDecoration()
         {
-            $r = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+            $r = $this->getMockBuilder('Symfony\Component\HttpFoundation\RequestStack')
                 ->disableOriginalConstructor()
                 ->getMock()
             ;
-            $r->expects($this->once())->method('getBaseUrl')->will($this->returnVAlue('http://example.org/foo'));
+
+            $request = $this->getMock(Request::class);
+            $r->expects($this->once())->method('getMasterRequest')->will($this->returnValue($request));
+            $request->expects($this->once())->method('getBaseUrl')->will($this->returnValue('http://example.org/foo'));
             $p = new \Zicht\Bundle\UrlBundle\Url\RequestAwareProvider($r);
             $p->addProvider(new Provider\MockProvider(array('a' => 'b', 'c' => '/foo/a', 'd' => 'http://example.org/foo/qux')));
             $this->assertEquals('b', $p->url('a'));
