@@ -16,7 +16,7 @@
         "doctrine/orm": "^2.5",
         "doctrine/common": "^2.4",
         "symfony/symfony": "^3.4",
-        "zicht/framework-extra-bundle": "^6",
+        "zicht/framework-extra-bundle": "^8",
         "zicht/admin-bundle": "^4"
     },
     "require-dev": {
