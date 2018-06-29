@@ -8,7 +8,6 @@ namespace Zicht\Bundle\UrlBundle\Url;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
-use function Zicht\Itertools\iterable;
 
 /**
  * A provider that delegates to a number of registered providers, ordered by priority.
@@ -37,17 +36,9 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     public function addProvider(Provider $provider, $priority = 0)
     {
-        $this->providers[] = [
-            'priority' => $priority,
-            'provider' => $provider
-        ];
-        uasort($this->providers, function ($a, $b) {
-            if ($a['priority'] === $b['priority']) {
-                return 0;
-            }
-            return $a['priority'] < $b['priority'] ? -1 : 1;
-        });
-    }
+        $this->providers[$priority][] = $provider;
+        ksort($this->providers);
+     }
 
     /**
      * {@inheritDoc}
@@ -114,6 +105,10 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     private function getProviders()
     {
-        return array_column($this->providers, 'provider');
+        foreach ($this->providers as $providers) {
+            foreach ($providers as $provider) {
+                yield $provider;
+            }
+        }
     }
 }

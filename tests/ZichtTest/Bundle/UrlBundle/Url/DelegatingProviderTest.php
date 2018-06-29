@@ -113,7 +113,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $method = $class->getMethod('getProviders');
             $method->setAccessible(true);
 
-            $this->assertSame([$provider5, $provider6, $provider4, $provider2, $provider1, $provider3], $method->invoke($provider));
+            $this->assertSame([$provider5, $provider6, $provider4, $provider2, $provider1, $provider3], iterator_to_array($method->invoke($provider)));
         }
     }
 }
