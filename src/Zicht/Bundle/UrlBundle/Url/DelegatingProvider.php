@@ -101,7 +101,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     }
 
     /**
-     * @return Provider[]|array
+     * @return Provider[]|\Generator
      */
     private function getProviders()
     {
