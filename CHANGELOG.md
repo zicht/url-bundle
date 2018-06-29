@@ -6,9 +6,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added|Changed|Deprecated|Removed|Fixed|Security
+Nothing so far
+
+## 3.1.0
+### Changed
+- Added event dispatching within the sitemap generation, it is now possible to filter the resulting 
+  urls and modify the collection that will be given back to the sitemap controller.
+
+## 3.0.0
+### Changed
+From this version on the minimal PHP requirement is `7.0`
+
 ## 2.19.0 
 - Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
   or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
+
+## 2.18.1 - 2018-03-08
+- Added sort to findOneByPublicUrl, findOneByInternalUrl so they return the first created id.
+
+## 2.18.0 - 2018-03-08
+- Broken version
 
 ## 2.15.0 - 2017-09-12
 - The public_url column has to be unique by default. This because it was not supported by the 
