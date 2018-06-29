@@ -6,7 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * This provider is "request aware", so it can either render absolute URL's
@@ -18,9 +18,11 @@ class RequestAwareProvider extends DelegatingProvider
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(RequestStack $requestStack)
     {
         parent::__construct();
+
+        $request = $requestStack->getMasterRequest();
 
         $this->baseUrl = $request->getBaseUrl();
         $this->prefix = $request->getSchemeAndHttpHost() . $this->baseUrl;

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.0 - 2018-06-21
+### Added
+- Support for Symfony 3.x
+### Removed
+- Support for Symfony 2.x
+
 ## 3.1.0
 ### Changed
 - Added event dispatching within the sitemap generation, it is now possible to filter the resulting 

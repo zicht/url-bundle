@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -37,6 +38,14 @@ class UrlType extends AbstractType
      * @{inheritDoc}
      */
     public function getName()
+    {
+        return 'zicht_url';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockPrefix()
     {
         return 'zicht_url';
     }
@@ -74,7 +83,7 @@ class UrlType extends AbstractType
      */
     public function getParent()
     {
-        return 'text';
+        return TextType::class;
     }
 
     /**

@@ -4,6 +4,7 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Bundle\UrlBundle\Type;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 /**
@@ -17,14 +18,14 @@ class UrlTypeTest extends \PHPUnit_Framework_TestCase
         $this->type = new \Zicht\Bundle\UrlBundle\Type\UrlType($aliasing);
     }
 
-    public function testGetName()
+    public function testGetBlockPrefix()
     {
-        $this->assertEquals('zicht_url', $this->type->getName());
+        $this->assertEquals('zicht_url', $this->type->getBlockPrefix());
     }
 
     public function testGetParent()
     {
-        $this->assertEquals('text', $this->type->getParent());
+        $this->assertEquals(TextType::class, $this->type->getParent());
     }
 
     public function testOptions()
@@ -38,7 +39,7 @@ class UrlTypeTest extends \PHPUnit_Framework_TestCase
 
         ));
 
-        $this->type->setDefaultOptions($optionsResolver);
+        $this->type->configureOptions($optionsResolver);
     }
 
     public function testFinishView()

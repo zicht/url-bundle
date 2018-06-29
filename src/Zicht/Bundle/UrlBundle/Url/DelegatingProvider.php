@@ -8,7 +8,6 @@ namespace Zicht\Bundle\UrlBundle\Url;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
-use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
 
 /**
  * A provider that delegates to a number of registered providers, ordered by priority.
@@ -18,14 +17,14 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     /**
      * @var Provider[]
      */
-    protected $providers = array();
+    protected $providers;
 
     /**
      * Initialize the provider
      */
     public function __construct()
     {
-        $this->providers = new SortedList();
+        $this->providers = [];
     }
 
     /**
@@ -37,15 +36,16 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     public function addProvider(Provider $provider, $priority = 0)
     {
-        $this->providers->insert($provider, $priority);
-    }
+        $this->providers[$priority][] = $provider;
+        ksort($this->providers);
+     }
 
     /**
      * {@inheritDoc}
      */
     public function supports($object)
     {
-        foreach ($this->providers as $provider) {
+        foreach ($this->getProviders() as $provider) {
             if ($provider->supports($object)) {
                 return true;
             }
@@ -58,7 +58,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     public function url($object, array $options = array())
     {
-        foreach ($this->providers as $provider) {
+        foreach ($this->getProviders() as $provider) {
             if ($provider->supports($object)) {
                 return $provider->url($object, $options);
             }
@@ -73,12 +73,12 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function suggest($pattern)
     {
         $ret = array();
-        foreach ($this->providers as $provider) {
+        foreach ($this->getProviders() as $provider) {
             if ($provider instanceof SuggestableProvider) {
                 $ret = array_merge($ret, $provider->suggest($pattern));
             }
@@ -87,16 +87,28 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
     public function all(AuthorizationCheckerInterface $securityContext)
     {
         $ret = array();
-        foreach ($this->providers as $provider) {
+        foreach ($this->getProviders() as $provider) {
             if ($provider instanceof ListableProvider) {
                 $ret = array_merge($ret, $provider->all($securityContext));
             }
         }
         return $ret;
+    }
+
+    /**
+     * @return Provider[]|\Generator
+     */
+    private function getProviders()
+    {
+        foreach ($this->providers as $providers) {
+            foreach ($providers as $provider) {
+                yield $provider;
+            }
+        }
     }
 }
