@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
@@ -16,6 +17,10 @@ Nothing so far
 ## 3.0.0
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
+
+## 2.19.0 
+- Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
+  or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
 
 ## 2.18.1 - 2018-03-08
 - Added sort to findOneByPublicUrl, findOneByInternalUrl so they return the first created id.
