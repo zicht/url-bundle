@@ -95,5 +95,25 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             sort($suggestions);
             $this->assertEquals($expected, $suggestions);
         }
+
+        public function testAddProviderPriority()
+        {
+            $provider = new \Zicht\Bundle\UrlBundle\Url\DelegatingProvider();
+
+            $provider1 = new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(array('foo'));
+            $provider2 = $provider3 = $provider4 = $provider5 = $provider6 = clone $provider1;
+            $provider->addProvider($provider1, 10);
+            $provider->addProvider($provider2, 9);
+            $provider->addProvider($provider3, 22);
+            $provider->addProvider($provider4, -1);
+            $provider->addProvider($provider5, -4);
+            $provider->addProvider($provider6, -4);
+
+            $class = new \ReflectionClass(get_class($provider));
+            $method = $class->getMethod('getProviders');
+            $method->setAccessible(true);
+
+            $this->assertSame([$provider5, $provider6, $provider4, $provider2, $provider1, $provider3], $method->invoke($provider));
+        }
     }
 }

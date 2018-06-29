@@ -6,7 +6,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**

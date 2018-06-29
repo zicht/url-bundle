@@ -41,6 +41,12 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
             'priority' => $priority,
             'provider' => $provider
         ];
+        uasort($this->providers, function ($a, $b) {
+            if ($a['priority'] === $b['priority']) {
+                return 0;
+            }
+            return $a['priority'] < $b['priority'] ? -1 : 1;
+        });
     }
 
     /**
@@ -108,6 +114,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     private function getProviders()
     {
-        return iterable($this->providers)->sorted('priority')->map('provider')->values();
+        return array_column($this->providers, 'provider');
     }
 }
