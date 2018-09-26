@@ -18,6 +18,10 @@ Nothing so far
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
+## 2.19.2 
+- remove itertools reference
+- fixed url aliases for uri with utf8 characters
+
 ## 2.19.0 
 - Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
   or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
