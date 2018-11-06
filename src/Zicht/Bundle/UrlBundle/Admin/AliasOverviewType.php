@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use Zicht\Bundle\UrlBundle\Url\Provider;
 
@@ -60,8 +61,25 @@ class AliasOverviewType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
+        $aliases =  $this->getUrlAliases($options['record']);
         $view->vars['record'] = $options['record'];
-        $view->vars['url_aliases'] = $this->getUrlAliases($options['record']);
+        $view->vars['url_aliases'] = $aliases;
+        $view->vars['url_aliases_grouped'] = $this->groupByMode($aliases);
+    }
+
+    /**
+     * @param UrlAlias[] $aliases
+     * @return array|UrlAlias[][]
+     */
+    private function groupByMode($aliases)
+    {
+        $property = new \ReflectionProperty(UrlAlias::class, 'mode');
+        $property->setAccessible(true);
+        $grouped = [];
+        foreach ($aliases as $alias) {
+            $grouped[$property->getValue($alias)][] = $alias;
+        }
+        return $grouped;
     }
 
     /**
@@ -77,7 +95,9 @@ class AliasOverviewType extends AbstractType
             return [];
         }
 
-        return $this->doctrine->getRepository('ZichtUrlBundle:UrlAlias')
+        return $this
+            ->doctrine
+            ->getRepository('ZichtUrlBundle:UrlAlias')
             ->findAllByInternalUrl($internalUrl);
     }
 
