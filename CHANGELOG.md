@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
-## 2.19.2
-- remove itertools reference
-- fixed url aliases for uri with utf8 characters
+## 3.1.0
+### Changed
+- Added event dispatching within the sitemap generation, it is now possible to filter the resulting 
+  urls and modify the collection that will be given back to the sitemap controller.
+
+## 3.0.0
+### Changed
+From this version on the minimal PHP requirement is `7.0`
 
 ## 2.19.2 
 - remove itertools reference
