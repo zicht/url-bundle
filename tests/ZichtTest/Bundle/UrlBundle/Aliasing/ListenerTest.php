@@ -5,14 +5,17 @@
  */
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-use \Zicht\Bundle\UrlBundle\Aliasing\Listener;
+use Symfony\Component\HttpFoundation\Request;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
+use Zicht\Bundle\UrlBundle\Aliasing\Listener;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
-use \Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 
 /**
  * @property Listener $listener
  * @property RouterListener $router
+ * @property Aliasing|\PHPUnit_Framework_MockObject_MockObject $aliasing
  */
 class ListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -89,9 +92,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $req->expects($this->any())->method('getRequestUri')->will($this->returnValue($publicUrl));
         $event->expects($this->any())->method('getRequest')->will($this->returnValue($req));
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
-        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock();
-        $event->expects($this->any())->method('getKernel')->will($this->returnValue($kernel));
-
+        $event->expects($this->any())->method('getKernel')->will($this->returnValue($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock()));
         $this->aliasing->expects($this->any())->method('hasInternalAlias')->with('/foo')->will($this->returnValue(
             new UrlAlias('/foo', '/bar', 0)
         ));
@@ -187,6 +188,31 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($statusCode, $setResponseValue->getStatusCode());
             $this->assertEquals('/bar', $setResponseValue->headers->get('location'));
         }
+    }
+
+    public function testParameterParsingUtf8()
+    {
+        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $request = new Request();
+        $uri = '/%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%86%D0%B8%D1%8F-%D1%84%D0%B8%D1%80%D0%BC%D1%8B-%E2%80%9C%D0%9C%D0%BE%D0%BA%D0%B2%D0%B5%D0%BB%D0%B4%E2%80%9D/products';
+        $internal = '/ru/products/1';
+        $request->server->set('REQUEST_URI', $uri);
+        $this->listener->setIsParamsEnabled(true);
+        $event->expects($this->any())->method('getRequest')->will($this->returnValue($request));
+        $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
+        $event->expects($this->any())->method('getKernel')->will($this->returnValue($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock()));
+        $this->aliasing->expects($this->any())->method('hasInternalAlias')->willReturnCallback(function($uri) use($internal) {
+            if ($uri === '/Продукция-фирмы-“Моквелд”/products') {
+                return new UrlAlias('/Продукция-фирмы-“Моквелд”/products', $internal, 0);
+            }
+            return null;
+        });
+        $this->listener->onKernelRequest($event);
+        $this->assertSame($uri, $request->server->get('ORIGINAL_REQUEST_URI'));
+        $this->assertSame($internal, $request->server->get('REQUEST_URI'));
     }
 
     public function statusModes()

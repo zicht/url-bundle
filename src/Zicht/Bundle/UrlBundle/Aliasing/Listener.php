@@ -149,7 +149,7 @@ class Listener
     {
         if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
             $request = $event->getRequest();
-            $publicUrl = $request->getRequestUri();
+            $publicUrl = rawurldecode($request->getRequestUri());
 
             if ($this->isExcluded($publicUrl)) {
                 // don't process urls which are marked as excluded.
