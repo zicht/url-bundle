@@ -24,7 +24,7 @@ Nothing so far
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
-## 2.19.1 
+## 2.19.2
 - remove itertools reference
 - fixed url aliases for uri with utf8 characters
 
