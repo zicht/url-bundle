@@ -35,8 +35,8 @@ class StaticReferenceTranslationAdmin extends Admin
     {
         $form
             ->with('General')
-            ->add('locale', null, array('required' => true))
-            ->add('url', null, array('required' => true))
+            ->add('locale', null, ['required' => true])
+            ->add('url', null, ['required' => true])
             ->end();
     }
 

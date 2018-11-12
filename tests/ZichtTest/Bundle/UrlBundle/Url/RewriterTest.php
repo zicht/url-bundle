@@ -6,10 +6,11 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Url;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
-class RewriterTest extends \PHPUnit_Framework_TestCase
+class RewriterTest extends TestCase
 {
     public function setUp()
     {
@@ -151,6 +152,6 @@ class RewriterTest extends \PHPUnit_Framework_TestCase
                 ['/foo' => '/bar'],
                 ['example.org']
             ]
-       ];
+        ];
     }
 }

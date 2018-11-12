@@ -59,12 +59,12 @@ class UrlType extends AbstractType
 
         $resolver
             ->setDefaults(
-                array(
+                [
                     'with_edit_button'      => true,
                     'no_transform_public'   => false,
                     'no_transform_internal' => false,
                     'url_suggest'           => '/admin/url/suggest',
-                )
+                ]
             );
     }
 

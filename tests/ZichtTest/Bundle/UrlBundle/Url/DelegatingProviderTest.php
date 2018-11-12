@@ -16,7 +16,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
         {
         }
 
-        public function url($object, array $options = array())
+        public function url($object, array $options = [])
         {
         }
 
@@ -29,35 +29,45 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
 }
 
 namespace ZichtTest\Bundle\UrlBundle\Url {
-    class DelegatingProviderTest extends \PHPUnit_Framework_TestCase
+
+    use PHPUnit\Framework\TestCase;
+
+    class DelegatingProviderTest extends TestCase
     {
         public function testApi()
         {
             $provider = new \Zicht\Bundle\UrlBundle\Url\DelegatingProvider();
-            $refs = array(
-                array(
+            $refs = [
+                [
                     'a' => 'b',
                     'x' => 'y'
-                ),
-                array(
+                ],
+                [
                     'c' => 'd',
                     'x' => 'z' // <-- this has higher priority (see 10 - $index further down)
-                )
-            );
+                ]
+            ];
 
             foreach (array_keys($refs) as $index) {
-
                 $mock[$index] = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Url\Provider')->getMock();
                 $mock[$index]
                     ->expects($this->any())
-                    ->method('supports')->will($this->returnCallback(function ($o) use ($refs, $index) {
-                        return isset($refs[$index][$o]);
-                    }));
+                    ->method('supports')->will(
+                        $this->returnCallback(
+                            function ($o) use ($refs, $index) {
+                                return isset($refs[$index][$o]);
+                            }
+                        )
+                    );
                 $mock[$index]
                     ->expects($this->any())
-                    ->method('url')->will($this->returnCallback(function ($o) use ($refs, $index) {
-                        return $refs[$index][$o];
-                    }));
+                    ->method('url')->will(
+                        $this->returnCallback(
+                            function ($o) use ($refs, $index) {
+                                return $refs[$index][$o];
+                            }
+                        )
+                    );
                 $provider->addProvider($mock[$index], 10 - $index);
             }
 
@@ -86,10 +96,10 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
         {
             $provider = new \Zicht\Bundle\UrlBundle\Url\DelegatingProvider();
 
-            $provider->addProvider(new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(array('foo')));
-            $provider->addProvider(new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(array('bar')));
+            $provider->addProvider(new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(['foo']));
+            $provider->addProvider(new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(['bar']));
 
-            $expected = array('foo', 'bar');
+            $expected = ['foo', 'bar'];
             $suggestions = $provider->suggest('baz');
             sort($expected);
             sort($suggestions);
@@ -100,7 +110,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
         {
             $provider = new \Zicht\Bundle\UrlBundle\Url\DelegatingProvider();
 
-            $provider1 = new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(array('foo'));
+            $provider1 = new \ZichtTest\Bundle\UrlBundle\Url\Provider\MockSuggestProvider(['foo']);
             $provider2 = $provider3 = $provider4 = $provider5 = $provider6 = clone $provider1;
             $provider->addProvider($provider1, 10);
             $provider->addProvider($provider2, 9);

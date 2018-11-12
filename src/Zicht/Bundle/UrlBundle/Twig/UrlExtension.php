@@ -34,9 +34,9 @@ class UrlExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('internal_to_public_aliasing', array($this, 'internalToPublicAliasing')),
-        );
+        return [
+            new \Twig_SimpleFilter('internal_to_public_aliasing', [$this, 'internalToPublicAliasing']),
+        ];
     }
 
     /**
@@ -57,11 +57,11 @@ class UrlExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             'object_url'       => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
             'static_ref'       => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
             'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
-        );
+        ];
     }
 
 
@@ -116,7 +116,7 @@ class UrlExtension extends \Twig_Extension
 
         return $ret;
     }
-    private $static_refs = array();
+    private $static_refs = [];
 
 
     /**

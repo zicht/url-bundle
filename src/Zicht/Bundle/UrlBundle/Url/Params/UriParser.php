@@ -11,7 +11,7 @@ namespace Zicht\Bundle\UrlBundle\Url\Params;
  */
 class UriParser implements Translator
 {
-    private $seperators = array();
+    private $seperators = [];
 
     /**
      * @var Translator
@@ -52,11 +52,11 @@ class UriParser implements Translator
      */
     public function parsePost(array $post)
     {
-        $ret = array();
+        $ret = [];
         foreach ($post as $key => $value) {
             if ($key) {
                 $external  = $this->translateKeyOutput($key);
-                $ret[$key] = array();
+                $ret[$key] = [];
                 if (strlen($value) > 0) {
                     if ($internal = $this->translateValueInput($external, $value)) {
                         $value = $internal;
@@ -77,7 +77,7 @@ class UriParser implements Translator
      */
     public function parseUri($uri)
     {
-        $ret = array();
+        $ret = [];
         foreach (explode($this->seperators['param'], $uri) as $params) {
             if ($params) {
                 @list($key, $values) = explode($this->seperators['key_value'], $params, 2);
@@ -85,7 +85,7 @@ class UriParser implements Translator
                 if ($internal = $this->translateKeyInput($key)) {
                     $key = $internal;
                 }
-                $ret[$key] = array();
+                $ret[$key] = [];
                 foreach (explode($this->seperators['value'], $values) as $value) {
                     if (strlen($value) > 0) {
                         if ($internal = $this->translateValueInput($external, $value)) {

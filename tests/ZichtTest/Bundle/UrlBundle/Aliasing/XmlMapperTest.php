@@ -6,11 +6,11 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\HttpFoundation\Request;
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
-class XmlMapperTest extends \PHPUnit_Framework_TestCase
+class XmlMapperTest extends TestCase
 {
     /**
      * @dataProvider aliasingTestCases
@@ -20,7 +20,7 @@ class XmlMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testInternalToPublicAliasing($input, $expectedOutput, $aliasingMap)
     {
-        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(['getAliasingMap'])->getMock();
         $mapper = new XmlMapper();
 
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));

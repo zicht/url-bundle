@@ -3,18 +3,22 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Twig;
+
+use PHPUnit\Framework\MockObject\Generator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @property \Zicht\Bundle\UrlBundle\Url\Provider $provider
  * @property \Zicht\Bundle\UrlBundle\Twig\UrlExtension $extension
  */
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends TestCase
 {
     public function setUp()
     {
-        $this->provider = $this->getMock('Zicht\Bundle\UrlBundle\Url\Provider', array('url', 'supports'));
-        $this->extension  = new \Zicht\Bundle\UrlBundle\Twig\UrlExtension($this->provider);
+        $this->provider = (new Generator())->getMock('Zicht\Bundle\UrlBundle\Url\Provider', ['url', 'supports']);
+        $this->extension = new \Zicht\Bundle\UrlBundle\Twig\UrlExtension($this->provider);
     }
 
     public function testGetNameBecauseWeLoveCoverage()
@@ -43,8 +47,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     public function testObjectUrlWillDefaultIfADefaultIsPassed()
     {
         $this->provider->expects($this->once())->method('url')->with('foo')
-            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()))
-        ;
+            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()));
         $this->assertEquals('qux', $this->extension->objectUrl('foo', 'qux'));
     }
 
@@ -54,16 +57,14 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     public function testObjectUrlWillRethrowIfNotSupportedAndNoDefaultGiven()
     {
         $this->provider->expects($this->once())->method('url')->with('foo')
-            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()))
-        ;
+            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()));
         $this->extension->objectUrl('foo');
     }
 
     public function testObjectUrlWillDEfaultToToStringIfDefaultIsTrue()
     {
         $this->provider->expects($this->once())->method('url')->with('foo')
-            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()))
-        ;
+            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()));
 
         $this->assertEquals('foo', $this->extension->objectUrl('foo', true));
     }
@@ -80,15 +81,14 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->provider->expects($this->once())->method('url')->with('foo')->will($this->returnValue('bar'));
 
-        $this->assertEquals('bar?a=b', $this->extension->staticRef('foo', array('a' => 'b')));
-        $this->assertEquals('bar?a=b', $this->extension->staticRef('foo', array('a' => 'b')));
+        $this->assertEquals('bar?a=b', $this->extension->staticRef('foo', ['a' => 'b']));
+        $this->assertEquals('bar?a=b', $this->extension->staticRef('foo', ['a' => 'b']));
     }
 
     public function testStaticRefDefaultsToString()
     {
         $this->provider->expects($this->once())->method('url')->with('foo')
-            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()))
-        ;
+            ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()));
 
         $this->assertTrue(is_string($this->extension->staticRef('foo')));
     }

@@ -19,7 +19,7 @@ class StaticProvider implements Provider
      * @param \Symfony\Component\Routing\RouterInterface $router
      * @param array $refs
      */
-    public function __construct(RouterInterface $router, array $refs = array())
+    public function __construct(RouterInterface $router, array $refs = [])
     {
         $this->refs = $refs;
         $this->router = $router;
@@ -59,7 +59,7 @@ class StaticProvider implements Provider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = [])
     {
         return $this->router->getContext()->getBaseUrl() . '/' . ltrim($this->refs[$object], '/');
     }

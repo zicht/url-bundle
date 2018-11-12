@@ -51,7 +51,7 @@ class Aliaser
         }
         $this->aliasingStrategy = $naming;
         $this->decisionManager = $decisionManager;
-        $this->scheduledRemoveAlias = array();
+        $this->scheduledRemoveAlias = [];
     }
 
     /**
@@ -177,7 +177,7 @@ class Aliaser
             $this->aliasing->removeAlias($alias);
         }
 
-        $this->scheduledRemoveAlias = array();
+        $this->scheduledRemoveAlias = [];
     }
 
     /**

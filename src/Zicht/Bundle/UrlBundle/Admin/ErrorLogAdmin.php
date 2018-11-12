@@ -17,11 +17,11 @@ use Sonata\AdminBundle\Admin\Admin;
  */
 class ErrorLogAdmin extends Admin
 {
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_page'         => 1,
         '_sort_order'   => 'DESC',
         '_sort_by'      => 'date_created'
-    );
+    ];
 
     /**
      * @{inheritDoc}
@@ -29,7 +29,7 @@ class ErrorLogAdmin extends Admin
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('date_created', null, array('route' => array('name' => 'show')))
+            ->addIdentifier('date_created', null, ['route' => ['name' => 'show']])
             ->add('status')
             ->add('url')
             ->add('ip')
@@ -37,12 +37,12 @@ class ErrorLogAdmin extends Admin
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array(),
-                        'delete' => array()
-                    )
-                )
+                [
+                    'actions' => [
+                        'show' => [],
+                        'delete' => []
+                    ]
+                ]
             );
     }
 

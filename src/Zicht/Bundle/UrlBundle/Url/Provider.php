@@ -28,5 +28,5 @@ interface Provider
      * @param array $options
      * @return mixed
      */
-    public function url($object, array $options = array());
+    public function url($object, array $options = []);
 }

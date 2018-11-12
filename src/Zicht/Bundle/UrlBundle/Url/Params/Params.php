@@ -110,13 +110,13 @@ class Params extends SortedSetMap
         if (!$multiple) {
             if (!is_scalar($value)) {
                 throw new \InvalidArgumentException(
-                    "Invalid argument \$value to with(), expected scalar, got " . gettype($value)
+                    'Invalid argument $value to with(), expected scalar, got ' . gettype($value)
                 );
             }
             if ($ret->contains($key, $value)) {
                 $ret->remove($key, $value);
             } else {
-                $ret->replace($key, array($value));
+                $ret->replace($key, [$value]);
             }
         } else {
             if ($ret->contains($key, $value)) {
@@ -158,7 +158,7 @@ class Params extends SortedSetMap
     public function without($keys)
     {
         if (is_scalar($keys)) {
-            $keys = array($keys);
+            $keys = [$keys];
         }
         $ret = clone $this;
         foreach ($keys as $key) {

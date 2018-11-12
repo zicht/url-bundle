@@ -23,7 +23,7 @@ class Listener
 {
     protected $aliasing;
 
-    protected $excludePatterns = array();
+    protected $excludePatterns = [];
     protected $isParamsEnabled = false;
 
     /**
@@ -166,7 +166,7 @@ class Listener
                 }
 
                 $parts = explode('/', $publicUrl);
-                $params = array();
+                $params = [];
                 while (false !== strpos(end($parts), '=')) {
                     array_push($params, array_pop($parts));
                 }
@@ -197,7 +197,7 @@ class Listener
                     default:
                         throw new \UnexpectedValueException(
                             sprintf(
-                                "Invalid mode %s for UrlAlias %s.",
+                                'Invalid mode %s for UrlAlias %s.',
                                 $url->getMode(),
                                 json_encode($url)
                             )
@@ -233,10 +233,10 @@ class Listener
             $event->getRequest()->attributes->all(),
             $event->getRequest()->cookies->all(),
             $event->getRequest()->files->all(),
-            array(
+            [
                 'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI'),
                 'REQUEST_URI' => $url
-            ) + $event->getRequest()->server->all(),
+            ] + $event->getRequest()->server->all(),
             $event->getRequest()->getContent()
         );
 
