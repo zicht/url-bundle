@@ -1,7 +1,5 @@
 <?php
 /**
- * @author Oskar van Velden <oskar@zicht.nl>
- * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
