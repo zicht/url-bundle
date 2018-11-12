@@ -43,7 +43,7 @@ class DefaultAliasingStrategy implements AliasingStrategy
             }
         }
         if (!is_string($subject)) {
-            throw new \InvalidArgumentException("Expected a string or object as subject, got " . gettype($subject));
+            throw new \InvalidArgumentException('Expected a string or object as subject, got ' . gettype($subject));
         }
 
         if ($alias = $this->toAlias($subject)) {

@@ -3,11 +3,13 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Entity;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
-class UrlAliasTest extends \PHPUnit_Framework_TestCase
+class UrlAliasTest extends TestCase
 {
     public function testApi()
     {

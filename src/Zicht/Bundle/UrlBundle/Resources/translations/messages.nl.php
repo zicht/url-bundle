@@ -4,7 +4,7 @@
  * @copyright Zicht online <http://zicht.nl>
  */
 
-return array(
+return [
     'Public Url' => 'Publieke URL',
     'Internal Url' => 'Interne URL',
-);
+];

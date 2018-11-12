@@ -68,7 +68,7 @@ class Aliasing
      *
      * @var UrlMapperInterface[]
      */
-    private $contentMappers = array();
+    private $contentMappers = [];
 
     /**
      * Initialize with doctrine
@@ -79,7 +79,7 @@ class Aliasing
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
-        $this->batch = array();
+        $this->batch = [];
     }
 
 
@@ -163,7 +163,7 @@ class Aliasing
     {
         $ret = null;
 
-        $params = array('public_url' => $publicUrl, 'internal_url' => $internalUrl);
+        $params = ['public_url' => $publicUrl, 'internal_url' => $internalUrl];
         if ($alias = $this->getRepository()->findOneBy($params)) {
             $ret = $alias;
         }
@@ -339,7 +339,6 @@ class Aliasing
         $newAliasExists = $this->hasInternalAlias($newPublicUrl, true);
         // if the old alias exists, and the new one doesn't
         if (!is_null($existingAlias) && is_null($newAliasExists)) {
-
             // change the old alias
             $existingAlias->setPublicUrl($newPublicUrl);
             // create a new one
@@ -366,7 +365,7 @@ class Aliasing
      */
     public function setIsBatch($isBatch)
     {
-        $this->batch = array();
+        $this->batch = [];
         $this->isBatch = $isBatch;
         $mgr = $this->manager;
         $self = $this;
@@ -474,7 +473,7 @@ class Aliasing
         if ($stmt = $connection->query($sql)) {
             return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
         }
-        return array();
+        return [];
     }
 
     /**

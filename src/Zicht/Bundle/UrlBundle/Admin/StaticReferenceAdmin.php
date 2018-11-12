@@ -27,13 +27,13 @@ class StaticReferenceAdmin extends Admin
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show'   => array(),
-                        'edit'   => array(),
-                        'delete' => array()
-                    )
-                )
+                [
+                    'actions' => [
+                        'show'   => [],
+                        'edit'   => [],
+                        'delete' => []
+                    ]
+                ]
             );
     }
 
@@ -48,11 +48,11 @@ class StaticReferenceAdmin extends Admin
                 ->add(
                     'translations',
                     'sonata_type_collection',
-                    array(),
-                    array(
+                    [],
+                    [
                         'edit'   => 'inline',
                         'inline' => 'table',
-                    )
+                    ]
                 );
         } else {
             $form

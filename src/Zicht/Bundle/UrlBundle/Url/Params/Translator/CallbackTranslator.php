@@ -24,7 +24,7 @@ class CallbackTranslator extends StaticTranslator
      */
     public function __construct($keyName, $keyTranslation, $valueInputTranslator, $valueOutputTranslator)
     {
-        parent::__construct($keyName, $keyTranslation, array());
+        parent::__construct($keyName, $keyTranslation, []);
         $this->valueInputTranslator  = $valueInputTranslator;
         $this->valueOutputTranslator = $valueOutputTranslator;
     }

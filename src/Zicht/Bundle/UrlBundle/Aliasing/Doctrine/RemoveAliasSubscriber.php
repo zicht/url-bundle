@@ -19,10 +19,10 @@ class RemoveAliasSubscriber extends BaseSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             Events::preRemove,
             Events::postFlush
-        );
+        ];
     }
 
 

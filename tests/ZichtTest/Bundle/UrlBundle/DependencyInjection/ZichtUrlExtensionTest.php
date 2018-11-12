@@ -6,35 +6,25 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Url\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 
 /**
  * @property \Symfony\Component\DependencyInjection\ContainerBuilder $cb
  */
-class ZichtUrlExtensionTest extends \PHPUnit_Framework_TestCase
+class ZichtUrlExtensionTest extends TestCase
 {
-    protected function setUp()
-    {
-        $this->extension = new \Zicht\Bundle\UrlBundle\DependencyInjection\ZichtUrlExtension();
-        $this->cb = new \Symfony\Component\DependencyInjection\ContainerBuilder(
-            $this->params = new \Symfony\Component\DependencyInjection\ParameterBag\ParameterBag(array(
-                'twig.form.resources' => array()
-            ))
-        );
-    }
-
     public function testFormTwigResourcesGetRegistered()
     {
-        $this->extension->load(array(), $this->cb);
+        $this->extension->load([], $this->cb);
         $this->assertContains('ZichtUrlBundle::form_theme.html.twig', $this->params->get('twig.form.resources'));
     }
-
 
     /**
      * @dataProvider conditionalServices
      */
     public function testConditionalServices($config, $expectedServices)
     {
-        $this->extension->load(array($config), $this->cb);
+        $this->extension->load([$config], $this->cb);
         $this->assertContains('ZichtUrlBundle::form_theme.html.twig', $this->params->get('twig.form.resources'));
 
         foreach ($expectedServices as $id => $exists) {
@@ -42,52 +32,66 @@ class ZichtUrlExtensionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     public function conditionalServices()
     {
-        return array(
-            array(
-                array('logging' => true),
-                array('zicht_url.logging' => true)
-            ),
-            array(
-                array('logging' => false),
-                array('zicht_url.logging' => false)
-            ),
-            array(
-                array('db_static_ref' => true),
-                array('zicht_url.db_static_refs' => true)
-            ),
-            array(
-                array('logging' => false),
-                array('zicht_url.logging' => false)
-            ),
-            array(
-                array('admin' => false),
-                array('zicht_url.admin.url_alias' => false)
-            ),
-            array(
-                array('admin' => true),
-                array('zicht_url.admin.url_alias' => true)
-            ),
-            array(
-                array('aliasing' => false),
-                array('zicht_url.aliasing' => false)
-            ),
-            array(
-                array(
-                    'aliasing' => array(
+        return [
+            [
+                ['logging' => true],
+                ['zicht_url.logging' => true]
+            ],
+            [
+                ['logging' => false],
+                ['zicht_url.logging' => false]
+            ],
+            [
+                ['db_static_ref' => true],
+                ['zicht_url.db_static_refs' => true]
+            ],
+            [
+                ['logging' => false],
+                ['zicht_url.logging' => false]
+            ],
+            [
+                ['admin' => false],
+                ['zicht_url.admin.url_alias' => false]
+            ],
+            [
+                ['admin' => true],
+                ['zicht_url.admin.url_alias' => true]
+            ],
+            [
+                ['aliasing' => false],
+                ['zicht_url.aliasing' => false]
+            ],
+            [
+                [
+                    'aliasing' => [
                         'enabled' => true,
-                        'exclude_patterns' => array('/foo/', '/bar')
-                    ),
-                ),
-                array('zicht_url.aliasing' => true)
-            ),
-        );
+                        'exclude_patterns' => ['/foo/', '/bar']
+                    ],
+                ],
+                ['zicht_url.aliasing' => true]
+            ],
+        ];
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testBuild()
     {
         $code = $this->cb->compile();
+    }
+
+    protected function setUp()
+    {
+        $this->extension = new \Zicht\Bundle\UrlBundle\DependencyInjection\ZichtUrlExtension();
+        $this->cb = new \Symfony\Component\DependencyInjection\ContainerBuilder(
+            $this->params = new \Symfony\Component\DependencyInjection\ParameterBag\ParameterBag(
+                [
+                    'twig.form.resources' => []
+                ]
+            )
+        );
     }
 }

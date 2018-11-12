@@ -43,10 +43,10 @@ class ContainsValidUrlsValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         // collect urls
-        $matches = array();
+        $matches = [];
 
         // matches all urls withing a href's
-        preg_match_all("#<a\s+(?:[^>]*?\s+)?href=\"((https*:)*//[^\"]*)\">.*</a>#U", $value, $matches);
+        preg_match_all('#<a\s+(?:[^>]*?\s+)?href="((https*:)*//[^"]*)">.*</a>#U', $value, $matches);
 
         if (count($matches) === 0 || !isset($matches[1])) {
             return;

@@ -3,14 +3,16 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Logging;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @property \Zicht\Bundle\UrlBundle\Logging\Logging $logging
  */
-class LoggingTest extends \PHPUnit_Framework_TestCase
+class LoggingTest extends TestCase
 {
     public function setUp()
     {
@@ -21,10 +23,12 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
     public function testCreateLog()
     {
         $req = new Request();
-        $req->headers->add(array(
-            'referer' => 'foo',
-            'user-agent' => 'bar',
-        ));
+        $req->headers->add(
+            [
+                'referer' => 'foo',
+                'user-agent' => 'bar',
+            ]
+        );
         $req->server->set('REMOTE_ADDR', '192.168.123.4');
 
         $log = $this->logging->createLog($req, 'Our neural pathways have become accustomed to your sensory input patterns.');

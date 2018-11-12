@@ -6,12 +6,13 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliaser;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
-use Zicht\Bundle\UrlBundle\Url\Provider;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 
-class AliaserTest extends \PHPUnit_Framework_TestCase
+class AliaserTest extends TestCase
 {
     /**
      * @var Aliasing
@@ -56,7 +57,7 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
 
         $this->provider = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Url\StaticProvider')
             ->disableOriginalConstructor()
-            ->setMethods(array('url'))
+            ->setMethods(['url'])
             ->getMock();
 
         $this->aliaser = new Aliaser($this->aliasing, $this->provider, $this->aliasingStrategy, $this->decisionManager);
@@ -135,7 +136,8 @@ class AliaserTest extends \PHPUnit_Framework_TestCase
 
     public function testSetIsBatchDelegatesToAliaser()
     {
-        $ret = function() {};
+        $ret = function () {
+        };
         $this->aliasing->expects($this->once())->method('setIsBatch')->with(true)->will($this->returnValue($ret));
         $this->assertEquals($ret, $this->aliaser->setIsBatch(true));
     }

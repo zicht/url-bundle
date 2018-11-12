@@ -34,7 +34,7 @@ class ProviderDecorator extends DelegatingProvider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = [])
     {
         try {
             $ret = parent::url($object, $options);

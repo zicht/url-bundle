@@ -60,7 +60,7 @@ class DbStaticProvider implements Provider
     public function addAll()
     {
         // Make sure refs are not null any more, else it keeps checking on every static ref
-        $this->refs = array();
+        $this->refs = [];
 
         /** @var StaticReference $repos */
         $references = $this->em->getRepository('ZichtUrlBundle:StaticReference')->getAll($this->getLocale());
@@ -85,7 +85,7 @@ class DbStaticProvider implements Provider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = [])
     {
         $this->checkRefsAreLoaded();
 
