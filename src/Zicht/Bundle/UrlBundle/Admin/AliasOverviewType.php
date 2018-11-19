@@ -49,7 +49,7 @@ class AliasOverviewType extends AbstractType
                 'translation_domain' => 'admin',
                 'label' => 'admin.alias_overview_admin.label',
                 'required' => false,
-                'virtual' => true,
+                'inherit_data' => true,
             ]
         );
     }

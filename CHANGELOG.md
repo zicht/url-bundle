@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.3 - 2018-11-19
+### Changed
+- Changed the MarkupType option 'virtual' to 'inherit_data' because 'virtual' is deprecated
+- See: https://github.com/symfony/symfony/issues/12603 for more detailed information
+
 ## 4.0.0 - 2018-06-21
 ### Added
 - Support for Symfony 3.x
