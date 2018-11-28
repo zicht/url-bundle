@@ -101,6 +101,9 @@ class ContainsUrlAliasValidator extends ConstraintValidator
      */
     protected function fmtQuery($url)
     {
-        return sprintf('SELECT COUNT(*) FROM url_alias WHERE public_url = %s', $this->doctrine->getConnection()->quote($url));
+        $em = $this->doctrine->getManager();
+        $classMetaData = $em->getClassMetadata(UrlAlias::class);
+
+        return sprintf('SELECT COUNT(*) FROM %s WHERE public_url = %s', $classMetaData->getTableName(), $this->doctrine->getConnection()->quote($url));
     }
 }

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+### 4.0.4 - 2018-11-28
+- Modified the query in the `ContainsUrlAliasValidator` to get the table name for doctrine, this is required in projects where the table names are for example prefixed.
+
 ## 4.0.0 - 2018-06-21
 ### Added
 - Support for Symfony 3.x
