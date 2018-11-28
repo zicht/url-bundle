@@ -6,6 +6,8 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Controller;
 
+use PHPUnit\Framework\MockObject\Generator;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Controller\StaticReferenceController;
@@ -15,7 +17,7 @@ use Zicht\Bundle\UrlBundle\Controller\StaticReferenceController;
  *
  * @package ZichtTest\Bundle\UrlBundle\Controller
  */
-class SuggestUrlControllerTest extends \PHPUnit_Framework_TestCase
+class SuggestUrlControllerTest extends TestCase
 {
     /**
      * Test
@@ -25,7 +27,7 @@ class SuggestUrlControllerTest extends \PHPUnit_Framework_TestCase
         $controller = new StaticReferenceController();
         $container = new Container();
 
-        $provider = $this->getMock('Zicht\Bundle\UrlBundle\Url\Provider');
+        $provider = (new Generator())->getMock('Zicht\Bundle\UrlBundle\Url\Provider');
         $container->set('zicht_url.provider', $provider);
         $controller->setContainer($container);
 

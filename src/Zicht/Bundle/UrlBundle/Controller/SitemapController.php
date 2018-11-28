@@ -32,11 +32,11 @@ class SitemapController extends Controller
         $urls = $this->get('zicht_url.sitemap_provider')->all($this->get('security.authorization_checker'));
 
         return new Response(
-            $this->renderView('ZichtUrlBundle:Sitemap:sitemap.xml.twig', array('urls' => $urls)),
+            $this->renderView('ZichtUrlBundle:Sitemap:sitemap.xml.twig', ['urls' => $urls]),
             200,
-            array(
+            [
                 'content-type' => 'text/xml'
-            )
+            ]
         );
     }
 }

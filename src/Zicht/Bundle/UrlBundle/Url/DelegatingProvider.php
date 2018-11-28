@@ -38,7 +38,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     {
         $this->providers[$priority][] = $provider;
         ksort($this->providers);
-     }
+    }
 
     /**
      * {@inheritDoc}
@@ -56,7 +56,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     /**
      * {@inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = [])
     {
         foreach ($this->getProviders() as $provider) {
             if ($provider->supports($object)) {
@@ -77,7 +77,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     public function suggest($pattern)
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->getProviders() as $provider) {
             if ($provider instanceof SuggestableProvider) {
                 $ret = array_merge($ret, $provider->suggest($pattern));
@@ -91,7 +91,7 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     public function all(AuthorizationCheckerInterface $securityContext)
     {
-        $ret = array();
+        $ret = [];
         foreach ($this->getProviders() as $provider) {
             if ($provider instanceof ListableProvider) {
                 $ret = array_merge($ret, $provider->all($securityContext));

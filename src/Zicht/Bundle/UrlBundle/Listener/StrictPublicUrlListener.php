@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Philip Bergman <philip@zicht.nl>
  * @copyright Zicht online <http://zicht.nl>
  */
 namespace Zicht\Bundle\UrlBundle\Listener;

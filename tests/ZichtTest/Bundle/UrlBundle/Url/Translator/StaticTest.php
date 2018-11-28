@@ -3,16 +3,21 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Url\Translator;
 
-class Zicht_Search_Faceted_Translator_StaticTest extends \PHPUnit_Framework_TestCase {
-    function testTranslation() {
+use PHPUnit\Framework\TestCase;
+
+class Zicht_Search_Faceted_Translator_StaticTest extends TestCase
+{
+    function testTranslation()
+    {
         $translator = new \Zicht\Bundle\UrlBundle\Url\Params\Translator\StaticTranslator(
             'internal_key',
             'readable-user-key',
-            array(
+            [
                 'internal_value' => 'readable-user-value'
-            )
+            ]
         );
         $translator->addTranslation('internal_value2', 'readable-user-value2');
 
@@ -26,7 +31,7 @@ class Zicht_Search_Faceted_Translator_StaticTest extends \PHPUnit_Framework_Test
         $this->assertFalse($translator->translateKeyInput('readable-user-key-invalid'));
         $this->assertFalse($translator->translateValueInput('readable-user-key-invalid', 'readable-user-value'));
         $this->assertFalse($translator->translateValueInput('readable-user-key', 'readable-user-value-invalid'));
-        
+
         $this->assertFalse($translator->translateKeyOutput('internal_key_invalid'));
         $this->assertFalse($translator->translateValueOutput('internal_key_invalid', 'internal_value'));
         $this->assertFalse($translator->translateValueOutput('internal_key', 'internal_value_invalid'));

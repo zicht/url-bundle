@@ -58,7 +58,7 @@ class ImportUrlAliasesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('zicht:url:import-aliases')
-            ->setDescription("Import multiple url aliases from a source file")
+            ->setDescription('Import multiple url aliases from a source file')
             ->setHelp(
                 'This command can parse csv files that follow the following syntax:
 

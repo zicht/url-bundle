@@ -34,12 +34,12 @@ class ZichtUrlExtension extends Extension
 
         if (!empty($config['unalias_subscriber'])) {
             // deprecation, remove in next major
-            trigger_error("unalias_subscriber is no longer used. This has moved to form transformers.", E_USER_DEPRECATED);
+            trigger_error('unalias_subscriber is no longer used. This has moved to form transformers.', E_USER_DEPRECATED);
         }
 
 
         if (isset($config['static_ref'])) {
-            $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', array($config['static_ref']));
+            $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', [$config['static_ref']]);
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $this->loadAliasingConfig($container, $config['aliasing'], $loader);
@@ -97,16 +97,16 @@ class ZichtUrlExtension extends Extension
 
         $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
         if ($aliasingConfig['exclude_patterns']) {
-            $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
+            $listenerDefinition->addMethodCall('setExcludePatterns', [$aliasingConfig['exclude_patterns']]);
         }
 
-        $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
+        $listenerDefinition->addMethodCall('setIsParamsEnabled', [$aliasingConfig['enable_params']]);
 
         if ($aliasingConfig['automatic_entities']) {
             $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');
 
             foreach ($aliasingConfig['automatic_entities'] as $entityClass) {
-                $automaticAliasDoctrineDefinition->addMethodCall('addEntityClass', array($entityClass));
+                $automaticAliasDoctrineDefinition->addMethodCall('addEntityClass', [$entityClass]);
             }
         }
     }

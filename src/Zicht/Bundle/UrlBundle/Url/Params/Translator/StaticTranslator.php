@@ -24,7 +24,7 @@ class StaticTranslator implements Translator
      * @param string $keyTranslation
      * @param array $valueTranslations
      */
-    public function __construct($keyName, $keyTranslation, $valueTranslations = array())
+    public function __construct($keyName, $keyTranslation, $valueTranslations = [])
     {
         $this->keyName           = $keyName;
         $this->keyTranslation    = $keyTranslation;

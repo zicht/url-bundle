@@ -1,4 +1,5 @@
 .idea/
 vendor/
 build/
-composer.lock
+docker-compose.yml
+docker-composer.env

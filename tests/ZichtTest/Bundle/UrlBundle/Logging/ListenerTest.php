@@ -6,9 +6,10 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Logging;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class ListenerTest extends \PHPUnit_Framework_TestCase
+class ListenerTest extends TestCase
 {
     public function testListener()
     {
@@ -17,7 +18,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->setStatusCode(500);
 
-        $logging = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Logging\Logging')->setMethods(array('flush'))->disableOriginalConstructor()->getMock();
+        $logging = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Logging\Logging')->setMethods(['flush'])->disableOriginalConstructor()->getMock();
         $exceptionEvent = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent')->disableOriginalConstructor()->getMock();
         $exceptionEvent->expects($this->once())->method('getException')->will($this->returnValue(new \Exception($msg)));
         $exceptionEvent->expects($this->once())->method('getRequest')->will($this->returnValue($req));
@@ -31,9 +32,13 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $listener = new \Zicht\Bundle\UrlBundle\Logging\Listener($logging);
         $value = null;
 
-        $logging->expects($this->once())->method('flush')->will($this->returnCallback(function($v) use(&$value) {
-            $value = $v;
-        }));
+        $logging->expects($this->once())->method('flush')->will(
+            $this->returnCallback(
+                function ($v) use (&$value) {
+                    $value = $v;
+                }
+            )
+        );
 
         $listener->onKernelException($exceptionEvent);
         $listener->onKernelResponse($responseEvent);

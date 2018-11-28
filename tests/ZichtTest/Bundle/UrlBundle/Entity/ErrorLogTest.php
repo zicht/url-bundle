@@ -3,9 +3,12 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Entity;
- 
-class ErrorLogTest extends \PHPUnit_Framework_TestCase
+
+use PHPUnit\Framework\TestCase;
+
+class ErrorLogTest extends TestCase
 {
     public function testApi()
     {

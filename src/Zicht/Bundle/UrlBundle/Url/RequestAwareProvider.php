@@ -32,7 +32,7 @@ class RequestAwareProvider extends DelegatingProvider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = [])
     {
         $ret = parent::url($object, $options);
 

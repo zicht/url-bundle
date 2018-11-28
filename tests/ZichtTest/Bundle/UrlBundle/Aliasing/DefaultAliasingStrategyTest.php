@@ -3,8 +3,10 @@
  * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasable;
 use Zicht\Bundle\UrlBundle\Aliasing\DefaultAliasingStrategy;
 
@@ -40,7 +42,7 @@ class Unaliasable
     }
 }
 
-class DefaultAliasingStrategyTest extends \PHPUnit_Framework_TestCase
+class DefaultAliasingStrategyTest extends TestCase
 {
     /**
      * @dataProvider cases
@@ -53,13 +55,13 @@ class DefaultAliasingStrategyTest extends \PHPUnit_Framework_TestCase
 
     function cases()
     {
-        return array(
-            array('/bar', new Foo),
-            array('/b-a-z', new Foo2),
-            array('/rab', new Foo3),
-            array('/foo', 'foo'),
-            array(null, new Unaliasable)
-        );
+        return [
+            ['/bar', new Foo],
+            ['/b-a-z', new Foo2],
+            ['/rab', new Foo3],
+            ['/foo', 'foo'],
+            [null, new Unaliasable]
+        ];
     }
 
 

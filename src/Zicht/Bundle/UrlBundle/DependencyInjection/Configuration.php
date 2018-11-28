@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
             return is_bool($v);
         };
         $convertToEnabledKey = function ($v) {
-            return array('enabled' => $v);
+            return ['enabled' => $v];
         };
 
         $rootNode
@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->variableNode('html_attributes')
-                    ->treatNullLike(array())
+                    ->treatNullLike([])
                     ->defaultValue(
                         [
                             'a' => ['href', 'data-href'],

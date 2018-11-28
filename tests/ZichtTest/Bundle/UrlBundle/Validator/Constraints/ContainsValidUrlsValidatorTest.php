@@ -6,7 +6,7 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Validator\Constraints;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Zicht\Bundle\UrlBundle\Service\UrlValidator;
 use Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrls;
@@ -17,7 +17,7 @@ use Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator;
  *
  * @package ZichtTest\Bundle\UrlBundle\Validator\Constraints
  */
-class ContainsValidUrlsValidatorTest extends PHPUnit_Framework_TestCase
+class ContainsValidUrlsValidatorTest extends TestCase
 {
     /**
      * Testing the validation.

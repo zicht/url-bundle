@@ -6,11 +6,11 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\HttpFoundation\Request;
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\HtmlMapper;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
-class HtmlMapperTest extends \PHPUnit_Framework_TestCase
+class HtmlMapperTest extends TestCase
 {
     /**
      * @dataProvider aliasingTestCases
@@ -20,7 +20,7 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testInternalToPublicAliasing($input, $expectedOutput, $aliasingMap)
     {
-        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(['getAliasingMap'])->getMock();
         $mapper = new HtmlMapper();
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
         $this->assertEquals($expectedOutput, $mapper->processAliasing($input, 'internal-to-public', new Rewriter($aliaser), ['zicht.nl']));
@@ -37,7 +37,7 @@ class HtmlMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddAttributesAllowsExtraAttributesToBeProcessed($input, $expectedOutput, $aliasingMap)
     {
-        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(['getAliasingMap'])->getMock();
         $mapper = new HtmlMapper();
         $mapper->addAttributes(
             [

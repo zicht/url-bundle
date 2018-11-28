@@ -9,8 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
-### 4.0.4 - 2018-11-28
+## 4.0.4 - 2018-11-28
+### Fixed
 - Modified the query in the `ContainsUrlAliasValidator` to get the table name for doctrine, this is required in projects where the table names are for example prefixed.
+
+## 4.0.3 - 2018-11-19
+### Changed
+- Changed the MarkupType option 'virtual' to 'inherit_data' because 'virtual' is deprecated
+- See: https://github.com/symfony/symfony/issues/12603 for more detailed information
 
 ## 4.0.0 - 2018-06-21
 ### Added
@@ -26,6 +32,10 @@ Nothing so far
 ## 3.0.0
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
+
+## 2.19.2 
+- remove itertools reference
+- fixed url aliases for uri with utf8 characters
 
 ## 2.19.0 
 - Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,

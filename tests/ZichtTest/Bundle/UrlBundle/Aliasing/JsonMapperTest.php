@@ -6,14 +6,12 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\HttpFoundation\Request;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\HtmlMapper;
+use PHPUnit\Framework\TestCase;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\JsonMapper;
-use Zicht\Bundle\UrlBundle\Aliasing\Mapper\RssMapper;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
-class JsonMapperTest extends \PHPUnit_Framework_TestCase
+class JsonMapperTest extends TestCase
 {
     /**
      * @dataProvider aliasingTestCases
@@ -23,7 +21,7 @@ class JsonMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testInternalToPublicAliasing($input, $expectedOutput, $aliasingMap)
     {
-        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(array('getAliasingMap'))->getMock();
+        $aliaser = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')->disableOriginalConstructor()->setMethods(['getAliasingMap'])->getMock();
         $mapper = new JsonMapper();
 
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));

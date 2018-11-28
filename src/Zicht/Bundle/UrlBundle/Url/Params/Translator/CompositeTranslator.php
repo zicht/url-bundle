@@ -14,7 +14,7 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class CompositeTranslator implements Translator
 {
-    protected $translators = array();
+    protected $translators = [];
 
     /**
      * @{inheritDoc}

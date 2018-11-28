@@ -27,7 +27,7 @@ class UrlProviderPass implements CompilerPassInterface
                 if (isset($attributes[0]['priority'])) {
                     $priority = (int)$attributes[0]['priority'];
                 }
-                $definition->addMethodCall('addProvider', array(new Reference($id), $priority));
+                $definition->addMethodCall('addProvider', [new Reference($id), $priority]);
             }
         }
     }

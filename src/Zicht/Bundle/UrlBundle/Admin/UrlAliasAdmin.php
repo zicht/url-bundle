@@ -20,9 +20,9 @@ use Zicht\Bundle\UrlBundle\Type\UrlType;
  */
 class UrlAliasAdmin extends Admin
 {
-    protected $datagridValues = array(
+    protected $datagridValues = [
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
-    );
+    ];
 
     /**
      * @{inheritDoc}
@@ -31,18 +31,18 @@ class UrlAliasAdmin extends Admin
     {
         $listMapper
             ->add('id')
-            ->add('public_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
-            ->add('internal_url', 'string', array('template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'))
+            ->add('public_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
+            ->add('internal_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
             ->add(
                 '_action',
                 'actions',
-                array(
-                    'actions' => array(
-                        'show' => array(),
-                        'edit' => array(),
-                        'delete' => array()
-                    )
-                )
+                [
+                    'actions' => [
+                        'show' => [],
+                        'edit' => [],
+                        'delete' => []
+                    ]
+                ]
             );
     }
 
@@ -66,13 +66,15 @@ class UrlAliasAdmin extends Admin
             ->add(
                 'mode',
                 'choice',
-                array(
-                    'choices' => array_flip(array(
+                [
+                    'choices' => array_flip(
+                        [
                         UrlAlias::ALIAS   => 'alias (302 redirect)',
                         UrlAlias::MOVE    => 'move (301 redirect)',
                         UrlAlias::REWRITE => 'rewrite',
-                    ))
-                )
+                        ]
+                    )
+                ]
             );
     }
 

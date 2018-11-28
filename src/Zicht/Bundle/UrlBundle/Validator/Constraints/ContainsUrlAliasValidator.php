@@ -70,7 +70,7 @@ class ContainsUrlAliasValidator extends ConstraintValidator
      * @param string $url
      * @param Constraint $constraint
      */
-    public function addViolation($url,  Constraint $constraint)
+    public function addViolation($url, Constraint $constraint)
     {
         $this->context->addViolation($constraint->message, ['%url%' => $url]);
     }

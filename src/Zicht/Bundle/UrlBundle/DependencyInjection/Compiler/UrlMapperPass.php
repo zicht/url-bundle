@@ -47,7 +47,7 @@ class UrlMapperPass implements CompilerPassInterface
                 // this is a performance optimization, since sitemaps can get extremely large.
                 continue;
             }
-            $aliasing->addMethodCall('addMapper', array($contentMapper));
+            $aliasing->addMethodCall('addMapper', [$contentMapper]);
         }
     }
 }
