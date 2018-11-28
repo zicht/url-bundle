@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.4 - 2018-11-28
+### Fixed
+- Modified the query in the `ContainsUrlAliasValidator` to get the table name for doctrine, this is required in projects where the table names are for example prefixed.
+
 ## 4.0.3 - 2018-11-19
 ### Changed
 - Changed the MarkupType option 'virtual' to 'inherit_data' because 'virtual' is deprecated
