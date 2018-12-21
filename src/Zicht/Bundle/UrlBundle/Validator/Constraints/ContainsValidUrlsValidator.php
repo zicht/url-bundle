@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Muhammed Akbulut <muhammed@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -10,11 +9,6 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Zicht\Bundle\UrlBundle\Service\UrlValidator;
 
-/**
- * Class ContainsValidUrlsValidator
- *
- * @package Zicht\Bundle\UrlBundle\Validator\Constraints
- */
 class ContainsValidUrlsValidator extends ConstraintValidator
 {
 
@@ -24,8 +18,6 @@ class ContainsValidUrlsValidator extends ConstraintValidator
     private $urlValidator;
 
     /**
-     * ContainsValidUrlsValidator constructor.
-     *
      * @param UrlValidator $urlValidator
      */
     public function __construct(UrlValidator $urlValidator)

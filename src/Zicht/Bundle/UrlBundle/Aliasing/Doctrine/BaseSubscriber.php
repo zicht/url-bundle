@@ -34,8 +34,6 @@ abstract class BaseSubscriber implements EventSubscriber
     protected $enabled;
 
     /**
-     * Constructor.
-     *
      * @param Container $container
      * @param string $aliaserServiceId
      * @param string $className

@@ -10,11 +10,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Zicht\Bundle\UrlBundle\Form\DataTransformer\HtmlTransformer;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
-/**
- * Class TinymceTypeExtension
- *
- * @package Zicht\Bundle\UrlBundle\Form\Extension
- */
 class TinymceTypeExtension extends AbstractTypeExtension
 {
     /**
@@ -23,8 +18,6 @@ class TinymceTypeExtension extends AbstractTypeExtension
     private $aliasing;
 
     /**
-     * TinymceTypeExtension constructor.
-     *
      * @param Aliasing $aliasing
      */
     public function __construct(Aliasing $aliasing)

@@ -38,7 +38,7 @@ class QueryStringUriParser extends UriParser
                 if ($external = $this->translateValueOutput($internal, $value)) {
                     $value = $external;
                 }
-                $ret[$param][]= $value;
+                $ret[$param][] = $value;
             }
         }
 

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author    Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -20,7 +19,7 @@ class StaticReferenceTranslationAdmin extends Admin
     protected $parentAssociationMapping = 'static_reference';
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -29,7 +28,7 @@ class StaticReferenceTranslationAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -41,7 +40,7 @@ class StaticReferenceTranslationAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {

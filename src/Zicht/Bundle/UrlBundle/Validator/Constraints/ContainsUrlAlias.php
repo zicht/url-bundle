@@ -6,17 +6,12 @@ namespace Zicht\Bundle\UrlBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * Class ContainsUrlAlias
- *
- * @package Zicht\Bundle\UrlBundle\Validator\Constraints
- */
 class ContainsUrlAlias extends Constraint
 {
     public $message = "Public url '%url%' already exists.";
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function getTargets()
     {

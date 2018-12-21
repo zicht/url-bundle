@@ -26,8 +26,6 @@ class AliasOverviewType extends AbstractType
     protected $doctrine;
 
     /**
-     * AliasOverviewType constructor.
-     *
      * @param Provider $provider
      * @param RegistryInterface $doctrine
      */
@@ -38,7 +36,7 @@ class AliasOverviewType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -55,12 +53,12 @@ class AliasOverviewType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
-        $aliases =  $this->getUrlAliases($options['record']);
+        $aliases = $this->getUrlAliases($options['record']);
         $view->vars['record'] = $options['record'];
         $view->vars['url_aliases'] = $aliases;
         $view->vars['url_aliases_grouped'] = $this->groupByMode($aliases);
@@ -85,6 +83,7 @@ class AliasOverviewType extends AbstractType
      * Returns all UrlAlias entities associated to an object
      *
      * @param mixed $object
+     * @return mixed
      */
     protected function getUrlAliases($object)
     {
@@ -101,7 +100,7 @@ class AliasOverviewType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

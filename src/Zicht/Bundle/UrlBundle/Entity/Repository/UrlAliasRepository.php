@@ -14,31 +14,31 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryInterface
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['public_url' => $publicUrl];
         if (null !== $mode) {
-            $where['mode']= $mode;
+            $where['mode'] = $mode;
         }
         return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function findOneByInternalUrl($internalUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['internal_url' => $internalUrl];
         if (null !== $mode) {
-            $where['mode']= $mode;
+            $where['mode'] = $mode;
         }
         return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function findAllByInternalUrl($internalUrl)
     {

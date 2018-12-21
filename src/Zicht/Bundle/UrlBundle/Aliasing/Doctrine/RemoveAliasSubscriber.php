@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht online <http://zicht.nl>
  */
 
@@ -15,7 +14,7 @@ use Doctrine\ORM\Events;
 class RemoveAliasSubscriber extends BaseSubscriber
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function getSubscribedEvents()
     {

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -24,7 +23,7 @@ class ErrorLogAdmin extends Admin
     ];
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -47,7 +46,7 @@ class ErrorLogAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {
@@ -62,7 +61,7 @@ class ErrorLogAdmin extends Admin
     }
 
     /**
-     * @{inheritdoc}
+     * {@inheritdoc}
      */
     protected function configureRoutes(RouteCollection $collection)
     {

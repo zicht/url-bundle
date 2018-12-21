@@ -7,16 +7,11 @@ namespace Zicht\Bundle\UrlBundle\Url;
 
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
-/**
- * Class Rewriter
- */
 class Rewriter
 {
     private $localDomains = [];
 
     /**
-     * Constructor
-     *
      * @param Aliasing $aliasing
      */
     public function __construct(Aliasing $aliasing)
@@ -87,7 +82,7 @@ class Rewriter
 
             // don't rewrite this.
             if (isset($parts['user']) || isset($parts['password'])) {
-                $ret[$url]=  $url;
+                $ret[$url] =  $url;
                 continue;
             }
 

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -13,11 +12,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RequestAwareProvider extends DelegatingProvider
 {
-    /**
-     * Constructor
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     */
     public function __construct(RequestStack $requestStack)
     {
         parent::__construct();
@@ -30,7 +24,7 @@ class RequestAwareProvider extends DelegatingProvider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function url($object, array $options = [])
     {

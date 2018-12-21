@@ -7,11 +7,6 @@ namespace Zicht\Bundle\UrlBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-/**
- * Class TextTransformer
- *
- * @package Zicht\Bundle\UrlBundle\Form\DataTransformer
- */
 class TextTransformer extends AbstractAliasingTransformer
 {
     /**

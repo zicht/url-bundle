@@ -5,9 +5,6 @@
 
 namespace Zicht\Bundle\UrlBundle;
 
-/**
- * Class Events
- */
 final class Events
 {
     /**

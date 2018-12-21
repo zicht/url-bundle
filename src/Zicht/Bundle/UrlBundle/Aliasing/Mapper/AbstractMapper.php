@@ -24,8 +24,6 @@ abstract class AbstractMapper implements UrlMapperInterface
     protected $pattern;
 
     /**
-     * Constructor
-     *
      * @param string[] $contentTypes
      * @param string $pattern
      */
@@ -48,7 +46,7 @@ abstract class AbstractMapper implements UrlMapperInterface
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function processAliasing($content, $mode, Rewriter $rewriter)
     {
@@ -58,7 +56,7 @@ abstract class AbstractMapper implements UrlMapperInterface
         }
         $groups = [];
         foreach ($matches as $match) {
-            $groups[$match[2]][]= $match;
+            $groups[$match[2]][] = $match;
         }
 
         return $rewriter->rewriteMatches($content, $mode, $groups);

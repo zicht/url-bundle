@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace Zicht\Bundle\UrlBundle\Type;
@@ -25,8 +24,6 @@ class UrlType extends AbstractType
     private $aliasing;
 
     /**
-     * UrlType constructor.
-     *
      * @param Aliasing $aliasing
      */
     public function __construct(Aliasing $aliasing)
@@ -35,7 +32,7 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -51,7 +48,7 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -69,7 +66,7 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
@@ -79,7 +76,7 @@ class UrlType extends AbstractType
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function getParent()
     {
@@ -91,7 +88,7 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $mode = TextTransformer::MODE_TO_INTERNAL|TextTransformer::MODE_TO_PUBLIC;
+        $mode = TextTransformer::MODE_TO_INTERNAL | TextTransformer::MODE_TO_PUBLIC;
 
         if ($options['no_transform_public']) {
             $mode ^= TextTransformer::MODE_TO_PUBLIC;

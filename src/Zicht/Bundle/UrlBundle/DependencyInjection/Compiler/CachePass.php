@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class CachePass implements CompilerPassInterface
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

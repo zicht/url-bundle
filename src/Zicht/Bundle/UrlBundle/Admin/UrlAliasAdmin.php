@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -25,7 +24,7 @@ class UrlAliasAdmin extends Admin
     ];
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -47,7 +46,7 @@ class UrlAliasAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
@@ -57,7 +56,7 @@ class UrlAliasAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -79,7 +78,7 @@ class UrlAliasAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {

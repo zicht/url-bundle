@@ -8,8 +8,6 @@ namespace Zicht\Bundle\UrlBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * StaticReferenceTranslation
- *
  * @ORM\Table(name="static_reference_translation")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Entity
@@ -57,8 +55,6 @@ class StaticReferenceTranslation
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()

@@ -8,11 +8,6 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
-/**
- * Interface UrlMapperInterface
- *
- * @package Zicht\Bundle\UrlBundle\Aliasing\Mapper
- */
 interface UrlMapperInterface
 {
     /**
