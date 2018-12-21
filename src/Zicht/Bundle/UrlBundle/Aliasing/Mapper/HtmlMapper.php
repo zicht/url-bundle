@@ -12,7 +12,6 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
  *
  * Helper to map urls in an HTML string from internal to public aliasing or vice versa.
  *
- * @package Zicht\Bundle\UrlBundle\Aliasing
  */
 class HtmlMapper implements UrlMapperInterface
 {
@@ -23,9 +22,6 @@ class HtmlMapper implements UrlMapperInterface
      */
     protected $htmlAttributes;
 
-    /**
-     * HtmlMapper constructor.
-     */
     public function __construct()
     {
         $this->htmlAttributes = [
@@ -41,7 +37,7 @@ class HtmlMapper implements UrlMapperInterface
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function supports($contentType)
     {
@@ -50,7 +46,7 @@ class HtmlMapper implements UrlMapperInterface
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function processAliasing($html, $mode, Rewriter $rewriter)
     {
@@ -60,7 +56,7 @@ class HtmlMapper implements UrlMapperInterface
             $pattern = sprintf('!(<%s\b[^>]+\b(?:%s)=")([^"]+)(")!', $tagName, join('|', $attributes));
             if (preg_match_all($pattern, $html, $matches, PREG_SET_ORDER)) {
                 foreach ($matches as $match) {
-                    $map[$match[2]][]= $match;
+                    $map[$match[2]][] = $match;
                 }
             }
         }

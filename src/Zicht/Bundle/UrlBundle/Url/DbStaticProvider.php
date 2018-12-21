@@ -1,6 +1,5 @@
 <?php
 /**
- * @author    Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace Zicht\Bundle\UrlBundle\Url;
@@ -73,7 +72,7 @@ class DbStaticProvider implements Provider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function supports($object)
     {
@@ -83,7 +82,7 @@ class DbStaticProvider implements Provider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function url($object, array $options = [])
     {

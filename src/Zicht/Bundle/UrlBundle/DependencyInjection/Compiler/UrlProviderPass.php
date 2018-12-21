@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -16,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class UrlProviderPass implements CompilerPassInterface
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

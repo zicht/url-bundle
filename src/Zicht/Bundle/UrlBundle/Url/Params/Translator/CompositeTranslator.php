@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -17,7 +16,7 @@ class CompositeTranslator implements Translator
     protected $translators = [];
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateKeyInput($keyName)
     {
@@ -32,7 +31,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueInput($keyName, $value)
     {
@@ -47,7 +46,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateKeyOutput($keyName)
     {
@@ -62,7 +61,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueOutput($keyName, $value)
     {
@@ -77,7 +76,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function add(Translator $translator)
     {

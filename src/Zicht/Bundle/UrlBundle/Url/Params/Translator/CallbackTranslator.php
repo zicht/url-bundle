@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -15,8 +14,6 @@ class CallbackTranslator extends StaticTranslator
     protected $valueOutputTranslator;
 
     /**
-     * Constructor.
-     *
      * @param string $keyName
      * @param string $keyTranslation
      * @param callable $valueInputTranslator
@@ -30,7 +27,7 @@ class CallbackTranslator extends StaticTranslator
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueInput($keyName, $value)
     {
@@ -42,7 +39,7 @@ class CallbackTranslator extends StaticTranslator
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueOutput($keyName, $value)
     {

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -17,7 +16,7 @@ use Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider;
 class UrlMapperPass implements CompilerPassInterface
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

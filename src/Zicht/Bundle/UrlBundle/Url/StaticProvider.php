@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -49,7 +48,7 @@ class StaticProvider implements Provider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function supports($object)
     {
@@ -57,7 +56,7 @@ class StaticProvider implements Provider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function url($object, array $options = [])
     {

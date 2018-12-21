@@ -13,13 +13,9 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
  *
  * Helper to map urls in an JSON HAL string from internal to public aliasing or vice versa.
  *
- * @package Zicht\Bundle\UrlBundle\Aliasing
  */
 class JsonHalMapper extends AbstractMapper
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct(['application/hal+json'], '/("href":")(.*)(")/U');

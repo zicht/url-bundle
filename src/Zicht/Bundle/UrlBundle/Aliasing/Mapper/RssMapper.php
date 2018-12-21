@@ -10,13 +10,9 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
  *
  * Helper to map urls in an Rss string from internal to public aliasing or vice versa.
  *
- * @package Zicht\Bundle\UrlBundle\Aliasing
  */
 class RssMapper extends AbstractMapper
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct(['application/rss+xml'], '/(<link>)(.*?)(<\/link>)/');

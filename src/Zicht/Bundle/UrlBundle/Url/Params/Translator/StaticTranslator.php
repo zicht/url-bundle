@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -18,8 +17,6 @@ class StaticTranslator implements Translator
     protected $valueTranslations;
 
     /**
-     * Constructor.
-     *
      * @param string $keyName
      * @param string $keyTranslation
      * @param array $valueTranslations
@@ -33,7 +30,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateKeyInput($keyTranslation)
     {
@@ -46,7 +43,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueInput($keyTranslation, $valueTranslation)
     {
@@ -61,7 +58,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateKeyOutput($keyName)
     {
@@ -74,7 +71,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function translateValueOutput($keyName, $value)
     {

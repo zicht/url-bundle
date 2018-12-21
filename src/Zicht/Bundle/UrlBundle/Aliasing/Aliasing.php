@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -387,7 +386,7 @@ class Aliasing
         $this->manager->persist($alias);
 
         if ($this->isBatch) {
-            $this->batch[$alias->getPublicUrl()]= $alias;
+            $this->batch[$alias->getPublicUrl()] = $alias;
         } else {
             $this->manager->flush($alias);
         }
@@ -412,8 +411,6 @@ class Aliasing
 
 
     /**
-     * Remove alias
-     *
      * @param string $internalUrl
      * @return void
      */

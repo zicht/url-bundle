@@ -5,11 +5,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Service;
 
-/**
- * Class UrlValidator
- *
- * @package Zicht\Bundle\UrlBundle\Util
- */
 class UrlValidator
 {
     /**

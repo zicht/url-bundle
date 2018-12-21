@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 class ReplaceUrlProviderServicePass implements CompilerPassInterface
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

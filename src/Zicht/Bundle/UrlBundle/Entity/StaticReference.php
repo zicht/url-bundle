@@ -9,8 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * StaticReference
- *
  * @ORM\Table(name="static_reference")
  * @ORM\Entity(repositoryClass="Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
@@ -65,8 +63,6 @@ class StaticReference
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -75,8 +71,6 @@ class StaticReference
     }
 
     /**
-     * Set machine_name
-     *
      * @param string $machineName
      *
      * @return StaticReference
@@ -89,8 +83,6 @@ class StaticReference
     }
 
     /**
-     * Get machine_name
-     *
      * @return string
      */
     public function getMachineName()

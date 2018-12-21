@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -19,8 +18,6 @@ class UriParser implements Translator
     private $translator = null;
 
     /**
-     * Constructor
-     *
      * @param string $paramSeparator
      * @param string $keyValueSeparator
      * @param string $valueSeparator

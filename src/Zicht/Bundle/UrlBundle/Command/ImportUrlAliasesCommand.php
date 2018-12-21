@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Boudewijn Schoon <boudewijn@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -14,11 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
-/**
- * Class ImportUrlAliasesCommand
- *
- * @package Zicht\Bundle\UrlBundle\Command
- */
 class ImportUrlAliasesCommand extends ContainerAwareCommand
 {
     /**

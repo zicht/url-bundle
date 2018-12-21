@@ -1,7 +1,5 @@
 <?php
 /**
- * @author Rik van der Kemp <rik@zicht.nl>
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -12,11 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class SitemapController
- *
- * @package Zicht\Bundle\UrlBundle\Controller
- */
 class SitemapController extends Controller
 {
     /**

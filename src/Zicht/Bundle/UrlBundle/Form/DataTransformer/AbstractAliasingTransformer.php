@@ -12,7 +12,6 @@ use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 /**
  * Provides a Template Method pattern for implementing different mapping types
  *
- * @package Zicht\Bundle\UrlBundle\Form\DataTransformer
  */
 abstract class AbstractAliasingTransformer implements DataTransformerInterface
 {
@@ -31,7 +30,7 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      * @param Aliasing $aliasing
      * @param int $mode
      */
-    public function __construct(Aliasing $aliasing, $mode = self::MODE_TO_PUBLIC|self::MODE_TO_INTERNAL)
+    public function __construct(Aliasing $aliasing, $mode = self::MODE_TO_PUBLIC | self::MODE_TO_INTERNAL)
     {
         $this->aliasing = $aliasing;
         $this->mode = $mode;

@@ -14,8 +14,6 @@ use Zicht\Bundle\UrlBundle\Entity\ErrorLog;
 class Logging
 {
     /**
-     * Constructor
-     *
      * @param \Doctrine\ORM\EntityManager $manager
      */
     public function __construct(EntityManager $manager)

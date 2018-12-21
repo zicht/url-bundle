@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -79,7 +78,7 @@ class ZichtUrlExtension extends Extension
         }
 
         $formResources = $container->getParameter('twig.form.resources');
-        $formResources[]= 'ZichtUrlBundle::form_theme.html.twig';
+        $formResources[] = 'ZichtUrlBundle::form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
     }
 

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author    Philip Bergman <philip@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 namespace Zicht\Bundle\UrlBundle\Validator\Constraints;
@@ -10,11 +9,6 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
-/**
- * Class ContainsUrlAliasValidator
- *
- * @package Zicht\Bundle\UrlBundle\Validator\Constraints
- */
 class ContainsUrlAliasValidator extends ConstraintValidator
 {
     /** @var Registry  */
@@ -23,8 +17,6 @@ class ContainsUrlAliasValidator extends ConstraintValidator
     protected $isStrict;
 
     /**
-     * Constructor
-     *
      * @param Registry $doctrine
      * @param bool $isStrict
      */

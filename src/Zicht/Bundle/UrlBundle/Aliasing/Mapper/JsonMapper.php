@@ -10,14 +10,10 @@ namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
  *
  * Helper to map urls in an JSON string from internal to public aliasing or vice versa.
  *
- * @package Zicht\Bundle\UrlBundle\Aliasing
  * @deprecated This implementation is rather optimistic: it replaces all "value" keys
  */
 class JsonMapper extends AbstractMapper
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct(['application/json'], '/((?:"value")\s*:\s*")([^"]+)(["])/');

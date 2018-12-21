@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
  
@@ -19,8 +18,6 @@ use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 class ProviderDecorator extends DelegatingProvider
 {
     /**
-     * Constructor
-     *
      * @param Aliasing $aliasing
      */
     public function __construct(Aliasing $aliasing)
@@ -32,7 +29,7 @@ class ProviderDecorator extends DelegatingProvider
 
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function url($object, array $options = [])
     {
@@ -55,7 +52,7 @@ class ProviderDecorator extends DelegatingProvider
     }
     
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function all(AuthorizationCheckerInterface $security)
     {

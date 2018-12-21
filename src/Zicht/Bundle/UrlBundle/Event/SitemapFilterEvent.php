@@ -6,17 +6,12 @@ namespace Zicht\Bundle\UrlBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-/**
- * Class SitemapFilterEvent.
- */
 class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /** @var \ArrayObject */
     protected $object;
 
     /**
-     * SitemapFilterEvent constructor.
-     *
      * @param \ArrayObject $object
      */
     public function __construct(\ArrayObject $object)

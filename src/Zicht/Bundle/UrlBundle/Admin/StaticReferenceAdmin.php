@@ -1,6 +1,5 @@
 <?php
 /**
- * @author    Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -18,7 +17,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 class StaticReferenceAdmin extends Admin
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -38,7 +37,7 @@ class StaticReferenceAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -61,7 +60,7 @@ class StaticReferenceAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {
@@ -71,7 +70,7 @@ class StaticReferenceAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function prePersist($object)
     {
@@ -79,7 +78,7 @@ class StaticReferenceAdmin extends Admin
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function preUpdate($object)
     {

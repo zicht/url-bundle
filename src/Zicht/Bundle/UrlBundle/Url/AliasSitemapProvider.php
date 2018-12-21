@@ -17,16 +17,12 @@ use Zicht\Bundle\UrlBundle\Events;
  */
 class AliasSitemapProvider implements ListableProvider
 {
-    /** @var Connection  */
+    /** @var Connection */
     private $connection;
-    /** @var EventDispatcherInterface  */
+
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
-    /**
-     * Constructor
-     *
-     * @param Connection $connection
-     */
     public function __construct(Connection $connection, EventDispatcherInterface $eventDispatcher)
     {
         $this->connection = $connection;
@@ -34,7 +30,7 @@ class AliasSitemapProvider implements ListableProvider
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function all(AuthorizationCheckerInterface $authorizationChecker)
     {

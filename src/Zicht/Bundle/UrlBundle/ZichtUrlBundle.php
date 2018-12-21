@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class ZichtUrlBundle extends Bundle
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {

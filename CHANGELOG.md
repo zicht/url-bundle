@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.5 - 2018-12-21
+### Fixed
+- Update `composer.lock`.
+- Update code to conform with `zicht/standards-php` 3.4.0.
+
 ## 4.0.4 - 2018-11-28
 ### Fixed
 - Modified the query in the `ContainsUrlAliasValidator` to get the table name for doctrine, this is required in projects where the table names are for example prefixed.

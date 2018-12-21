@@ -10,12 +10,11 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Class AliasToInternalUrlTransformer
  *
- * @package Zicht\Bundle\AdminBundle\Form\DataTransformer
  */
 class HtmlTransformer extends AbstractAliasingTransformer
 {
     /**
-     * @{inheritDoc}
+     * {@inheritdoc}
      */
     protected function doMap($html, $mode)
     {

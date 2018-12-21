@@ -6,11 +6,6 @@ namespace Zicht\Bundle\UrlBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * Class ContainsValidUrls
- *
- * @package Zicht\Bundle\UrlBundle\Validator\Constraints
- */
 class ContainsValidUrls extends Constraint
 {
     public $message = 'The url "%string%" is a broken url, please check the url for validity.';
@@ -22,6 +17,6 @@ class ContainsValidUrls extends Constraint
      */
     public function validatedBy()
     {
-        return get_class($this).'Validator';
+        return get_class($this) . 'Validator';
     }
 }
