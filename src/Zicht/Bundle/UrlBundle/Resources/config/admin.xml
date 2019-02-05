@@ -6,10 +6,11 @@
 
     <parameters>
         <parameter key="zicht_url.admin.crud_controller">ZichtAdminBundle:CRUD</parameter>
+        <parameter key="zicht_url.admin.url_alias.class">Zicht\Bundle\UrlBundle\Admin\UrlAliasAdmin</parameter>
     </parameters>
 
     <services>
-        <service id="zicht_url.admin.url_alias" class="Zicht\Bundle\UrlBundle\Admin\UrlAliasAdmin">
+        <service id="zicht_url.admin.url_alias" class="%zicht_url.admin.url_alias.class%">
             <tag name="sonata.admin" manager_type="orm" group="URL's" label="Aliases" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\UrlAlias</argument>

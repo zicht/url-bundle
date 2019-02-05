@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.6 - 2019-02-05
+### Changed
+- Changed admin.xml UrlAliasAdmin service definition to use a parameter for the class
+
 ## 4.0.5 - 2018-12-21
 ### Fixed
 - Update `composer.lock`.
