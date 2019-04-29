@@ -16,11 +16,14 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE)
+    public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE, $site = null)
     {
         $where = ['public_url' => $publicUrl];
         if (null !== $mode) {
             $where['mode'] = $mode;
+        }
+        if(null !== $site){
+            $where['site'] = $site;
         }
         return $this->findOneBy($where, ['id' => 'ASC']);
     }

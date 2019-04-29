@@ -116,13 +116,13 @@ class Aliasing
      * @param null|integer $mode
      * @return null|string|UrlAlias
      */
-    public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
+    public function hasInternalAlias($publicUrl, $asObject = false, $mode = null, $site = null)
     {
         $ret = null;
         if (isset($this->batch[$publicUrl])) {
             $alias = $this->batch[$publicUrl];
         } else {
-            $alias = $this->repository->findOneByPublicUrl($publicUrl, $mode);
+            $alias = $this->repository->findOneByPublicUrl($publicUrl, $mode, $site);
         }
         if ($alias) {
             $ret = ($asObject ? $alias : $alias->getInternalUrl());

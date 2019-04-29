@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *  name = "url_alias",
  *  indexes={
- *      @ORM\Index(name="public_url_idx", columns={"public_url"}),
+ *      @ORM\Index(name="public_url_idx", columns={"public_url", "site"}),
  *      @ORM\Index(name="internal_url_idx", columns={"internal_url", "mode"})
  * })
  */
@@ -58,6 +58,10 @@ class UrlAlias
      */
     protected $mode = self::REWRITE;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $site;
 
     /**
      * Create a new alias
@@ -130,6 +134,22 @@ class UrlAlias
     public function getPublicUrl()
     {
         return $this->public_url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param mixed $site
+     */
+    public function setSite($site): void
+    {
+        $this->site = $site;
     }
 
     /**

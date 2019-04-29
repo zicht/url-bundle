@@ -183,8 +183,10 @@ class Listener
                 }
             }
 
+            $site = $this->retrieveSite($request);
+
             /** @var UrlAlias $url */
-            if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
+            if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, null, $site)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
                         $this->rewriteRequest($event, $url->getInternalUrl());
@@ -213,6 +215,11 @@ class Listener
                 }
             }
         }
+    }
+
+    private function retrieveSite(Request $request)
+    {
+        return $request->server->get('HTTP_HOST', 'localhost');
     }
 
 
