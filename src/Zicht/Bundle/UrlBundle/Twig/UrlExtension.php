@@ -105,7 +105,7 @@ class UrlExtension extends \Twig_Extension
             try {
                 $this->static_refs[$name] = $this->provider->url($name);
             } catch (UnsupportedException $e) {
-                $this->static_refs[$name] = '/[static_reference: '. $name . ']';
+                $this->static_refs[$name] = '#static_reference:' . $name;
             }
         }
 
