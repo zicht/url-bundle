@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.7 - 2019-07-05
+### Fixed
+- The `SitemapFilterEvent` rewrite didn't go so well, the sitemap filtering thus was broken for months.
+
 ## 4.0.6 - 2019-02-05
 ### Changed
 - Changed admin.xml UrlAliasAdmin service definition to use a parameter for the class

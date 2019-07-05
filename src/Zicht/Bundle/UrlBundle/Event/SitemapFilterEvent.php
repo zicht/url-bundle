@@ -32,7 +32,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
      */
     public function filter(callable $filter)
     {
-        foreach ($this->object as $key => $value) {
+        foreach ($this->getArrayCopy() as $key => $value) {
             if (false === $filter($key, $value)) {
                 $this->offsetUnset($key);
             }
