@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.1.0 - 2019-07-05
+### Added
+- Annotation for custom (static) headers on Controlleractions.
+They will be added only if this header is not yet available on the Response.
+```php
+/**
+*  @Headers(headers={"X-Robot-Tags"="noindex, nofollow"})
+*  @Route("/abc")
+*/
+public function abcAction(Request $request) {
+ ...
+}
+```
+
 ## 4.0.7 - 2019-07-05
 ### Fixed
 - The `SitemapFilterEvent` rewrite didn't go so well, the sitemap filtering thus was broken for months.

@@ -5,6 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
+use Zicht\Bundle\UrlBundle\Annotation\Headers;
 use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
@@ -24,6 +26,10 @@ class Listener
 
     protected $excludePatterns = [];
     protected $isParamsEnabled = false;
+    protected $customHeaders = [];
+
+    /** @var AnnotationReader */
+    protected $annotationReader;
 
     /**
      * Construct the aliasing listener.
@@ -35,6 +41,21 @@ class Listener
     {
         $this->aliasing = $aliasing;
         $this->router = $router;
+        $this->annotationReader = new AnnotationReader();
+    }
+
+    public function onKernelController(Event\FilterControllerEvent $event)
+    {
+        list($controller, $methodName) = $event->getController();
+        $reflectionObject = new \ReflectionObject($controller);
+        try {
+            $reflectionMethod = $reflectionObject->getMethod($methodName);
+            if (null !== $methodAnnotation = $this->annotationReader->getMethodAnnotation($reflectionMethod, Headers::class)) {
+                $this->customHeaders = $methodAnnotation->getHeaders();
+            }
+        } catch (\Exception $e) {
+
+        }
     }
 
     /**
@@ -93,6 +114,11 @@ class Listener
             }
 
             $this->rewriteResponse($e->getRequest(), $response);
+            foreach ($this->customHeaders as $header => $value) {
+                if (!$response->headers->has($header)) {
+                    $response->headers->set($header, $value);
+                }
+            }
         }
     }
 
