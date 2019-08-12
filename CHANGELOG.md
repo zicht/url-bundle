@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.0.8 - 2019-08-13
+### Fixed
+- The `UrlMapperPass` will now use an optional `ordinal`.
+  Given that only the first matching mapper is used, this becomes very usefull behavior.
+
 ## 4.0.7 - 2019-07-05
 ### Fixed
 - The `SitemapFilterEvent` rewrite didn't go so well, the sitemap filtering thus was broken for months.
