@@ -34,7 +34,7 @@ class UrlMapperPass implements CompilerPassInterface
         uasort(
             $mappers,
             function ($a, $b) {
-                return (isset($a[0]['ordinal']) ? $a[0]['ordinal'] : 0) - (isset($b[0]['ordinal']) ? $b[0]['ordinal'] : 0);
+                return (isset($b[0]['priority']) ? $b[0]['priority'] : 0) - (isset($a[0]['priority']) ? $a[0]['priority'] : 0);
             }
         );
 
