@@ -30,6 +30,14 @@ class UrlMapperPass implements CompilerPassInterface
             return;
         }
 
+        // Order mapper by their priority
+        uasort(
+            $mappers,
+            function ($a, $b) {
+                return (isset($b[0]['priority']) ? $b[0]['priority'] : 0) - (isset($a[0]['priority']) ? $a[0]['priority'] : 0);
+            }
+        );
+
         $aliasing = $container->getDefinition('zicht_url.aliasing');
 
         $sitemapIsAliased = false;
