@@ -14,8 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *  name = "url_alias",
  *  indexes={
- *      @ORM\Index(name="public_url_idx", columns={"public_url"}),
- *      @ORM\Index(name="internal_url_idx", columns={"internal_url", "mode"})
+ *      @ORM\Index(name="public_url_idx", columns={"public_url", "site_id"}),
+ *      @ORM\Index(name="internal_url_idx", columns={"internal_url", "mode", "site_id"}),
  * })
  */
 class UrlAlias
@@ -58,6 +58,11 @@ class UrlAlias
      */
     protected $mode = self::REWRITE;
 
+    /**
+     * @var Site|null
+     * @ORM\ManyToOne(targetEntity="Zicht\Bundle\UrlBundle\Entity\Site")
+     */
+    protected $site;
 
     /**
      * Create a new alias
@@ -65,12 +70,14 @@ class UrlAlias
      * @param string $public_url
      * @param string $internal_url
      * @param int $mode
+     * @param Site|null $site
      */
-    public function __construct($public_url = null, $internal_url = null, $mode = null)
+    public function __construct($public_url = null, $internal_url = null, $mode = null, $site = null)
     {
         $this->setPublicUrl($public_url);
         $this->setInternalUrl($internal_url);
         $this->setMode($mode);
+        $this->setSite($site);
     }
 
     /**
@@ -130,6 +137,22 @@ class UrlAlias
     public function getPublicUrl()
     {
         return $this->public_url;
+    }
+
+    /**
+     * @return Site|null
+     */
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    /**
+     * @param Site|null $site
+     */
+    public function setSite(?Site $site): void
+    {
+        $this->site = $site;
     }
 
     /**

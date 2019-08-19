@@ -2,8 +2,10 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Zicht\Bundle\UrlBundle\Entity\Site;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**
@@ -18,7 +20,7 @@ interface UrlAliasRepositoryInterface
      * @param int $mode
      * @return mixed
      */
-    public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE);
+    public function findOneByPublicUrl($publicUrl, Site $site = null, $mode = UrlAlias::REWRITE);
 
     /**
      * Find one object by internal url
@@ -27,7 +29,7 @@ interface UrlAliasRepositoryInterface
      * @param int $mode
      * @return mixed
      */
-    public function findOneByInternalUrl($internalUrl, $mode = UrlAlias::REWRITE);
+    public function findOneByInternalUrl($internalUrl, Site $site = null, $mode = UrlAlias::REWRITE);
 
     /**
      * Find objects by internal url
@@ -35,5 +37,5 @@ interface UrlAliasRepositoryInterface
      * @param string $internalUrl
      * @return mixed
      */
-    public function findAllByInternalUrl($internalUrl);
+    public function findAllByInternalUrl($internalUrl, Site $site = null);
 }

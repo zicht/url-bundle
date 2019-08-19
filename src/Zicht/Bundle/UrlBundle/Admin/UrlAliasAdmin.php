@@ -32,6 +32,7 @@ class UrlAliasAdmin extends Admin
             ->add('id')
             ->add('public_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
             ->add('internal_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
+            ->add('site')
             ->add(
                 '_action',
                 'actions',
@@ -52,6 +53,7 @@ class UrlAliasAdmin extends Admin
     {
         $filter
             ->add('public_url')
+            ->add('site')
             ->add('internal_url');
     }
 

@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Aliasing;
 use Doctrine\ORM\EntityManager;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
+use Zicht\Bundle\UrlBundle\Entity\Site;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
@@ -109,42 +110,31 @@ class Aliasing
     }
 
     /**
-     * Checks if the passed public url is currently mapped to an internal url
-     *
-     * @param string $publicUrl
-     * @param bool $asObject
-     * @param null|integer $mode
      * @return null|string|UrlAlias
      */
-    public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
+    public function hasInternalAlias(string $publicUrl, Site $site = null, bool $asObject = false, int $mode = UrlAlias::REWRITE)
     {
         $ret = null;
         if (isset($this->batch[$publicUrl])) {
             $alias = $this->batch[$publicUrl];
         } else {
-            $alias = $this->repository->findOneByPublicUrl($publicUrl, $mode);
+            $alias = $this->repository->findOneByPublicUrl($publicUrl, $site, $mode);
         }
         if ($alias) {
             $ret = ($asObject ? $alias : $alias->getInternalUrl());
         }
-
         return $ret;
     }
 
 
     /**
-     * Check if the passed internal URL has a public url alias.
-     *
-     * @param string $internalUrl
-     * @param bool $asObject
-     * @param integer $mode
      * @return null|string|UrlAlias
      */
-    public function hasPublicAlias($internalUrl, $asObject = false, $mode = UrlAlias::REWRITE)
+    public function hasPublicAlias(string $internalUrl, Site $site, bool $asObject = false, int $mode = UrlAlias::REWRITE)
     {
         $ret = null;
 
-        if ($alias = $this->repository->findOneByInternalUrl($internalUrl, $mode)) {
+        if ($alias = $this->repository->findOneByInternalUrl($internalUrl, $site, $mode)) {
             $ret = ($asObject ? $alias : $alias->getPublicUrl());
         }
 
@@ -208,7 +198,8 @@ class Aliasing
         $internalUrl,
         $type,
         $conflictingPublicUrlStrategy = self::STRATEGY_OVERWRITE,
-        $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE
+        $conflictingInternalUrlStrategy = self::STRATEGY_IGNORE,
+        $site
     ) {
         self::validateInternalConflictingStrategy($conflictingInternalUrlStrategy);
         self::validatePublicConflictingStrategy($conflictingPublicUrlStrategy);
@@ -217,7 +208,7 @@ class Aliasing
         /** @var $alias UrlAlias */
 
         // check for INTERNAL alias conflict
-        $alias = $this->hasPublicAlias($internalUrl, true);
+        $alias = $this->hasPublicAlias($internalUrl, $site, true);
         if ($alias) {
             switch ($conflictingInternalUrlStrategy) {
                 case self::STRATEGY_MOVE_PREVIOUS_TO_NEW:
@@ -240,7 +231,7 @@ class Aliasing
         }
 
         // check for PUBLIC alias conflict
-        $alias = $this->hasInternalAlias($publicUrl, true);
+        $alias = $this->hasInternalAlias($publicUrl, $site, true);
         if ($alias) {
             // when this alias is already mapped to the same internalUrl, then there is no conflict,
             // but we do need to make this alias active again
@@ -251,7 +242,7 @@ class Aliasing
                 } else {
                     // it is possible that multiple aliases exist for this internalUrl, if none of them is
                     // UrlAlias::REWRITE, then we must make this $alias rewrite.
-                    $rewriteAlias = $this->hasPublicAlias($internalUrl, true, UrlAlias::REWRITE);
+                    $rewriteAlias = $this->hasPublicAlias($internalUrl, $site, true, UrlAlias::REWRITE);
                     if (null === $rewriteAlias) {
                         // we can reuse an existing alias.  The page will get exactly the url it wants
                         $alias->setMode(UrlAlias::REWRITE);
@@ -263,7 +254,7 @@ class Aliasing
 
             // it is also possible to use one of the pre-existing aliases (that were created using the STRATEGY_SUFFIX)
             if (!$ret) {
-                foreach ($this->getRepository()->findAllByInternalUrl($internalUrl) as $alternate) {
+                foreach ($this->getRepository()->findAllByInternalUrl($internalUrl, $site) as $alternate) {
                     if (UrlAlias::REWRITE !== $alternate->getMode()) {
                         if (preg_match(sprintf('#^%s-[0-9]+$#', preg_quote($publicUrl)), $alternate->getPublicUrl(), $match)) {
                             // we can reuse an existing alias.  The page will get a suffixed version of the url it wants
@@ -292,9 +283,9 @@ class Aliasing
                         $i = 1;
                         do {
                             $publicUrl = $original . '-' . ($i++);
-                        } while ($this->hasInternalAlias($publicUrl));
+                        } while ($this->hasInternalAlias($publicUrl, $site));
 
-                        $alias = new UrlAlias($publicUrl, $internalUrl, $type);
+                        $alias = new UrlAlias($publicUrl, $internalUrl, $type, $site);
                         $this->save($alias);
                         $ret = true;
                         break;
@@ -303,7 +294,7 @@ class Aliasing
                 }
             }
         } else {
-            $alias = new UrlAlias($publicUrl, $internalUrl, $type);
+            $alias = new UrlAlias($publicUrl, $internalUrl, $type, $site);
             $this->save($alias);
             $ret = true;
         }
@@ -345,6 +336,7 @@ class Aliasing
             $newAlias->setPublicUrl($publicUrl);
             $newAlias->setInternalUrl($newPublicUrl);
             $newAlias->setMode($type);
+            $newAlias->setSite($existingAlias->getSite());
 
             $this->save($existingAlias);
             $this->save($newAlias);
@@ -414,7 +406,7 @@ class Aliasing
      * @param string $internalUrl
      * @return void
      */
-    public function removeAlias($internalUrl)
+    public function removeAlias($internalUrl, $site)
     {
         if ($alias = $this->hasPublicAlias($internalUrl, true)) {
             $this->manager->remove($alias);

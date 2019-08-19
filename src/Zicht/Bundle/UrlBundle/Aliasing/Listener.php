@@ -48,6 +48,11 @@ class Listener
         if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
             $response = $e->getResponse();
 
+            if ($response instanceof RedirectResponse && $this->isExcluded($response->getTargetUrl())) {
+                // don't process urls which are marked as excluded.
+                return;
+            }
+
             // only do anything if the response has a Location header
             if (false !== ($location = $response->headers->get('location', false))) {
                 $absolutePrefix = $e->getRequest()->getSchemeAndHttpHost();
@@ -86,7 +91,7 @@ class Listener
                     list(, $relative, $suffix) = $matches;
                 }
 
-                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
+                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative, $e->getRequest()->attributes->get('site')))) {
                     $rewrite = $absolutePrefix . $url . $suffix;
                     $response->headers->set('location', $rewrite);
                 }
@@ -184,7 +189,7 @@ class Listener
             }
 
             /** @var UrlAlias $url */
-            if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
+            if ($url = $this->aliasing->hasInternalAlias($publicUrl, $request->attributes->get('site'), true)) {
                 switch ($url->getMode()) {
                     case UrlAlias::REWRITE:
                         $this->rewriteRequest($event, $url->getInternalUrl());

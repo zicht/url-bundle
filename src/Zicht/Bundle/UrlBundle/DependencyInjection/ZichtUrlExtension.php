@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Zicht\Bundle\UrlBundle\Listener\MultidomainRequestListener;
 
 /**
  * DI Extension for the URL services.
@@ -20,7 +21,7 @@ class ZichtUrlExtension extends Extension
     /**
      * Responds to the twig configuration parameter.
      *
-     * @param array            $configs
+     * @param array $configs
      * @param ContainerBuilder $container
      * @return void
      */
@@ -35,7 +36,6 @@ class ZichtUrlExtension extends Extension
             // deprecation, remove in next major
             trigger_error('unalias_subscriber is no longer used. This has moved to form transformers.', E_USER_DEPRECATED);
         }
-
 
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', [$config['static_ref']]);
@@ -75,6 +75,10 @@ class ZichtUrlExtension extends Extension
 
         if ($container->hasDefinition('zicht_url.validator.contains_url_alias')) {
             $container->getDefinition('zicht_url.validator.contains_url_alias')->replaceArgument(1, $config['strict_public_url']);
+        }
+
+        if (false === $config['multi_site']) {
+            $container->removeDefinition(MultidomainRequestListener::class);
         }
 
         $formResources = $container->getParameter('twig.form.resources');

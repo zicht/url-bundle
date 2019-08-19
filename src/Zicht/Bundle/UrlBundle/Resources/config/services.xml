@@ -14,6 +14,7 @@
         <parameter key="zicht_url.validator.contains_valid_urls.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator</parameter>
         <parameter key="zicht_url.validator.contains_url_alias.class">Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsUrlAliasValidator</parameter>
         <parameter key="zicht_url.listener.strict_public_url.class">Zicht\Bundle\UrlBundle\Listener\StrictPublicUrlListener</parameter>
+        <parameter key="zicht_url.listener.multi_domain.class">Zicht\Bundle\UrlBundle\Listener\MultidomainRequestListener</parameter>
     </parameters>
 
     <services>
@@ -56,5 +57,12 @@
             <argument/> <!-- strict bool  added by config -->
             <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>
+
+        <service class="%zicht_url.listener.multi_domain.class%">
+            <!-- before zicht url alias listener, which has prio 100 -->
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="101"/>
+            <argument type="service" id="doctrine"/>
+        </service>
+
     </services>
 </container>

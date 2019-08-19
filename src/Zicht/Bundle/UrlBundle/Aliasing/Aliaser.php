@@ -112,7 +112,8 @@ class Aliaser
                     $internalUrl,
                     UrlAlias::REWRITE,
                     $this->conflictingPublicUrlStrategy,
-                    $this->conflictingInternalUrlStrategy
+                    $this->conflictingInternalUrlStrategy,
+                    $record->getSite()
                 );
             }
         }
@@ -153,7 +154,7 @@ class Aliaser
             // delay removal until flushed
             $this->scheduledRemoveAlias [] = $this->provider->url($record);
         } else {
-            $this->aliasing->removeAlias($this->provider->url($record));
+            $this->aliasing->removeAlias($this->provider->url($record), $record->getSite());
         }
     }
 

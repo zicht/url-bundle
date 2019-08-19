@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Listener;
 
 use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
@@ -36,9 +37,11 @@ class StrictPublicUrlListener
 
         /** @var \Doctrine\ORM\Mapping\ClassMetadata $classMetadata */
         $classMetadata = $args->getClassMetadata();
-
         if (UrlAlias::class === $classMetadata->getName()) {
-            $classMetadata->fieldMappings['public_url']['unique'] = true;
+            $classMetadata->table['uniqueConstraints'] = array_merge(
+                $classMetadata->table['uniqueConstraints'] ?? [],
+                ['strict_public_url' => ['columns' => ['public_url', 'site_id']]]
+            );
         }
     }
 }

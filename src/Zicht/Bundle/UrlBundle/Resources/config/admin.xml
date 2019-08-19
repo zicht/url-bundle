@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="zicht_url.admin.crud_controller">ZichtAdminBundle:CRUD</parameter>
         <parameter key="zicht_url.admin.url_alias.class">Zicht\Bundle\UrlBundle\Admin\UrlAliasAdmin</parameter>
+        <parameter key="zicht_url.admin.site_alias.class">Zicht\Bundle\UrlBundle\Admin\SiteAdmin</parameter>
     </parameters>
 
     <services>
@@ -14,6 +15,16 @@
             <tag name="sonata.admin" manager_type="orm" group="URL's" label="Aliases" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\UrlAlias</argument>
+            <argument>%zicht_url.admin.crud_controller%</argument>
+            <call method="setTranslationDomain">
+                <argument>admin</argument>
+            </call>
+        </service>
+
+        <service class="%zicht_url.admin.site_alias.class%" id="Zicht\Bundle\UrlBundle\Admin\SiteAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Site" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <argument/>
+            <argument>Zicht\Bundle\UrlBundle\Entity\Site</argument>
             <argument>%zicht_url.admin.crud_controller%</argument>
             <call method="setTranslationDomain">
                 <argument>admin</argument>
