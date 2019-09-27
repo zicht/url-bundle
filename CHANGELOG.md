@@ -5,9 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-
 ### Added|Changed|Deprecated|Removed|Fixed|Security
-Nothing so far
+- Added _mode_ column and filter to the URL Alias admin
 
 ## 4.0.9 - 2019-08-13
 ### Fixed
