@@ -5,11 +5,11 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
+use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Type\UrlType;
 
@@ -32,6 +32,7 @@ class UrlAliasAdmin extends Admin
             ->add('id')
             ->add('public_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
             ->add('internal_url', 'string', ['template' => 'ZichtAdminBundle:CRUD:list_url.html.twig'])
+            ->add('mode', null, ['template' => 'ZichtUrlBundle:CRUD:list_mode.html.twig'])
             ->add(
                 '_action',
                 'actions',
@@ -50,9 +51,19 @@ class UrlAliasAdmin extends Admin
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
+        $modeChoiceOptions = [
+            'choice_translation_domain' => 'admin',
+            'choices' => [
+                'admin.alias_overview.mode_' . UrlAlias::ALIAS => UrlAlias::ALIAS,
+                'admin.alias_overview.mode_' . UrlAlias::MOVE => UrlAlias::MOVE,
+                'admin.alias_overview.mode_' . UrlAlias::REWRITE => UrlAlias::REWRITE,
+            ],
+        ];
+
         $filter
             ->add('public_url')
-            ->add('internal_url');
+            ->add('internal_url')
+            ->add('mode', null, [], 'choice', $modeChoiceOptions);
     }
 
     /**
