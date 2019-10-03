@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added|Changed|Deprecated|Removed|Fixed|Security
+Nothing so far
+
+## 4.1.0 - 2019-10-03
 - Added _mode_ column and filter to the URL Alias admin
 
 ## 4.0.9 - 2019-08-13
