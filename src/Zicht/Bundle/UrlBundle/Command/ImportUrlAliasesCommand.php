@@ -5,7 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
-class ImportUrlAliasesCommand extends ContainerAwareCommand
+class ImportUrlAliasesCommand extends Command
 {
     /**
      * Defines the possible input values for the command and their associated (i.e. mapped) behavior
@@ -45,13 +45,23 @@ class ImportUrlAliasesCommand extends ContainerAwareCommand
         'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
     ];
 
+    protected static $defaultName = 'zicht:url:import-aliases';
+
+    /** @var Aliasing */
+    private $aliasing;
+
+    public function __construct(Aliasing $aliasing, string $name = null)
+    {
+        parent::__construct($name);
+        $this->aliasing = $aliasing;
+    }
+
     /**
      * {@inheritDoc}
      */
     protected function configure()
     {
         $this
-            ->setName('zicht:url:import-aliases')
             ->setDescription('Import multiple url aliases from a source file')
             ->setHelp(
                 'This command can parse csv files that follow the following syntax:
@@ -122,7 +132,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
         $csvDelimiter = $input->getOption('csv-delimiter');
         $csvEnclosure = $input->getOption('csv-enclosure');
 
-        $aliasingService = $this->getContainer()->get('zicht_url.aliasing');
+        $aliasingService = $this->aliasing;
         $flush = $aliasingService->setIsBatch(true);
 
         $handle = fopen($input->getArgument('file'), 'r');

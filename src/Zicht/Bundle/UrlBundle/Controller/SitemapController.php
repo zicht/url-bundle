@@ -25,7 +25,7 @@ class SitemapController extends Controller
         $urls = $this->get('zicht_url.sitemap_provider')->all($this->get('security.authorization_checker'));
 
         return new Response(
-            $this->renderView('ZichtUrlBundle:Sitemap:sitemap.xml.twig', ['urls' => $urls]),
+            $this->renderView('@ZichtUrl/Sitemap/sitemap.xml.twig', ['urls' => $urls]),
             200,
             [
                 'content-type' => 'text/xml'

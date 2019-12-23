@@ -17,7 +17,7 @@
     </parameters>
 
     <services>
-        <service id="zicht_url.provider.delegator" class="%zicht_url.url_provider.class%" />
+        <service id="zicht_url.provider.delegator" class="%zicht_url.url_provider.class%" public="true" />
         <service id="zicht_url.request_aware_provider" class="%zicht_url.request_aware_provider.class%">
             <argument type="service" id="request_stack" />
             <call method="addProvider">
@@ -56,5 +56,12 @@
             <argument/> <!-- strict bool  added by config -->
             <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>
+
+        <!-- commands -->
+        <service id="Zicht\Bundle\UrlBundle\Command\ImportUrlAliasesCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="zicht_url.aliasing"/>
+        </service>
+
     </services>
 </container>
