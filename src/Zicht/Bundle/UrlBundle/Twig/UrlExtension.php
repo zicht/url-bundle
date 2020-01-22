@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Twig;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 
 /**
@@ -70,12 +71,14 @@ class UrlExtension extends \Twig_Extension
      *
      * @param object $object
      * @param mixed $defaultIfNotFound
+     * @param array $routerParams
+     * @param bool $referenceType
      * @return string
      */
-    public function objectUrl($object, $defaultIfNotFound = null)
+    public function objectUrl($object, $defaultIfNotFound = null, array $routerParams = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         try {
-            $ret = $this->provider->url($object);
+            $ret = $this->provider->url($object, $routerParams, $referenceType);
         } catch (UnsupportedException $e) {
             if (null === $defaultIfNotFound) {
                 throw $e;
