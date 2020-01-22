@@ -163,6 +163,11 @@ Nothing so far
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
+## 2.20.0
+
+- Allows absolute urls to be generated natively through the symfony routing component, added support via the url providers and the
+  twig `object_url`  method.
+
 ## 2.19.2
 - remove itertools reference
 - fixed url aliases for uri with utf8 characters
