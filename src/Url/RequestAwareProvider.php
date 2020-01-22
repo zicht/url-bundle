@@ -5,7 +5,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * This provider is "request aware", so it can either render absolute URL's
@@ -32,9 +34,9 @@ class RequestAwareProvider extends DelegatingProvider
         $this->baseUrlLen = strlen($this->baseUrl);
     }
 
-    public function url($object, array $options = [])
+    public function url($object, array $options = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
-        $ret = parent::url($object, $options);
+        $ret = parent::url($object, $options, $referenceType);
 
         if ($this->baseUrlLen && substr($ret, 0, $this->baseUrlLen) === $this->baseUrl) {
             $ret = substr($ret, $this->baseUrlLen);

@@ -5,6 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Twig;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -78,12 +79,13 @@ class UrlExtension extends AbstractExtension
      *
      * @param object $object
      * @param mixed $defaultIfNotFound
+     * @param array $routerParams
      * @return string
      */
-    public function objectUrl($object, $defaultIfNotFound = null)
+    public function objectUrl($object, $defaultIfNotFound = null, array $routerParams = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         try {
-            $ret = $this->provider->url($object);
+            $ret = $this->provider->url($object, $routerParams, $referenceType);
         } catch (UnsupportedException $e) {
             if (null === $defaultIfNotFound) {
                 throw $e;

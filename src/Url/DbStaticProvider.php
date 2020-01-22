@@ -8,6 +8,8 @@ namespace Zicht\Bundle\UrlBundle\Url;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
@@ -63,7 +65,7 @@ class DbStaticProvider implements Provider
         return is_string($object) && isset($this->refs[$object][$this->getLocale()]);
     }
 
-    public function url($object, array $options = [])
+    public function url($object, array $options = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $this->checkRefsAreLoaded();
 
