@@ -18,20 +18,27 @@
 
     <services>
         <service id="zicht_url.provider.delegator" class="%zicht_url.url_provider.class%" public="true" />
+        <service id="Zicht\Bundle\UrlBundle\Url\DelegatingProvider" alias="zicht_url.provider.delegator"/>
+
         <service id="zicht_url.request_aware_provider" class="%zicht_url.request_aware_provider.class%">
             <argument type="service" id="request_stack" />
             <call method="addProvider">
                 <argument type="service" id="zicht_url.provider.delegator"/>
             </call>
         </service>
-        <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
-            <tag name="twig.extension"/>
-            <argument type="service" id="zicht_url.provider" />
-        </service>
+        <service id="Zicht\Bundle\UrlBundle\Url\RequestAwareProvider" alias="zicht_url.request_aware_provider"/>
+
         <service id="zicht_url.static_refs" class="%zicht_url.static_refs.class%">
             <argument type="service" id="router" />
             <tag name="zicht_url.url_provider" priority="-10" />
         </service>
+        <service id="Zicht\Bundle\UrlBundle\Url\StaticProvider" alias="zicht_url.static_refs"/>
+
+        <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
+            <tag name="twig.extension"/>
+            <argument type="service" id="zicht_url.provider" />
+        </service>
+
         <service id="zicht_url.type" class="%zicht_url.type.class%">
             <argument type="service" id="zicht_url.aliasing" />
             <tag name="form.type" alias="zicht_url" />
@@ -40,6 +47,7 @@
         <service id="zicht_url.service.url_validator" class="%zicht_url.service.url_validator.class%" >
             <tag name="zicht_url.url_validator" />
         </service>
+        <service id="Zicht\Bundle\UrlBundle\Service\UrlValidator" alias="zicht_url.service.url_validator"/>
 
         <service id="zicht_url.validator.contains_valid_urls" class="%zicht_url.validator.contains_valid_urls.class%">
             <argument type="service" id="zicht_url.service.url_validator" />
