@@ -26,8 +26,15 @@ class TinymceTypeExtension extends AbstractTypeExtension
         $this->aliasing = $aliasing;
     }
 
+    /** {@inheritDoc} */
+    public function getExtendedTypes()
+    {
+        return [TinymceType::class];
+    }
+
     /**
      * {@inheritDoc}
+     * @deprecated since Symfony 4.2, use getExtendedTypes() instead.
      */
     public function getExtendedType()
     {
