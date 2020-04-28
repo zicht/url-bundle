@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.1.1 - 2020-04-28
+### Changed
+- Made TinymceTypeExtension getExtensionType return the actual type class instead of its own class name
+- Removed deprecated alias attribute of the form.type_extension tag of the TinymceTypeExtension service definition
+
 ## 4.1.0 - 2019-10-03
 - Added _mode_ column and filter to the URL Alias admin
 

@@ -28,7 +28,7 @@
         </service>
         <service id="zicht_url.tinymce_type_extension" class="Zicht\Bundle\UrlBundle\Form\Extension\TinymceTypeExtension">
             <argument type="service" id="zicht_url.aliasing" />
-            <tag name="form.type_extension" extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType" alias="tinymce" />
+            <tag name="form.type_extension" extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType" />
         </service>
 
         <service id="zicht_url.alias_sitemap_provider" class="Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider">

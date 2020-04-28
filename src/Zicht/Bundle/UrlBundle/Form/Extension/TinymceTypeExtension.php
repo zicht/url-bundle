@@ -7,6 +7,7 @@ namespace Zicht\Bundle\UrlBundle\Form\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Zicht\Bundle\AdminBundle\Form\TinymceType;
 use Zicht\Bundle\UrlBundle\Form\DataTransformer\HtmlTransformer;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
@@ -26,13 +27,11 @@ class TinymceTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * Returns the name of the type being extended.
-     *
-     * @return string The name of the type being extended
+     * {@inheritDoc}
      */
     public function getExtendedType()
     {
-       return TinymceTypeExtension::class;
+       return TinymceType::class;
     }
 
     /**
