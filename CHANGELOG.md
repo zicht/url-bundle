@@ -10,6 +10,7 @@ Nothing so far
 
 ## 4.1.1 - 2020-04-28
 ### Changed
+- Use FQCN for form types
 - Made TinymceTypeExtension getExtensionType return the actual type class instead of its own class name
 - Removed deprecated alias attribute of the form.type_extension tag of the TinymceTypeExtension service definition
 

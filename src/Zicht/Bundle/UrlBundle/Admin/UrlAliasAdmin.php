@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Type\UrlType;
 
@@ -63,7 +64,7 @@ class UrlAliasAdmin extends Admin
         $filter
             ->add('public_url')
             ->add('internal_url')
-            ->add('mode', null, [], 'choice', $modeChoiceOptions);
+            ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
     }
 
     /**
@@ -75,15 +76,13 @@ class UrlAliasAdmin extends Admin
             ->add('internal_url', UrlType::class, ['no_transform_public' => true])
             ->add(
                 'mode',
-                'choice',
+                ChoiceType::class,
                 [
-                    'choices' => array_flip(
-                        [
-                        UrlAlias::ALIAS   => 'alias (302 redirect)',
-                        UrlAlias::MOVE    => 'move (301 redirect)',
-                        UrlAlias::REWRITE => 'rewrite',
-                        ]
-                    )
+                    'choices' => [
+                        'Alias (302 redirect)' => UrlAlias::ALIAS,
+                        'Move (301 redirect)' => UrlAlias::MOVE,
+                        'Rewrite' => UrlAlias::REWRITE,
+                    ],
                 ]
             );
     }
