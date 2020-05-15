@@ -25,14 +25,14 @@
     "autoload": {
         "psr-4": {
             "Zicht\\Bundle\\UrlBundle\\": [
-                "src/Zicht/Bundle/UrlBundle/"
+                "src/"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
             "ZichtTest\\Bundle\\UrlBundle\\": [
-                "tests/ZichtTest/Bundle/UrlBundle/"
+                "tests/"
             ]
         }
     },
