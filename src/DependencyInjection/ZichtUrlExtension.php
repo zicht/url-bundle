@@ -42,9 +42,9 @@ class ZichtUrlExtension extends Extension
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $this->loadAliasingConfig($container, $config['aliasing'], $loader);
-            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.alias_sitemap_provider'));
+            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.alias_sitemap_provider'))->setPublic(true);
         } else {
-            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.provider'));
+            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.provider'))->setPublic(true);
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');
@@ -78,7 +78,7 @@ class ZichtUrlExtension extends Extension
         }
 
         $formResources = $container->getParameter('twig.form.resources');
-        $formResources[] = 'ZichtUrlBundle::form_theme.html.twig';
+        $formResources[] = '@ZichtUrl/form_theme.html.twig';
         $container->setParameter('twig.form.resources', $formResources);
     }
 

@@ -5,12 +5,15 @@
 
 namespace Zicht\Bundle\UrlBundle\Twig;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 
 /**
  * Provides some twig utilities.
  */
-class UrlExtension extends \Twig_Extension
+class UrlExtension extends AbstractExtension
 {
     protected $provider;
     protected $aliasing;
@@ -34,7 +37,7 @@ class UrlExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('internal_to_public_aliasing', [$this, 'internalToPublicAliasing']),
+            new TwigFilter('internal_to_public_aliasing', [$this, 'internalToPublicAliasing']),
         ];
     }
 
@@ -57,9 +60,9 @@ class UrlExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'object_url'       => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
-            'static_ref'       => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
-            'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
+            'object_url' => new TwigFunction('object_url', [$this, 'objectUrl']),
+            'static_ref' => new TwigFunction('static_ref', [$this, 'staticRef']),
+            'static_reference' => new TwigFunction('static_reference', [$this, 'staticRef'])
         ];
     }
 
@@ -93,7 +96,7 @@ class UrlExtension extends \Twig_Extension
      * Returns a static reference, i.e. an url that is provided based on a simple string.
      *
      * @param string $name
-     * @param array  $params
+     * @param array $params
      *
      * @return string
      */
@@ -115,6 +118,7 @@ class UrlExtension extends \Twig_Extension
 
         return $ret;
     }
+
     private $static_refs = [];
 
 

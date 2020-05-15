@@ -14,6 +14,7 @@
             <argument type="service" id="zicht_url.aliasing.entity_manager" />
             <argument type="service" id="zicht_url.mapper.xml" />
         </service>
+        <service id="Zicht\Bundle\UrlBundle\Aliasing\Aliasing" alias="zicht_url.aliasing" />
         <service id="zicht_url.aliasing.entity_manager"
                  class="%zicht_url.aliasing.entity_manager.class%">
             <factory service="doctrine"

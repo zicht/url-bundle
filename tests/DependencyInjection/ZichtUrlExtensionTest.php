@@ -13,10 +13,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ZichtUrlExtensionTest extends TestCase
 {
+    private $extension, $cbs;
+
     public function testFormTwigResourcesGetRegistered()
     {
         $this->extension->load([], $this->cb);
-        $this->assertContains('ZichtUrlBundle::form_theme.html.twig', $this->params->get('twig.form.resources'));
+        $this->assertContains('@ZichtUrl/form_theme.html.twig', $this->params->get('twig.form.resources'));
     }
 
     /**
@@ -25,7 +27,8 @@ class ZichtUrlExtensionTest extends TestCase
     public function testConditionalServices($config, $expectedServices)
     {
         $this->extension->load([$config], $this->cb);
-        $this->assertContains('ZichtUrlBundle::form_theme.html.twig', $this->params->get('twig.form.resources'));
+
+        $this->assertContains('@ZichtUrl/form_theme.html.twig', $this->params->get('twig.form.resources'));
 
         foreach ($expectedServices as $id => $exists) {
             $this->assertEquals($exists, $this->cb->hasDefinition($id));
