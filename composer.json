@@ -24,13 +24,17 @@
         "zicht/standards-php": "^3.3"
     },
     "autoload": {
-        "psr-0": {
-            "": ["src/"]
+        "psr-4": {
+            "Zicht\\Bundle\\UrlBundle\\": [
+                "src/Zicht/Bundle/UrlBundle/"
+            ]
         }
     },
     "autoload-dev": {
-        "psr-0": {
-            "": ["tests/"]
+        "psr-4": {
+            "ZichtTest\\Bundle\\UrlBundle\\": [
+                "tests/ZichtTest/Bundle/UrlBundle/"
+            ]
         }
     },
     "minimum-stability": "stable",
