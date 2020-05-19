@@ -5,7 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -18,7 +18,7 @@ use Zicht\Bundle\UrlBundle\Type\UrlType;
  * Admin for URL aliases
  *
  */
-class UrlAliasAdmin extends Admin
+class UrlAliasAdmin extends AbstractAdmin
 {
     protected $datagridValues = [
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')

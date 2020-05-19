@@ -33,6 +33,7 @@
             <argument>%zicht_url.admin.crud_controller%</argument>
             <call method="addChild">
                 <argument type="service" id="zicht_url.admin.static_reference_translation" />
+                <argument>translations</argument>
             </call>
             <call method="setTranslationDomain">
                 <argument>admin</argument>

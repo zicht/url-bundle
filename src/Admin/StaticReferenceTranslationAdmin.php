@@ -5,19 +5,17 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 /**
  * Admin implementation for static reference translations
  *
  */
-class StaticReferenceTranslationAdmin extends Admin
+class StaticReferenceTranslationAdmin extends AbstractAdmin
 {
-    protected $parentAssociationMapping = 'static_reference';
-
     /**
      * {@inheritdoc}
      */
