@@ -101,6 +101,7 @@ class ZichtUrlExtension extends Extension
         }
 
         $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
+        $listenerDefinition->addMethodCall('setSlashSuffixHandling', array($aliasingConfig['slash_suffix_handling']));
 
         if ($aliasingConfig['automatic_entities']) {
             $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');
