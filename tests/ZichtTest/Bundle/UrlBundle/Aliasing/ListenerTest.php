@@ -64,9 +64,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $req->expects($this->any())->method('getRequestUri')->will($this->returnValue($publicUrl));
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock();
 
-        $this->aliasing->expects($this->once())->method('hasInternalAlias')->with($publicUrl)->will($this->returnValue(
-            new UrlAlias('/foo', '/bar', 0)
-        ));
+        $this->aliasing->expects($this->once())->method('getInternalAliases')->with([$publicUrl])->willReturn([$publicUrl => new UrlAlias('/foo', '/bar', 0)]);
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
         $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue($req));
         $event->expects($this->any())->method('getKernel')->will($this->returnValue($kernel));
@@ -93,9 +91,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $event->expects($this->any())->method('getRequest')->will($this->returnValue($req));
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
         $event->expects($this->any())->method('getKernel')->will($this->returnValue($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock()));
-        $this->aliasing->expects($this->any())->method('hasInternalAlias')->with('/foo')->will($this->returnValue(
-            new UrlAlias('/foo', '/bar', 0)
-        ));
+        $this->aliasing->expects($this->any())->method('getInternalAliases')->with(['/foo'])->willReturn(['/foo' => new UrlAlias('/foo', '/bar', 0)]);
         try {
             $this->listener->onKernelRequest($event);
         } catch(\Exception $e) {
@@ -118,7 +114,7 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock();
         $event->expects($this->any())->method('getKernel')->will($this->returnValue($kernel));
 
-        $this->aliasing->expects($this->any())->method('hasInternalAlias')->with('/foo')->will($this->returnValue(false));
+        $this->aliasing->expects($this->any())->method('getInternalAliases')->with(['/foo'])->willReturn([]);
         $this->router->expects($this->once())->method('onKernelRequest');
         $this->listener->onKernelRequest($event);
 //        $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
@@ -140,9 +136,9 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
 
         if ($shouldRoute) {
-            $this->aliasing->expects($this->atLeastOnce())->method('hasInternalAlias');
+            $this->aliasing->expects($this->atLeastOnce())->method('getInternalAliases');
         } else {
-            $this->aliasing->expects($this->never())->method('hasInternalAlias');
+            $this->aliasing->expects($this->never())->method('getInternalAliases');
         }
 
         $this->listener->onKernelRequest($event);
@@ -166,11 +162,12 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
-        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(new \Symfony\Component\HttpFoundation\Request()));
+        $req = $this->getMock('Symfony\Component\HttpFoundation\Request', array('getRequestUri'));
+        $publicUrl = '/foo';
+        $req->expects($this->any())->method('getRequestUri')->will($this->returnValue($publicUrl));
+        $event->expects($this->atLeastOnce())->method('getRequest')->willReturn($req);
         $setResponseValue = null;
-        $this->aliasing->expects($this->once())->method('hasInternalAlias')->will($this->returnValue(
-            new UrlAlias('/foo', '/bar', $statusCode)
-        ));
+        $this->aliasing->expects($this->once())->method('getInternalAliases')->willReturn([$publicUrl => new UrlAlias($publicUrl, '/bar', $statusCode)]);
         if ($expectsException) {
             $e = null;
             try {
@@ -197,21 +194,22 @@ class ListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
         $request = new Request();
-        $uri = '/%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%86%D0%B8%D1%8F-%D1%84%D0%B8%D1%80%D0%BC%D1%8B-%E2%80%9C%D0%9C%D0%BE%D0%BA%D0%B2%D0%B5%D0%BB%D0%B4%E2%80%9D/products';
+        $uriEncoded = '/%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%86%D0%B8%D1%8F-%D1%84%D0%B8%D1%80%D0%BC%D1%8B-%E2%80%9C%D0%9C%D0%BE%D0%BA%D0%B2%D0%B5%D0%BB%D0%B4%E2%80%9D/products';
         $internal = '/ru/products/1';
-        $request->server->set('REQUEST_URI', $uri);
+        $request->server->set('REQUEST_URI', $uriEncoded);
         $this->listener->setIsParamsEnabled(true);
         $event->expects($this->any())->method('getRequest')->will($this->returnValue($request));
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
         $event->expects($this->any())->method('getKernel')->will($this->returnValue($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernel')->disableOriginalConstructor()->getMock()));
-        $this->aliasing->expects($this->any())->method('hasInternalAlias')->willReturnCallback(function($uri) use($internal) {
-            if ($uri === '/Продукция-фирмы-“Моквелд”/products') {
-                return new UrlAlias('/Продукция-фирмы-“Моквелд”/products', $internal, 0);
+        $this->aliasing->expects($this->any())->method('getInternalAliases')->willReturnCallback(function($uri) use($internal) {
+            $uriDecoded = '/Продукция-фирмы-“Моквелд”/products';
+            if ($uri[0] === $uriDecoded) {
+                return [$uriDecoded => new UrlAlias($uriDecoded, $internal, 0)];
             }
             return null;
         });
         $this->listener->onKernelRequest($event);
-        $this->assertSame($uri, $request->server->get('ORIGINAL_REQUEST_URI'));
+        $this->assertSame($uriEncoded, $request->server->get('ORIGINAL_REQUEST_URI'));
         $this->assertSame($internal, $request->server->get('REQUEST_URI'));
     }
 
