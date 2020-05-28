@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added|Changed|Deprecated|Removed|Fixed|Security
-Nothing so far
+- Added slash suffixed URL handling options (ignore, allow, redirect temporary, redirect permanently)
+- Fixed bug #60 (with enable_params enabled, query string would be stripped off and an url alias with query string was not possible)
+- Minor code cleanup in Listener
+- Fixed maintainers
 
 ## 5.2.7 - 2023-03-10
 ### Changed
@@ -163,10 +166,12 @@ Nothing so far
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
-## 2.20.0
+## 2.20.1 - 2020-01-22
+- Also allow PHP ^7
 
+## 2.20.0 - 2020-01-22
 - Allows absolute urls to be generated natively through the symfony routing component, added support via the url providers and the
-  twig `object_url`  method.
+  twig `object_url` method.
 
 ## 2.19.2
 - remove itertools reference

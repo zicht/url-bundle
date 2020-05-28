@@ -76,3 +76,4 @@ There is an event that makes it possible to modify the resultset of the sitemap;
 
 # Maintainers
 * Boudewijn Schoon <boudewijn@zicht.nl>
+* Jochem Klaver <jochem@zicht.nl>
