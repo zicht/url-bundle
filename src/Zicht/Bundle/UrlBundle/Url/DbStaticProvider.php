@@ -8,6 +8,7 @@ namespace Zicht\Bundle\UrlBundle\Url;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
@@ -85,7 +86,7 @@ class DbStaticProvider implements Provider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $this->checkRefsAreLoaded();
 

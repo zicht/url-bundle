@@ -5,6 +5,9 @@
  */
 
 namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
+
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
     class MockSuggestProvider implements \Zicht\Bundle\UrlBundle\Url\Provider, \Zicht\Bundle\UrlBundle\Url\SuggestableProvider
     {
         public function __construct($suggestions)
@@ -13,7 +16,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
         }
 
         public function supports($object) {}
-        public function url($object, array $options = array()) {}
+        public function url($object, array $options = array(), $referenceType = false) {}
 
         public function suggest($pattern) {
             $this->pattern = $pattern;

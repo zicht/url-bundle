@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -59,7 +60,7 @@ class StaticProvider implements Provider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->router->getContext()->getBaseUrl() . '/' . ltrim($this->refs[$object], '/');
     }

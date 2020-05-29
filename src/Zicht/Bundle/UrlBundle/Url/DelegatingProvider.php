@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
 use Zicht\Bundle\FrameworkExtraBundle\Util\SortedList;
@@ -56,14 +57,13 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     /**
      * {@inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         foreach ($this->providers as $provider) {
             if ($provider->supports($object)) {
-                return $provider->url($object, $options);
+                return $provider->url($object, $options, $referenceType);
             }
         }
-
 
         $objectType = is_object($object)
             ? get_class($object)

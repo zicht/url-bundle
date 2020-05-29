@@ -4,6 +4,9 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
+
+    use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
     class MockProvider implements \Zicht\Bundle\UrlBundle\Url\Provider
     {
         public function __construct($mappings)
@@ -12,7 +15,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
         }
 
         public function supports($object) { return true; }
-        public function url($object, array $options = array()) { return $this->suggestions[$object]; }
+        public function url($object, array $options = array(), $referenceType = false) { return $this->suggestions[$object]; }
     }
 }
 

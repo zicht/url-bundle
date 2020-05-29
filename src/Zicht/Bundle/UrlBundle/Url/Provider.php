@@ -6,6 +6,8 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 /**
  * Interface for services that can provide URL's for specific objects
  */
@@ -26,7 +28,8 @@ interface Provider
      *
      * @param mixed $object
      * @param array $options
+     * @param bool $referenceType
      * @return mixed
      */
-    public function url($object, array $options = array());
+    public function url($object, array $options = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH);
 }

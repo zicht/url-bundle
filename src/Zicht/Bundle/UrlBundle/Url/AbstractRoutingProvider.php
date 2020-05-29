@@ -6,6 +6,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Url;
 
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -32,12 +33,13 @@ abstract class AbstractRoutingProvider implements Provider
     /**
      * @{inheritDoc}
      */
-    public function url($object, array $options = array())
+    public function url($object, array $options = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         list($name, $params) = $this->routing($object, $options);
         return $this->router->generate(
             $name,
-            $params
+            $params,
+            $referenceType
         );
     }
     
