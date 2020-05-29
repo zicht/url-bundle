@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed bug #60 (with enable_params enabled, query string would be stripped off and an url alias with query string was not possible)
 - Minor code cleanup in Listener
 - Fixed maintainers
+- Also allow PHP ^7
+- Allows absolute urls to be generated natively through the symfony routing component, added support via the url providers and the
+  twig `object_url` method.
 
 ## 5.2.7 - 2023-03-10
 ### Changed
