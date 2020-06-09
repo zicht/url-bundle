@@ -1,15 +1,17 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
+
 namespace ZichtTest\Bundle\UrlBundle\Url;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ZichtUrlBundleTest extends \PHPUnit_Framework_TestCase
 {
     public function testCompilerPasses()
     {
-        $cb = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
+        $cb = $this->getMock(ContainerBuilder::class, ['addCompilerPass']);
 
         $cb->expects($this->at(0))->method('addCompilerPass');
         $cb->expects($this->at(1))->method('addCompilerPass');
