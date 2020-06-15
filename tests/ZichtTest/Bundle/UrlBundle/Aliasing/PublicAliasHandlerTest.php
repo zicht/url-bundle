@@ -5,14 +5,24 @@
 
 namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Aliasing\PublicAliasHandler;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 class PublicAliasHandlerTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var array<array<string|int>> */
+    private static $urlAliasData = [
+        ['/foo', '/bar', UrlAlias::REWRITE],
+        ['/foo/', '/baz', UrlAlias::REWRITE],
+        ['/foo-temp', '/bar-temp', UrlAlias::ALIAS],
+        ['/foo-id-1', '/bar?id=1', UrlAlias::REWRITE],
+        ['/foo?id=2', '/foo-id-2', UrlAlias::MOVE],
+    ];
+
+    /** @var array<string, UrlAlias> Will be populated in {@see PublicAliasHandler::setUp()} with data from {@see PublicAliasHandler::$urlAliasData} */
+    private static $urlAliases = [];
+
     /** @var Aliasing|\PHPUnit_Framework_MockObject_MockObject */
     private $aliasing;
 
@@ -23,24 +33,89 @@ class PublicAliasHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->aliasing = $this->getMockBuilder(Aliasing::class)->disableOriginalConstructor()->getMock();
         $this->publicAliasHandler = new PublicAliasHandler($this->aliasing);
+        // Turn off everything by default
+        $this->publicAliasHandler->setIsParamsEnabled(false);
+        $this->publicAliasHandler->setSlashSuffixHandling(PublicAliasHandler::SLASH_SUFFIX_ABSTAIN);
+        $this->publicAliasHandler->setExcludePatterns([]);
+
+        $this->initUrlAliases();
     }
 
-    /*
-     * Tests:
-     * Aliasing::getInternalAliases() returns list of aliases
-     *   $this->aliasing->expects($this->once())->method('getInternalAliases')->with([$publicUrl])->willReturn([$publicUrl => new UrlAlias('/foo', '/bar', 0)]);
-     * - /foo results in /bar
-     * - /foo?id=1 results in /bar?id=1
+    /**
+     * @dataProvider provideSimpleRewritesAndRedirects
      */
-
-    public function testSimpleRewrites()
+    public function testSimpleRewritesAndRedirects($publicUrl, $expectedAlias)
     {
-        $this->aliasing->expects($this->once())->method('getInternalAliases')->willReturnCallback(function (array $publicUrls) {
-            var_dump($publicUrls);
-        });
-
-        $this->publicAliasHandler->handlePublicUrl('/test');
+        $this->aliasing->expects($this->once())->method('getInternalAliases')->willReturnCallback([$this, 'getInternalAliases']);
+        $actualAlias = $this->publicAliasHandler->handlePublicUrl($publicUrl);
+        $this->assertSameUrlAlias($expectedAlias, $actualAlias);
     }
+
+    /**
+     * @return array<array<string|UrlAlias>>
+     */
+    public function provideSimpleRewritesAndRedirects()
+    {
+        $this->initUrlAliases();
+        return [
+            ['/foo', self::$urlAliases['/foo']],
+            ['/foo-temp', self::$urlAliases['/foo-temp']],
+            ['/foo-id-1', self::$urlAliases['/foo-id-1']],
+            ['/foo?id=2', self::$urlAliases['/foo?id=2']],
+            ['/foo?id=non-existing', self::$urlAliases['/foo']],
+            ['/foo-temp?some_query=string', self::$urlAliases['/foo-temp']],
+        ];
+    }
+
+    public function testUrlWhichHasNoAliasWillGiveNoResults()
+    {
+        $this->aliasing->expects($this->once())->method('getInternalAliases')->willReturnCallback([$this, 'getInternalAliases']);
+        $void = $this->publicAliasHandler->handlePublicUrl('/url-which-has-no-alias-provided');
+        $this->assertNull($void);
+    }
+
+    /**
+     * @dataProvider provideSimpleRewritesAndRedirects
+     */
+    public function testRewritesAndRedirectsWithParamsEnabled($publicUrl)
+    {
+        $this->publicAliasHandler->setIsParamsEnabled(true);
+        $this->aliasing->expects($this->once())->method('getInternalAliases')->willReturnCallback([$this, 'getInternalAliases']);
+        $actualAlias = $this->publicAliasHandler->handlePublicUrl($publicUrl);
+        $this->assertSameUrlAlias($expectedAlias, $actualAlias);
+    }
+
+    private function initUrlAliases()
+    {
+        if (count(self::$urlAliases) === 0) {
+            self::$urlAliases = array_combine(
+                array_map(function (array $data) { return $data[0]; }, self::$urlAliasData),
+                array_map(function (array $data) { return new UrlAlias($data[0], $data[1], $data[2]); }, self::$urlAliasData)
+            );
+        }
+    }
+
+    /**
+     * @param string[] $publicUrls
+     * @return UrlAlias[]
+     */
+    public function getInternalAliases($publicUrls)
+    {
+        return array_intersect_key(self::$urlAliases, array_flip($publicUrls));
+    }
+
+    /**
+     * @param UrlAlias $expectedAlias
+     * @param UrlAlias $actualAlias
+     */
+    private function assertSameUrlAlias(UrlAlias $expectedAlias, UrlAlias $actualAlias)
+    {
+        $this->assertInstanceOf(UrlAlias::class, $actualAlias);
+        $this->assertSame($expectedAlias->getPublicUrl(), $actualAlias->getPublicUrl());
+        $this->assertSame($expectedAlias->getInternalUrl(), $actualAlias->getInternalUrl());
+        $this->assertSame($expectedAlias->getMode(), $actualAlias->getMode());
+    }
+
 //    public function testRequestIsRoutedWithInternalUrl()
 //    {
 //        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')

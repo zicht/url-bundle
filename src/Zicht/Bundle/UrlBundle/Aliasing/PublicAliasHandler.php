@@ -90,11 +90,11 @@ class PublicAliasHandler
             return;
         }
 
-        $queryString = '';
         $originalUrl = $publicUrl;
+        $queryString = $originalQueryString = '';
         if (false !== ($queryMarkPos = strpos($publicUrl, '?'))) {
             $publicUrl = substr($originalUrl, 0, $queryMarkPos);
-            $queryString = substr($originalUrl, $queryMarkPos);
+            $queryString = $originalQueryString = substr($originalUrl, $queryMarkPos);
         }
 
         if ($this->isParamsEnabled) {
