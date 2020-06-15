@@ -132,6 +132,33 @@ class Aliasing
         return $ret;
     }
 
+    /**
+     * @param string[] $publicUrls
+     * @param int|null $mode
+     * @return UrlAlias[]
+     */
+    public function getInternalAliases($publicUrls, $mode = null)
+    {
+        if (null !== $mode && !is_int($mode)) {
+            throw new \UnexpectedValueException(sprintf('Mode argument is expected to be an integer or null, %s given', gettype($mode)));
+        }
+        if (!is_iterable($publicUrls)) {
+            throw new \UnexpectedValueException(sprintf('Public URLs argument is expected to be an array of strings, %s given', gettype($publicUrls)));
+        }
+
+        if (count($publicUrls) === 0) {
+            return [];
+        }
+
+        $qb = $this->repository->createQueryBuilder('u');
+        $qb->where($qb->expr()->in('u.public_url', $publicUrls));
+        if (null !== $mode) {
+            $qb->andWhere($qb->expr()->eq('u.mode', (int)$mode));
+        }
+        $qb->indexBy('u', 'u.public_url');
+
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * Check if the passed internal URL has a public url alias.

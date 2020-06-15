@@ -21,10 +21,25 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class Listener
 {
+    const SLASH_SUFFIX_ABSTAIN = 'abstain';
+    const SLASH_SUFFIX_ACCEPT = 'accept';
+    const SLASH_SUFFIX_REDIRECT_PERM = 'redirect-301';
+    const SLASH_SUFFIX_REDIRECT_TEMP = 'redirect-302';
+
+    /** @var Aliasing */
     protected $aliasing;
 
+    /** @var RouterListener */
+    protected $router;
+
+    /** @var string[] */
     protected $excludePatterns = array();
+
+    /** @var bool */
     protected $isParamsEnabled = false;
+
+    /** @var string|null */
+    protected $slashSuffixHandling = self::SLASH_SUFFIX_ABSTAIN;
 
     /**
      * Construct the aliasing listener.
@@ -120,6 +135,14 @@ class Listener
     }
 
     /**
+     * @param string $slashSuffixHandling
+     */
+    public function setSlashSuffixHandling($slashSuffixHandling)
+    {
+        $this->slashSuffixHandling = $slashSuffixHandling;
+    }
+
+    /**
      * Returns true if the URL matches any of the exclude patterns
      *
      * @param string $url
@@ -127,16 +150,14 @@ class Listener
      */
     protected function isExcluded($url)
     {
-        $ret = false;
         foreach ($this->excludePatterns as $pattern) {
             if (preg_match($pattern, $url)) {
-                $ret = true;
-                break;
+                return true;
             }
         }
-        return $ret;
-    }
 
+        return false;
+    }
 
     /**
      * Listens to master requests and translates the URL to an internal url, if there is an alias available
@@ -147,75 +168,97 @@ class Listener
      */
     public function onKernelRequest(Event\GetResponseEvent $event)
     {
-        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
-            $request = $event->getRequest();
-            $publicUrl = rawurldecode($request->getRequestUri());
+        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+            return;
+        }
 
-            if ($this->isExcluded($publicUrl)) {
-                // don't process urls which are marked as excluded.
-                return;
+        $request = $event->getRequest();
+        $publicUrl = rawurldecode($request->getRequestUri());
+
+        if ($this->isExcluded($publicUrl)) {
+            // don't process urls which are marked as excluded.
+            return;
+        }
+
+        $queryString = '';
+        if (false !== ($queryMark = strpos($publicUrl, '?'))) {
+            $queryString = substr($publicUrl, $queryMark);
+            $publicUrl = substr($publicUrl, 0, $queryMark);
+        }
+
+        if ($this->isParamsEnabled) {
+            $parts = explode('/', $publicUrl);
+            $params = array();
+            while (false !== strpos(end($parts), '=')) {
+                array_push($params, array_pop($parts));
             }
+            if ($params) {
+                $publicUrl = join('/', $parts);
 
-            if ($this->isParamsEnabled) {
-                if (false !== ($queryMark = strpos($publicUrl, '?'))) {
-                    $originalUrl = $publicUrl;
-                    $publicUrl = substr($originalUrl, 0, $queryMark);
-                    $queryString = substr($originalUrl, $queryMark);
-                } else {
-                    $queryString = null;
-                }
+                $parser = new UriParser();
+                $request->query->add($parser->parseUri(join('/', array_reverse($params))));
 
-                $parts = explode('/', $publicUrl);
-                $params = array();
-                while (false !== strpos(end($parts), '=')) {
-                    array_push($params, array_pop($parts));
-                }
-                if ($params) {
-                    $publicUrl = join('/', $parts);
-
-                    $parser = new UriParser();
-                    $request->query->add($parser->parseUri(join('/', array_reverse($params))));
-
-                    if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
-                        $this->rewriteRequest($event, $publicUrl . $queryString);
-
-                        return;
-                    }
-                }
-            }
-
-            /** @var UrlAlias $url */
-            if ($url = $this->aliasing->hasInternalAlias($publicUrl, true)) {
-                switch ($url->getMode()) {
-                    case UrlAlias::REWRITE:
-                        $this->rewriteRequest($event, $url->getInternalUrl());
-                        break;
-                    case UrlAlias::MOVE:
-                    case UrlAlias::ALIAS:
-                        $event->setResponse(new RedirectResponse($url->getInternalUrl(), $url->getMode()));
-                        break;
-                    default:
-                        throw new \UnexpectedValueException(
-                            sprintf(
-                                "Invalid mode %s for UrlAlias %s.",
-                                $url->getMode(),
-                                json_encode($url)
-                            )
-                        );
-                }
-            } elseif (strpos($publicUrl, '?') !== false) {
-                // allow aliases to receive the query string.
-
-                $publicUrl = substr($publicUrl, 0, strpos($publicUrl, '?'));
-                if ($url = $this->aliasing->hasInternalAlias($publicUrl, true, UrlAlias::REWRITE)) {
-                    $this->rewriteRequest($event, $url->getInternalUrl());
+                if (!$this->aliasing->hasInternalAlias($publicUrl, false)) {
+                    $this->rewriteRequest($event, $publicUrl . $queryString);
 
                     return;
                 }
             }
         }
-    }
 
+        $tryPublicUrls = [$publicUrl => null];
+        if ($queryString !== '') {
+            $tryPublicUrls[$publicUrl . $queryString] = null;
+        }
+        if ($this->slashSuffixHandling !== static::SLASH_SUFFIX_ABSTAIN && substr($publicUrl, -1) === '/' && rtrim($publicUrl, '/') !== '') {
+            $tryPublicUrls[rtrim($publicUrl, '/')] = $this->slashSuffixHandling;
+            if ($queryString !== '') {
+                $tryPublicUrls[rtrim($publicUrl, '/') . $queryString] = $this->slashSuffixHandling;
+            }
+        }
+
+        $urlAliases = $this->aliasing->getInternalAliases(array_keys($tryPublicUrls));
+
+        if (count($urlAliases) === 0) {
+            return;
+        }
+
+        foreach ($tryPublicUrls as $tryPublicUrl => $handlingMode) {
+            if (!array_key_exists($tryPublicUrl, $urlAliases)) {
+                continue;
+            }
+
+            $urlAlias = $urlAliases[$tryPublicUrl];
+
+            switch ($handlingMode) {
+                case static::SLASH_SUFFIX_REDIRECT_TEMP:
+                    $url = $urlAlias->getMode() === UrlAlias::ALIAS ? $urlAlias->getInternalUrl() : $urlAlias->getPublicUrl(); // Same mode? Use internal URL directly, don't go redirecting twice...
+                    $event->setResponse(new RedirectResponse($url, Response::HTTP_FOUND));
+                    break;
+
+                case static::SLASH_SUFFIX_REDIRECT_PERM:
+                    $url = $urlAlias->getMode() === UrlAlias::MOVE ? $urlAlias->getInternalUrl() : $urlAlias->getPublicUrl(); // Same mode? Use internal URL directly, don't go redirecting twice...
+                    $event->setResponse(new RedirectResponse($url, Response::HTTP_MOVED_PERMANENTLY));
+                    break;
+
+                case static::SLASH_SUFFIX_ACCEPT:
+                    // Continue as if the correct URL (without '/' suffix) was requested. Could result in duplicate content disqualifications
+                default: // $handlingMode === null
+                    switch ($urlAlias->getMode()) {
+                        case UrlAlias::REWRITE:
+                            $this->rewriteRequest($event, $urlAlias->getInternalUrl());
+                            break;
+                        case UrlAlias::MOVE:
+                        case UrlAlias::ALIAS:
+                            $event->setResponse(new RedirectResponse($urlAlias->getInternalUrl(), $urlAlias->getMode()));
+                            break;
+                        default:
+                            throw new \UnexpectedValueException(sprintf("Invalid mode %s for UrlAlias %s.", $urlAlias->getMode(), json_encode($urlAlias)));
+                    }
+                break;
+            }
+        }
+    }
 
     /**
      * Route the request to the specified URL.
@@ -248,7 +291,6 @@ class Listener
         );
         $this->router->onKernelRequest($subEvent);
     }
-
 
     /**
      * Rewrite URL's from internal naming to public aliases in the response.
