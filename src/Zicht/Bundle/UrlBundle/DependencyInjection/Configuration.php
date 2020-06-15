@@ -1,14 +1,13 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
- * @copyright Zicht Online <http://zicht.nl>
+ * @copyright Zicht Online <https://zicht.nl>
  */
 
 namespace Zicht\Bundle\UrlBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Zicht\Bundle\UrlBundle\Aliasing\Listener;
+use Zicht\Bundle\UrlBundle\Aliasing\PublicAliasHandler;
 
 /**
  * Configuration schema for the url bundle
@@ -48,12 +47,12 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('enable_params')->defaultValue(false)->end()
                         ->enumNode('slash_suffix_handling')
                             ->values([
-                                Listener::SLASH_SUFFIX_ABSTAIN,
-                                Listener::SLASH_SUFFIX_ACCEPT,
-                                Listener::SLASH_SUFFIX_REDIRECT_PERM,
-                                Listener::SLASH_SUFFIX_REDIRECT_TEMP,
+                                PublicAliasHandler::SLASH_SUFFIX_ABSTAIN,
+                                PublicAliasHandler::SLASH_SUFFIX_ACCEPT,
+                                PublicAliasHandler::SLASH_SUFFIX_REDIRECT_PERM,
+                                PublicAliasHandler::SLASH_SUFFIX_REDIRECT_TEMP,
                             ])
-                            ->defaultValue(Listener::SLASH_SUFFIX_ABSTAIN)
+                            ->defaultValue(PublicAliasHandler::SLASH_SUFFIX_ABSTAIN)
                         ->end()
                         ->arrayNode('exclude_patterns')->prototype('scalar')->end()->end()
                         ->arrayNode('automatic_entities')->prototype('scalar')->end()->end()

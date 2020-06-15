@@ -95,13 +95,13 @@ class ZichtUrlExtension extends Extension
     {
         $loader->load('aliasing.xml');
 
-        $listenerDefinition = $container->getDefinition('zicht_url.aliasing_listener');
+        $publicAliasHandlerDefinition = $container->getDefinition('zicht_url.aliasing.public_alias_handler');
         if ($aliasingConfig['exclude_patterns']) {
-            $listenerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
+            $publicAliasHandlerDefinition->addMethodCall('setExcludePatterns', array($aliasingConfig['exclude_patterns']));
         }
 
-        $listenerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
-        $listenerDefinition->addMethodCall('setSlashSuffixHandling', array($aliasingConfig['slash_suffix_handling']));
+        $publicAliasHandlerDefinition->addMethodCall('setIsParamsEnabled', array($aliasingConfig['enable_params']));
+        $publicAliasHandlerDefinition->addMethodCall('setSlashSuffixHandling', array($aliasingConfig['slash_suffix_handling']));
 
         if ($aliasingConfig['automatic_entities']) {
             $automaticAliasDoctrineDefinition = $container->getDefinition('zicht_url.aliasing.doctrine.subscriber');

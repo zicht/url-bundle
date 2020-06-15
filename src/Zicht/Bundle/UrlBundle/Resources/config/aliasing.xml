@@ -19,10 +19,15 @@
         </service>
         <service id="zicht_url.aliasing_listener" class="%zicht_url.aliasing_listener.class%">
             <argument type="service" id="zicht_url.aliasing" />
+            <argument type="service" id="router_listener" />
+            <argument type="service" id="zicht_url.aliasing.public_alias_handler" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="100"/>
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="100"/>
-            <argument type="service" id="router_listener" />
         </service>
+        <service id="zicht_url.aliasing.public_alias_handler" class="Zicht\Bundle\UrlBundle\Aliasing\PublicAliasHandler">
+            <argument type="service" id="zicht_url.aliasing" />
+        </service>
+        <service alias="zicht_url.aliasing.public_alias_handler" id="Zicht\Bundle\UrlBundle\Aliasing\PublicAliasHandler"/>
         <service id="zicht_url.tinymce_type_extension" class="Zicht\Bundle\UrlBundle\Form\Extension\TinymceTypeExtension">
             <argument type="service" id="zicht_url.aliasing" />
             <tag name="form.type_extension" extended-type="Zicht\Bundle\AdminBundle\Form\TinymceType" alias="tinymce" />
