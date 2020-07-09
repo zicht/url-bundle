@@ -8,18 +8,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.1.3 - 2020-07-09
+### Fixed
+- Added missing English translations.
+
 ## 4.1.2 - 2020-05-15
 ### Changed
-- Switched from PSR-0 to PSR-4 autoloading
+- Switched from PSR-0 to PSR-4 autoloading.
 
 ## 4.1.1 - 2020-04-28
 ### Changed
 - Use FQCN for form types
-- Made TinymceTypeExtension getExtensionType return the actual type class instead of its own class name
-- Removed deprecated alias attribute of the form.type_extension tag of the TinymceTypeExtension service definition
+- Made TinymceTypeExtension getExtensionType return the actual type class instead of its own class name.
+- Removed deprecated alias attribute of the form.type_extension tag of the TinymceTypeExtension service definition.
 
 ## 4.1.0 - 2019-10-03
-- Added _mode_ column and filter to the URL Alias admin
+- Added _mode_ column and filter to the URL Alias admin.
 
 ## 4.0.9 - 2019-08-13
 ### Fixed
@@ -37,7 +41,7 @@ Nothing so far
 
 ## 4.0.6 - 2019-02-05
 ### Changed
-- Changed admin.xml UrlAliasAdmin service definition to use a parameter for the class
+- Changed admin.xml UrlAliasAdmin service definition to use a parameter for the class.
 
 ## 4.0.5 - 2018-12-21
 ### Fixed

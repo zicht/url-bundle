@@ -5,9 +5,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 
@@ -15,7 +15,7 @@ use Sonata\Form\Type\CollectionType as SonataCollectionType;
  * Admin implementation for static references
  *
  */
-class StaticReferenceAdmin extends Admin
+class StaticReferenceAdmin extends AbstractAdmin
 {
     /**
      * {@inheritdoc}
@@ -23,13 +23,12 @@ class StaticReferenceAdmin extends Admin
     public function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('machine_name')
+            ->addIdentifier('machine_name')
             ->add(
                 '_action',
                 'actions',
                 [
                     'actions' => [
-                        'show'   => [],
                         'edit'   => [],
                         'delete' => []
                     ]

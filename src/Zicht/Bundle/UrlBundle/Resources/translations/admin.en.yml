@@ -1,29 +1,33 @@
 admin:
-    tab:
-        alias_overview: Public URL
-
     alias_overview:
+        edit_button_title: Edit
         label: ''
         mode_0: Public URL [rewrite]
         mode_301: Move [301]
         mode_302: Alias [302]
-        edit_button_title: Edit
-
-list:
-    label_machine_name: Machine name
-    label_id: Id
-    label_public_url: Public URL
-    label_internal_url: Internal URL
-    label_mode: Type
-
+    tab:
+        alias_overview: Public URL
+breadcrumb:
+    link_error_log_list: Logs
 filter:
-    label_public_url: Public URL
     label_internal_url: Internal URL
     label_mode: Type
-
+    label_public_url: Public URL
 form:
-    label_machine_name: Machine name
-    label_url: URL
-    label_public_url: Public URL
     label_internal_url: Internal URL
+    label_machine_name: Machine name
     label_mode: Type
+    label_public_url: Public URL
+    label_url: URL
+list:
+    label_id: Id
+    label_internal_url: Internal URL
+    label_machine_name: Machine name
+    label_mode: Type
+    label_public_url: Public URL
+sonata:
+    dashboard_entity:
+        alias_label: Aliases
+        error_log_label: Logs
+        static_reference_label: Static References
+        static_reference_translation_label: Translation Static References
