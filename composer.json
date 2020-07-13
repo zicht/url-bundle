@@ -12,12 +12,13 @@
     "license": "MIT",
     "require": {
         "php": "^7.0",
-        "zicht/util": "^1.7",
-        "doctrine/orm": "^2.5",
         "doctrine/common": "^2.4",
+        "doctrine/orm": "^2.5",
         "symfony/symfony": "^3.4",
+        "zicht/admin-bundle": "^5",
         "zicht/framework-extra-bundle": "^8",
-        "zicht/admin-bundle": "^5"
+        "zicht/translations-bundle": "^5.2",
+        "zicht/util": "^1.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",

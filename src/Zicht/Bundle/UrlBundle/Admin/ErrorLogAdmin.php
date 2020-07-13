@@ -5,16 +5,16 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Admin\Admin;
 
 /**
  * Admin for error logs.
  *
  */
-class ErrorLogAdmin extends Admin
+class ErrorLogAdmin extends AbstractAdmin
 {
     protected $datagridValues = [
         '_page'         => 1,

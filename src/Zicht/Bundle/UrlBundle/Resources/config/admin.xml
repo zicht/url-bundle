@@ -11,7 +11,7 @@
 
     <services>
         <service id="zicht_url.admin.url_alias" class="%zicht_url.admin.url_alias.class%">
-            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Aliases" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="sonata.dashboard_entity.alias_label" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\UrlAlias</argument>
             <argument>%zicht_url.admin.crud_controller%</argument>
@@ -27,7 +27,7 @@
         </service>
         
         <service id="zicht_url.admin.static_reference" class="Zicht\Bundle\UrlBundle\Admin\StaticReferenceAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Static References" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="sonata.dashboard_entity.static_reference_label" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\StaticReference</argument>
             <argument>%zicht_url.admin.crud_controller%</argument>
@@ -40,7 +40,7 @@
         </service>
 
        <service id="zicht_url.admin.static_reference_translation" class="Zicht\Bundle\UrlBundle\Admin\StaticReferenceTranslationAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Translation Static References" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="sonata.dashboard_entity.static_reference_translation_label" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\StaticReferenceTranslation</argument>
             <argument>%zicht_url.admin.crud_controller%</argument>
@@ -50,7 +50,7 @@
         </service>
 
         <service id="zicht_url.admin.error_log" class="Zicht\Bundle\UrlBundle\Admin\ErrorLogAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="URL's" label="Logs" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
+            <tag name="sonata.admin" manager_type="orm" group="URL's" label="sonata.dashboard_entity.error_log_label" label_translator_strategy="sonata.admin.label.strategy.underscore"/>
             <argument/>
             <argument>Zicht\Bundle\UrlBundle\Entity\ErrorLog</argument>
             <argument>%zicht_url.admin.crud_controller%</argument>
