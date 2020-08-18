@@ -5,7 +5,9 @@
 
 namespace Zicht\Bundle\UrlBundle\Twig;
 
+use Twig\TwigFunction;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 
 /**
  * Provides some twig utilities.
@@ -16,16 +18,23 @@ class UrlExtension extends \Twig_Extension
     protected $aliasing;
 
     /**
+     * @var ShortUrlManager
+     */
+    private $shortUrlManager;
+
+    /**
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
      * that delegates to all registered url providers.
      *
      * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
+     * @param ShortUrlManager $shortUrlManager
      * @param \Zicht\Bundle\UrlBundle\Aliasing\Aliasing $aliasing
      */
-    public function __construct($provider, $aliasing = null)
+    public function __construct($provider, ShortUrlManager $shortUrlManager, $aliasing = null)
     {
         $this->provider = $provider;
         $this->aliasing = $aliasing;
+        $this->shortUrlManager = $shortUrlManager;
     }
 
     /**
@@ -57,12 +66,12 @@ class UrlExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'object_url'       => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
-            'static_ref'       => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
-            'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef'])
+            'object_url' => new \Twig_SimpleFunction('object_url', [$this, 'objectUrl']),
+            'static_ref' => new \Twig_SimpleFunction('static_ref', [$this, 'staticRef']),
+            'static_reference' => new \Twig_SimpleFunction('static_reference', [$this, 'staticRef']),
+            'short_url' => new TwigFunction('short_url', [$this, 'shortUrl'])
         ];
     }
-
 
     /**
      * Returns an url based on the passed object.
@@ -93,7 +102,7 @@ class UrlExtension extends \Twig_Extension
      * Returns a static reference, i.e. an url that is provided based on a simple string.
      *
      * @param string $name
-     * @param array  $params
+     * @param array $params
      *
      * @return string
      */
@@ -115,8 +124,19 @@ class UrlExtension extends \Twig_Extension
 
         return $ret;
     }
+
     private $static_refs = [];
 
+    /**
+     * @param string $originatingUrl
+     * @param string|null $prefix
+     * @return string
+     */
+    public function shortUrl($originatingUrl, $prefix = null)
+    {
+        $alias = $this->shortUrlManager->getAlias($originatingUrl, $prefix);
+        return $alias->getPublicUrl();
+    }
 
     /**
      * Returns the name of the extension.

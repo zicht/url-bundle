@@ -27,6 +27,7 @@
         <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
             <tag name="twig.extension"/>
             <argument type="service" id="zicht_url.provider" />
+            <argument type="service" id="Zicht\Bundle\UrlBundle\Url\ShortUrlManager" />
         </service>
         <service id="zicht_url.static_refs" class="%zicht_url.static_refs.class%">
             <argument type="service" id="router" />
@@ -56,5 +57,8 @@
             <argument/> <!-- strict bool  added by config -->
             <tag name="doctrine.event_listener" event="loadClassMetadata" />
         </service>
+
+        <service id="Zicht\Bundle\UrlBundle\Url\ShortUrlManager"/>
+
     </services>
 </container>

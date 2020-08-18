@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+### 4.2.0 - 2020-08-18
+### Added
+- `ShortUrlManager` as an endpoint to handle easy to implement short versions for urls.
+- `UrlExtension::shortUrl` to integrate short urls in Twig.
+
 ## 4.1.3 - 2020-07-09
 ### Fixed
 - Added missing English translations.
