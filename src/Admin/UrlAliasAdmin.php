@@ -53,7 +53,7 @@ class UrlAliasAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $modeChoiceOptions = [
-            'choice_translation_domain' => 'admin',
+            'choice_translation_domain' => $this->translationDomain,
             'choices' => [
                 'admin.alias_overview.mode_' . UrlAlias::ALIAS => UrlAlias::ALIAS,
                 'admin.alias_overview.mode_' . UrlAlias::MOVE => UrlAlias::MOVE,

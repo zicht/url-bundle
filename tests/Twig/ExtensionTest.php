@@ -8,6 +8,7 @@ namespace ZichtTest\Bundle\UrlBundle\Twig;
 
 use PHPUnit\Framework\MockObject\Generator;
 use PHPUnit\Framework\TestCase;
+use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 
 /**
  * @property \Zicht\Bundle\UrlBundle\Url\Provider $provider
@@ -18,7 +19,8 @@ class ExtensionTest extends TestCase
     public function setUp()
     {
         $this->provider = (new Generator())->getMock('Zicht\Bundle\UrlBundle\Url\Provider', ['url', 'supports']);
-        $this->extension = new \Zicht\Bundle\UrlBundle\Twig\UrlExtension($this->provider);
+        $shortUrlManager = self::getMockBuilder(ShortUrlManager::class)->disableOriginalConstructor()->getMock();
+        $this->extension = new \Zicht\Bundle\UrlBundle\Twig\UrlExtension($this->provider, $shortUrlManager);
     }
 
     public function testGetNameBecauseWeLoveCoverage()

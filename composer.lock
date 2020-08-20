@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "573afb788e61e59bebb9fab0d821331f",
+    "content-hash": "ccc250bf7c03d38a901babc090a450cd",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -6443,7 +6443,7 @@
             ],
             "authors": [
                 {
-                    "name": "Zicht online",
+                    "name": "Zicht Online",
                     "email": "info@zicht.nl"
                 }
             ],
@@ -6491,12 +6491,55 @@
             ],
             "authors": [
                 {
-                    "name": "Zicht online",
+                    "name": "Zicht Online",
                     "email": "info@zicht.nl"
                 }
             ],
             "description": "Utilities for Symfony",
             "time": "2020-05-15T11:23:49+00:00"
+        },
+        {
+            "name": "zicht/translations-bundle",
+            "version": "5.2.0",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:zicht/translations-bundle.git",
+                "reference": "cc08422f89fc5b175fa582d8b9009732bc58950a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zicht/translations-bundle/zipball/cc08422f89fc5b175fa582d8b9009732bc58950a",
+                "reference": "cc08422f89fc5b175fa582d8b9009732bc58950a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7",
+                "symfony/symfony": "^3.4",
+                "zicht/admin-bundle": "^5"
+            },
+            "require-dev": {
+                "zicht/standards-php": "^3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "http://localhost/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Zicht Online",
+                    "email": "info@zicht.nl"
+                }
+            ],
+            "description": "Add languages/translations to your site",
+            "time": "2020-07-07T13:29:23+00:00"
         },
         {
             "name": "zicht/util",
