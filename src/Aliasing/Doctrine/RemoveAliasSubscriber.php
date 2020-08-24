@@ -14,13 +14,13 @@ use Doctrine\ORM\Events;
 class RemoveAliasSubscriber extends BaseSubscriber
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSubscribedEvents()
     {
         return [
             Events::preRemove,
-            Events::postFlush
+            Events::postFlush,
         ];
     }
 

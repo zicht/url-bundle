@@ -8,7 +8,9 @@ namespace Zicht\Bundle\UrlBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use Zicht\Bundle\UrlBundle\Url\Provider;
 use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 
 /**
@@ -16,8 +18,14 @@ use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
  */
 class UrlExtension extends AbstractExtension
 {
+    /** @var Provider */
     protected $provider;
+
+    /** @var Aliasing|null */
     protected $aliasing;
+
+    /** @var array */
+    private $static_refs = [];
 
     /**
      * @var ShortUrlManager
@@ -28,11 +36,11 @@ class UrlExtension extends AbstractExtension
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
      * that delegates to all registered url providers.
      *
-     * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
+     * @param Provider $provider
      * @param ShortUrlManager $shortUrlManager
-     * @param \Zicht\Bundle\UrlBundle\Aliasing\Aliasing $aliasing
+     * @param Aliasing|null $aliasing
      */
-    public function __construct($provider, ShortUrlManager $shortUrlManager, $aliasing = null)
+    public function __construct(Provider $provider, ShortUrlManager $shortUrlManager, $aliasing = null)
     {
         $this->provider = $provider;
         $this->aliasing = $aliasing;
@@ -40,7 +48,7 @@ class UrlExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFilters()
     {
@@ -63,7 +71,7 @@ class UrlExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFunctions()
     {
@@ -126,8 +134,6 @@ class UrlExtension extends AbstractExtension
 
         return $ret;
     }
-
-    private $static_refs = [];
 
     /**
      * @param string $originatingUrl

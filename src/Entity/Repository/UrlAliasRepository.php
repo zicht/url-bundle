@@ -14,7 +14,7 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE)
     {
@@ -26,7 +26,7 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function findOneByInternalUrl($internalUrl, $mode = UrlAlias::REWRITE)
     {
@@ -38,7 +38,7 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function findAllByInternalUrl($internalUrl)
     {

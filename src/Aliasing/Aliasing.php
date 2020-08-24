@@ -58,15 +58,10 @@ class Aliasing
     /** @var UrlAliasRepository */
     protected $repository;
 
-    /** @var boolean */
+    /** @var bool */
     protected $isBatch = false;
 
-
-    /**
-     * Mappers that, based on the content type, can transform internal urls to public urls
-     *
-     * @var UrlMapperInterface[]
-     */
+    /** @var UrlMapperInterface[] Mappers that, based on the content type, can transform internal urls to public urls */
     private $contentMappers = [];
 
     /**
@@ -403,7 +398,7 @@ class Aliasing
     public function compact()
     {
         foreach ($this->getRepository()->findAll() as $urlAlias) {
-            if ($cascadingAlias = $this->hasPublicAlias($urlAlias->internal_url)) {
+            if ($cascadingAlias = $this->hasPublicAlias($urlAlias->getInternalUrl())) {
                 $urlAlias->setInternalUrl($cascadingAlias->getInternalUrl());
             }
         }

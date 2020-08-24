@@ -11,15 +11,10 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
  * Class HtmlMapper
  *
  * Helper to map urls in an HTML string from internal to public aliasing or vice versa.
- *
  */
 class HtmlMapper implements UrlMapperInterface
 {
-    /**
-     * Map of [elementName => [attr1, attr2]] where URL's may occur
-     *
-     * @var array
-     */
+    /** @var array Map of [elementName => [attr1, attr2]] where URL's may occur */
     protected $htmlAttributes;
 
     public function __construct()
@@ -37,7 +32,7 @@ class HtmlMapper implements UrlMapperInterface
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function supports($contentType)
     {
@@ -46,7 +41,7 @@ class HtmlMapper implements UrlMapperInterface
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function processAliasing($html, $mode, Rewriter $rewriter)
     {

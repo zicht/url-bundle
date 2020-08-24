@@ -10,7 +10,10 @@ namespace Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class CallbackTranslator extends StaticTranslator
 {
+    /** @var callable */
     protected $valueInputTranslator;
+
+    /** @var callable */
     protected $valueOutputTranslator;
 
     /**
@@ -27,7 +30,7 @@ class CallbackTranslator extends StaticTranslator
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueInput($keyName, $value)
     {
@@ -39,7 +42,7 @@ class CallbackTranslator extends StaticTranslator
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueOutput($keyName, $value)
     {

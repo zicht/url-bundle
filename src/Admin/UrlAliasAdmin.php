@@ -14,18 +14,15 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Type\UrlType;
 
-/**
- * Admin for URL aliases
- *
- */
 class UrlAliasAdmin extends AbstractAdmin
 {
+    /** @var array */
     protected $datagridValues = [
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -41,14 +38,14 @@ class UrlAliasAdmin extends AbstractAdmin
                     'actions' => [
                         'show' => [],
                         'edit' => [],
-                        'delete' => []
-                    ]
+                        'delete' => [],
+                    ],
                 ]
             );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
@@ -68,7 +65,7 @@ class UrlAliasAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -88,7 +85,7 @@ class UrlAliasAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {

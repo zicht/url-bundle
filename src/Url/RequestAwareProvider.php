@@ -24,7 +24,7 @@ class RequestAwareProvider extends DelegatingProvider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function url($object, array $options = [])
     {

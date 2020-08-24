@@ -16,7 +16,7 @@ use Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider;
 class UrlMapperPass implements CompilerPassInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {

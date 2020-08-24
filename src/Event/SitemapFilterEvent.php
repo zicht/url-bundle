@@ -20,7 +20,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function getArrayCopy()
     {
@@ -49,7 +49,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function offsetExists($offset)
     {
@@ -57,7 +57,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function offsetGet($offset)
     {
@@ -65,7 +65,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function offsetSet($offset, $value)
     {
@@ -73,7 +73,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function offsetUnset($offset)
     {
@@ -81,7 +81,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function getIterator()
     {
@@ -91,7 +91,7 @@ class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggrega
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function count()
     {

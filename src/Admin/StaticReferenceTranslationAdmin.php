@@ -18,7 +18,7 @@ use Zicht\Bundle\TranslationsBundle\Form\Type\LanguageType;
 class StaticReferenceTranslationAdmin extends AbstractAdmin
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -27,7 +27,7 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -39,7 +39,7 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {

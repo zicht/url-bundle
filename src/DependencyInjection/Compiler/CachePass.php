@@ -15,7 +15,7 @@ use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 class CachePass implements CompilerPassInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {

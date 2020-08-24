@@ -10,6 +10,7 @@ namespace Zicht\Bundle\UrlBundle\Url\Params;
  */
 class UriParser implements Translator
 {
+    /** @var array */
     private $seperators = [];
 
     /**
@@ -24,15 +25,13 @@ class UriParser implements Translator
      */
     public function __construct($paramSeparator = '/', $keyValueSeparator = '=', $valueSeparator = ',')
     {
-        $this->seperators['param']     = $paramSeparator;
+        $this->seperators['param'] = $paramSeparator;
         $this->seperators['key_value'] = $keyValueSeparator;
-        $this->seperators['value']     = $valueSeparator;
+        $this->seperators['value'] = $valueSeparator;
     }
 
 
     /**
-     * Translator
-     *
      * @param Translator $translator
      * @return void
      */
@@ -52,7 +51,7 @@ class UriParser implements Translator
         $ret = [];
         foreach ($post as $key => $value) {
             if ($key) {
-                $external  = $this->translateKeyOutput($key);
+                $external = $this->translateKeyOutput($key);
                 $ret[$key] = [];
                 if (strlen($value) > 0) {
                     if ($internal = $this->translateValueInput($external, $value)) {
@@ -67,8 +66,6 @@ class UriParser implements Translator
     }
 
     /**
-     * Parse the uri
-     *
      * @param string $uri
      * @return array
      */
@@ -106,14 +103,14 @@ class UriParser implements Translator
      */
     public function composeUri($params)
     {
-        $ret   = '';
+        $ret = '';
         $first = true;
 
         foreach ($params as $param => $values) {
             if (!$first) {
                 $ret .= $this->seperators['param'];
             }
-            $first    = false;
+            $first = false;
             $internal = $param;
             if ($external = $this->translateKeyOutput($param)) {
                 $param = $external;

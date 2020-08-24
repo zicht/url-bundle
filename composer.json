@@ -39,10 +39,10 @@
     "minimum-stability": "stable",
     "scripts": {
         "lint": [
-            "phpcs -s src/Zicht/ --standard=vendor/zicht/standards-php/Zicht --extensions=php -p --parallel=$(nproc)"
+            "phpcs -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php -p --parallel=$(nproc)"
         ],
         "lint-fix": [
-            "phpcbf -s src/Zicht/ --standard=vendor/zicht/standards-php/Zicht --extensions=php --parallel=$(nproc)"
+            "phpcbf -s src/ --standard=vendor/zicht/standards-php/src/Zicht --extensions=php --parallel=$(nproc)"
         ],
         "test": [
             "phpunit -c phpunit.xml.dist"

@@ -15,8 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class StaticReferenceTranslation
 {
     /**
-     * @var integer
-     *
+     * @var int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -24,20 +23,19 @@ class StaticReferenceTranslation
     private $id;
 
     /**
+     * @var StaticReference|null
      * @ORM\ManyToOne(targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReference", inversedBy="translations")
      */
     public $static_reference;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="url", type="string", length=255, nullable=true)
      */
     private $url;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="locale", type="string", length=6, nullable=true)
      */
     private $locale;

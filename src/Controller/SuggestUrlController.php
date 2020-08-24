@@ -32,7 +32,7 @@ class SuggestUrlController extends Controller
     {
         return new JsonResponse(
             [
-                'suggestions' => $this->get('zicht_url.provider')->suggest($request->get('pattern'))
+                'suggestions' => $this->get('zicht_url.provider')->suggest($request->get('pattern')),
             ]
         );
     }

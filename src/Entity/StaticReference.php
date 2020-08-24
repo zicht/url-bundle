@@ -16,8 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class StaticReference
 {
     /**
-     * @var integer
-     *
+     * @var int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,7 +25,6 @@ class StaticReference
 
     /**
      * @var string
-     *
      * @ORM\Column(name="machine_name", type="string", length=255)
      */
     private $machine_name;
@@ -101,8 +99,6 @@ class StaticReference
     }
 
     /**
-     * Setter for translations
-     *
      * @param mixed $translations
      * @return void
      */

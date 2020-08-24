@@ -48,7 +48,7 @@ class StaticProvider implements Provider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function supports($object)
     {
@@ -56,7 +56,7 @@ class StaticProvider implements Provider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function url($object, array $options = [])
     {

@@ -88,8 +88,6 @@ class ZichtUrlExtension extends Extension
     }
 
     /**
-     * Load the aliasing config.
-     *
      * @param ContainerBuilder $container
      * @param array $aliasingConfig
      * @param XmlFileLoader $loader

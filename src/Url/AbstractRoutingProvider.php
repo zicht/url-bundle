@@ -18,8 +18,6 @@ abstract class AbstractRoutingProvider implements Provider
     protected $router;
 
     /**
-     * Construct the provider.
-     *
      * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)
@@ -29,7 +27,7 @@ abstract class AbstractRoutingProvider implements Provider
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function url($object, array $options = [])
     {

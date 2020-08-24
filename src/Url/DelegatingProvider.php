@@ -18,9 +18,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
      */
     protected $providers;
 
-    /**
-     * Initialize the provider
-     */
     public function __construct()
     {
         $this->providers = [];

@@ -18,7 +18,7 @@ use Sonata\Form\Type\CollectionType as SonataCollectionType;
 class StaticReferenceAdmin extends AbstractAdmin
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -30,14 +30,14 @@ class StaticReferenceAdmin extends AbstractAdmin
                 [
                     'actions' => [
                         'edit'   => [],
-                        'delete' => []
-                    ]
+                        'delete' => [],
+                    ],
                 ]
             );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
@@ -60,7 +60,7 @@ class StaticReferenceAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {
@@ -70,7 +70,7 @@ class StaticReferenceAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function prePersist($object)
     {
@@ -78,7 +78,7 @@ class StaticReferenceAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function preUpdate($object)
     {

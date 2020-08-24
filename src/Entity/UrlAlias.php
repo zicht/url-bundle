@@ -24,19 +24,20 @@ class UrlAlias
      * The alias is an internal rewrite, i.e. external url's are rewritten to internal on request,
      * and vice versa when composing an url.
      */
-    const REWRITE   = 0;
+    const REWRITE = 0;
 
     /**
      * The MOVE type yields a 301 response with the internal url if the public url is matched
      */
-    const MOVE      = 301;
+    const MOVE = 301;
 
     /**
      * The ALIAS type yields a 302 response with the internal url if the public url is matched
      */
-    const ALIAS     = 302;
+    const ALIAS = 302;
 
     /**
+     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type = "integer")
@@ -44,16 +45,19 @@ class UrlAlias
     protected $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string")
      */
     protected $public_url;
 
     /**
+     * @var string
      * @ORM\Column(type="string")
      */
     protected $internal_url;
 
     /**
+     * @var int
      * @ORM\Column(type="integer")
      */
     protected $mode = self::REWRITE;

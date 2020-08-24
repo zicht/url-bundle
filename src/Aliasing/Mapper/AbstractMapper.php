@@ -46,7 +46,7 @@ abstract class AbstractMapper implements UrlMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function processAliasing($content, $mode, Rewriter $rewriter)
     {

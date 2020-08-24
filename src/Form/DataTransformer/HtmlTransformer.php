@@ -14,7 +14,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 class HtmlTransformer extends AbstractAliasingTransformer
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function doMap($html, $mode)
     {

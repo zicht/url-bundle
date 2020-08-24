@@ -10,12 +10,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-/**
- * Admin for error logs.
- *
- */
 class ErrorLogAdmin extends AbstractAdmin
 {
+    /** @var array */
     protected $datagridValues = [
         '_page'         => 1,
         '_sort_order'   => 'DESC',
@@ -23,7 +20,7 @@ class ErrorLogAdmin extends AbstractAdmin
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -39,14 +36,14 @@ class ErrorLogAdmin extends AbstractAdmin
                 [
                     'actions' => [
                         'show' => [],
-                        'delete' => []
-                    ]
+                        'delete' => [],
+                    ],
                 ]
             );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {
@@ -61,7 +58,7 @@ class ErrorLogAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureRoutes(RouteCollection $collection)
     {

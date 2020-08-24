@@ -6,9 +6,6 @@ namespace Zicht\Bundle\UrlBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-/**
- * Repository for the static references
- */
 class StaticReferenceRepository extends EntityRepository
 {
     /**
