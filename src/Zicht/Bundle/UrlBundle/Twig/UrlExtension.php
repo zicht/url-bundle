@@ -130,11 +130,12 @@ class UrlExtension extends \Twig_Extension
     /**
      * @param string $originatingUrl
      * @param string|null $prefix
+     * @param int $minLength
      * @return string
      */
-    public function shortUrl($originatingUrl, $prefix = null)
+    public function shortUrl($originatingUrl, $prefix = null, $minLength = 8)
     {
-        $alias = $this->shortUrlManager->getAlias($originatingUrl, $prefix);
+        $alias = $this->shortUrlManager->getAlias($originatingUrl, $prefix, $minLength);
         return $alias->getPublicUrl();
     }
 
