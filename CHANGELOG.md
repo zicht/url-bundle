@@ -10,7 +10,7 @@ Nothing so far
 
 ## 5.1.0 - 2020-08-20
 ### Added
-- Forward merge release/4.x
+- Forward merge from 4.1.3 and 4.2.0.
 
 ## 5.0.0 - 2020-05-15
 ### Added
@@ -20,7 +20,11 @@ Nothing so far
 ### Changed
 - Removed Zicht(Test)/Bundle/UrlBundle/ directory depth: moved all code up directly into src/ and test/
 
-### 4.2.0 - 2020-08-18
+## 4.2.1 - 2020-08-27
+### Fixed
+- Added missing `minLength` parameters to the `ShortUrlManager` and `UrlExtension::shortUrl`.
+
+## 4.2.0 - 2020-08-18
 ### Added
 - `ShortUrlManager` as an endpoint to handle easy to implement short versions for urls.
 - `UrlExtension::shortUrl` to integrate short urls in Twig.
