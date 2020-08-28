@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ErrorLog
 {
     /**
+     * @var int
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -22,36 +23,43 @@ class ErrorLog
     protected $id;
 
     /**
+     * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $status;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=1024, nullable=true)
      */
     protected $url;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     protected $ip;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=1024)
      */
     protected $ua;
 
     /**
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $message;
 
     /**
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     protected $referer;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $date_created;

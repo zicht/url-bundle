@@ -5,12 +5,13 @@
 
 namespace Zicht\Bundle\UrlBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 
 /**
  * DI Extension for the URL services.
@@ -20,7 +21,7 @@ class ZichtUrlExtension extends Extension
     /**
      * Responds to the twig configuration parameter.
      *
-     * @param array            $configs
+     * @param array $configs
      * @param ContainerBuilder $container
      * @return void
      */
@@ -65,6 +66,10 @@ class ZichtUrlExtension extends Extension
             $container->getDefinition('zicht_url.twig_extension')->addArgument(new Reference('zicht_url.aliasing'));
         }
 
+        if ($container->hasDefinition(ShortUrlManager::class)) {
+            $container->getDefinition(ShortUrlManager::class)->addArgument(new Reference('zicht_url.aliasing'));
+        }
+
         if ($container->hasDefinition('zicht_url.mapper.html')) {
             $container->getDefinition('zicht_url.mapper.html')->addMethodCall('addAttributes', [$config['html_attributes']]);
         }
@@ -83,8 +88,6 @@ class ZichtUrlExtension extends Extension
     }
 
     /**
-     * Load the aliasing config.
-     *
      * @param ContainerBuilder $container
      * @param array $aliasingConfig
      * @param XmlFileLoader $loader

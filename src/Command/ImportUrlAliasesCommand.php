@@ -45,6 +45,7 @@ class ImportUrlAliasesCommand extends Command
         'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
     ];
 
+    /** @var string|null The default command name */
     protected static $defaultName = 'zicht:url:import-aliases';
 
     /** @var Aliasing */

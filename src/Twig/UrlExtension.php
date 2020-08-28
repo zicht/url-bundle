@@ -8,31 +8,47 @@ namespace Zicht\Bundle\UrlBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Exception\UnsupportedException;
+use Zicht\Bundle\UrlBundle\Url\Provider;
+use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 
 /**
  * Provides some twig utilities.
  */
 class UrlExtension extends AbstractExtension
 {
+    /** @var Provider */
     protected $provider;
+
+    /** @var Aliasing|null */
     protected $aliasing;
+
+    /** @var array */
+    private $static_refs = [];
+
+    /**
+     * @var ShortUrlManager
+     */
+    private $shortUrlManager;
 
     /**
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
      * that delegates to all registered url providers.
      *
-     * @param \Zicht\Bundle\UrlBundle\Url\Provider $provider
-     * @param \Zicht\Bundle\UrlBundle\Aliasing\Aliasing $aliasing
+     * @param Provider $provider
+     * @param ShortUrlManager $shortUrlManager
+     * @param Aliasing|null $aliasing
      */
-    public function __construct($provider, $aliasing = null)
+    public function __construct(Provider $provider, ShortUrlManager $shortUrlManager, $aliasing = null)
     {
         $this->provider = $provider;
         $this->aliasing = $aliasing;
+        $this->shortUrlManager = $shortUrlManager;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFilters()
     {
@@ -55,17 +71,17 @@ class UrlExtension extends AbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFunctions()
     {
         return [
             'object_url' => new TwigFunction('object_url', [$this, 'objectUrl']),
             'static_ref' => new TwigFunction('static_ref', [$this, 'staticRef']),
-            'static_reference' => new TwigFunction('static_reference', [$this, 'staticRef'])
+            'static_reference' => new TwigFunction('static_reference', [$this, 'staticRef']),
+            'short_url' => new TwigFunction('short_url', [$this, 'shortUrl'])
         ];
     }
-
 
     /**
      * Returns an url based on the passed object.
@@ -119,8 +135,17 @@ class UrlExtension extends AbstractExtension
         return $ret;
     }
 
-    private $static_refs = [];
-
+    /**
+     * @param string $originatingUrl
+     * @param string|null $prefix
+     * @param int $minLength
+     * @return string
+     */
+    public function shortUrl($originatingUrl, $prefix = null, $minLength = 8)
+    {
+        $alias = $this->shortUrlManager->getAlias($originatingUrl, $prefix, $minLength);
+        return $alias->getPublicUrl();
+    }
 
     /**
      * Returns the name of the extension.

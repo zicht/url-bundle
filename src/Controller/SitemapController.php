@@ -28,7 +28,7 @@ class SitemapController extends Controller
             $this->renderView('@ZichtUrl/Sitemap/sitemap.xml.twig', ['urls' => $urls]),
             200,
             [
-                'content-type' => 'text/xml'
+                'content-type' => 'text/xml',
             ]
         );
     }

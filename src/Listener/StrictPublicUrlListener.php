@@ -11,10 +11,10 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  * Class StrictPublicUrlListener
  *
  * A class metadata listener that will set strict rulings on the UrlAlias entity.
- *
  */
 class StrictPublicUrlListener
 {
+    /** @var bool */
     protected $isStrict = false;
 
     /**
@@ -26,7 +26,7 @@ class StrictPublicUrlListener
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {

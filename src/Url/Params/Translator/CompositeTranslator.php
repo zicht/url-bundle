@@ -13,10 +13,11 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class CompositeTranslator implements Translator
 {
+    /** @var array */
     protected $translators = [];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateKeyInput($keyName)
     {
@@ -31,7 +32,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueInput($keyName, $value)
     {
@@ -46,7 +47,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateKeyOutput($keyName)
     {
@@ -61,7 +62,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueOutput($keyName, $value)
     {
@@ -76,7 +77,7 @@ class CompositeTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function add(Translator $translator)
     {

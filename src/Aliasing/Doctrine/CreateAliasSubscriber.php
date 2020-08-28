@@ -83,8 +83,6 @@ class CreateAliasSubscriber extends BaseSubscriber
 
 
     /**
-     * Create the aliases
-     *
      * @return void
      */
     public function postFlush()

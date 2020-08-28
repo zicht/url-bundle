@@ -8,10 +8,11 @@ use Symfony\Component\Validator\Constraint;
 
 class ContainsUrlAlias extends Constraint
 {
+    /** @var string */
     public $message = "Public url '%url%' already exists.";
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getTargets()
     {

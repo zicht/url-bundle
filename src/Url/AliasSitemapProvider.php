@@ -30,7 +30,7 @@ class AliasSitemapProvider implements ListableProvider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function all(AuthorizationCheckerInterface $authorizationChecker)
     {

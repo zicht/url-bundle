@@ -9,6 +9,7 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 class Rewriter
 {
+    /** @var array */
     private $localDomains = [];
 
     /**

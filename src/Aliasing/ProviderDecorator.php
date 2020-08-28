@@ -29,7 +29,7 @@ class ProviderDecorator extends DelegatingProvider
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function url($object, array $options = [])
     {
@@ -43,16 +43,16 @@ class ProviderDecorator extends DelegatingProvider
                 throw $e;
             }
         }
-        if ((!isset($options['aliasing']) || $options['aliasing'] == false)
-            && $publicUrl = $this->aliasing->hasPublicAlias($ret)
-        ) {
-            $ret = $publicUrl;
+        if (!isset($options['aliasing']) || $options['aliasing'] == false) {
+            if ($publicUrl = $this->aliasing->hasPublicAlias($ret)) {
+                $ret = $publicUrl;
+            }
         }
         return $ret;
     }
     
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function all(AuthorizationCheckerInterface $security)
     {

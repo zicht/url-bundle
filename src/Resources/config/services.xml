@@ -28,6 +28,12 @@
         </service>
         <service id="Zicht\Bundle\UrlBundle\Url\RequestAwareProvider" alias="zicht_url.request_aware_provider"/>
 
+        <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
+            <tag name="twig.extension"/>
+            <argument type="service" id="zicht_url.provider" />
+            <argument type="service" id="Zicht\Bundle\UrlBundle\Url\ShortUrlManager" />
+        </service>
+
         <service id="zicht_url.static_refs" class="%zicht_url.static_refs.class%">
             <argument type="service" id="router" />
             <tag name="zicht_url.url_provider" priority="-10" />
@@ -70,6 +76,8 @@
             <tag name="console.command"/>
             <argument type="service" id="zicht_url.aliasing"/>
         </service>
+
+        <service id="Zicht\Bundle\UrlBundle\Url\ShortUrlManager"/>
 
     </services>
 </container>

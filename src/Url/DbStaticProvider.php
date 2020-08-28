@@ -7,7 +7,6 @@ namespace Zicht\Bundle\UrlBundle\Url;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\RouterInterface;
 use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
@@ -15,28 +14,16 @@ use Zicht\Bundle\UrlBundle\Entity\StaticReference;
  */
 class DbStaticProvider implements Provider
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManager */
     private $em;
 
-    /*
-     * @var null|RequestStack $requestStack
-     */
+    /** @var null|RequestStack */
     private $requestStack;
 
-    /**
-     * Holds the static references
-     *
-     * @var array
-     */
+    /** @var array Holds the static references */
     private $refs = null;
 
-    /**
-     * The locale to use when all things fail
-     *
-     * @var null|string
-     */
+    /** @var null|string The locale to use when all things fail */
     private $fallback_locale = null;
 
     /**
@@ -72,7 +59,7 @@ class DbStaticProvider implements Provider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function supports($object)
     {
@@ -82,7 +69,7 @@ class DbStaticProvider implements Provider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function url($object, array $options = [])
     {
@@ -90,8 +77,10 @@ class DbStaticProvider implements Provider
 
         $url = $this->refs[$object][$this->getLocale()];
 
-        if (!preg_match('/^(http|https)/', $url) && (null !== ($request = $this->getMasterRequest()))) {
-            $url = $request->getBaseUrl() . '/' . ltrim($url, '/');
+        if (!preg_match('/^(http|https)/', $url)) {
+            if (null !== ($request = $this->getMasterRequest())) {
+                $url = $request->getBaseUrl() . '/' . ltrim($url, '/');
+            }
         }
 
         return $url;

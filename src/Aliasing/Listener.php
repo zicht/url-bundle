@@ -20,9 +20,13 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class Listener
 {
+    /** @var Aliasing */
     protected $aliasing;
 
+    /** @var array */
     protected $excludePatterns = [];
+
+    /** @var bool */
     protected $isParamsEnabled = false;
 
     /**
@@ -49,7 +53,8 @@ class Listener
             $response = $e->getResponse();
 
             // only do anything if the response has a Location header
-            if (false !== ($location = $response->headers->get('location', false))) {
+            $location = $response->headers->get('location', false);
+            if (false !== $location) {
                 $absolutePrefix = $e->getRequest()->getSchemeAndHttpHost();
 
                 if (parse_url($location, PHP_URL_SCHEME)) {
@@ -86,9 +91,11 @@ class Listener
                     list(, $relative, $suffix) = $matches;
                 }
 
-                if (null !== $relative && null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
-                    $rewrite = $absolutePrefix . $url . $suffix;
-                    $response->headers->set('location', $rewrite);
+                if (null !== $relative) {
+                    if (null !== ($url = $this->aliasing->hasPublicAlias($relative))) {
+                        $rewrite = $absolutePrefix . $url . $suffix;
+                        $response->headers->set('location', $rewrite);
+                    }
                 }
             }
 

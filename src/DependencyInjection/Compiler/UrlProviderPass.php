@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class UrlProviderPass implements CompilerPassInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {

@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Zicht\Bundle\TranslationsBundle\Form\Type\LanguageType;
 
 /**
  * Admin implementation for static reference translations
@@ -17,7 +18,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class StaticReferenceTranslationAdmin extends AbstractAdmin
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureListFields(ListMapper $listMapper)
     {
@@ -26,19 +27,19 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureFormFields(FormMapper $form)
     {
         $form
             ->with('General')
-            ->add('locale', null, ['required' => true])
+            ->add('locale', LanguageType::class, ['required' => true])
             ->add('url', null, ['required' => true])
             ->end();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureShowFields(ShowMapper $show)
     {

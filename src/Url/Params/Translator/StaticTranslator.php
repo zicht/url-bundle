@@ -12,8 +12,13 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator;
  */
 class StaticTranslator implements Translator
 {
+    /** @var string */
     protected $keyName;
+
+    /** @var string */
     protected $keyTranslation;
+
+    /** @var array */
     protected $valueTranslations;
 
     /**
@@ -30,7 +35,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateKeyInput($keyTranslation)
     {
@@ -43,7 +48,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueInput($keyTranslation, $valueTranslation)
     {
@@ -58,7 +63,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateKeyOutput($keyName)
     {
@@ -71,7 +76,7 @@ class StaticTranslator implements Translator
 
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function translateValueOutput($keyName, $value)
     {
