@@ -40,11 +40,6 @@
         </service>
         <service id="Zicht\Bundle\UrlBundle\Url\StaticProvider" alias="zicht_url.static_refs"/>
 
-        <service id="zicht_url.twig_extension" class="%zicht_url.twig_extension.class%">
-            <tag name="twig.extension"/>
-            <argument type="service" id="zicht_url.provider" />
-        </service>
-
         <service id="zicht_url.type" class="%zicht_url.type.class%">
             <argument type="service" id="zicht_url.aliasing" />
             <tag name="form.type" alias="zicht_url" />

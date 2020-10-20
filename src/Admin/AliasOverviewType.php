@@ -5,7 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Admin;
 
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -22,14 +22,14 @@ class AliasOverviewType extends AbstractType
     /** @var Provider */
     protected $provider;
 
-    /** @var RegistryInterface */
+    /** @var ManagerRegistry */
     protected $doctrine;
 
     /**
      * @param Provider $provider
-     * @param RegistryInterface $doctrine
+     * @param ManagerRegistry $doctrine
      */
-    public function __construct(Provider $provider, RegistryInterface $doctrine)
+    public function __construct(Provider $provider, ManagerRegistry $doctrine)
     {
         $this->provider = $provider;
         $this->doctrine = $doctrine;
