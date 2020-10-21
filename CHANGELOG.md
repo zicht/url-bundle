@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.1.1 - 2020-10-20
+### Fixed
+- Wronly merged `zicht_url.twig_extension` in `services.xml`.
+### Changed
+- Introduce `Doctrine\Persistence\ManagerRegistry`, fixing deprecated use of `RegistryInterface`.
+
 ## 5.1.0 - 2020-08-20
 ### Added
 - Forward merge from 4.1.3 and 4.2.0.
@@ -86,18 +92,18 @@ Nothing so far
 
 ## 3.1.0
 ### Changed
-- Added event dispatching within the sitemap generation, it is now possible to filter the resulting 
+- Added event dispatching within the sitemap generation, it is now possible to filter the resulting
   urls and modify the collection that will be given back to the sitemap controller.
 
 ## 3.0.0
 ### Changed
 From this version on the minimal PHP requirement is `7.0`
 
-## 2.19.2 
+## 2.19.2
 - remove itertools reference
 - fixed url aliases for uri with utf8 characters
 
-## 2.19.0 
+## 2.19.0
 - Added event dispatching within the sitemap generation, it is now possible to alter the query before it being executed,
   or filter the resulting urls and modify the collection that will be given back to the sitemap controller.
 
@@ -108,21 +114,21 @@ From this version on the minimal PHP requirement is `7.0`
 - Broken version
 
 ## 2.15.0 - 2017-09-12
-- The public_url column has to be unique by default. This because it was not supported by the 
+- The public_url column has to be unique by default. This because it was not supported by the
   application but the db schema allowed double entries with the same pulbic_url.
-  
-  There is now validation and a change in the column property. Be careful with schema updates 
+
+  There is now validation and a change in the column property. Be careful with schema updates
   because it can lead to failures when there allready double entries for the public_url.
-  
-  This all can be disable if find any problems with upgrading by setting the strict property 
-  to false in the config:  
-  
+
+  This all can be disable if find any problems with upgrading by setting the strict property
+  to false in the config:
+
   ```
     zicht_url:
         strict_public_url: false
         ....
   ```
-  
+
 
 ## 2.13.1 - 2017-07-11
 - Expand HTMLMappers' attributes with a new default entry: `option: ['data-href']`
@@ -154,7 +160,7 @@ Allow additional html attributes to be mapped by the HtmlMapper by configuring
 
 Default config:
 
-```    
+```
     html_attributes:
         a : ['href', 'data-href']
         area : ['href', 'data-href']
