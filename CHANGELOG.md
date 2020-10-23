@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.1.2 - 2020-10-23
+### Fixed
+- Merged in from v4.2.2/v4.1.4: Only use Translations Bundle LanguageType for selection of language of the
+  static ref translation when it is available from other sources. Removed dependency on Translations Bundle
+
 ## 5.1.1 - 2020-10-20
 ### Fixed
 - Wronly merged `zicht_url.twig_extension` in `services.xml`.
