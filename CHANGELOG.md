@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.2.2 - 2020-10-23
+### Fixed
+- Merged in from v4.1.4: Only use Translations Bundle LanguageType for selection of language of the static ref
+  translation when it is available from other sources. Removed dependency on Translations Bundle
+
 ## 4.2.1 - 2020-08-27
 ### Fixed
 - Added missing `minLength` parameters to the `ShortUrlManager` and `UrlExtension::shortUrl`.
