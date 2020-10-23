@@ -33,9 +33,15 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $form)
     {
+        $form->with('General');
+
+        if (class_exists(LanguageType::class)) {
+            $form->add('locale', LanguageType::class, ['required' => true]);
+        } else {
+            $form->add('locale', null, ['required' => true]);
+        }
+
         $form
-            ->with('General')
-            ->add('locale', LanguageType::class, ['required' => true])
             ->add('url', null, ['required' => true])
             ->end();
     }

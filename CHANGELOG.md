@@ -17,6 +17,11 @@ Nothing so far
 - `ShortUrlManager` as an endpoint to handle easy to implement short versions for urls.
 - `UrlExtension::shortUrl` to integrate short urls in Twig.
 
+## 4.1.4 - 2020-10-23
+### Fixed
+- Only use Translations Bundle LanguageType for selection of language of the static ref translation when it is
+  available from other sources. Removed dependency on Translations Bundle
+
 ## 4.1.3 - 2020-07-09
 ### Fixed
 - Added missing English translations.

@@ -17,7 +17,6 @@
         "symfony/symfony": "^3.4",
         "zicht/admin-bundle": "^5",
         "zicht/framework-extra-bundle": "^8",
-        "zicht/translations-bundle": "^5.2",
         "zicht/util": "^1.7"
     },
     "require-dev": {
