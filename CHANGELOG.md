@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 4.1.4 - 2020-10-23
+### Fixed
+- Only use Translations Bundle LanguageType for selection of language of the static ref translation when it is
+  available from other sources. Removed dependency on Translations Bundle
+
 ## 4.1.3 - 2020-07-09
 ### Fixed
 - Added missing English translations.
