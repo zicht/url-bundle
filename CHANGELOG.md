@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Set minimum required PHP version from ^7.1 to ^7.2 because there is no installable set of packages
+  for PHP 7.1 with the current dependencies.
+### Fixed
+- Updated the composer.lock file (clearing doctrine cache bundle and updating Symfony packages)
 ### Added|Changed|Deprecated|Removed|Fixed|Security
-Nothing so far
+Nothing else
 
 ## 5.1.2 - 2020-10-23
 ### Fixed
