@@ -5,13 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added|Changed|Deprecated|Removed|Fixed|Security
+Nothing so far
+
+## 5.1.3 - 2021-02-24
 ### Changed
 - Set minimum required PHP version from ^7.1 to ^7.2 because there is no installable set of packages
   for PHP 7.1 with the current dependencies.
 ### Fixed
-- Updated the composer.lock file (clearing doctrine cache bundle and updating Symfony packages)
-### Added|Changed|Deprecated|Removed|Fixed|Security
-Nothing else
+- `TinymceTypeExtension` defines `getExtendedTypes` as non-static, it should be static as of Symfony 4.
 
 ## 5.1.2 - 2020-10-23
 ### Fixed
