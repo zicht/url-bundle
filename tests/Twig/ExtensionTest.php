@@ -16,7 +16,7 @@ use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
  */
 class ExtensionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->provider = (new Generator())->getMock('Zicht\Bundle\UrlBundle\Url\Provider', ['url', 'supports']);
         $shortUrlManager = self::getMockBuilder(ShortUrlManager::class)->disableOriginalConstructor()->getMock();
@@ -53,11 +53,9 @@ class ExtensionTest extends TestCase
         $this->assertEquals('qux', $this->extension->objectUrl('foo', 'qux'));
     }
 
-    /**
-     * @expectedException \Zicht\Bundle\UrlBundle\Exception\UnsupportedException
-     */
     public function testObjectUrlWillRethrowIfNotSupportedAndNoDefaultGiven()
     {
+        $this->expectException('\Zicht\Bundle\UrlBundle\Exception\UnsupportedException');
         $this->provider->expects($this->once())->method('url')->with('foo')
             ->will($this->throwException(new \Zicht\Bundle\UrlBundle\Exception\UnsupportedException()));
         $this->extension->objectUrl('foo');

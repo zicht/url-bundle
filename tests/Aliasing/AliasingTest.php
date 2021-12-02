@@ -18,7 +18,7 @@ class AliasingTest extends TestCase
     public $aliasing;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->repos = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface')
             ->setMethods(['findOneByPublicUrl', 'findOneByInternalUrl', 'findAllByInternalUrl', 'findAll', 'findBy'])
@@ -152,19 +152,15 @@ class AliasingTest extends TestCase
         $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testAddAliasInvalidStrategyInternal()
     {
+        $this->expectException('\InvalidArgumentException');
         $this->aliasing->addAlias('foo', 'bat', 0, -1);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testAddAliasInvalidStrategyPublic()
     {
+        $this->expectException('\InvalidArgumentException');
         $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX, -1);
     }
 

@@ -12,7 +12,7 @@ use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 class RewriterTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->rewriter = new Rewriter($this->getMockBuilder(Aliasing::class)->disableOriginalConstructor()->getMock());
     }

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LoggingTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->manager = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $this->logging = new \Zicht\Bundle\UrlBundle\Logging\Logging($this->manager);

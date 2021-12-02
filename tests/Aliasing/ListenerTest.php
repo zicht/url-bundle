@@ -22,7 +22,7 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class ListenerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->aliasing = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')
             ->disableOriginalConstructor()

@@ -39,7 +39,7 @@ class AliaserTest extends TestCase
      */
     public $aliasingStrategy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->aliasing = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\Aliasing')
             ->disableOriginalConstructor()
