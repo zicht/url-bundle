@@ -4,7 +4,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Listener;
 
-use Doctrine\Common\Persistence\Event\LoadClassMetadataEventArgs;
+use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 /**

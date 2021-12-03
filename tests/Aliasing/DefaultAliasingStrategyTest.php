@@ -64,12 +64,9 @@ class DefaultAliasingStrategyTest extends TestCase
         ];
     }
 
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     function testUnsupported()
     {
+        $this->expectException('\InvalidArgumentException');
         $strategy = new DefaultAliasingStrategy();
         $strategy->generatePublicAlias(false);
     }

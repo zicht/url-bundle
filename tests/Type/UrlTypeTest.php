@@ -16,7 +16,7 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
  */
 class UrlTypeTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $aliasing = $this->getMockBuilder(Aliasing::class)->disableOriginalConstructor()->getMock();
         $this->type = new \Zicht\Bundle\UrlBundle\Type\UrlType($aliasing);

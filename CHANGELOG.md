@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.0 - 2021-11-15
+### Added
+- Support for PHP 8
+
 ## 5.1.3 - 2021-02-24
 ### Changed
 - Set minimum required PHP version from ^7.1 to ^7.2 because there is no installable set of packages

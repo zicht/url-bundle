@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class StaticProviderTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $router = $this->getMockBuilder('Symfony\Component\Routing\RouterInterface')->getMock();
         $context = new \Symfony\Component\Routing\RequestContext('');

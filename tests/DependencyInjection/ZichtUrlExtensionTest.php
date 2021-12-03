@@ -86,7 +86,7 @@ class ZichtUrlExtensionTest extends TestCase
         $code = $this->cb->compile();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new \Zicht\Bundle\UrlBundle\DependencyInjection\ZichtUrlExtension();
         $this->cb = new \Symfony\Component\DependencyInjection\ContainerBuilder(

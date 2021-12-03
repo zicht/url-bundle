@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class DbStaticProviderTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->manager = $this->getMockBuilder('Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
         $this->stack = new RequestStack();

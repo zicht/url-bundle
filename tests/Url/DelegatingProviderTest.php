@@ -82,11 +82,9 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
         }
 
 
-        /**
-         * @expectedException \Zicht\Bundle\UrlBundle\Exception\UnsupportedException
-         */
         public function testUnsupported()
         {
+            $this->expectException('\Zicht\Bundle\UrlBundle\Exception\UnsupportedException');
             $provider = new \Zicht\Bundle\UrlBundle\Url\DelegatingProvider();
 
             $provider->url('foo');

@@ -60,11 +60,9 @@ class ParamsTest extends TestCase
     }
 
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     function testNonMultipleWithWillThrowExceptionIfValueIsNotScalar()
     {
+        $this->expectException('\InvalidArgumentException');
         $uri = new Params();
         $uri->setUri('a=b/c=d');
         $uri->with('c', ['e'], false);
