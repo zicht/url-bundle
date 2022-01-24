@@ -24,9 +24,9 @@ class UrlAliasAdmin extends AbstractAdmin
     /**
      * {@inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->add('id')
             ->add('public_url', 'string', ['template' => '@ZichtAdmin/CRUD/list_url.html.twig'])
             ->add('internal_url', 'string', ['template' => '@ZichtAdmin/CRUD/list_url.html.twig'])

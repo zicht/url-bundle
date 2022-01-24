@@ -7,24 +7,25 @@
 
 namespace Zicht\Bundle\UrlBundle\Controller;
 
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Mounted on the admin path for security.
  *
+ * @final
  * @Route("/admin")
  */
-class SuggestUrlController extends Controller
+class SuggestUrlController extends AbstractController
 {
     /**
      * Controller used for url suggestions by the url provider.
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/url/suggest")
      */

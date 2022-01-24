@@ -13,15 +13,11 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 class ShortUrlManager
 {
-    /**
-     * @var ShortUrlHashGeneratorInterface
-     */
-    private $shortUrlHashGenerator;
-
-    /**
-     * @var Aliasing
-     */
+    /** @var Aliasing */
     private $aliasing;
+
+    /** @var ShortUrlHashGeneratorInterface */
+    private $shortUrlHashGenerator;
 
     /**
      * @param Aliasing $aliasing

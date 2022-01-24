@@ -25,7 +25,7 @@ interface UrlMapperInterface
      *
      * @param string $contentType
      *
-     * @return boolean
+     * @return bool
      */
     public function supports($contentType);
 

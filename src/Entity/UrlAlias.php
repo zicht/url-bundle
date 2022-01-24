@@ -78,7 +78,7 @@ class UrlAlias
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {

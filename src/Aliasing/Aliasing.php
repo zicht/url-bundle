@@ -58,6 +58,9 @@ class Aliasing
     /** @var UrlAliasRepository */
     protected $repository;
 
+    /** @var array<string, UrlAlias> */
+    protected $batch = [];
+
     /** @var bool */
     protected $isBatch = false;
 
@@ -73,7 +76,6 @@ class Aliasing
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
-        $this->batch = [];
     }
 
 
@@ -126,7 +128,6 @@ class Aliasing
         return $ret;
     }
 
-
     /**
      * Check if the passed internal URL has a public url alias.
      *
@@ -174,7 +175,6 @@ class Aliasing
     {
         return $this->repository;
     }
-
 
     /**
      * Add an alias

@@ -20,9 +20,9 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
     /**
      * {@inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('url');
     }
 

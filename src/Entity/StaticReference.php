@@ -61,7 +61,7 @@ class StaticReference
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {

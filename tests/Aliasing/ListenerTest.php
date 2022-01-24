@@ -9,6 +9,7 @@ namespace ZichtTest\Bundle\UrlBundle\Aliasing;
 use PHPUnit\Framework\MockObject\Generator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
@@ -36,7 +37,7 @@ class ListenerTest extends TestCase
 
     public function testOnKernelRequestDoesNotHandleSubRequest()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $event->expects($this->once())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::SUB_REQUEST));
@@ -46,17 +47,17 @@ class ListenerTest extends TestCase
 
     public function testOnKernelRequestHandlesMasterRequest()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $event->expects($this->once())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
-        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(new \Symfony\Component\HttpFoundation\Request()));
+        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(new Request()));
         $this->listener->onKernelRequest($event);
     }
 
     public function testRequestIsRoutedWithInternalUrl()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $req = (new Generator())->getMock('Symfony\Component\HttpFoundation\Request', ['getRequestUri']);
@@ -92,7 +93,7 @@ class ListenerTest extends TestCase
      */
     public function testParameterParsing()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $req = (new Generator())->getMock('Symfony\Component\HttpFoundation\Request', ['getRequestUri']);
@@ -118,7 +119,7 @@ class ListenerTest extends TestCase
 
     public function testParameterParsingSkipsToRoutingIfNoAliasExists()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $req = (new Generator())->getMock('Symfony\Component\HttpFoundation\Request', ['getRequestUri']);
@@ -141,7 +142,7 @@ class ListenerTest extends TestCase
      */
     public function testUrlExclusion($shouldRoute, $pattern, $publicUrl)
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->listener->setExcludePatterns([$pattern]);
@@ -173,11 +174,11 @@ class ListenerTest extends TestCase
      */
     public function testRedirectModes($statusCode, $expectsException = false)
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock();
         $event->expects($this->any())->method('getRequestType')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST));
-        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(new \Symfony\Component\HttpFoundation\Request()));
+        $event->expects($this->atLeastOnce())->method('getRequest')->will($this->returnValue(new Request()));
         $setResponseValue = null;
         $this->aliasing->expects($this->once())->method('hasInternalAlias')->will(
             $this->returnValue(
@@ -209,7 +210,7 @@ class ListenerTest extends TestCase
 
     public function testParameterParsingUtf8()
     {
-        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
+        $event = $this->getMockBuilder(RequestEvent::class)
             ->disableOriginalConstructor()
             ->getMock()
         ;

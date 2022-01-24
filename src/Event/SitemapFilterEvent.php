@@ -4,7 +4,7 @@
  */
 namespace Zicht\Bundle\UrlBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class SitemapFilterEvent extends Event implements \ArrayAccess, \IteratorAggregate, \Countable
 {

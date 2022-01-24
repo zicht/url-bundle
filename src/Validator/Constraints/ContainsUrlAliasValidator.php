@@ -11,9 +11,10 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
 class ContainsUrlAliasValidator extends ConstraintValidator
 {
-    /** @var Registry  */
+    /** @var Registry */
     protected $doctrine;
-    /** @var bool  */
+
+    /** @var bool */
     protected $isStrict;
 
     /**

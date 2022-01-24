@@ -13,21 +13,23 @@ use Zicht\Bundle\UrlBundle\Entity\ErrorLog;
  */
 class Logging
 {
+    /** @var EntityManager */
+    private $manager;
+
     /**
-     * @param \Doctrine\ORM\EntityManager $manager
+     * @param EntityManager $manager
      */
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
     }
 
-
     /**
      * Create a log entry for the passed request.
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param Request $request
      * @param string $message
-     * @return \Zicht\Bundle\UrlBundle\Entity\ErrorLog
+     * @return ErrorLog
      */
     public function createLog(Request $request, $message)
     {
@@ -40,7 +42,6 @@ class Logging
             $request->getRequestUri()
         );
     }
-
 
     /**
      * Persist the log and flush the manager.

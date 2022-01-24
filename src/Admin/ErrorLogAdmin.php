@@ -14,17 +14,17 @@ class ErrorLogAdmin extends AbstractAdmin
 {
     /** @var array */
     protected $datagridValues = [
-        '_page'         => 1,
-        '_sort_order'   => 'DESC',
-        '_sort_by'      => 'date_created'
+        '_page' => 1,
+        '_sort_order' => 'DESC',
+        '_sort_by' => 'date_created',
     ];
 
     /**
      * {@inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('date_created', null, ['route' => ['name' => 'show']])
             ->add('status')
             ->add('url')

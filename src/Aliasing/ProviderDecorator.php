@@ -2,7 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
- 
+
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -17,6 +17,9 @@ use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
  */
 class ProviderDecorator extends DelegatingProvider
 {
+    /** @var Aliasing */
+    private $aliasing;
+
     /**
      * @param Aliasing $aliasing
      */
@@ -26,7 +29,6 @@ class ProviderDecorator extends DelegatingProvider
 
         $this->aliasing = $aliasing;
     }
-
 
     /**
      * {@inheritDoc}
@@ -50,7 +52,7 @@ class ProviderDecorator extends DelegatingProvider
         }
         return $ret;
     }
-    
+
     /**
      * {@inheritDoc}
      */

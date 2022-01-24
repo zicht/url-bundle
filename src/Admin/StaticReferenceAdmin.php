@@ -20,9 +20,9 @@ class StaticReferenceAdmin extends AbstractAdmin
     /**
      * {@inheritDoc}
      */
-    public function configureListFields(ListMapper $listMapper)
+    public function configureListFields(ListMapper $list)
     {
-        $listMapper
+        $list
             ->addIdentifier('machine_name')
             ->add(
                 '_action',
@@ -49,7 +49,7 @@ class StaticReferenceAdmin extends AbstractAdmin
                     SonataCollectionType::class,
                     [],
                     [
-                        'edit'   => 'inline',
+                        'edit' => 'inline',
                         'inline' => 'table',
                     ]
                 );
