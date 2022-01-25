@@ -15,7 +15,7 @@ use Zicht\Bundle\UrlBundle\Entity\ErrorLog;
 class Listener
 {
     /** @var Logging */
-    private $logging;
+    protected $logging;
 
     /** @var ErrorLog|null */
     protected $log = null;
