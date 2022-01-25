@@ -13,10 +13,10 @@ use Symfony\Component\Routing\RouterInterface;
 class StaticProvider implements Provider
 {
     /** @var array */
-    private $refs;
+    protected $refs;
 
     /** @var RouterInterface */
-    private $router;
+    protected $router;
 
     /**
      * Create the provider with a set of static references, i.e. mappings from name to url.

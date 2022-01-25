@@ -18,7 +18,7 @@ use Zicht\Bundle\UrlBundle\Url\DelegatingProvider;
 class ProviderDecorator extends DelegatingProvider
 {
     /** @var Aliasing */
-    private $aliasing;
+    protected $aliasing;
 
     /**
      * @param Aliasing $aliasing

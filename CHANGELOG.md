@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.2 - 2022-01-25
+### Changed
+- Made missing properties added in 5.2.1 protected instead of private
+
 ## 5.2.1 - 2022-01-24
 ### Added
 - Added symfony/http-foundation:^4.4 as a requirement
