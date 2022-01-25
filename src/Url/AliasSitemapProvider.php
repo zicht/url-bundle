@@ -42,7 +42,7 @@ class AliasSitemapProvider implements ListableProvider
          * Hook to allow the mapping to be modified at run-time.
          */
         if ($this->eventDispatcher->hasListeners(Events::EVENT_SITEMAP_FILTER)) {
-            $this->eventDispatcher->dispatch(Events::EVENT_SITEMAP_FILTER, new SitemapFilterEvent($urls));
+            $this->eventDispatcher->dispatch(new SitemapFilterEvent($urls), Events::EVENT_SITEMAP_FILTER);
         }
 
         return array_map(

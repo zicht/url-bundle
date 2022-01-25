@@ -9,6 +9,9 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 class Rewriter
 {
+    /** @var Aliasing */
+    private $aliasing;
+
     /** @var array */
     private $localDomains = [];
 
@@ -198,7 +201,7 @@ class Rewriter
         $replacements = [];
         foreach ($this->rewrite(array_keys($matchedGroups), $mode) as $from => $to) {
             if (isset($matchedGroups[$from]) && $from !== $to) {
-                foreach ($matchedGroups[$from] as list($source, $prefix, $oldUrl, $suffix)) {
+                foreach ($matchedGroups[$from] as [$source, $prefix, $oldUrl, $suffix]) {
                     $replacements[$source] = $prefix . $to . $suffix;
                 }
             }

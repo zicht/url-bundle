@@ -23,6 +23,9 @@ class Listener
     /** @var Aliasing */
     protected $aliasing;
 
+    /** @var RouterListener */
+    protected $router;
+
     /** @var array */
     protected $excludePatterns = [];
 
@@ -44,18 +47,18 @@ class Listener
     /**
      * Listens to redirect responses, to replace any internal url with a public one.
      *
-     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $e
+     * @param Event\ResponseEvent $event
      * @return void
      */
-    public function onKernelResponse(Event\FilterResponseEvent $e)
+    public function onKernelResponse(Event\ResponseEvent $event)
     {
-        if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
-            $response = $e->getResponse();
+        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+            $response = $event->getResponse();
 
             // only do anything if the response has a Location header
             $location = $response->headers->get('location', false);
             if (false !== $location) {
-                $absolutePrefix = $e->getRequest()->getSchemeAndHttpHost();
+                $absolutePrefix = $event->getRequest()->getSchemeAndHttpHost();
 
                 if (parse_url($location, PHP_URL_SCHEME)) {
                     if (substr($location, 0, strlen($absolutePrefix)) === $absolutePrefix) {
@@ -85,10 +88,10 @@ class Listener
                  *
                  */
                 if (preg_match('/^(\/[a-z]{2,2}\/page\/\d+)(.*)$/', $relative, $matches)) {
-                    list(, $relative, $suffix) = $matches;
+                    [, $relative, $suffix] = $matches;
                 } elseif (preg_match('/^(\/page\/\d+)(.*)$/', $relative, $matches)) {
                     /* For old sites that don't have the locale in the URI */
-                    list(, $relative, $suffix) = $matches;
+                    [, $relative, $suffix] = $matches;
                 }
 
                 if (null !== $relative) {
@@ -99,7 +102,7 @@ class Listener
                 }
             }
 
-            $this->rewriteResponse($e->getRequest(), $response);
+            $this->rewriteResponse($event->getRequest(), $response);
         }
     }
 
@@ -147,11 +150,11 @@ class Listener
     /**
      * Listens to master requests and translates the URL to an internal url, if there is an alias available
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param Event\RequestEvent $event
      * @return void
      * @throws \UnexpectedValueException
      */
-    public function onKernelRequest(Event\GetResponseEvent $event)
+    public function onKernelRequest(Event\RequestEvent $event)
     {
         if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
             $request = $event->getRequest();
@@ -247,7 +250,7 @@ class Listener
         );
 
         // route the request
-        $subEvent = new Event\GetResponseEvent(
+        $subEvent = new Event\RequestEvent(
             $event->getKernel(),
             $event->getRequest(),
             $event->getRequestType()

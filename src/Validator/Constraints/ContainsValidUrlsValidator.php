@@ -11,10 +11,7 @@ use Zicht\Bundle\UrlBundle\Service\UrlValidator;
 
 class ContainsValidUrlsValidator extends ConstraintValidator
 {
-
-    /**
-     * @var UrlValidator
-     */
+    /** @var UrlValidator */
     private $urlValidator;
 
     /**

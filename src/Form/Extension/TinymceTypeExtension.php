@@ -13,15 +13,7 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 class TinymceTypeExtension extends AbstractTypeExtension
 {
-    /** {@inheritDoc} */
-    public static function getExtendedTypes()
-    {
-        return [TinymceType::class];
-    }
-
-    /**
-     * @var Aliasing
-     */
+    /** @var Aliasing */
     private $aliasing;
 
     /**
@@ -30,6 +22,12 @@ class TinymceTypeExtension extends AbstractTypeExtension
     public function __construct(Aliasing $aliasing)
     {
         $this->aliasing = $aliasing;
+    }
+
+    /** {@inheritDoc} */
+    public static function getExtendedTypes()
+    {
+        return [TinymceType::class];
     }
 
     /**

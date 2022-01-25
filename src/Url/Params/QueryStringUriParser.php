@@ -17,7 +17,6 @@ class QueryStringUriParser extends UriParser
         parent::__construct();
     }
 
-
     /**
      * Compose an URI from the passed params with the local separators
      *

@@ -34,14 +34,6 @@ class UrlType extends AbstractType
     /**
      * {@inheritDoc}
      */
-    public function getName()
-    {
-        return 'zicht_url';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getBlockPrefix()
     {
         return 'zicht_url';
@@ -57,10 +49,10 @@ class UrlType extends AbstractType
         $resolver
             ->setDefaults(
                 [
-                    'with_edit_button'      => true,
-                    'no_transform_public'   => false,
+                    'with_edit_button' => true,
+                    'no_transform_public' => false,
                     'no_transform_internal' => false,
-                    'url_suggest'           => '/admin/url/suggest',
+                    'url_suggest' => '/admin/url/suggest',
                 ]
             );
     }

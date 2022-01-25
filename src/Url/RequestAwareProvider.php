@@ -12,6 +12,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class RequestAwareProvider extends DelegatingProvider
 {
+    /** @var string|null */
+    private $baseUrl;
+
+    /** @var string */
+    private $prefix;
+
+    /** @var int */
+    private $baseUrlLen;
+
     public function __construct(RequestStack $requestStack)
     {
         parent::__construct();
@@ -30,7 +39,7 @@ class RequestAwareProvider extends DelegatingProvider
     {
         $ret = parent::url($object, $options);
 
-        if ($this->baseUrlLen && substr($ret, 0, $this->baseUrlLen) == $this->baseUrl) {
+        if ($this->baseUrlLen && substr($ret, 0, $this->baseUrlLen) === $this->baseUrl) {
             $ret = substr($ret, $this->baseUrlLen);
         }
         $ret = ltrim($ret, '/');

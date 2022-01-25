@@ -12,9 +12,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 abstract class AbstractRoutingProvider implements Provider
 {
-    /**
-     * @var RouterInterface
-     */
+    /** @var RouterInterface */
     protected $router;
 
     /**
@@ -24,7 +22,6 @@ abstract class AbstractRoutingProvider implements Provider
     {
         $this->router = $router;
     }
-
 
     /**
      * {@inheritDoc}
@@ -37,7 +34,7 @@ abstract class AbstractRoutingProvider implements Provider
             $params
         );
     }
-    
+
     /**
      * Returns the routing for the object. The return value must be an array of two elements: the route name and the
      * parameters

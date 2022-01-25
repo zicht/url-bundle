@@ -26,7 +26,7 @@ class HtmlMapper implements UrlMapperInterface
             'iframe' => ['src'],
             'form' => ['action'],
             'meta' => ['content'],
-            'link' => ['href']
+            'link' => ['href'],
         ];
     }
 
@@ -36,7 +36,7 @@ class HtmlMapper implements UrlMapperInterface
      */
     public function supports($contentType)
     {
-        return $contentType == 'text/html';
+        return $contentType === 'text/html';
     }
 
 

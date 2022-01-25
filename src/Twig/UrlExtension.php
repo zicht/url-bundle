@@ -21,16 +21,14 @@ class UrlExtension extends AbstractExtension
     /** @var Provider */
     protected $provider;
 
+    /** @var ShortUrlManager */
+    private $shortUrlManager;
+
     /** @var Aliasing|null */
     protected $aliasing;
 
     /** @var array */
     private $static_refs = [];
-
-    /**
-     * @var ShortUrlManager
-     */
-    private $shortUrlManager;
 
     /**
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
@@ -43,8 +41,8 @@ class UrlExtension extends AbstractExtension
     public function __construct(Provider $provider, ShortUrlManager $shortUrlManager, $aliasing = null)
     {
         $this->provider = $provider;
-        $this->aliasing = $aliasing;
         $this->shortUrlManager = $shortUrlManager;
+        $this->aliasing = $aliasing;
     }
 
     /**
@@ -145,15 +143,5 @@ class UrlExtension extends AbstractExtension
     {
         $alias = $this->shortUrlManager->getAlias($originatingUrl, $prefix, $minLength);
         return $alias->getPublicUrl();
-    }
-
-    /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
-     */
-    public function getName()
-    {
-        return 'zicht_url';
     }
 }

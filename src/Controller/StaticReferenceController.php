@@ -5,15 +5,17 @@
 
 namespace Zicht\Bundle\UrlBundle\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Utility controller to reference a static ref from outside the system.
+ *
+ * @final
  */
-class StaticReferenceController extends Controller
+class StaticReferenceController extends AbstractController
 {
     /**
      * Redirects to the url provided by the main url provider service.
@@ -21,7 +23,7 @@ class StaticReferenceController extends Controller
      * @param Request $request
      * @param string $name
      * @param int $code
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
      * @Route("/_static-ref/{name}")
      */

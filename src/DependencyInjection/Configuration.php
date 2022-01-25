@@ -16,10 +16,10 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('zicht_url');
+        $treeBuilder = new TreeBuilder('zicht_url');
+        $rootNode = $treeBuilder->getRootNode();
 
         $isBool = function ($v) {
             return is_bool($v);
@@ -81,7 +81,7 @@ class Configuration implements ConfigurationInterface
                             'iframe' => ['src'],
                             'form' => ['action'],
                             'meta' => ['content'],
-                            'link' => ['href']
+                            'link' => ['href'],
                         ]
                     )
                 ->end()

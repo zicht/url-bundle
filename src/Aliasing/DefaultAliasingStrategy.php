@@ -3,7 +3,7 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 namespace Zicht\Bundle\UrlBundle\Aliasing;
- 
+
 use Zicht\Util\Str;
 
 /**
@@ -11,6 +11,9 @@ use Zicht\Util\Str;
  */
 class DefaultAliasingStrategy implements AliasingStrategy
 {
+    /** @var string */
+    private $basePath;
+
     /**
      * Construct with the specified base path
      *
@@ -25,7 +28,7 @@ class DefaultAliasingStrategy implements AliasingStrategy
     /**
      * Returns the calculated public alias for the specified object.
      *
-     * @param string $subject
+     * @param string|Aliasable|object|\Stringable $subject
      * @param string $currentAlias
      * @return null|string
      * @throws \InvalidArgumentException

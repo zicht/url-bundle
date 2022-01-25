@@ -23,11 +23,6 @@ class ExtensionTest extends TestCase
         $this->extension = new \Zicht\Bundle\UrlBundle\Twig\UrlExtension($this->provider, $shortUrlManager);
     }
 
-    public function testGetNameBecauseWeLoveCoverage()
-    {
-        $this->assertEquals('zicht_url', $this->extension->getName());
-    }
-
     public function testAvailableFunctions()
     {
         $functions = $this->extension->getFunctions();

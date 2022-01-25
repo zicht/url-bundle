@@ -12,10 +12,16 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class StaticProvider implements Provider
 {
+    /** @var array */
+    private $refs;
+
+    /** @var RouterInterface */
+    private $router;
+
     /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
      *
-     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param RouterInterface $router
      * @param array $refs
      */
     public function __construct(RouterInterface $router, array $refs = [])

@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.1 - 2022-01-24
+### Added
+- Added symfony/http-foundation:^4.4 as a requirement
+- Added missing property definitions in classes
+- Added `@final` annotations to the controllers. Controllers shouldn't be extended.
+### Fixed
+- Fixed deprecations (Events, Controller)
+- Code cleanup (removed redundant spaces and newlines, added dangling commas)
+### Removed
+- Removed z2.yml file
+
 ## 5.2.0 - 2021-11-15
 ### Added
 - Support for PHP 8

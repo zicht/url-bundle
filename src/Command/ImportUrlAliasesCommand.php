@@ -189,6 +189,8 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
         }
 
         $flush();
+
+        return 0;
     }
 
     /**

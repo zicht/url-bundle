@@ -37,7 +37,6 @@ class ZichtUrlExtension extends Extension
             trigger_error('unalias_subscriber is no longer used. This has moved to form transformers.', E_USER_DEPRECATED);
         }
 
-
         if (isset($config['static_ref'])) {
             $container->getDefinition('zicht_url.static_refs')->addMethodCall('addAll', [$config['static_ref']]);
         }

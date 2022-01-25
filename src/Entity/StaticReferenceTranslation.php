@@ -53,7 +53,7 @@ class StaticReferenceTranslation
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
