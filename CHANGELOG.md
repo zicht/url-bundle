@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.3 - 2022-04-06
+### Removed
+- Dropped non-default `ChangeTrackingPolicy("DEFERRED_EXPLICIT")` on entities.
+
 ## 5.2.2 - 2022-01-25
 ### Changed
 - Made missing properties added in 5.2.1 protected instead of private
