@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="static_reference")
  * @ORM\Entity(repositoryClass="Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository")
- * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class StaticReference
 {

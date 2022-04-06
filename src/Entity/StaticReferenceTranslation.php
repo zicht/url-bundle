@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="static_reference_translation")
- * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Entity
  */
 class StaticReferenceTranslation
