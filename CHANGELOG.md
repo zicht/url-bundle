@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.4 - 2022-05-19
+### Fixed
+- Added cascade delete for `StaticReference`.
+
 ## 5.2.3 - 2022-04-06
 ### Removed
 - Dropped non-default `ChangeTrackingPolicy("DEFERRED_EXPLICIT")` on entities.
