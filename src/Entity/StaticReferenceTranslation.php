@@ -24,6 +24,7 @@ class StaticReferenceTranslation
     /**
      * @var StaticReference|null
      * @ORM\ManyToOne(targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReference", inversedBy="translations")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     public $static_reference;
 
