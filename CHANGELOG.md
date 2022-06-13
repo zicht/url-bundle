@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.5 - 2022-06-13
+### Fixed
+- Fixed deprecated Twig template notation.
+- Fixed deprecated notations in README.md.
+
 ## 5.2.4 - 2022-05-19
 ### Fixed
 - Added cascade delete for `StaticReference`.
