@@ -42,19 +42,21 @@ To enable this feature, add the following to a page admin, and make sure that
 form_theme.html.twig from the url-bundle is loaded.
 
 ```
+// use Zicht\Bundle\UrlBundle\Admin\AliasOverviewType;
+
 public function configureFormFields(FormMapper $formMapper)
 {
     parent::configureFormFields($formMapper);
     $formMapper
         ->tab('admin.tab.alias_overview')
-            ->add('alias_overview', 'alias_overview_type', ['record' => $this->getSubject()])
+            ->add('alias_overview', AliasOverviewType::class, ['record' => $this->getSubject()])
         ->end()->end();
 }
 ```
 
 ## Importing a csv with aliases
 
-Use the command `php app/console zicht:url:import-aliases url_aliases_file.csv --skip-header --csv-delimiter ';'`
+Use the command `php bin/console zicht:url:import-aliases url_aliases_file.csv --skip-header --csv-delimiter ';'`
 
 This command can parse csv files that follow the following syntax:
 
