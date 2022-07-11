@@ -16,7 +16,7 @@ use Sonata\Form\Type\CollectionType as SonataCollectionType;
  */
 class StaticReferenceAdmin extends AbstractAdmin
 {
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('machine_name')
@@ -32,7 +32,7 @@ class StaticReferenceAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         if ($this->getSubject()->getId()) {
             $form
@@ -52,19 +52,19 @@ class StaticReferenceAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('machine_name')
             ->add('url');
     }
 
-    public function prePersist($object)
+    public function prePersist(object $object): void
     {
         $object->addMissingTranslations();
     }
 
-    public function preUpdate($object)
+    public function preUpdate(object $object): void
     {
         $object->addMissingTranslations();
     }

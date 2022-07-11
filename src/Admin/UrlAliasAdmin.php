@@ -21,7 +21,7 @@ class UrlAliasAdmin extends AbstractAdmin
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
     ];
 
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id')
@@ -41,10 +41,10 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $modeChoiceOptions = [
-            'choice_translation_domain' => $this->translationDomain,
+            'choice_translation_domain' => $this->getTranslationDomain(),
             'choices' => [
                 'admin.alias_overview.mode_' . UrlAlias::ALIAS => UrlAlias::ALIAS,
                 'admin.alias_overview.mode_' . UrlAlias::MOVE => UrlAlias::MOVE,
@@ -58,7 +58,7 @@ class UrlAliasAdmin extends AbstractAdmin
             ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form->add('public_url')
             ->add('internal_url', UrlType::class, ['no_transform_public' => true])
@@ -75,7 +75,7 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('public_url')
