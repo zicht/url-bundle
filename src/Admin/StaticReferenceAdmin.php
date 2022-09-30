@@ -10,9 +10,12 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
+use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 /**
  * Admin implementation for static references
+ *
+ * @extends AbstractAdmin<StaticReference>
  */
 class StaticReferenceAdmin extends AbstractAdmin
 {
