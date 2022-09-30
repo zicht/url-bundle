@@ -6,20 +6,13 @@
 namespace Zicht\Bundle\UrlBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class ErrorLogAdmin extends AbstractAdmin
 {
-    /** @var array */
-    protected $datagridValues = [
-        '_page' => 1,
-        '_sort_order' => 'DESC',
-        '_sort_by' => 'date_created',
-    ];
-
     public function configureListFields(ListMapper $list): void
     {
         $list
@@ -38,6 +31,13 @@ class ErrorLogAdmin extends AbstractAdmin
                     ],
                 ]
             );
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        parent::configureDefaultSortValues($sortValues);
+        $sortValues[DatagridInterface::SORT_BY] = 'date_created';
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
     }
 
     protected function configureShowFields(ShowMapper $show): void

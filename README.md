@@ -44,7 +44,7 @@ form_theme.html.twig from the url-bundle is loaded.
 ```
 // use Zicht\Bundle\UrlBundle\Admin\AliasOverviewType;
 
-public function configureFormFields(FormMapper $formMapper)
+public function configureFormFields(FormMapper $formMapper): void
 {
     parent::configureFormFields($formMapper);
     $formMapper
