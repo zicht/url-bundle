@@ -28,15 +28,11 @@ class StaticTranslator implements Translator
      */
     public function __construct($keyName, $keyTranslation, $valueTranslations = [])
     {
-        $this->keyName           = $keyName;
-        $this->keyTranslation    = $keyTranslation;
+        $this->keyName = $keyName;
+        $this->keyTranslation = $keyTranslation;
         $this->valueTranslations = $valueTranslations;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateKeyInput($keyTranslation)
     {
         if ($keyTranslation == $this->keyTranslation) {
@@ -46,10 +42,6 @@ class StaticTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueInput($keyTranslation, $valueTranslation)
     {
         if ($keyTranslation == $this->keyTranslation) {
@@ -61,10 +53,6 @@ class StaticTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateKeyOutput($keyName)
     {
         if ($keyName == $this->keyName) {
@@ -74,10 +62,6 @@ class StaticTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueOutput($keyName, $value)
     {
         if ($keyName == $this->keyName) {
@@ -88,7 +72,6 @@ class StaticTranslator implements Translator
 
         return false;
     }
-
 
     /**
      * Adds a value translation

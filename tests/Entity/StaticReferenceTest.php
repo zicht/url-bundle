@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -24,7 +23,6 @@ class StaticReferenceTest extends TestCase
 
         $this->assertTrue((bool)$ref->hasTranslation('en'));
         $this->assertEquals('bar', $ref->getTranslation('en')->getUrl());
-
 
         (string)$ref; // must not fail.
 

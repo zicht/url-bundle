@@ -20,9 +20,6 @@ class StaticProvider implements Provider
 
     /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
-     *
-     * @param RouterInterface $router
-     * @param array $refs
      */
     public function __construct(RouterInterface $router, array $refs = [])
     {
@@ -33,7 +30,6 @@ class StaticProvider implements Provider
     /**
      * Add the array as references
      *
-     * @param array $refs
      * @return void
      */
     public function addAll(array $refs)
@@ -53,17 +49,11 @@ class StaticProvider implements Provider
         $this->refs[$name] = $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports($object)
     {
         return is_string($object) && isset($this->refs[$object]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         return $this->router->getContext()->getBaseUrl() . '/' . ltrim($this->refs[$object], '/');

@@ -25,13 +25,10 @@ class CallbackTranslator extends StaticTranslator
     public function __construct($keyName, $keyTranslation, $valueInputTranslator, $valueOutputTranslator)
     {
         parent::__construct($keyName, $keyTranslation, []);
-        $this->valueInputTranslator  = $valueInputTranslator;
+        $this->valueInputTranslator = $valueInputTranslator;
         $this->valueOutputTranslator = $valueOutputTranslator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueInput($keyName, $value)
     {
         if ($this->translateKeyInput($keyName) !== false) {
@@ -41,9 +38,6 @@ class CallbackTranslator extends StaticTranslator
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueOutput($keyName, $value)
     {
         if ($this->translateKeyOutput($keyName) !== false) {

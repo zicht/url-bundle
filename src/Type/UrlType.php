@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -23,25 +24,16 @@ class UrlType extends AbstractType
      */
     private $aliasing;
 
-    /**
-     * @param Aliasing $aliasing
-     */
     public function __construct(Aliasing $aliasing)
     {
         $this->aliasing = $aliasing;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBlockPrefix()
     {
         return 'zicht_url';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -57,9 +49,6 @@ class UrlType extends AbstractType
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         parent::finishView($view, $form, $options);
@@ -67,17 +56,11 @@ class UrlType extends AbstractType
         $view->vars['with_edit_button'] = $options['with_edit_button'];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getParent()
     {
         return TextType::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $mode = TextTransformer::MODE_TO_INTERNAL | TextTransformer::MODE_TO_PUBLIC;

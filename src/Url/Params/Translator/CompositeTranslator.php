@@ -16,9 +16,6 @@ class CompositeTranslator implements Translator
     /** @var array */
     protected $translators = [];
 
-    /**
-     * {@inheritDoc}
-     */
     public function translateKeyInput($keyName)
     {
         foreach ($this->translators as $translator) {
@@ -30,10 +27,6 @@ class CompositeTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueInput($keyName, $value)
     {
         foreach ($this->translators as $translator) {
@@ -45,10 +38,6 @@ class CompositeTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateKeyOutput($keyName)
     {
         foreach ($this->translators as $translator) {
@@ -60,10 +49,6 @@ class CompositeTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function translateValueOutput($keyName, $value)
     {
         foreach ($this->translators as $translator) {
@@ -75,10 +60,6 @@ class CompositeTranslator implements Translator
         return false;
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function add(Translator $translator)
     {
         $this->translators[] = $translator;

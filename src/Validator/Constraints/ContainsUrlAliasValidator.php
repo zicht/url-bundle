@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Validator\Constraints;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -18,7 +19,6 @@ class ContainsUrlAliasValidator extends ConstraintValidator
     protected $isStrict;
 
     /**
-     * @param Registry $doctrine
      * @param bool $isStrict
      */
     public function __construct(Registry $doctrine, $isStrict = false)
@@ -26,7 +26,6 @@ class ContainsUrlAliasValidator extends ConstraintValidator
         $this->doctrine = $doctrine;
         $this->isStrict = $isStrict;
     }
-
 
     /**
      * Checks if the passed value is valid.
@@ -58,10 +57,8 @@ class ContainsUrlAliasValidator extends ConstraintValidator
         }
     }
 
-
     /**
      * @param string $url
-     * @param Constraint $constraint
      */
     public function addViolation($url, Constraint $constraint)
     {

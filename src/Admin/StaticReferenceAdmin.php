@@ -7,19 +7,15 @@ namespace Zicht\Bundle\UrlBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 
 /**
  * Admin implementation for static references
- *
  */
 class StaticReferenceAdmin extends AbstractAdmin
 {
-    /**
-     * {@inheritDoc}
-     */
     public function configureListFields(ListMapper $list)
     {
         $list
@@ -29,16 +25,13 @@ class StaticReferenceAdmin extends AbstractAdmin
                 'actions',
                 [
                     'actions' => [
-                        'edit'   => [],
+                        'edit' => [],
                         'delete' => [],
                     ],
                 ]
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureFormFields(FormMapper $form)
     {
         if ($this->getSubject()->getId()) {
@@ -59,9 +52,6 @@ class StaticReferenceAdmin extends AbstractAdmin
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureShowFields(ShowMapper $show)
     {
         $show
@@ -69,17 +59,11 @@ class StaticReferenceAdmin extends AbstractAdmin
             ->add('url');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function prePersist($object)
     {
         $object->addMissingTranslations();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function preUpdate($object)
     {
         $object->addMissingTranslations();

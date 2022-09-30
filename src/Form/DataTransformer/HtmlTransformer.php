@@ -5,17 +5,11 @@
 
 namespace Zicht\Bundle\UrlBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
-
 /**
  * Class AliasToInternalUrlTransformer
- *
  */
 class HtmlTransformer extends AbstractAliasingTransformer
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function doMap($html, $mode)
     {
         return $this->aliasing->mapContent('text/html', $mode, $html, []);

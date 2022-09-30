@@ -34,8 +34,6 @@ class UrlExtension extends AbstractExtension
      * Construct the extension with the passed object as provider. The provider is typically a DelegatingProvider
      * that delegates to all registered url providers.
      *
-     * @param Provider $provider
-     * @param ShortUrlManager $shortUrlManager
      * @param Aliasing|null $aliasing
      */
     public function __construct(Provider $provider, ShortUrlManager $shortUrlManager, $aliasing = null)
@@ -45,9 +43,6 @@ class UrlExtension extends AbstractExtension
         $this->aliasing = $aliasing;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilters()
     {
         return [
@@ -68,16 +63,13 @@ class UrlExtension extends AbstractExtension
         return $html;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFunctions()
     {
         return [
             'object_url' => new TwigFunction('object_url', [$this, 'objectUrl']),
             'static_ref' => new TwigFunction('static_ref', [$this, 'staticRef']),
             'static_reference' => new TwigFunction('static_reference', [$this, 'staticRef']),
-            'short_url' => new TwigFunction('short_url', [$this, 'shortUrl'])
+            'short_url' => new TwigFunction('short_url', [$this, 'shortUrl']),
         ];
     }
 

@@ -39,7 +39,6 @@ class Params
      * Each of the separator parameters is used for providing different formats of the URI. These separators
      * will be used to generate a string of the object too.
      *
-     * @param null|UriParser $parser
      * @return Params
      */
     public function __construct(UriParser $parser = null)
@@ -64,7 +63,6 @@ class Params
         }
     }
 
-
     /**
      * Add a value to the given map key.
      *
@@ -81,7 +79,6 @@ class Params
         $this->stateChanged();
     }
 
-
     /**
      * Replaces the map key with the specified set of values.
      *
@@ -94,7 +91,6 @@ class Params
         $this->values[$key] = new ArrayCollection($values);
         $this->stateChanged();
     }
-
 
     /**
      * Returns the set of values associated with the given key as an array.
@@ -112,7 +108,6 @@ class Params
         return [];
     }
 
-
     /**
      * Checks if a value is associated with the given key.
      *
@@ -129,7 +124,6 @@ class Params
         return false;
     }
 
-
     /**
      * Checks if the given key is present in the map.
      *
@@ -140,7 +134,6 @@ class Params
     {
         return isset($this->values[$key]);
     }
-
 
     /**
      * Removes the given value from the map associated with the given key.
@@ -157,7 +150,6 @@ class Params
         $this->stateChanged();
     }
 
-
     /**
      * Removes an entire set of values associated with the given key.
      *
@@ -171,7 +163,6 @@ class Params
         }
         $this->stateChanged();
     }
-
 
     /**
      * Merges a set of values into the given key's set.
@@ -188,11 +179,9 @@ class Params
         $this->stateChanged();
     }
 
-
     /**
      * Merge an entire map into the current map.
      *
-     * @param array $values
      * @return void
      */
     public function mergeAll(array $values)
@@ -201,7 +190,6 @@ class Params
             $this->merge($key, $value);
         }
     }
-
 
     /**
      * Returns the map as an array, with all values representing the set of
@@ -219,7 +207,6 @@ class Params
         return $ret;
     }
 
-
     /**
      * Parses the uri and assigns the parsed values.
      *
@@ -231,7 +218,6 @@ class Params
         $this->setValues($this->parser->parseUri($uri));
     }
 
-
     /**
      * Process the POST and merges the (translated) values.
      *
@@ -242,7 +228,6 @@ class Params
     {
         $this->mergeAll($this->parser->parsePost($post));
     }
-
 
     /**
      * Duplicates the current instance with one value changed.
@@ -267,11 +252,9 @@ class Params
         return $ret;
     }
 
-
     /**
      * Helper for with()
      *
-     * @param Params $ret
      * @param string $key
      * @param string $value
      * @param bool $multiple
@@ -281,9 +264,7 @@ class Params
     {
         if (!$multiple) {
             if (!is_scalar($value)) {
-                throw new \InvalidArgumentException(
-                    'Invalid argument $value to with(), expected scalar, got ' . gettype($value)
-                );
+                throw new \InvalidArgumentException('Invalid argument $value to with(), expected scalar, got ' . gettype($value));
             }
             if ($ret->contains($key, $value)) {
                 $ret->remove($key, $value);
@@ -300,7 +281,6 @@ class Params
 
         return $ret;
     }
-
 
     /**
      * Returns a single value, and defaults to the given default parameter if not available.
@@ -320,7 +300,6 @@ class Params
         return $ret;
     }
 
-
     /**
      * Duplicates the current instance with one or more sets of values removed
      *
@@ -339,7 +318,6 @@ class Params
 
         return $ret;
     }
-
 
     /**
      * Returns all keys in the current set.

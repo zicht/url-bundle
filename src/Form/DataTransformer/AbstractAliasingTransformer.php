@@ -11,23 +11,23 @@ use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
 
 /**
  * Provides a Template Method pattern for implementing different mapping types
- *
  */
 abstract class AbstractAliasingTransformer implements DataTransformerInterface
 {
-    /** @var Aliasing */
-    protected $aliasing;
-    /** @var int  */
-    protected $mode;
     /** Mode bit for transform method */
     const MODE_TO_PUBLIC = 1;
     /** Mode bit for reverseTransform method */
     const MODE_TO_INTERNAL = 2;
 
+    /** @var Aliasing */
+    protected $aliasing;
+
+    /** @var int */
+    protected $mode;
+
     /**
      * AliasToInternalUrlTransformer constructor.
      *
-     * @param Aliasing $aliasing
      * @param int $mode
      */
     public function __construct(Aliasing $aliasing, $mode = self::MODE_TO_PUBLIC | self::MODE_TO_INTERNAL)
@@ -40,7 +40,7 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      * Transforms a string containing internal urls to string to public urls.
      *
      * @param string $data
-     * @return null|string
+     * @return string|null
      */
     public function transform($data)
     {
@@ -55,7 +55,7 @@ abstract class AbstractAliasingTransformer implements DataTransformerInterface
      * Tranforms a string containing public urls to string with internal urls.
      *
      * @param string $data
-     * @return null|string
+     * @return string|null
      */
     public function reverseTransform($data)
     {

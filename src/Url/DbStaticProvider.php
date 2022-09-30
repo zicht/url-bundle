@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Url;
 
 use Doctrine\ORM\EntityManager;
@@ -17,20 +18,17 @@ class DbStaticProvider implements Provider
     /** @var EntityManager */
     private $em;
 
-    /** @var null|RequestStack */
+    /** @var RequestStack|null */
     private $requestStack;
 
     /** @var array Holds the static references */
     private $refs = null;
 
-    /** @var null|string The locale to use when all things fail */
+    /** @var string|null The locale to use when all things fail */
     private $fallback_locale = null;
 
     /**
      * Create the provider with a set of static references, i.e. mappings from name to url.
-     *
-     * @param EntityManager $em
-     * @param RequestStack|null $requestStack
      */
     public function __construct(EntityManager $em, RequestStack $requestStack = null)
     {
@@ -58,9 +56,6 @@ class DbStaticProvider implements Provider
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports($object)
     {
         $this->checkRefsAreLoaded();
@@ -68,9 +63,6 @@ class DbStaticProvider implements Provider
         return is_string($object) && isset($this->refs[$object][$this->getLocale()]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         $this->checkRefsAreLoaded();
@@ -85,7 +77,6 @@ class DbStaticProvider implements Provider
 
         return $url;
     }
-
 
     /**
      * Returns the locale parameter for the current request, if any.
@@ -118,7 +109,7 @@ class DbStaticProvider implements Provider
     }
 
     /**
-     * @return null|Request
+     * @return Request|null
      */
     private function getMasterRequest()
     {

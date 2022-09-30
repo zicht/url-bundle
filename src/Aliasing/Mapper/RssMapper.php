@@ -6,10 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 /**
- * Class RssMapper
- *
  * Helper to map urls in an Rss string from internal to public aliasing or vice versa.
- *
  */
 class RssMapper extends AbstractMapper
 {

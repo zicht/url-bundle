@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Listener;
 
 use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
@@ -25,9 +26,6 @@ class StrictPublicUrlListener
         $this->isStrict = $strict;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $args)
     {
         if (false === $this->isStrict) {

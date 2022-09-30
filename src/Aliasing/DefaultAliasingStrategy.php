@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 use Zicht\Util\Str;
@@ -24,13 +25,12 @@ class DefaultAliasingStrategy implements AliasingStrategy
         $this->basePath = $basePath;
     }
 
-
     /**
      * Returns the calculated public alias for the specified object.
      *
      * @param string|Aliasable|object|\Stringable $subject
      * @param string $currentAlias
-     * @return null|string
+     * @return string|null
      * @throws \InvalidArgumentException
      */
     public function generatePublicAlias($subject, $currentAlias = '')
@@ -53,7 +53,6 @@ class DefaultAliasingStrategy implements AliasingStrategy
         }
         return null;
     }
-
 
     /**
      * Systemizes the specified string.

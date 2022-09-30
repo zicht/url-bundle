@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://www.zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Url\Params;
 
 /**
@@ -25,7 +26,7 @@ class QueryStringUriParser extends UriParser
      */
     public function composeUri($params)
     {
-        $ret   = [];
+        $ret = [];
 
         foreach ($params as $param => $values) {
             $internal = $param;

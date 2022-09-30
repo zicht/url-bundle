@@ -49,7 +49,7 @@ class StaticReferenceTranslation
     public function __construct($locale = null, $url = null)
     {
         $this->locale = $locale;
-        $this->url    = $url;
+        $this->url = $url;
     }
 
     /**

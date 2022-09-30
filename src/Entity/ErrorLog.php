@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -64,7 +65,6 @@ class ErrorLog
      */
     protected $date_created;
 
-
     /**
      * Create the log entry
      *
@@ -86,7 +86,6 @@ class ErrorLog
             ->setUrl($url);
     }
 
-
     /**
      * @return mixed
      */
@@ -94,7 +93,6 @@ class ErrorLog
     {
         return $this->id;
     }
-
 
     /**
      * @return string

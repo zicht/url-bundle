@@ -24,7 +24,6 @@ class SuggestUrlController extends AbstractController
     /**
      * Controller used for url suggestions by the url provider.
      *
-     * @param Request $request
      * @return Response
      *
      * @Route("/url/suggest")
@@ -41,7 +40,6 @@ class SuggestUrlController extends AbstractController
     /**
      * Lists all links available in the url provider.
      *
-     * @param Request $request
      * @return Response
      *
      * @Route("/url/suggest/editor")

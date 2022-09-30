@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -26,7 +25,7 @@ class StaticProviderTest extends TestCase
 
         $this->provider->addAll(
             [
-                'foo' => 'baz'
+                'foo' => 'baz',
             ]
         );
         $this->assertTrue($this->provider->supports('foo'));

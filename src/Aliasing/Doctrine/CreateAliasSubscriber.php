@@ -43,7 +43,6 @@ class CreateAliasSubscriber extends BaseSubscriber
      * Add a entity to record list for postFlush processing.
      *
      * @param object $entity
-     * @param array $action
      */
     protected function addRecord($entity, array $action = [])
     {
@@ -69,7 +68,6 @@ class CreateAliasSubscriber extends BaseSubscriber
         $this->addRecord($e->getEntity(), ['ACTION_POST_PERSIST']);
     }
 
-
     /**
      * Registers a record to be scheduled for aliasing
      *
@@ -80,7 +78,6 @@ class CreateAliasSubscriber extends BaseSubscriber
     {
         $this->addRecord($e->getEntity(), ['ACTION_POST_UPDATE']);
     }
-
 
     /**
      * @return void

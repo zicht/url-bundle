@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -11,7 +10,7 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator\CallbackTranslator;
 
 class Zicht_Search_Faceted_Translator_CallbackTest extends TestCase
 {
-    function testTranslation()
+    public function testTranslation()
     {
         $translator = new CallbackTranslator(
             'internal_key',

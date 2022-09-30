@@ -9,10 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
 
 /**
- * Class JsonHalMapper
- *
  * Helper to map urls in an JSON HAL string from internal to public aliasing or vice versa.
- *
  */
 class JsonHalMapper extends AbstractMapper
 {
@@ -21,9 +18,6 @@ class JsonHalMapper extends AbstractMapper
         parent::__construct(['application/hal+json'], '/("href":")(.*)(")/U');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function processAliasing($content, $mode, Rewriter $rewriter)
     {
         $options = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;

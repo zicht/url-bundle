@@ -13,9 +13,6 @@ use Doctrine\ORM\Events;
  */
 class RemoveAliasSubscriber extends BaseSubscriber
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getSubscribedEvents()
     {
         return [
@@ -23,7 +20,6 @@ class RemoveAliasSubscriber extends BaseSubscriber
             Events::postFlush,
         ];
     }
-
 
     /**
      * Schedule an object's alias to be deleted.
@@ -40,7 +36,6 @@ class RemoveAliasSubscriber extends BaseSubscriber
             $this->container->get($this->aliaserServiceId)->removeAlias($entity, true);
         }
     }
-
 
     /**
      * Remove the aliases for all removed records.

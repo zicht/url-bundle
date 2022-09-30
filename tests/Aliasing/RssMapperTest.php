@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Oskar van Velden <oskar@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -34,7 +33,6 @@ class RssMapperTest extends TestCase
             ['<link>http://example.org/x</link>', '<link>http://example.org/x</link>', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']],
         ];
     }
-
 
     public function testSupports()
     {

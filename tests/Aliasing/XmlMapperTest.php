@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Oskar van Velden <oskar@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -34,7 +33,6 @@ class XmlMapperTest extends TestCase
             ['<loc>http://example.org/x</loc>', '<loc>http://example.org/x</loc>', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']],
         ];
     }
-
 
     public function testSupports()
     {

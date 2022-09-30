@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -11,7 +10,7 @@ use Zicht\Bundle\UrlBundle\Url\Params\Translator;
 
 class Zicht_Search_Faceted_Translator_CompositeTest extends TestCase
 {
-    function testComposite()
+    public function testComposite()
     {
         $translator = new Translator\CompositeTranslator();
 
@@ -20,7 +19,7 @@ class Zicht_Search_Faceted_Translator_CompositeTest extends TestCase
                 'internal_static_key',
                 'readable-user-key',
                 [
-                    'internal_value' => 'readable-user-value'
+                    'internal_value' => 'readable-user-value',
                 ]
             )
         )->add(

@@ -20,7 +20,6 @@ class StaticReferenceController extends AbstractController
     /**
      * Redirects to the url provided by the main url provider service.
      *
-     * @param Request $request
      * @param string $name
      * @param int $code
      * @return RedirectResponse

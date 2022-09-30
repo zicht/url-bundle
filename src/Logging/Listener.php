@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Logging;
 
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -22,8 +23,6 @@ class Listener
 
     /**
      * Construct with the passed logger service
-     *
-     * @param Logging $logging
      */
     public function __construct(Logging $logging)
     {
@@ -33,7 +32,6 @@ class Listener
     /**
      * Create log entry if a kernelexception occurs.
      *
-     * @param ExceptionEvent $event
      * @return void
      */
     public function onKernelException(ExceptionEvent $event)
@@ -44,7 +42,6 @@ class Listener
     /**
      * Save the log entry (if any) if the error response about to be sent is not handled otherwise.
      *
-     * @param ResponseEvent $e
      * @return void
      */
     public function onKernelResponse(ResponseEvent $e)

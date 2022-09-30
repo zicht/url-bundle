@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -45,7 +44,6 @@ class UrlTypeTest extends TestCase
                 'no_transform_public' => false,
                 'no_transform_internal' => false,
                 'url_suggest' => '/admin/url/suggest',
-
             ]
         );
 

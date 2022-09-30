@@ -6,10 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 /**
- * Class XmlMapper
- *
  * Helper to map urls in an Sitemap XML string from internal to public aliasing or vice versa.
- *
  */
 class XmlMapper extends AbstractMapper
 {

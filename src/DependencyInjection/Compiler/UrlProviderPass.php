@@ -14,9 +14,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class UrlProviderPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition('zicht_url.provider.delegator')) {

@@ -158,7 +158,6 @@ class StaticReference
     /**
      * Add a translation
      *
-     * @param StaticReferenceTranslation $translation
      * @return void
      */
     public function addTranslations(StaticReferenceTranslation $translation)

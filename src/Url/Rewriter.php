@@ -15,9 +15,6 @@ class Rewriter
     /** @var array */
     private $localDomains = [];
 
-    /**
-     * @param Aliasing $aliasing
-     */
     public function __construct(Aliasing $aliasing)
     {
         $this->aliasing = $aliasing;
@@ -86,7 +83,7 @@ class Rewriter
 
             // don't rewrite this.
             if (isset($parts['user']) || isset($parts['password'])) {
-                $ret[$url] =  $url;
+                $ret[$url] = $url;
                 continue;
             }
 
@@ -124,7 +121,6 @@ class Rewriter
         return $ret;
     }
 
-
     /**
      * Extract the path of the URL which is considered for aliasing.
      *
@@ -145,7 +141,6 @@ class Rewriter
 
         return $parts['path'];
     }
-
 
     /**
      * Parse the url, and additionally add a 'parameters' part which is defined as follows:
@@ -178,7 +173,6 @@ class Rewriter
 
         return $ret;
     }
-
 
     /**
      * This convenenience method processes the urls in the content with a structure matching the following:

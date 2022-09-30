@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -12,7 +11,7 @@ use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 
 class UriParserTest extends TestCase
 {
-    function testParser()
+    public function testParser()
     {
         $parser = new UriParser();
         $this->assertEquals(
@@ -24,8 +23,7 @@ class UriParserTest extends TestCase
         );
     }
 
-
-    function testParserWithTranslator()
+    public function testParserWithTranslator()
     {
         $parser = new UriParser();
         $parser->setTranslator(
@@ -37,14 +35,13 @@ class UriParserTest extends TestCase
         );
         $this->assertEquals(
             [
-                'a' => ['x', 'y', 'z']
+                'a' => ['x', 'y', 'z'],
             ],
             $parser->parseUri('A=X,Y,Z')
         );
     }
 
-
-    function testParserWithCustomSeparators()
+    public function testParserWithCustomSeparators()
     {
         $parser = new UriParser(';', '|', '^');
         $this->assertEquals(
@@ -56,8 +53,7 @@ class UriParserTest extends TestCase
         );
     }
 
-
-    function testComposer()
+    public function testComposer()
     {
         $parser = new UriParser();
         $this->assertEquals(
@@ -71,8 +67,7 @@ class UriParserTest extends TestCase
         );
     }
 
-
-    function testComposerWithTranslator()
+    public function testComposerWithTranslator()
     {
         $parser = new UriParser();
         $parser->setTranslator(
@@ -88,8 +83,7 @@ class UriParserTest extends TestCase
         );
     }
 
-
-    function testComposerWithCustomSeparators()
+    public function testComposerWithCustomSeparators()
     {
         $parser = new UriParser(';', '|', '^');
         $this->assertEquals(

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -46,25 +45,27 @@ class DefaultAliasingStrategyTest extends TestCase
 {
     /**
      * @dataProvider cases
+     * @param mixed $expect
+     * @param mixed $in
      */
-    function testAliasing($expect, $in)
+    public function testAliasing($expect, $in)
     {
         $strategy = new DefaultAliasingStrategy();
         $this->assertEquals($expect, $strategy->generatePublicAlias($in));
     }
 
-    function cases()
+    public function cases()
     {
         return [
-            ['/bar', new Foo],
-            ['/b-a-z', new Foo2],
-            ['/rab', new Foo3],
+            ['/bar', new Foo()],
+            ['/b-a-z', new Foo2()],
+            ['/rab', new Foo3()],
             ['/foo', 'foo'],
-            [null, new Unaliasable]
+            [null, new Unaliasable()],
         ];
     }
 
-    function testUnsupported()
+    public function testUnsupported()
     {
         $this->expectException('\InvalidArgumentException');
         $strategy = new DefaultAliasingStrategy();

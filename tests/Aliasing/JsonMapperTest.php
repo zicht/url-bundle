@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Oskar van Velden <oskar@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -39,10 +38,10 @@ class JsonMapperTest extends TestCase
                 "foo": {
                         "value": "http://zicht.nl/bar"
                 }
-            }', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']]
+            }', ['http://zicht.nl/foo' => 'http://zicht.nl/bar'],
+],
         ];
     }
-
 
     public function testSupports()
     {

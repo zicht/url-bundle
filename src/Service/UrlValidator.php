@@ -11,14 +11,14 @@ class UrlValidator
      * Returns true when url does not return error codes or not found.
      *
      * @param string $url
-     * @return boolean
+     * @return bool
      */
     public function validate($url)
     {
         if (null !== ($headers = $this->getHeader($url))) {
             $statusCode = $this->getStatusCode($headers);
             // see https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
-            return ($statusCode >= 200 && $statusCode < 300);
+            return $statusCode >= 200 && $statusCode < 300;
         }
         return false;
     }
@@ -41,7 +41,6 @@ class UrlValidator
     /**
      * Parse the headers array and search for the status pattern
      *
-     * @param array $headers
      * @return int
      */
     protected function getStatusCode(array $headers)

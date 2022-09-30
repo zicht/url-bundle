@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Oskar van Velden <oskar@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -42,7 +41,7 @@ class HtmlMapperTest extends TestCase
         $mapper->addAttributes(
             [
                 'option' => ['value'],
-                'select' => ['data-href']
+                'select' => ['data-href'],
             ]
         );
         $aliaser->expects($this->once())->method('getAliasingMap')->will($this->returnValue($aliasingMap));
@@ -74,7 +73,6 @@ class HtmlMapperTest extends TestCase
             ['<select data-href="http://zicht.nl/foo">', '<select data-href="http://zicht.nl/bar">', ['http://zicht.nl/foo' => 'http://zicht.nl/bar']],
         ];
     }
-
 
     public function testSupports()
     {

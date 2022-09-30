@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Url;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -17,7 +18,6 @@ interface ListableProvider
      *
      * The securitycontext must be passed so it is available for the provider to check access rights.
      *
-     * @param AuthorizationCheckerInterface $securityContextInterface
      * @return array
      */
     public function all(AuthorizationCheckerInterface $securityContextInterface);

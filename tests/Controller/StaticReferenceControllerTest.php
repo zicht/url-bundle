@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -23,7 +22,7 @@ class StaticReferenceControllerTest extends TestCase
         $provider->expects($this->once())->method('suggest')->with('foo')->will(
             $this->returnValue(
                 [
-                    ['a' => 'b']
+                    ['a' => 'b'],
                 ]
             )
         );

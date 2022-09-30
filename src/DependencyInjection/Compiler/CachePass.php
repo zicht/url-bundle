@@ -14,9 +14,6 @@ use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
  */
 class CachePass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition('zicht_url.cache')) {

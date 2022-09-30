@@ -30,9 +30,7 @@ class UriParser implements Translator
         $this->seperators['value'] = $valueSeparator;
     }
 
-
     /**
-     * @param Translator $translator
      * @return void
      */
     public function setTranslator(Translator $translator)
@@ -43,7 +41,6 @@ class UriParser implements Translator
     /**
      * POST keys are not translated, but do translate the values
      *
-     * @param array $post
      * @return array
      */
     public function parsePost(array $post)
@@ -94,7 +91,6 @@ class UriParser implements Translator
         return $ret;
     }
 
-
     /**
      * Compose an URI from the passed params with the local separators
      *
@@ -133,7 +129,6 @@ class UriParser implements Translator
         return $ret;
     }
 
-
     /**
      * Proxy method for translateKeyInput() of the translator
      *
@@ -148,7 +143,6 @@ class UriParser implements Translator
 
         return false;
     }
-
 
     /**
      * Proxy method for translateValueInput() of the translator
@@ -165,7 +159,6 @@ class UriParser implements Translator
 
         return false;
     }
-
 
     /**
      * Proxy method for translateKeyOutput() of the translator
