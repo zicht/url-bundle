@@ -21,9 +21,6 @@ class UrlAliasAdmin extends AbstractAdmin
         '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureListFields(ListMapper $list)
     {
         $list
@@ -44,9 +41,6 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $modeChoiceOptions = [
@@ -64,9 +58,6 @@ class UrlAliasAdmin extends AbstractAdmin
             ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureFormFields(FormMapper $form)
     {
         $form->add('public_url')
@@ -84,9 +75,6 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureShowFields(ShowMapper $show)
     {
         $show

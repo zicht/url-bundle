@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -13,9 +14,6 @@ use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
  */
 class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function findOneByPublicUrl($publicUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['public_url' => $publicUrl];
@@ -25,9 +23,6 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function findOneByInternalUrl($internalUrl, $mode = UrlAlias::REWRITE)
     {
         $where = ['internal_url' => $internalUrl];
@@ -37,9 +32,6 @@ class UrlAliasRepository extends EntityRepository implements UrlAliasRepositoryI
         return $this->findOneBy($where, ['id' => 'ASC']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function findAllByInternalUrl($internalUrl)
     {
         return $this->findBy(

@@ -60,7 +60,7 @@ class ShortUrlManagerTest extends TestCase
         $dummy = new UrlAlias('iNXi8iaB', '/not-url/to/page/999', UrlAlias::MOVE);
 
         $repository = self::getMockBuilder(UrlAliasRepository::class)->disableOriginalConstructor()->getMock();
-        for ($i = 0; $i <= (64 - 8); $i++) {
+        for ($i = 0; $i <= (64 - 8); ++$i) {
             $repository->expects($this->at($i))->method('findOneByPublicUrl')->willReturn($dummy);
         }
 

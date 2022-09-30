@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -19,7 +18,6 @@ class DbStaticProviderTest extends TestCase
         $this->provider = new \Zicht\Bundle\UrlBundle\Url\DbStaticProvider($this->manager, $this->stack);
     }
 
-
     public function testLazyLoad()
     {
         $data = [];
@@ -33,14 +31,13 @@ class DbStaticProviderTest extends TestCase
             $this->returnValue(
                 [
                     new \Zicht\Bundle\UrlBundle\Entity\StaticReference(),
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference()
+                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference(),
                 ]
             )
         );
 //        $this->manager->expects($this->once())->method('get')
         $this->provider->supports('foo');
     }
-
 
     public function testRequestLocaleIsPassed()
     {
@@ -51,14 +48,14 @@ class DbStaticProviderTest extends TestCase
         $this->manager->expects($this->once())->method('getRepository')->with('ZichtUrlBundle:StaticReference')
             ->will($this->returnValue($r));
 
-        $this->stack->push($req = new Request);
+        $this->stack->push($req = new Request());
         $req->attributes->set('_locale', 'klingon');
 
         $r->expects($this->once())->method('getAll')->with('klingon')->will(
             $this->returnValue(
                 [
                     new \Zicht\Bundle\UrlBundle\Entity\StaticReference('foo', ['klingon' => 'ptach', 'romulan' => 'jolantru']),
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference('bar', ['klingon' => 'k\'pla', 'romulan' => 'rihiirin'])
+                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference('bar', ['klingon' => 'k\'pla', 'romulan' => 'rihiirin']),
                 ]
             )
         );

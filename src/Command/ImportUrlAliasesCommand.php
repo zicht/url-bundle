@@ -57,9 +57,6 @@ class ImportUrlAliasesCommand extends Command
         $this->aliasing = $aliasing;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure()
     {
         $this
@@ -122,9 +119,6 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $defaultRedirectType = self::REDIRECT_TYPE_MAPPING[$input->getOption('default-redirect-type')];
@@ -144,7 +138,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
         $lineNumber = 0;
 
         if ($input->getOption('skip-header')) {
-            $lineNumber++;
+            ++$lineNumber;
             $data = fgetcsv($handle, null, $csvDelimiter, $csvEnclosure);
             if (false === $data) {
                 throw new \Exception(sprintf('Can not read line %s in input file', $lineNumber));
@@ -152,7 +146,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
         }
 
         while ($data = fgetcsv($handle, null, $csvDelimiter, $csvEnclosure)) {
-            $lineNumber++;
+            ++$lineNumber;
 
             if (false === $data) {
                 throw new \Exception(sprintf('Can not read line %s in input file', $lineNumber));
@@ -198,9 +192,9 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
      *
      * @param array $mapping
      * @param array $data
-     * @param integer $index
-     * @param integer $default
-     * @return integer
+     * @param int $index
+     * @param int $default
+     * @return int
      * @throws \Exception
      */
     private function parseInputToMapping($mapping, $data, $index, $default)

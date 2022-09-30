@@ -15,26 +15,31 @@ use Zicht\Bundle\UrlBundle\Url\Provider;
  */
 class Aliaser
 {
-    /** @var Aliasing  */
+    /** @var Aliasing */
     protected $aliasing;
-    /** @var Provider  */
+
+    /** @var Provider */
     protected $provider;
-    /** @var AliasingStrategy|DefaultAliasingStrategy  */
+
+    /** @var AliasingStrategy|DefaultAliasingStrategy */
     protected $aliasingStrategy;
+
     /** @var string */
     protected $conflictingPublicUrlStrategy = Aliasing::STRATEGY_SUFFIX;
+
     /** @var string */
     protected $conflictingInternalUrlStrategy = Aliasing::STRATEGY_IGNORE;
-    /** @var array  */
+
+    /** @var array */
     protected $recursionProtection = [];
-    /** @var AccessDecisionManagerInterface  */
+
+    /** @var AccessDecisionManagerInterface */
     protected $decisionManager;
-    /** @var array  */
+
+    /** @var array */
     protected $scheduledRemoveAlias;
 
     /**
-     * @param Aliasing $aliasing
-     * @param Provider $provider
      * @param AliasingStrategy $naming
      * @param AccessDecisionManagerInterface $decisionManager
      */
@@ -83,7 +88,7 @@ class Aliaser
     public function setConflictingPublicUrlStrategy($conflictingPublicUrlStrategy)
     {
         Aliasing::validatePublicConflictingStrategy($conflictingPublicUrlStrategy);
-        
+
         $this->conflictingPublicUrlStrategy = $conflictingPublicUrlStrategy;
     }
 
@@ -124,7 +129,6 @@ class Aliaser
      * Determines whether an alias should be generated for the given record.
      *
      * @param mixed $record
-     * @param array $action
      *
      * @return bool
      */
@@ -144,14 +148,14 @@ class Aliaser
      * When $SCHEDULE is true the alias removal is delayed until removeScheduledAliases is called.
      *
      * @param mixed $record
-     * @param boolean $schedule
+     * @param bool $schedule
      * @return void
      */
     public function removeAlias($record, $schedule = false)
     {
         if ($schedule) {
             // delay removal until flushed
-            $this->scheduledRemoveAlias [] = $this->provider->url($record);
+            $this->scheduledRemoveAlias[] = $this->provider->url($record);
         } else {
             $this->aliasing->removeAlias($this->provider->url($record));
         }

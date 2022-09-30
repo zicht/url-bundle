@@ -14,9 +14,6 @@ class ContainsValidUrlsValidator extends ConstraintValidator
     /** @var UrlValidator */
     private $urlValidator;
 
-    /**
-     * @param UrlValidator $urlValidator
-     */
     public function __construct(UrlValidator $urlValidator)
     {
         $this->urlValidator = $urlValidator;

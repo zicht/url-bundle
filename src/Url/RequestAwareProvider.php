@@ -32,9 +32,6 @@ class RequestAwareProvider extends DelegatingProvider
         $this->baseUrlLen = strlen($this->baseUrl);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         $ret = parent::url($object, $options);

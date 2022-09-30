@@ -29,16 +29,13 @@ class AliasSitemapProvider implements ListableProvider
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function all(AuthorizationCheckerInterface $authorizationChecker)
     {
         $query = $this->connection->prepare('SELECT * FROM url_alias WHERE mode=?');
         $query->execute([UrlAlias::REWRITE]);
         $urls = new \ArrayObject($query->fetchAll(\PDO::FETCH_ASSOC));
 
-        /**
+        /*
          * Hook to allow the mapping to be modified at run-time.
          */
         if ($this->eventDispatcher->hasListeners(Events::EVENT_SITEMAP_FILTER)) {

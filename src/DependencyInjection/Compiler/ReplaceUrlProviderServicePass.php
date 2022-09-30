@@ -2,10 +2,11 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Originally replaced the regular provider with a decorating one.
@@ -15,9 +16,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
  */
 class ReplaceUrlProviderServicePass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         // TODO This is here for BC, to be removed whenever the BC for the ProviderDecorator for aliasing is removed.

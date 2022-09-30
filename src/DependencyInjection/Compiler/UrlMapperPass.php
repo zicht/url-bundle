@@ -15,9 +15,6 @@ use Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider;
  */
 class UrlMapperPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if ($container->hasDefinition('zicht_url.aliasing') === false) {

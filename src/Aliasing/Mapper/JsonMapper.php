@@ -6,8 +6,6 @@
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 /**
- * Class JsonMapper
- *
  * Helper to map urls in an JSON string from internal to public aliasing or vice versa.
  *
  * @deprecated This implementation is rather optimistic: it replaces all "value" keys

@@ -3,7 +3,6 @@
  * @copyright Zicht Online <http://zicht.nl>
  */
 
-
 namespace Zicht\Bundle\UrlBundle\Aliasing\Mapper;
 
 use Zicht\Bundle\UrlBundle\Url\Rewriter;
@@ -38,16 +37,13 @@ abstract class AbstractMapper implements UrlMapperInterface
      *
      * @param string $contentType
      *
-     * @return boolean
+     * @return bool
      */
     public function supports($contentType)
     {
         return in_array($contentType, $this->contentTypes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function processAliasing($content, $mode, Rewriter $rewriter)
     {
         if (!preg_match_all($this->pattern, $content, $matches, PREG_SET_ORDER)) {

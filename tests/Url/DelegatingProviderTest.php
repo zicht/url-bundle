@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -29,7 +28,6 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
 }
 
 namespace ZichtTest\Bundle\UrlBundle\Url {
-
     use PHPUnit\Framework\TestCase;
 
     class DelegatingProviderTest extends TestCase
@@ -40,12 +38,12 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $refs = [
                 [
                     'a' => 'b',
-                    'x' => 'y'
+                    'x' => 'y',
                 ],
                 [
                     'c' => 'd',
-                    'x' => 'z' // <-- this has higher priority (see 10 - $index further down)
-                ]
+                    'x' => 'z', // <-- this has higher priority (see 10 - $index further down)
+                ],
             ];
 
             foreach (array_keys($refs) as $index) {
@@ -80,7 +78,6 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $this->assertEquals('d', $provider->url('c'));
             $this->assertEquals('z', $provider->url('x'));
         }
-
 
         public function testUnsupported()
         {

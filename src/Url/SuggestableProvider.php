@@ -2,6 +2,7 @@
 /**
  * @copyright 2012 Gerard van Helden <http://melp.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Url;
 
 /**

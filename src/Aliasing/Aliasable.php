@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 /**

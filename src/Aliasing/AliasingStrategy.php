@@ -3,6 +3,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
 /**
@@ -15,7 +16,7 @@ interface AliasingStrategy
      *
      * @param mixed $subject
      * @param string $currentAlias
-     * @return null|string
+     * @return string|null
      */
     public function generatePublicAlias($subject, $currentAlias = '');
 }

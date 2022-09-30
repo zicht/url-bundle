@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -32,14 +31,12 @@ class ExtensionTest extends TestCase
         $this->assertArrayHasKey('static_ref', $functions);
     }
 
-
     public function testObjectUrl()
     {
         $this->provider->expects($this->once())->method('url')->with('foo')->will($this->returnValue('bar'));
 
         $this->assertEquals('bar', $this->extension->objectUrl('foo'));
     }
-
 
     public function testObjectUrlWillDefaultIfADefaultIsPassed()
     {

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -17,7 +16,6 @@ class AliasingTest extends TestCase
      */
     public $aliasing;
 
-
     public function setUp(): void
     {
         $this->repos = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Aliasing\UrlAliasRepositoryInterface')
@@ -32,7 +30,6 @@ class AliasingTest extends TestCase
         $this->manager->expects($this->any())->method('getRepository')->with('ZichtUrlBundle:UrlAlias')->will($this->returnValue($this->repos));
         $this->aliasing = new Aliasing($this->manager);
     }
-
 
     public function testHasInternalAlias()
     {
@@ -66,7 +63,6 @@ class AliasingTest extends TestCase
         $internal = $this->repos->expects($this->once())->method('findOneByInternalUrl')->with('foo', 0)->will($this->returnValue($entity));
         $this->assertEquals($entity, $this->aliasing->hasPublicAlias('foo', true));
     }
-
 
     public function testAddAliasOverwrite()
     {
@@ -164,7 +160,6 @@ class AliasingTest extends TestCase
         $this->aliasing->addAlias('foo', 'bat', 0, Aliasing::STRATEGY_SUFFIX, -1);
     }
 
-
     public function testAddAliasMovePreviousToNew()
     {
         $prevEntity = new \Zicht\Bundle\UrlBundle\Entity\UrlAlias('foo-previous', 'bar');
@@ -206,7 +201,6 @@ class AliasingTest extends TestCase
         $this->manager->expects($this->once())->method('flush');
         call_user_func($callback);
     }
-
 
     public function testAddAliasNewWithBatchProcessingWillPersistButNotFlush()
     {

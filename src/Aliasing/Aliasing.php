@@ -21,21 +21,21 @@ class Aliasing
      *
      * @see addAlias
      */
-    const STRATEGY_OVERWRITE    = 'overwrite';
+    const STRATEGY_OVERWRITE = 'overwrite';
 
     /**
      * Keep existing aliases and do nothing
      *
      * @see addAlias
      */
-    const STRATEGY_KEEP         = 'keep';
+    const STRATEGY_KEEP = 'keep';
 
     /**
      * Suffix existing aliases.
      *
      * @see addAlias
      */
-    const STRATEGY_SUFFIX       = 'suffix';
+    const STRATEGY_SUFFIX = 'suffix';
 
     /**
      * @see AddAlias
@@ -52,7 +52,7 @@ class Aliasing
      */
     const STRATEGY_MOVE_NEW_TO_PREVIOUS = 'redirect-new-to-previous';
 
-    /** @var EntityManager  */
+    /** @var EntityManager */
     protected $manager;
 
     /** @var UrlAliasRepository */
@@ -69,15 +69,12 @@ class Aliasing
 
     /**
      * Initialize with doctrine
-     *
-     * @param EntityManager $manager
      */
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
     }
-
 
     /**
      * Assert if the strategy is ok when the public url already exists.
@@ -110,8 +107,8 @@ class Aliasing
      *
      * @param string $publicUrl
      * @param bool $asObject
-     * @param null|integer $mode
-     * @return null|string|UrlAlias
+     * @param int|null $mode
+     * @return string|UrlAlias|null
      */
     public function hasInternalAlias($publicUrl, $asObject = false, $mode = null)
     {
@@ -133,8 +130,8 @@ class Aliasing
      *
      * @param string $internalUrl
      * @param bool $asObject
-     * @param integer $mode
-     * @return null|string|UrlAlias
+     * @param int $mode
+     * @return string|UrlAlias|null
      */
     public function hasPublicAlias($internalUrl, $asObject = false, $mode = UrlAlias::REWRITE)
     {
@@ -152,7 +149,7 @@ class Aliasing
      *
      * @param string $publicUrl
      * @param string $internalUrl
-     * @return null|UrlAlias
+     * @return UrlAlias|null
      */
     public function findAlias($publicUrl, $internalUrl)
     {
@@ -319,8 +316,8 @@ class Aliasing
      * @param string $newPublicUrl The new public url to move to the alias to.
      * @param string $publicUrl    The current public url of the UrlAlias we're moving.
      * @param string $internalUrl  The current internal url of the UrlAlias we're moving
-     * @param integer $type        The type of move we want to make. a.k.a. "mode"
-     * @return boolean Wheter the move action was successful.
+     * @param int $type        The type of move we want to make. a.k.a. "mode"
+     * @return bool Wheter the move action was successful.
      */
     public function moveAlias($newPublicUrl, $publicUrl, $internalUrl, $type = UrlAlias::ALIAS)
     {
@@ -348,7 +345,6 @@ class Aliasing
         return $moved;
     }
 
-
     /**
      * Set the batch to 'true' if aliases are being batch processed (optimization).
      *
@@ -369,11 +365,9 @@ class Aliasing
         };
     }
 
-
     /**
      * Persist the URL alias.
      *
-     * @param \Zicht\Bundle\UrlBundle\Entity\UrlAlias $alias
      * @return void
      */
     protected function save(UrlAlias $alias)
@@ -386,7 +380,6 @@ class Aliasing
             $this->manager->flush($alias);
         }
     }
-
 
     /**
      * Compact redirects; i.e. optimize redirects:
@@ -404,7 +397,6 @@ class Aliasing
         }
     }
 
-
     /**
      * @param string $internalUrl
      * @return void
@@ -416,7 +408,6 @@ class Aliasing
             $this->manager->flush($alias);
         }
     }
-
 
     /**
      * Returns key/value pairs of a list of url's.
@@ -493,8 +484,6 @@ class Aliasing
 
     /**
      * Add a new content mapper to our aliasing class
-     *
-     * @param UrlMapperInterface $mapper
      *
      * @return void
      */

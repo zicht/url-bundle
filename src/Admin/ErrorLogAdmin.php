@@ -19,9 +19,6 @@ class ErrorLogAdmin extends AbstractAdmin
         '_sort_by' => 'date_created',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureListFields(ListMapper $list)
     {
         $list
@@ -42,9 +39,6 @@ class ErrorLogAdmin extends AbstractAdmin
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureShowFields(ShowMapper $show)
     {
         $show
@@ -57,9 +51,6 @@ class ErrorLogAdmin extends AbstractAdmin
             ->add('message');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->remove('create');

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -12,16 +11,8 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Zicht\Bundle\UrlBundle\Controller\StaticReferenceController;
 
-/**
- * Class SuggestUrlControllerTest
- *
- * @package ZichtTest\Bundle\UrlBundle\Controller
- */
 class SuggestUrlControllerTest extends TestCase
 {
-    /**
-     * Test
-     */
     public function testSuggestUrlAction()
     {
         $controller = new StaticReferenceController();

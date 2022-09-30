@@ -26,7 +26,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
     /**
      * Add a provider with the specified priority. Higher priority means exactly that ;)
      *
-     * @param Provider $provider
      * @param int $priority
      * @return void
      */
@@ -36,9 +35,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         ksort($this->providers);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports($object)
     {
         foreach ($this->getProviders() as $provider) {
@@ -49,9 +45,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         foreach ($this->getProviders() as $provider) {
@@ -60,7 +53,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
             }
         }
 
-
         $objectType = is_object($object)
             ? get_class($object)
             : (gettype($object) . ' (' . var_export($object, true) . ')');
@@ -68,9 +60,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         throw new UnsupportedException("Can not render url for {$objectType}");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function suggest($pattern)
     {
         $ret = [];
@@ -82,9 +71,6 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         return $ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function all(AuthorizationCheckerInterface $securityContext)
     {
         $ret = [];

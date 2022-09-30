@@ -9,8 +9,6 @@ namespace Zicht\Bundle\UrlBundle\Url;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
-// phpcs:disable Zicht.NamingConventions.Functions.NestedDefinition
-
 class ShortUrlManager
 {
     /** @var Aliasing */
@@ -19,10 +17,6 @@ class ShortUrlManager
     /** @var ShortUrlHashGeneratorInterface */
     private $shortUrlHashGenerator;
 
-    /**
-     * @param Aliasing $aliasing
-     * @param ShortUrlHashGeneratorInterface|null $shortUrlHashGenerator
-     */
     public function __construct(Aliasing $aliasing, ShortUrlHashGeneratorInterface $shortUrlHashGenerator = null)
     {
         $this->aliasing = $aliasing;
@@ -58,7 +52,7 @@ class ShortUrlManager
             if ($exists && $exists->getInternalUrl() === $url) {
                 return $exists;
             }
-            $minLength++;
+            ++$minLength;
             // sanely (sha256 consists of 64 chars) fail if we have a collision after numerous attempts. Something might be wronly implemented.
             if ($minLength >= 65) {
                 throw new \LogicException(sprintf('Found a collision for a hash with %d chars. Something is not right.', $minLength));

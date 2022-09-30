@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -20,7 +19,6 @@ namespace ZichtTest\Bundle\UrlBundle\Url\Provider {
 }
 
 namespace ZichtTest\Bundle\UrlBundle\Url {
-
     use PHPUnit\Framework\TestCase;
 
     class AbstractRoutingProviderTest extends TestCase

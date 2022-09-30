@@ -5,15 +5,15 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\UrlMapperInterface;
-use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
+use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 
 /**
  * Listens to incoming and outgoing requests to handle url aliasing at the kernel master request level.
@@ -34,9 +34,6 @@ class Listener
 
     /**
      * Construct the aliasing listener.
-     *
-     * @param Aliasing $aliasing
-     * @param RouterListener $router
      */
     public function __construct(Aliasing $aliasing, RouterListener $router)
     {
@@ -47,7 +44,6 @@ class Listener
     /**
      * Listens to redirect responses, to replace any internal url with a public one.
      *
-     * @param Event\ResponseEvent $event
      * @return void
      */
     public function onKernelResponse(Event\ResponseEvent $event)
@@ -73,7 +69,7 @@ class Listener
                 // Possible suffix for the rewrite URL
                 $suffix = '';
 
-                /**
+                /*
                  * Catches the following situation:
                  *
                  * Some redirect URLs might contain extra URL parameters in the form of:
@@ -146,11 +142,9 @@ class Listener
         return $ret;
     }
 
-
     /**
      * Listens to master requests and translates the URL to an internal url, if there is an alias available
      *
-     * @param Event\RequestEvent $event
      * @return void
      * @throws \UnexpectedValueException
      */
@@ -204,13 +198,7 @@ class Listener
                         $event->setResponse(new RedirectResponse($url->getInternalUrl(), $url->getMode()));
                         break;
                     default:
-                        throw new \UnexpectedValueException(
-                            sprintf(
-                                'Invalid mode %s for UrlAlias %s.',
-                                $url->getMode(),
-                                json_encode($url)
-                            )
-                        );
+                        throw new \UnexpectedValueException(sprintf('Invalid mode %s for UrlAlias %s.', $url->getMode(), json_encode($url)));
                 }
             } elseif (strpos($publicUrl, '?') !== false) {
                 // allow aliases to receive the query string.
@@ -224,7 +212,6 @@ class Listener
             }
         }
     }
-
 
     /**
      * Route the request to the specified URL.
@@ -244,7 +231,7 @@ class Listener
             $event->getRequest()->files->all(),
             [
                 'ORIGINAL_REQUEST_URI' => $event->getRequest()->server->get('REQUEST_URI'),
-                'REQUEST_URI' => $url
+                'REQUEST_URI' => $url,
             ] + $event->getRequest()->server->all(),
             $event->getRequest()->getContent()
         );
@@ -258,12 +245,9 @@ class Listener
         $this->router->onKernelRequest($subEvent);
     }
 
-
     /**
      * Rewrite URL's from internal naming to public aliases in the response.
      *
-     * @param Request $request
-     * @param Response $response
      * @return void
      */
     protected function rewriteResponse(Request $request, Response $response)

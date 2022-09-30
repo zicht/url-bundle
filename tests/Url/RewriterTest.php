@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -19,6 +18,8 @@ class RewriterTest extends TestCase
 
     /**
      * @dataProvider extractPathTestCases
+     * @param mixed $expected
+     * @param mixed $input
      */
     public function testExtractPath($expected, $input)
     {
@@ -41,6 +42,10 @@ class RewriterTest extends TestCase
 
     /**
      * @dataProvider rewriteTestCases
+     * @param mixed $expected
+     * @param mixed $input
+     * @param mixed $mappings
+     * @param mixed $localDomains
      */
     public function testRewrite($expected, $input, $mappings, $localDomains = [])
     {
@@ -54,9 +59,6 @@ class RewriterTest extends TestCase
         );
     }
 
-    /**
-     *
-     */
     public function rewriteTestCases()
     {
         return [
@@ -66,7 +68,7 @@ class RewriterTest extends TestCase
                     '/foo' => '/bar',
                 ],
                 ['/foo'],
-                ['/foo' => '/bar']
+                ['/foo' => '/bar'],
             ],
 
             // path rewrite, while retaining query string
@@ -75,7 +77,7 @@ class RewriterTest extends TestCase
                     '/foo?a=b' => '/bar?a=b',
                 ],
                 ['/foo?a=b'],
-                ['/foo' => '/bar']
+                ['/foo' => '/bar'],
             ],
 
             // path rewrite, while retaining query string and local domain
@@ -85,7 +87,7 @@ class RewriterTest extends TestCase
                 ],
                 ['http://zicht.nl/foo?a=b'],
                 ['/foo' => '/bar'],
-                ['zicht.nl']
+                ['zicht.nl'],
             ],
 
             // path rewrite, while retaining query string, local domain and hash
@@ -95,7 +97,7 @@ class RewriterTest extends TestCase
                 ],
                 ['http://zicht.nl/foo?a=b#somehash'],
                 ['/foo' => '/bar'],
-                ['zicht.nl']
+                ['zicht.nl'],
             ],
 
             // path rewrite, while retaining slash-separated parameters
@@ -104,7 +106,7 @@ class RewriterTest extends TestCase
                     '/foo/a=b' => '/bar/a=b',
                 ],
                 ['/foo/a=b'],
-                ['/foo' => '/bar']
+                ['/foo' => '/bar'],
             ],
 
             // path rewrite, while retaining slash-separated parameters and local domain
@@ -114,9 +116,8 @@ class RewriterTest extends TestCase
                 ],
                 ['http://zicht.nl/foo/a=b'],
                 ['/foo' => '/bar'],
-                ['zicht.nl']
+                ['zicht.nl'],
             ],
-
 
             // no rewrite if no mapping for path
             [
@@ -125,7 +126,7 @@ class RewriterTest extends TestCase
                 ],
                 ['http://zicht.nl/foo?a=b'],
                 [],
-                ['zicht.nl']
+                ['zicht.nl'],
             ],
 
             // rewrite one, don't rewrite others
@@ -139,7 +140,7 @@ class RewriterTest extends TestCase
                 ],
                 ['https://zicht.nl/foo', 'https://zicht.nl/foo/a=b', 'https://zicht.nl/unaliased', 'https://zicht.nl/unaliased?a=b', 'https://zicht.nl?a=b'],
                 ['/foo' => '/bar'],
-                ['zicht.nl']
+                ['zicht.nl'],
             ],
 
             // don't rewrite remote domains
@@ -150,8 +151,8 @@ class RewriterTest extends TestCase
                 ],
                 ['https://zicht.nl/foo', 'https://zicht.nl/unaliased'],
                 ['/foo' => '/bar'],
-                ['example.org']
-            ]
+                ['example.org'],
+            ],
         ];
     }
 }

@@ -15,17 +15,11 @@ abstract class AbstractRoutingProvider implements Provider
     /** @var RouterInterface */
     protected $router;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         list($name, $params) = $this->routing($object, $options);

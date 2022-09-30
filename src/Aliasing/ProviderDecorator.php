@@ -20,9 +20,6 @@ class ProviderDecorator extends DelegatingProvider
     /** @var Aliasing */
     protected $aliasing;
 
-    /**
-     * @param Aliasing $aliasing
-     */
     public function __construct(Aliasing $aliasing)
     {
         parent::__construct();
@@ -30,9 +27,6 @@ class ProviderDecorator extends DelegatingProvider
         $this->aliasing = $aliasing;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function url($object, array $options = [])
     {
         try {
@@ -53,9 +47,6 @@ class ProviderDecorator extends DelegatingProvider
         return $ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function all(AuthorizationCheckerInterface $security)
     {
         $urlList = parent::all($security);

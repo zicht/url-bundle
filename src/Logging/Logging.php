@@ -2,6 +2,7 @@
 /**
  * @copyright Zicht Online <http://zicht.nl>
  */
+
 namespace Zicht\Bundle\UrlBundle\Logging;
 
 use Doctrine\ORM\EntityManager;
@@ -16,9 +17,6 @@ class Logging
     /** @var EntityManager */
     private $manager;
 
-    /**
-     * @param EntityManager $manager
-     */
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
@@ -27,7 +25,6 @@ class Logging
     /**
      * Create a log entry for the passed request.
      *
-     * @param Request $request
      * @param string $message
      * @return ErrorLog
      */

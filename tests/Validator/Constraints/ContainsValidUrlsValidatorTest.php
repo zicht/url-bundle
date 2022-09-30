@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Muhammed Akbulut <muhammed@zicht.nl>
  * @copyright Zicht Online <http://www.zicht.nl>
  */
 
@@ -14,8 +13,6 @@ use Zicht\Bundle\UrlBundle\Validator\Constraints\ContainsValidUrlsValidator;
 
 /**
  * Class ContainsValidUrlsValidatorTest
- *
- * @package ZichtTest\Bundle\UrlBundle\Validator\Constraints
  */
 class ContainsValidUrlsValidatorTest extends TestCase
 {

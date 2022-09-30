@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -10,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class Zicht_Search_Faceted_Translator_StaticTest extends TestCase
 {
-    function testTranslation()
+    public function testTranslation()
     {
         $translator = new \Zicht\Bundle\UrlBundle\Url\Params\Translator\StaticTranslator(
             'internal_key',
             'readable-user-key',
             [
-                'internal_value' => 'readable-user-value'
+                'internal_value' => 'readable-user-value',
             ]
         );
         $translator->addTranslation('internal_value2', 'readable-user-value2');

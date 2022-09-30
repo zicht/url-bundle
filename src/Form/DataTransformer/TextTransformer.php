@@ -5,8 +5,6 @@
 
 namespace Zicht\Bundle\UrlBundle\Form\DataTransformer;
 
-use Symfony\Component\Form\DataTransformerInterface;
-
 class TextTransformer extends AbstractAliasingTransformer
 {
     /**
@@ -23,7 +21,7 @@ class TextTransformer extends AbstractAliasingTransformer
         if (count($map) === 1) {
             return current($map);
         }
-        
+
         return $text;
     }
 }

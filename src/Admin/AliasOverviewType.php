@@ -25,19 +25,12 @@ class AliasOverviewType extends AbstractType
     /** @var ManagerRegistry */
     protected $doctrine;
 
-    /**
-     * @param Provider $provider
-     * @param ManagerRegistry $doctrine
-     */
     public function __construct(Provider $provider, ManagerRegistry $doctrine)
     {
         $this->provider = $provider;
         $this->doctrine = $doctrine;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
@@ -52,9 +45,6 @@ class AliasOverviewType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         parent::buildView($view, $form, $options);
@@ -99,17 +89,11 @@ class AliasOverviewType extends AbstractType
             ->findAllByInternalUrl($internalUrl);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return 'alias_overview_type';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBlockPrefix()
     {
         return 'alias_overview_type';

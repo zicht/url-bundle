@@ -62,7 +62,6 @@ class UrlAlias
      */
     protected $mode = self::REWRITE;
 
-
     /**
      * Create a new alias
      *

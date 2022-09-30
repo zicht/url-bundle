@@ -18,7 +18,6 @@ class SitemapController extends AbstractController
     /**
      * Render basic sitemap from all database urls
      *
-     * @param Request $request
      * @return Response
      *
      * @Route("/sitemap.{_format}", defaults={"_format": "xml"})

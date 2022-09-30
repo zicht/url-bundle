@@ -19,12 +19,10 @@ interface Provider
      */
     public function supports($object);
 
-
     /**
      * Returns the URL for the object. Should throw a UnsupportedException if the passed object is not supported.
      *
      * @param mixed $object
-     * @param array $options
      * @return mixed
      */
     public function url($object, array $options = []);

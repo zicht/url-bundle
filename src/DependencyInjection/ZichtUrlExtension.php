@@ -21,8 +21,6 @@ class ZichtUrlExtension extends Extension
     /**
      * Responds to the twig configuration parameter.
      *
-     * @param array $configs
-     * @param ContainerBuilder $container
      * @return void
      */
     public function load(array $configs, ContainerBuilder $container)
@@ -87,7 +85,6 @@ class ZichtUrlExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
      * @param array $aliasingConfig
      * @param XmlFileLoader $loader
      * @return void

@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -84,9 +83,9 @@ class AliaserTest extends TestCase
         $this->assertTrue($this->aliaser->createAlias($foo));
     }
 
-
     /**
      * @dataProvider strategyTypes
+     * @param mixed $type
      */
     public function testAliaserConflictResolutionWillForwardToAliaser($type)
     {
@@ -105,7 +104,6 @@ class AliaserTest extends TestCase
         )->will($this->returnValue(false));
         $this->assertFalse($this->aliaser->createAlias($foo));
     }
-
 
     public function strategyTypes()
     {
@@ -132,7 +130,6 @@ class AliaserTest extends TestCase
 
         $this->assertFalse($this->aliaser->createAlias($foo));
     }
-
 
     public function testSetIsBatchDelegatesToAliaser()
     {

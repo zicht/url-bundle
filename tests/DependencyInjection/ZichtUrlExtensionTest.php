@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Gerard van Helden <gerard@zicht.nl>
  * @copyright Zicht Online <http://zicht.nl>
  */
 
@@ -13,7 +12,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ZichtUrlExtensionTest extends TestCase
 {
-    private $extension, $cbs;
+    private $extension;
+
+    private $cbs;
 
     public function testFormTwigResourcesGetRegistered()
     {
@@ -23,6 +24,8 @@ class ZichtUrlExtensionTest extends TestCase
 
     /**
      * @dataProvider conditionalServices
+     * @param mixed $config
+     * @param mixed $expectedServices
      */
     public function testConditionalServices($config, $expectedServices)
     {
@@ -40,40 +43,40 @@ class ZichtUrlExtensionTest extends TestCase
         return [
             [
                 ['logging' => true],
-                ['zicht_url.logging' => true]
+                ['zicht_url.logging' => true],
             ],
             [
                 ['logging' => false],
-                ['zicht_url.logging' => false]
+                ['zicht_url.logging' => false],
             ],
             [
                 ['db_static_ref' => true],
-                ['zicht_url.db_static_refs' => true]
+                ['zicht_url.db_static_refs' => true],
             ],
             [
                 ['logging' => false],
-                ['zicht_url.logging' => false]
+                ['zicht_url.logging' => false],
             ],
             [
                 ['admin' => false],
-                ['zicht_url.admin.url_alias' => false]
+                ['zicht_url.admin.url_alias' => false],
             ],
             [
                 ['admin' => true],
-                ['zicht_url.admin.url_alias' => true]
+                ['zicht_url.admin.url_alias' => true],
             ],
             [
                 ['aliasing' => false],
-                ['zicht_url.aliasing' => false]
+                ['zicht_url.aliasing' => false],
             ],
             [
                 [
                     'aliasing' => [
                         'enabled' => true,
-                        'exclude_patterns' => ['/foo/', '/bar']
+                        'exclude_patterns' => ['/foo/', '/bar'],
                     ],
                 ],
-                ['zicht_url.aliasing' => true]
+                ['zicht_url.aliasing' => true],
             ],
         ];
     }
@@ -92,7 +95,7 @@ class ZichtUrlExtensionTest extends TestCase
         $this->cb = new \Symfony\Component\DependencyInjection\ContainerBuilder(
             $this->params = new \Symfony\Component\DependencyInjection\ParameterBag\ParameterBag(
                 [
-                    'twig.form.resources' => []
+                    'twig.form.resources' => [],
                 ]
             )
         );
