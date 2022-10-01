@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -16,12 +17,7 @@ use Zicht\Bundle\UrlBundle\Type\UrlType;
 
 class UrlAliasAdmin extends AbstractAdmin
 {
-    /** @var array */
-    protected $datagridValues = [
-        '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
-    ];
-
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id')
@@ -41,10 +37,16 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter)
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        parent::configureDefaultSortValues($sortValues);
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $modeChoiceOptions = [
-            'choice_translation_domain' => $this->translationDomain,
+            'choice_translation_domain' => $this->getTranslationDomain(),
             'choices' => [
                 'admin.alias_overview.mode_' . UrlAlias::ALIAS => UrlAlias::ALIAS,
                 'admin.alias_overview.mode_' . UrlAlias::MOVE => UrlAlias::MOVE,
@@ -58,7 +60,7 @@ class UrlAliasAdmin extends AbstractAdmin
             ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form->add('public_url')
             ->add('internal_url', UrlType::class, ['no_transform_public' => true])
@@ -75,7 +77,7 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('public_url')
