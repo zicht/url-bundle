@@ -16,13 +16,13 @@ use Zicht\Bundle\TranslationsBundle\Form\Type\LanguageType;
  */
 class StaticReferenceTranslationAdmin extends AbstractAdmin
 {
-    public function configureListFields(ListMapper $list)
+    public function configureListFields(ListMapper $list): void
     {
         $list
             ->addIdentifier('url');
     }
 
-    protected function configureFormFields(FormMapper $form)
+    protected function configureFormFields(FormMapper $form): void
     {
         $form->with('General');
 
@@ -37,7 +37,7 @@ class StaticReferenceTranslationAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureShowFields(ShowMapper $show)
+    protected function configureShowFields(ShowMapper $show): void
     {
         $show
             ->add('url');

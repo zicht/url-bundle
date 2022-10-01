@@ -89,11 +89,6 @@ class AliasOverviewType extends AbstractType
             ->findAllByInternalUrl($internalUrl);
     }
 
-    public function getName()
-    {
-        return 'alias_overview_type';
-    }
-
     public function getBlockPrefix()
     {
         return 'alias_overview_type';
