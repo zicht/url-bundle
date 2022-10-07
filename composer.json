@@ -19,6 +19,7 @@
         "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/http-foundation": "^5.4",
+        "symfony/security-core": "^5.4",
         "zicht/admin-bundle": "^8",
         "zicht/framework-extra-bundle": "^10",
         "zicht/util": "^2.0"
