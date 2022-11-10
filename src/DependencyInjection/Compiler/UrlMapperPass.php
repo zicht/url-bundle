@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Zicht\Bundle\UrlBundle\Aliasing\Mapper\XmlMapper;
 use Zicht\Bundle\UrlBundle\Url\AliasSitemapProvider;
+use Zicht\Bundle\UrlBundle\Url\SitemapProvider;
 
 /**
  * Registers all tagged services
@@ -39,7 +40,7 @@ class UrlMapperPass implements CompilerPassInterface
 
         $sitemapIsAliased = false;
 
-        if ($container->getDefinition($container->getAlias('zicht_url.sitemap_provider'))->getClass() === AliasSitemapProvider::class) {
+        if ($container->getDefinition($container->getAlias(SitemapProvider::class))->getClass() === AliasSitemapProvider::class) {
             // aliasing is not needed for this implementation
             $sitemapIsAliased = true;
         }

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Zicht\Bundle\UrlBundle\Url\Provider as UrlProvider;
 
 /**
  * Mounted on the admin path for security.
@@ -21,11 +22,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SuggestUrlController extends AbstractController
 {
+    public static function getSubscribedServices()
+    {
+        return ['zicht_url.provider' => UrlProvider::class] + parent::getSubscribedServices();
+    }
+
     /**
      * Controller used for url suggestions by the url provider.
      *
      * @return Response
-     *
      * @Route("/url/suggest")
      */
     public function suggestUrlAction(Request $request)
@@ -41,7 +46,6 @@ class SuggestUrlController extends AbstractController
      * Lists all links available in the url provider.
      *
      * @return Response
-     *
      * @Route("/url/suggest/editor")
      */
     public function linkListAction(Request $request)
