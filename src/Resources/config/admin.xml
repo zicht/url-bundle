@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="zicht_url.admin.crud_controller">ZichtAdminBundle:CRUD</parameter>
+        <parameter key="zicht_url.admin.crud_controller">Zicht\Bundle\AdminBundle\Controller\CRUDController</parameter>
         <parameter key="zicht_url.admin.url_alias.class">Zicht\Bundle\UrlBundle\Admin\UrlAliasAdmin</parameter>
     </parameters>
 
