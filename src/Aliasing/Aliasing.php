@@ -291,8 +291,8 @@ class Aliasing
                         $ret = true;
                         break;
                     default:
-                        // case is handled in the `validatePublicConflictingStrategy` guard at top of the function
-                }
+                    // case is handled in the `validatePublicConflictingStrategy` guard at top of the function
+                    }
             }
         } else {
             $alias = new UrlAlias($publicUrl, $internalUrl, $type);

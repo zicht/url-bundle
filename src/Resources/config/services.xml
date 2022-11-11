@@ -17,6 +17,11 @@
     </parameters>
 
     <services>
+        <prototype namespace="Zicht\Bundle\UrlBundle\Controller\" resource="../../Controller/" autowire="true" public="true">
+            <tag name="controller.service_arguments" />
+            <tag name="container.service_subscriber" />
+        </prototype>
+
         <service id="zicht_url.provider.delegator" class="%zicht_url.url_provider.class%" public="true" />
         <service id="Zicht\Bundle\UrlBundle\Url\DelegatingProvider" alias="zicht_url.provider.delegator"/>
 

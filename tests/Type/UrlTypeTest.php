@@ -31,25 +31,6 @@ class UrlTypeTest extends TestCase
         $this->assertEquals(TextType::class, $this->type->getParent());
     }
 
-    /**
-     * @throws \ReflectionException
-     * @doesNotPerformAssertions
-     */
-    public function testOptions()
-    {
-        $optionsResolver = (new Generator())->getMock('Symfony\Component\OptionsResolver\OptionsResolver', ['setDefaults']);
-        $optionsResolver->expects($this->once())->method('setDefaults')->with(
-            [
-                'with_edit_button' => true,
-                'no_transform_public' => false,
-                'no_transform_internal' => false,
-                'url_suggest' => '/admin/url/suggest',
-            ]
-        );
-
-        $this->type->configureOptions($optionsResolver);
-    }
-
     public function testFinishView()
     {
         $view = (new Generator())->getMock('Symfony\Component\Form\FormView');

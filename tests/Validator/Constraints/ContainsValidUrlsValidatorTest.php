@@ -21,7 +21,7 @@ class ContainsValidUrlsValidatorTest extends TestCase
      */
     public function testValidatesUrls()
     {
-        //Arrange
+        // Arrange
         $string = '<a href="http://www.google.nl"> bla bla </a>';
 
         $constraint = $this->getMockBuilder(ContainsValidUrls::class)->getMock();
@@ -33,11 +33,11 @@ class ContainsValidUrlsValidatorTest extends TestCase
 
         $validator = new ContainsValidUrlsValidator($urlValidator);
         $validator->initialize($context);
-        //Act
+        // Act
 
         $validator->validate($string, $constraint);
 
-        //Assert
+        // Assert
     }
 
     /**
@@ -45,7 +45,7 @@ class ContainsValidUrlsValidatorTest extends TestCase
      */
     public function testValidatesUrlsWithoutProtocol()
     {
-        //Arrange
+        // Arrange
         $string = '<a href="//www.google.nl"> bla bla </a>';
 
         $constraint = $this->getMockBuilder(ContainsValidUrls::class)->getMock();
@@ -59,10 +59,10 @@ class ContainsValidUrlsValidatorTest extends TestCase
         $validator = new ContainsValidUrlsValidator($urlValidator);
         $validator->initialize($context);
 
-        //Act
+        // Act
         $validator->validate($string, $constraint);
 
-        //Assert
+        // Assert
     }
 
     /**
@@ -70,7 +70,7 @@ class ContainsValidUrlsValidatorTest extends TestCase
      */
     public function testValidatesUrlsMultiple()
     {
-        //Arrange
+        // Arrange
         $string = '<a href="http://www.google.nl"> bla bla </a><a href="http://www.brokenlink.nl"> bla bla </a>
                     <a href="https://www.google.nl"> bla bla </a><a href="/url"> bla bla </a>';
 
@@ -88,10 +88,10 @@ class ContainsValidUrlsValidatorTest extends TestCase
         $validator = new ContainsValidUrlsValidator($urlValidator);
         $validator->initialize($context);
 
-        //Act
+        // Act
         $validator->validate($string, $constraint);
 
-        //Assert
+        // Assert
     }
 
     /**
@@ -99,7 +99,7 @@ class ContainsValidUrlsValidatorTest extends TestCase
      */
     public function testValidatesUrlsWithError()
     {
-        //Arrange
+        // Arrange
         $string = '<a href="http://www.google.nl"> bla bla </a>';
 
         $constraint = $this->getMockBuilder(ContainsValidUrls::class)->getMock();
@@ -113,9 +113,9 @@ class ContainsValidUrlsValidatorTest extends TestCase
         $validator = new ContainsValidUrlsValidator($urlValidator);
         $validator->initialize($context);
 
-        //Act
+        // Act
         $validator->validate($string, $constraint);
 
-        //Assert
+        // Assert
     }
 }

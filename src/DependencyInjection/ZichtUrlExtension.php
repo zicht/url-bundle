@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
+use Zicht\Bundle\UrlBundle\Url\SitemapProvider;
 
 /**
  * DI Extension for the URL services.
@@ -40,9 +41,9 @@ class ZichtUrlExtension extends Extension
         }
         if (!empty($config['aliasing']) && $config['aliasing']['enabled'] === true) {
             $this->loadAliasingConfig($container, $config['aliasing'], $loader);
-            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.alias_sitemap_provider'))->setPublic(true);
+            $container->setAlias(SitemapProvider::class, new Alias('zicht_url.alias_sitemap_provider'))->setPublic(true);
         } else {
-            $container->setAlias('zicht_url.sitemap_provider', new Alias('zicht_url.provider'))->setPublic(true);
+            $container->setAlias(SitemapProvider::class, new Alias('zicht_url.provider'))->setPublic(true);
         }
         if (!empty($config['logging'])) {
             $loader->load('logging.xml');

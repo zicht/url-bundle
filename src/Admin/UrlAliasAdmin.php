@@ -57,7 +57,7 @@ class UrlAliasAdmin extends AbstractAdmin
         $filter
             ->add('public_url')
             ->add('internal_url')
-            ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
+            ->add('mode', null, ['field_type' => ChoiceType::class, 'field_options' => $modeChoiceOptions]);
     }
 
     protected function configureFormFields(FormMapper $form): void
