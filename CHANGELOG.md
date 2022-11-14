@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.1 - 2022-11-14
+### Fixed
+- Definition of filters in `UrlAliasAdmin::configureDatagridFilters`
+
 ## 6.0.0 - 2022-09-30
 ### Added
 - Support for Sonata ^4
