@@ -15,6 +15,10 @@ Nothing so far
 - Support for Symfony 4
 - Support for PHP 7.2/7.3
 
+## 6.0.1 - 2022-11-14
+### Fixed
+- Definition of filters in `UrlAliasAdmin::configureDatagridFilters`
+
 ## 6.0.0 - 2022-09-30
 ### Added
 - Support for Sonata ^4
