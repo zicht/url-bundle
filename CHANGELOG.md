@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.1 - 2022-11-28
+### Changed
+- Alter `UrlType` to re-use `AutocompleteType` from `zicht/admin-bundle` to prevent multiple autocomplete implementations.
+
+  Add this to your `zicht_admin.yaml`:
+```yaml
+zicht_admin:
+    quicklist:
+    ...
+    Zicht\Bundle\UrlBundle\Entity\UrlAlias:
+        repository: 'Zicht\Bundle\UrlBundle\Entity\UrlAlias'
+        fields: ['public_url']
+```
+
 ## 7.0.0 - 2022-10-06
 ### Added
 - Support for Symfony ^5.4
