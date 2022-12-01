@@ -29,6 +29,10 @@ zicht_admin:
 - Support for Symfony 4
 - Support for PHP 7.2/7.3
 
+## 6.0.2 - 2022-12-01
+### Added
+- Sonata 4 form group labels
+
 ## 6.0.1 - 2022-11-14
 ### Fixed
 - Definition of filters in `UrlAliasAdmin::configureDatagridFilters`

@@ -14,6 +14,9 @@ filter:
     label_mode: Type
     label_public_url: Publieke URL
 form:
+    group_sonata_dashboard_entity_alias_label: Alias
+    group_sonata_dashboard_entity_error_log_label: Error Log
+    group_sonata_dashboard_entity_static_reference_label: Static Reference
     label_internal_url: Interne URL
     label_machine_name: Interne naam
     label_mode: Type
