@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.2 - 2022-12-01
+### Added
+- Forward merge of v6.0.2: Sonata 4 form group labels
+
 ## 7.0.1 - 2022-11-28
 ### Changed
 - Alter `UrlType` to re-use `AutocompleteType` from `zicht/admin-bundle` to prevent multiple autocomplete implementations.
