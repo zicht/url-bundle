@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.2 - 2022-12-01
+### Added
+- Sonata 4 form group labels
+
 ## 6.0.1 - 2022-11-14
 ### Fixed
 - Definition of filters in `UrlAliasAdmin::configureDatagridFilters`
