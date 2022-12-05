@@ -13,7 +13,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
-use Zicht\Bundle\UrlBundle\Type\UrlType;
 
 class UrlAliasAdmin extends AbstractAdmin
 {
@@ -63,7 +62,7 @@ class UrlAliasAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form->add('public_url')
-            ->add('internal_url', UrlType::class, ['no_transform_public' => true])
+            ->add('internal_url')
             ->add(
                 'mode',
                 ChoiceType::class,

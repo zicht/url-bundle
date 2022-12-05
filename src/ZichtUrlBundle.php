@@ -21,5 +21,6 @@ class ZichtUrlBundle extends Bundle
         $container->addCompilerPass(new DependencyInjection\Compiler\ReplaceUrlProviderServicePass());
         $container->addCompilerPass(new DependencyInjection\Compiler\CachePass());
         $container->addCompilerPass(new DependencyInjection\Compiler\UrlMapperPass());
+        $container->addCompilerPass(new DependencyInjection\Compiler\AddUrlAliasAutocompleteRepositoryPass());
     }
 }

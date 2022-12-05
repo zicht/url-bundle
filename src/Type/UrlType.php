@@ -13,9 +13,7 @@ use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 
 class UrlType extends AbstractType
 {
-    /**
-     * @var Aliasing
-     */
+    /** @var Aliasing */
     private $aliasing;
 
     public function __construct(Aliasing $aliasing)
@@ -30,7 +28,7 @@ class UrlType extends AbstractType
         $resolver
             ->setDefaults(
                 [
-                    'repo' => 'Zicht\Bundle\UrlBundle\Entity\UrlAlias',
+                    'repo' => 'url_alias',
                     'transformer' => 'noop', // disable all transformation. we do this ourselves with UrlTypeAutocompleteDataTransformer
                 ]
             );

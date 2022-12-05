@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.0.3 - 2022-12-01
+### Fixed
+- Fixed UrlType to use the internal URL to be stored to the database
+- Fixed UrlType to be able to handle other values
+- Fix URL Alias entity `__toString()` to return public URL instead of ID
+
 ## 7.0.2 - 2022-12-01
 ### Added
 - Forward merge of v6.0.2: Sonata 4 form group labels
@@ -16,12 +22,12 @@ Nothing so far
 ### Changed
 - Alter `UrlType` to re-use `AutocompleteType` from `zicht/admin-bundle` to prevent multiple autocomplete implementations.
 
-  Add this to your `zicht_admin.yaml`:
+  Add this to your `zicht_admin.yaml` to override the default config:
 ```yaml
 zicht_admin:
     quicklist:
     ...
-    Zicht\Bundle\UrlBundle\Entity\UrlAlias:
+    url_alias:
         repository: 'Zicht\Bundle\UrlBundle\Entity\UrlAlias'
         fields: ['public_url']
 ```
