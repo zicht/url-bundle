@@ -454,7 +454,6 @@ class Aliasing
         );
 
         if ($stmt = $this->manager->getConnection()->executeQuery($sql)) {
-            // [/nl/page/45454 => /nl/contact]
             return $stmt->fetchAllKeyValue();
         }
         return [];

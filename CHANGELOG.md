@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.2.0 - 2022-12-07
+### Added
+- Support for `doctrine/dbal ^3`
+### Removed
+- Support for `doctrine/dbal ^2`
+
 ## 7.1.0 - 2022-12-22
 ### Added
 - Options to allow manual urls in `UrlType`
