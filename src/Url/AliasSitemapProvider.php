@@ -32,7 +32,7 @@ class AliasSitemapProvider implements ListableProvider
     public function all(AuthorizationCheckerInterface $authorizationChecker)
     {
         $query = $this->connection->prepare('SELECT * FROM url_alias WHERE mode=?');
-        $urls = new \ArrayObject($query->execute([UrlAlias::REWRITE])->fetchAllAssociative());
+        $urls = new \ArrayObject($query->executeQuery([UrlAlias::REWRITE])->fetchAllAssociative());
 
         /*
          * Hook to allow the mapping to be modified at run-time.
