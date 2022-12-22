@@ -22,6 +22,8 @@ form:
     label_mode: Type
     label_public_url: Publieke URL
     label_url: URL
+    url_type:
+        placeholder: Zoeken of voer een url in...
 list:
     label_id: Id
     label_internal_url: Interne URL

@@ -22,6 +22,8 @@ form:
     label_mode: Type
     label_public_url: Public URL
     label_url: URL
+    url_type:
+        placeholder: Search or add url...
 list:
     label_id: Id
     label_internal_url: Internal URL
