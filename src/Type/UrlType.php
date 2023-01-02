@@ -30,6 +30,11 @@ class UrlType extends AbstractType
                 [
                     'repo' => 'url_alias',
                     'transformer' => 'noop', // disable all transformation. we do this ourselves with UrlTypeAutocompleteDataTransformer
+                    'attr' => [
+                        'placeholder' => 'form.url_type.placeholder',
+                        'data-allow-manual-input' => true,
+                        'data-allow-manual-input-regex' => '^(http|https|ftp|mailto)',
+                    ],
                 ]
             );
     }

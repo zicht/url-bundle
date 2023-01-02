@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.1.0 - 2022-12-22
+### Added
+- Options to allow manual urls in `UrlType`
+
 ## 7.0.3 - 2022-12-01
 ### Fixed
 - Fixed UrlType to use the internal URL to be stored to the database
