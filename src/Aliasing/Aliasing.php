@@ -453,8 +453,8 @@ class Aliasing
             )
         );
 
-        if ($stmt = $connection->query($sql)) {
-            return $stmt->fetchAll(\PDO::FETCH_KEY_PAIR);
+        if ($stmt = $this->manager->getConnection()->executeQuery($sql)) {
+            return $stmt->fetchAllKeyValue();
         }
         return [];
     }
