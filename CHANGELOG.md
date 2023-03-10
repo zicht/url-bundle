@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 5.2.7 - 2023-03-10
+### Changed
+- Always show `public_url` filter.
+### Fixed
+- Fixed Sonata Admin deprecations.
+
 ## 5.2.6 - 2022-09-30
 ### Changed
 - Swapped the zicht/standards-php (PHPCS) linter for PHP CS Fixer.
