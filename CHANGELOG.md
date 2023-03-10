@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.2.1 - 2023-03-10
+### Changed
+- Forward merge of v5.2.7: Always show `public_url` filter.
+
 ## 7.2.0 - 2022-12-07
 ### Added
 - Support for `doctrine/dbal ^3`
