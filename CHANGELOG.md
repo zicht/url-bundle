@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 6.0.3 - 2023-03-10
+### Changed
+- Forward merge of v5.2.7: Always show `public_url` filter.
+
 ## 6.0.2 - 2022-12-01
 ### Added
 - Sonata 4 form group labels
