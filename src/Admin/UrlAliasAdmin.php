@@ -6,6 +6,7 @@
 namespace Zicht\Bundle\UrlBundle\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -16,11 +17,6 @@ use Zicht\Bundle\UrlBundle\Type\UrlType;
 
 class UrlAliasAdmin extends AbstractAdmin
 {
-    /** @var array */
-    protected $datagridValues = [
-        '_sort_order' => 'DESC', // Descendant ordering (default = 'ASC')
-    ];
-
     public function configureListFields(ListMapper $list)
     {
         $list
@@ -41,6 +37,12 @@ class UrlAliasAdmin extends AbstractAdmin
             );
     }
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        parent::configureDefaultSortValues($sortValues);
+        $sortValues[DatagridInterface::SORT_ORDER] = 'DESC';
+    }
+
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $modeChoiceOptions = [
@@ -53,9 +55,9 @@ class UrlAliasAdmin extends AbstractAdmin
         ];
 
         $filter
-            ->add('public_url')
+            ->add('public_url', null, ['show_filter' => true])
             ->add('internal_url')
-            ->add('mode', null, [], ChoiceType::class, $modeChoiceOptions);
+            ->add('mode', null, ['field_type' => ChoiceType::class, 'field_options' => $modeChoiceOptions]);
     }
 
     protected function configureFormFields(FormMapper $form)
