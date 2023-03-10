@@ -55,7 +55,7 @@ class UrlAliasAdmin extends AbstractAdmin
         ];
 
         $filter
-            ->add('public_url')
+            ->add('public_url', null, ['show_filter' => true])
             ->add('internal_url')
             ->add('mode', null, ['field_type' => ChoiceType::class, 'field_options' => $modeChoiceOptions]);
     }
