@@ -14,10 +14,8 @@ class ContainsValidUrls extends Constraint
 
     /**
      * Returns validator name
-     *
-     * @return string
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return get_class($this) . 'Validator';
     }

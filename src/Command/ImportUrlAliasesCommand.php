@@ -5,6 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,12 +14,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zicht\Bundle\UrlBundle\Aliasing\Aliasing;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 
+#[AsCommand('zicht:url:import-aliases')]
 class ImportUrlAliasesCommand extends Command
 {
     /**
      * Defines the possible input values for the command and their associated (i.e. mapped) behavior
      */
-    const REDIRECT_TYPE_MAPPING = [
+    private const REDIRECT_TYPE_MAPPING = [
         '0' => UrlAlias::REWRITE,
         '301' => UrlAlias::MOVE,
         '302' => UrlAlias::ALIAS,
@@ -30,7 +32,7 @@ class ImportUrlAliasesCommand extends Command
     /**
      * Defines the possible input values for the command and their associated (i.e. mapped) behavior
      */
-    const DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING = [
+    private const DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING = [
         'keep' => Aliasing::STRATEGY_KEEP,
         'overwrite' => Aliasing::STRATEGY_OVERWRITE,
         'suffix' => Aliasing::STRATEGY_SUFFIX,
@@ -39,17 +41,13 @@ class ImportUrlAliasesCommand extends Command
     /**
      * Defines the possible input values for the command and their associated (i.e. mapped) behavior
      */
-    const DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING = [
+    private const DEFAULT_CONFLICTING_INTERNAL_URL_STRATEGY_MAPPING = [
         'ignore' => Aliasing::STRATEGY_IGNORE,
         'move-new-to-previous' => Aliasing::STRATEGY_MOVE_NEW_TO_PREVIOUS,
         'move-previous-to-new' => Aliasing::STRATEGY_MOVE_PREVIOUS_TO_NEW,
     ];
 
-    /** @var string|null The default command name */
-    protected static $defaultName = 'zicht:url:import-aliases';
-
-    /** @var Aliasing */
-    private $aliasing;
+    private Aliasing $aliasing;
 
     public function __construct(Aliasing $aliasing, string $name = null)
     {
@@ -119,7 +117,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $defaultRedirectType = self::REDIRECT_TYPE_MAPPING[$input->getOption('default-redirect-type')];
         $defaultConflictingPublicUrlStrategy = self::DEFAULT_CONFLICTING_PUBLIC_URL_STRATEGY_MAPPING[$input->getOption('default-conflicting-public-url-strategy')];
@@ -184,7 +182,7 @@ TYPE, CONFLICTINGPUBLICURLSTRATEGY, and CONFLICTINGINTERNALURLSTRATEGY are optio
 
         $flush();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

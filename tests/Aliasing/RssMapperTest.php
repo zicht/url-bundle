@@ -13,9 +13,9 @@ class RssMapperTest extends TestCase
 {
     /**
      * @dataProvider aliasingTestCases
-     * @param $input
-     * @param $expectedOutput
-     * @param $aliasingMap
+     * @param string $input
+     * @param string $expectedOutput
+     * @param array $aliasingMap
      */
     public function testInternalToPublicAliasing($input, $expectedOutput, $aliasingMap)
     {

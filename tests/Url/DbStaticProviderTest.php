@@ -8,6 +8,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Zicht\Bundle\UrlBundle\Entity\StaticReference;
 
 class DbStaticProviderTest extends TestCase
 {
@@ -24,18 +25,13 @@ class DbStaticProviderTest extends TestCase
 
         $r = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository')->setMethods(['getAll'])->disableOriginalConstructor()->getMock();
 
-        $this->manager->expects($this->once())->method('getRepository')->with('ZichtUrlBundle:StaticReference')
+        $this->manager->expects($this->once())->method('getRepository')->with(StaticReference::class)
             ->will($this->returnValue($r));
 
         $r->expects($this->once())->method('getAll')->with(null)->will(
-            $this->returnValue(
-                [
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference(),
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference(),
-                ]
-            )
+            $this->returnValue([new StaticReference(), new StaticReference()])
         );
-//        $this->manager->expects($this->once())->method('get')
+        // $this->manager->expects($this->once())->method('get')
         $this->provider->supports('foo');
     }
 
@@ -45,7 +41,7 @@ class DbStaticProviderTest extends TestCase
 
         $r = $this->getMockBuilder('Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository')->setMethods(['getAll'])->disableOriginalConstructor()->getMock();
 
-        $this->manager->expects($this->once())->method('getRepository')->with('ZichtUrlBundle:StaticReference')
+        $this->manager->expects($this->once())->method('getRepository')->with(StaticReference::class)
             ->will($this->returnValue($r));
 
         $this->stack->push($req = new Request());
@@ -54,8 +50,8 @@ class DbStaticProviderTest extends TestCase
         $r->expects($this->once())->method('getAll')->with('klingon')->will(
             $this->returnValue(
                 [
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference('foo', ['klingon' => 'ptach', 'romulan' => 'jolantru']),
-                    new \Zicht\Bundle\UrlBundle\Entity\StaticReference('bar', ['klingon' => 'k\'pla', 'romulan' => 'rihiirin']),
+                    new StaticReference('foo', ['klingon' => 'ptach', 'romulan' => 'jolantru']),
+                    new StaticReference('bar', ['klingon' => 'k\'pla', 'romulan' => 'rihiirin']),
                 ]
             )
         );

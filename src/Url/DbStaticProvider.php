@@ -47,7 +47,7 @@ class DbStaticProvider implements Provider
         $this->refs = [];
 
         /** @var StaticReference $repos */
-        $references = $this->em->getRepository('ZichtUrlBundle:StaticReference')->getAll($this->getLocale());
+        $references = $this->em->getRepository(StaticReference::class)->getAll($this->getLocale());
 
         foreach ($references as $static_reference) {
             foreach ($static_reference->getTranslations() as $translation) {

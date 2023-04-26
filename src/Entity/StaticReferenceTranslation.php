@@ -1,43 +1,30 @@
 <?php
-/**
- * @copyright Zicht Online <http://zicht.nl>
- */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="static_reference_translation")
- * @ORM\Entity
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'static_reference_translation')]
 class StaticReferenceTranslation
 {
-    /**
-     * @var int
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @var StaticReference|null
-     * @ORM\ManyToOne(targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReference", inversedBy="translations")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
+    /** @var StaticReference|null */
+    #[ORM\ManyToOne(targetEntity: StaticReference::class, inversedBy: 'translations')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     public $static_reference;
 
-    /**
-     * @var string
-     * @ORM\Column(name="url", type="string", length=255, nullable=true)
-     */
+    /** @var string|null */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $url;
 
-    /**
-     * @var string
-     * @ORM\Column(name="locale", type="string", length=6, nullable=true)
-     */
+    /** @var string|null */
+    #[ORM\Column(type: 'string', length: 6, nullable: true)]
     private $locale;
 
     /**
