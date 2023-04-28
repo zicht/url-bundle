@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.2.2 - 2023-04-28
+### Fixed
+- Fixed `Request::getMasterRequest()` deprecations.
+
 ## 7.2.1 - 2023-03-10
 ### Changed
 - Forward merge of v5.2.7: Always show `public_url` filter.

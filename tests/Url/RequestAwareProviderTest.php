@@ -37,7 +37,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
                 ->getMock();
 
             $request = (new Generator())->getMock(Request::class);
-            $r->expects($this->once())->method('getMasterRequest')->will($this->returnValue($request));
+            $r->expects($this->once())->method('getMainRequest')->will($this->returnValue($request));
             $request->expects($this->once())->method('getBaseUrl')->will($this->returnValue('http://example.org/foo'));
             $p = new \Zicht\Bundle\UrlBundle\Url\RequestAwareProvider($r);
             $p->addProvider(new Provider\MockProvider(['a' => 'b', 'c' => '/foo/a', 'd' => 'http://example.org/foo/qux']));

@@ -70,7 +70,7 @@ class DbStaticProvider implements Provider
         $url = $this->refs[$object][$this->getLocale()];
 
         if (!preg_match('/^(http|https)/', $url)) {
-            if (null !== ($request = $this->getMasterRequest())) {
+            if (null !== ($request = $this->getMainRequest())) {
                 $url = $request->getBaseUrl() . '/' . ltrim($url, '/');
             }
         }
@@ -85,7 +85,7 @@ class DbStaticProvider implements Provider
      */
     public function getLocale()
     {
-        if (null !== ($request = $this->getMasterRequest())) {
+        if (null !== ($request = $this->getMainRequest())) {
             $locale = $request->get('_locale');
         }
 
@@ -111,9 +111,9 @@ class DbStaticProvider implements Provider
     /**
      * @return Request|null
      */
-    private function getMasterRequest()
+    private function getMainRequest()
     {
-        return (!is_null($this->requestStack)) ? $this->requestStack->getMasterRequest() : null;
+        return (!is_null($this->requestStack)) ? $this->requestStack->getMainRequest() : null;
     }
 
     /**

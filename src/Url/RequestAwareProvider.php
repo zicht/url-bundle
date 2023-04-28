@@ -25,7 +25,7 @@ class RequestAwareProvider extends DelegatingProvider
     {
         parent::__construct();
 
-        $request = $requestStack->getMasterRequest();
+        $request = $requestStack->getMainRequest();
 
         $this->baseUrl = $request->getBaseUrl();
         $this->prefix = $request->getSchemeAndHttpHost() . $this->baseUrl;
