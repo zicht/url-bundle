@@ -29,7 +29,7 @@ class AliasSitemapProvider implements ListableProvider
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function all(AuthorizationCheckerInterface $authorizationChecker)
+    public function all(AuthorizationCheckerInterface $securityContextInterface)
     {
         $query = $this->connection->prepare('SELECT * FROM url_alias WHERE mode=?');
         $urls = new \ArrayObject($query->executeQuery([UrlAlias::REWRITE])->fetchAllAssociative());

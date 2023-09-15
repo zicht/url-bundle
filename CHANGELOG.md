@@ -11,6 +11,7 @@ Nothing so far
 ## 7.2.3 - 2023-09-15
 ### Fixed
 - Replaced deprecated `AnonymousToken` by `NullToken`.
+- Set correct argument name for ListableProvider implementations.
 
 ## 7.2.2 - 2023-04-28
 ### Fixed
