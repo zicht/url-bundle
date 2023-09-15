@@ -47,9 +47,9 @@ class ProviderDecorator extends DelegatingProvider
         return $ret;
     }
 
-    public function all(AuthorizationCheckerInterface $security)
+    public function all(AuthorizationCheckerInterface $securityContextInterface)
     {
-        $urlList = parent::all($security);
+        $urlList = parent::all($securityContextInterface);
 
         foreach ($urlList as &$info) {
             $info['value'] = $this->url($info['value']);

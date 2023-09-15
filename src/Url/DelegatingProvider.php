@@ -71,12 +71,12 @@ class DelegatingProvider implements Provider, SuggestableProvider, ListableProvi
         return $ret;
     }
 
-    public function all(AuthorizationCheckerInterface $securityContext)
+    public function all(AuthorizationCheckerInterface $securityContextInterface)
     {
         $ret = [];
         foreach ($this->getProviders() as $provider) {
             if ($provider instanceof ListableProvider) {
-                $ret = array_merge($ret, $provider->all($securityContext));
+                $ret = array_merge($ret, $provider->all($securityContextInterface));
             }
         }
         return $ret;
