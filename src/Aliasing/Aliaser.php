@@ -5,7 +5,7 @@
 
 namespace Zicht\Bundle\UrlBundle\Aliasing;
 
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Zicht\Bundle\UrlBundle\Entity\UrlAlias;
 use Zicht\Bundle\UrlBundle\Url\Provider;
@@ -139,7 +139,7 @@ class Aliaser
             return true;
         }
 
-        return $this->decisionManager->decide(new AnonymousToken('main', 'anonymous'), $action, $record);
+        return $this->decisionManager->decide(new NullToken(), $action, $record);
     }
 
     /**

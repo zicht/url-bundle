@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.2.3 - 2023-09-15
+### Fixed
+- Replaced deprecated `AnonymousToken` by `NullToken`.
+
 ## 7.2.2 - 2023-04-28
 ### Fixed
 - Fixed `Request::getMasterRequest()` deprecations.
