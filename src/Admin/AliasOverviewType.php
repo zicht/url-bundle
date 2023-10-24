@@ -83,9 +83,7 @@ class AliasOverviewType extends AbstractType
             return [];
         }
 
-        return $this
-            ->doctrine
-            ->getRepository('ZichtUrlBundle:UrlAlias')
+        return $this->doctrine->getRepository(UrlAlias::class)
             ->findAllByInternalUrl($internalUrl);
     }
 

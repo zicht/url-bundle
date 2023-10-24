@@ -27,7 +27,7 @@ class AliasingTest extends TestCase
             ->setMethods(['persist', 'flush', 'getRepository'])
             ->getMock();
 
-        $this->manager->expects($this->any())->method('getRepository')->with('ZichtUrlBundle:UrlAlias')->will($this->returnValue($this->repos));
+        $this->manager->expects($this->any())->method('getRepository')->with(UrlAlias::class)->will($this->returnValue($this->repos));
         $this->aliasing = new Aliasing($this->manager);
     }
 

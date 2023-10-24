@@ -73,7 +73,7 @@ class Aliasing
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
-        $this->repository = $manager->getRepository('ZichtUrlBundle:UrlAlias');
+        $this->repository = $manager->getRepository(UrlAlias::class);
     }
 
     /**
