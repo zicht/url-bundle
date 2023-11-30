@@ -80,7 +80,9 @@ class ContainsUrlAliasValidator extends ConstraintValidator
      */
     protected function getPublicUrlCount($url)
     {
-        return (int)$this->doctrine->getConnection()->query($this->fmtQuery($url))->fetchColumn(0);
+        /** @var \Doctrine\DBAL\Result $result */
+        $result = $this->doctrine->getConnection()->query($this->fmtQuery($url));
+        return (int)(method_exists($result, 'fetchFirstColumn') ? $result->fetchFirstColumn()[0] : $result->fetchColumn(0));
     }
 
     /**

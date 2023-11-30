@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.2.5 - 2023-11-30
+### Fixed
+- Doctrine compatability
+
 ## 7.2.4 - 2023-10-24
 ### Changed
 - Retrieving URL Alias repository from `getRepository('ZichtUrlBundle:UrlAlias')` to `getRepository(UrlAlias::class)`.
