@@ -19,7 +19,7 @@
         "symfony/console": "^4.4",
         "symfony/dependency-injection": "^4.4",
         "symfony/http-foundation": "^4.4",
-        "symfony/translation-contracts": "^1 || ^2",
+        "symfony/translation-contracts": "^1 || ^2 || ^3",
         "zicht/admin-bundle": "^7",
         "zicht/framework-extra-bundle": "^9",
         "zicht/util": "^2.0"
