@@ -26,6 +26,15 @@ Nothing so far
 ### Removed
 - Support for Sonata ^3
 
+## 5.3.0 - 2024-01-05
+### Added
+- Added the `\Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser` and a
+  `\Zicht\Bundle\UrlBundle\Url\Params\ParamTranslator` as services so a custom implementation in every
+  project is no longer necessary.
+- Also added `url_params` config so you can set a custom `param_separator`, `key_value_separator` and
+  `value_separator` in `config/packages/zicht_url.yaml` (instead of setting these trough arguments in
+  `config/services.yaml`).
+
 ## 5.2.7 - 2023-03-10
 ### Changed
 - Always show `public_url` filter.

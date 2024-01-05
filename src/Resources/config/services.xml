@@ -72,6 +72,16 @@
             <argument type="service" id="zicht_url.aliasing"/>
         </service>
 
+        <service id="Zicht\Bundle\UrlBundle\Url\Params\UriParser" />
+        <service id="Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser">
+            <call method="setTranslator">
+                <argument type="service" id="Zicht\Bundle\UrlBundle\Url\Params\ParamTranslator" />
+            </call>
+        </service>
+        <service id="Zicht\Bundle\UrlBundle\Url\Params\ParamTranslator">
+            <argument type="service" id="Symfony\Contracts\Translation\TranslatorInterface" />
+        </service>
+
         <service id="Zicht\Bundle\UrlBundle\Url\ShortUrlManager"/>
 
     </services>
