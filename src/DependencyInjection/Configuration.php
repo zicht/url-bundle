@@ -69,6 +69,13 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('entities')->prototype('scalar')->end()->end()
                     ->end()
                 ->end()
+                ->arrayNode('url_params')
+                    ->children()
+                        ->scalarNode('param_separator')->defaultValue(null)->end()
+                        ->scalarNode('key_value_separator')->defaultValue(null)->end()
+                        ->scalarNode('value_separator')->defaultValue(null)->end()
+                    ->end()
+                ->end()
                 ->variableNode('html_attributes')
                     ->treatNullLike([])
                     ->defaultValue(
