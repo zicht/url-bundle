@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser;
+use Zicht\Bundle\UrlBundle\Url\Params\UriParser;
 use Zicht\Bundle\UrlBundle\Url\ShortUrlManager;
 use Zicht\Bundle\UrlBundle\Url\SitemapProvider;
 
@@ -58,6 +60,21 @@ class ZichtUrlExtension extends Extension
         }
         if (!empty($config['db_static_ref']) && $config['db_static_ref']['enabled'] === true) {
             $loader->load('db.xml');
+        }
+
+        if (!empty($config['url_params'])) {
+            if (isset($config['url_params']['param_separator'])) {
+                $container->getDefinition(UriParser::class)->setArgument('$paramSeparator', (string)$config['url_params']['param_separator']);
+                $container->getDefinition(TranslatedUriParser::class)->setArgument('$paramSeparator', (string)$config['url_params']['param_separator']);
+            }
+            if (isset($config['url_params']['key_value_separator'])) {
+                $container->getDefinition(UriParser::class)->setArgument('$keyValueSeparator', (string)$config['url_params']['key_value_separator']);
+                $container->getDefinition(TranslatedUriParser::class)->setArgument('$keyValueSeparator', (string)$config['url_params']['key_value_separator']);
+            }
+            if (isset($config['url_params']['value_separator'])) {
+                $container->getDefinition(UriParser::class)->setArgument('$valueSeparator', (string)$config['url_params']['value_separator']);
+                $container->getDefinition(TranslatedUriParser::class)->setArgument('$valueSeparator', (string)$config['url_params']['value_separator']);
+            }
         }
 
         if ($container->hasDefinition('zicht_url.aliasing')) {

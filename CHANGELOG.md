@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.3.0 - 2024-01-05
+### Added
+- Forward merge of v5.3.0: Added the `\Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser` and a
+  `\Zicht\Bundle\UrlBundle\Url\Params\ParamTranslator` as services so a custom implementation in every
+  project is no longer necessary.
+- Forward merge of v5.3.0Also added `url_params` config so you can set a custom `param_separator`,
+  `key_value_separator` and `value_separator` in `config/packages/zicht_url.yaml` (instead of setting
+  these trough arguments in `config/services.yaml`).
+
 ## 7.2.5 - 2023-11-30
 ### Fixed
 - Doctrine compatability
@@ -68,6 +77,10 @@ zicht_admin:
 - Support for Symfony 4
 - Support for PHP 7.2/7.3
 
+## 6.1.0 - 2024-01-05
+### Added
+- Forward merge of v5.3.0
+
 ## 6.0.3 - 2023-03-10
 ### Changed
 - Forward merge of v5.2.7: Always show `public_url` filter.
@@ -85,6 +98,15 @@ zicht_admin:
 - Support for Sonata ^4
 ### Removed
 - Support for Sonata ^3
+
+## 5.3.0 - 2024-01-05
+### Added
+- Added the `\Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser` and a
+  `\Zicht\Bundle\UrlBundle\Url\Params\ParamTranslator` as services so a custom implementation in every
+  project is no longer necessary.
+- Also added `url_params` config so you can set a custom `param_separator`, `key_value_separator` and
+  `value_separator` in `config/packages/zicht_url.yaml` (instead of setting these trough arguments in
+  `config/services.yaml`).
 
 ## 5.2.7 - 2023-03-10
 ### Changed
