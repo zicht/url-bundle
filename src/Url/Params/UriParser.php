@@ -10,13 +10,9 @@ namespace Zicht\Bundle\UrlBundle\Url\Params;
  */
 class UriParser implements Translator
 {
-    /** @var array */
-    private $seperators = [];
+    private array $seperators = [];
 
-    /**
-     * @var Translator
-     */
-    private $translator = null;
+    private ?Translator $translator = null;
 
     /**
      * @param string $paramSeparator
@@ -30,10 +26,7 @@ class UriParser implements Translator
         $this->seperators['value'] = $valueSeparator;
     }
 
-    /**
-     * @return void
-     */
-    public function setTranslator(Translator $translator)
+    public function setTranslator(Translator $translator): void
     {
         $this->translator = $translator;
     }
