@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added|Changed|Deprecated|Removed|Fixed|Security
 Nothing so far
 
+## 7.3.1 - 2024-03-27
+### Fixed
+- Replaced deprecated `Symfony\Component\HttpKernel\HttpKernelInterface::MASTER_REQUEST` by `::MAIN_REQUEST`
+
 ## 7.3.0 - 2024-01-05
 ### Added
 - Forward merge of v5.3.0: Added the `\Zicht\Bundle\UrlBundle\Url\Params\TranslatedUriParser` and a

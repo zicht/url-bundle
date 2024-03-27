@@ -47,7 +47,7 @@ class Listener
     public function onKernelResponse(ResponseEvent $e)
     {
         if (isset($this->log)) {
-            if ($e->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+            if ($e->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
                 if (($status = $e->getResponse()->getStatusCode()) >= 400) {
                     $this->log->setStatus($status);
                     $this->logging->flush($this->log);
