@@ -48,7 +48,7 @@ class Listener
      */
     public function onKernelResponse(Event\ResponseEvent $event)
     {
-        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
             $response = $event->getResponse();
 
             // only do anything if the response has a Location header
@@ -150,7 +150,7 @@ class Listener
      */
     public function onKernelRequest(Event\RequestEvent $event)
     {
-        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
             $publicUrl = rawurldecode($request->getRequestUri());
 
