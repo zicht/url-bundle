@@ -1,68 +1,45 @@
 <?php
-/**
- * @copyright Zicht Online <http://zicht.nl>
- */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Log entries
- *
- * @ORM\Entity
- * @ORM\Table(name="url_error_log")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'url_error_log')]
 class ErrorLog
 {
-    /**
-     * @var int
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     */
+    /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    /** @var int|null */
+    #[ORM\Column(type: 'integer', nullable: true)]
     protected $status;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=1024, nullable=true)
-     */
+    /** @var string|null */
+    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
     protected $url;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @var string */
+    #[ORM\Column(type: 'string')]
     protected $ip;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=1024)
-     */
+    /** @var string */
+    #[ORM\Column(type: 'string', length: 1024)]
     protected $ua;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    /** @var string|null */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected $message;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
+    /** @var string|null */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected $referer;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    /** @var \DateTime|null */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     protected $date_created;
 
     /**

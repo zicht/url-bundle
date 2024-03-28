@@ -1,23 +1,15 @@
 <?php
-/**
- * @copyright Zicht Online <http://zicht.nl>
- */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository;
 
-/**
- * Entity representing log url translations, mapping public (SEO-friendly) url's to internal url's (routes).
- *
- * @ORM\Entity(repositoryClass="Zicht\Bundle\UrlBundle\Entity\Repository\UrlAliasRepository")
- * @ORM\Table(
- *  name = "url_alias",
- *  indexes={
- *      @ORM\Index(name="public_url_idx", columns={"public_url"}),
- *      @ORM\Index(name="internal_url_idx", columns={"internal_url", "mode"})
- * })
- */
+/** Entity representing log url translations, mapping public (SEO-friendly) url's to internal url's (routes). */
+#[ORM\Entity(repositoryClass: UrlAliasRepository::class)]
+#[ORM\Table(name: 'url_alias')]
+#[ORM\Index(name: 'public_url_idx', columns: ['public_url'])]
+#[ORM\Index(name: 'internal_url_idx', columns: ['internal_url', 'mode'])]
 class UrlAlias
 {
     /**
@@ -36,30 +28,22 @@ class UrlAlias
      */
     const ALIAS = 302;
 
-    /**
-     * @var int
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type = "integer")
-     */
+    /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     protected $id;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
+    /** @var string */
+    #[ORM\Column(type: 'string')]
     protected $public_url;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
+    /** @var string */
+    #[ORM\Column(type: 'string')]
     protected $internal_url;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
+    /** @var int */
+    #[ORM\Column(type: 'integer')]
     protected $mode = self::REWRITE;
 
     /**

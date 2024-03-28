@@ -35,8 +35,8 @@ class RewriterTest extends TestCase
             ['/foo', 'https://example.org/foo/x=y?a=b'],
             ['/foo', '//example.org/foo/x=y?a=b'],
             [null, 'mailto:a@b.org'],
-//            ['/foo', '//example.org/foo/x=y?a=b']
-//            [null, 'https://example.org/foo/x=y?a=b']
+            // ['/foo', '//example.org/foo/x=y?a=b']
+            // [null, 'https://example.org/foo/x=y?a=b']
         ];
     }
 

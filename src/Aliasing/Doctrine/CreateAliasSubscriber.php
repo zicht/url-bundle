@@ -65,7 +65,7 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postPersist($e)
     {
-        $this->addRecord($e->getEntity(), ['ACTION_POST_PERSIST']);
+        $this->addRecord($e->getObject(), ['ACTION_POST_PERSIST']);
     }
 
     /**
@@ -76,7 +76,7 @@ class CreateAliasSubscriber extends BaseSubscriber
      */
     public function postUpdate($e)
     {
-        $this->addRecord($e->getEntity(), ['ACTION_POST_UPDATE']);
+        $this->addRecord($e->getObject(), ['ACTION_POST_UPDATE']);
     }
 
     /**

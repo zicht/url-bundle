@@ -1,42 +1,27 @@
 <?php
-/**
- * @copyright Zicht Online <http://zicht.nl>
- */
 
 namespace Zicht\Bundle\UrlBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository;
 
-/**
- * @ORM\Table(name="static_reference")
- * @ORM\Entity(repositoryClass="Zicht\Bundle\UrlBundle\Entity\Repository\StaticReferenceRepository")
- */
+#[ORM\Entity(repositoryClass: StaticReferenceRepository::class)]
+#[ORM\Table(name: 'static_reference')]
 class StaticReference
 {
-    /**
-     * @var int
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    /** @var int */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @var string
-     * @ORM\Column(name="machine_name", type="string", length=255)
-     */
+    /** @var string */
+    #[ORM\Column(type: 'string')]
     private $machine_name;
 
-    /**
-     * @var StaticReferenceTranslation[]
-     * @ORM\OneToMany(
-     *     targetEntity="Zicht\Bundle\UrlBundle\Entity\StaticReferenceTranslation",
-     *     mappedBy="static_reference",
-     *     cascade={"persist", "remove"},
-     *     orphanRemoval=true
-     * )
-     */
+    /** @var StaticReferenceTranslation[] */
+    #[ORM\OneToMany(targetEntity: StaticReferenceTranslation::class, mappedBy: 'static_reference', cascade: ['persist', 'remove'], orphanRemoval: true)]
     public $translations;
 
     /**
@@ -69,7 +54,6 @@ class StaticReference
 
     /**
      * @param string $machineName
-     *
      * @return StaticReference
      */
     public function setMachineName($machineName)
@@ -89,7 +73,6 @@ class StaticReference
 
     /**
      * @param string $locale
-     *
      * @return bool
      */
     public function getTranslation($locale)

@@ -81,7 +81,7 @@ class ListenerTest extends TestCase
             )
         );
         $this->listener->onKernelRequest($event);
-//        $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
+        // $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
     }
 
     /**
@@ -111,7 +111,7 @@ class ListenerTest extends TestCase
             $this->listener->onKernelRequest($event);
         } catch (\Exception $e) {
         }
-//        $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
+        // $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
     }
 
     public function testParameterParsingSkipsToRoutingIfNoAliasExists()
@@ -131,7 +131,7 @@ class ListenerTest extends TestCase
         $this->aliasing->expects($this->any())->method('hasInternalAlias')->with('/foo')->will($this->returnValue(false));
         $this->router->expects($this->once())->method('onKernelRequest');
         $this->listener->onKernelRequest($event);
-//        $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
+        // $this->assertEquals('/bar', $propagatedEvent->getRequest()->getRequestUri());
     }
 
     /**

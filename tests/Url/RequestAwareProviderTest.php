@@ -45,7 +45,7 @@ namespace ZichtTest\Bundle\UrlBundle\Url {
             $this->assertEquals('http://example.org/foo/b', $p->url('a', ['absolute' => true]));
 
             // TODO this test case fails, but not sure if this is intended...:
-//            $this->assertEquals('http://example.org/foo/a', $p->url('c', array('absolute' => true)));
+            // $this->assertEquals('http://example.org/foo/a', $p->url('c', array('absolute' => true)));
             $this->assertEquals('http://example.org/foo/qux', $p->url('d', ['absolute' => true]));
         }
     }
